@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Faclab | Sistema de facturación e inventario</title>
+    {% include 'base/css.html' %}
+</head>
+
+<body class="theme-teal">
+    {% include 'base/loader.html' %}
+    
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+
+    {% include 'base/header.html' %}
+    
+    <section>
+        {% include 'base/left-sidebar.html' %}
+        {% include 'base/right-sidebar.html' %}
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </section>
+
+    {% include 'base/js.html' %}
+</body>
+
+</html>

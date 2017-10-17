@@ -20,7 +20,7 @@ class Product(models.Model):
 	name = models.CharField(max_length=140)
 	price = models.DecimalField(max_digits=9, decimal_places=2)
 	warranty = models.FloatField()
-	type_of_product = models.PositiveSmallIntegerField(choices=TYPE_CHOICES)
+	type = models.PositiveSmallIntegerField(choices=TYPE_CHOICES)
 	create_date = models.DateTimeField(auto_now_add=True)
 	write_date = models.DateTimeField(auto_now=True)
 	category = models.ForeignKey(Category)
