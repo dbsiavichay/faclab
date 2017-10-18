@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<ol class="breadcrumb breadcrumb-bg-orange">
+        <li><a href="/"><i class="material-icons">home</i> Home</a></li>
+        <li class="active"><i class="material-icons">library_books</i> Categorias</li>
+    </ol>	
+{% endblock %}
+
+{% block content %}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    CATEGORIAS
+                    <small>Listado de categorias</small>
+                </h2>                
+                <div class="header-dropdown m-r--5">                	
+	                <a href="{% url 'add_category' %}" class="btn bg-blue-grey waves-effect">
+                        <i class="material-icons">add</i>
+                        <span>CREAR</span>
+                    </a>   
+                </div>                
+            </div>
+            <div class="body table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	{% for object in object_list %}
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>{{ object }}</td>                            
+                        </tr>
+                        {% empty %}
+						<tr>
+                            <td colspan="2">Sin registros.</td>
+                        </tr>
+                        {% endfor %}            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

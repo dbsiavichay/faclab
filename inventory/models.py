@@ -7,9 +7,12 @@ class Werehouse(models.Model):
 	address = models.CharField(max_length=140)	
 
 class Category(models.Model):
-	name = models.CharField(max_length=140)
+	name = models.CharField(max_length=140, verbose_name='nombre')
 	create_date = models.DateTimeField(auto_now_add=True)
-	parent = models.ForeignKey('self')	
+	parent = models.ForeignKey('self', blank=True, null=True, verbose_name='padre')
+
+	def __unicode__(self):		
+		return '%s / %s' % (str(self.parent),self.name) if self.parent else self.name
 
 class Product(models.Model):
 	TYPE_CHOICES = (
