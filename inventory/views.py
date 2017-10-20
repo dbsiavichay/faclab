@@ -12,3 +12,11 @@ class CategoryCreateView(CreateView):
 	model = Category
 	fields = '__all__'
 	success_url = reverse_lazy('categories')
+
+class ProductListView(ListView):
+	model = Product
+
+class ProductCreateView(CreateView):
+	model = Product
+	fields = '__all__'
+	success_url = reverse_lazy('products')

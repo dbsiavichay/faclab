@@ -72,3 +72,13 @@ def get_data(object_list, fields):
         line = [get_attribute(obj, field) for field in fields]
         data.append(line)
     return data
+
+
+#####
+@register.inclusion_tag('input.html')
+def input(field):
+    return {'field':field}
+
+@register.inclusion_tag('select.html')
+def select(field):
+    return {'field':field}

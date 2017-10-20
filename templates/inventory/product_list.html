@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<ol class="breadcrumb breadcrumb-bg-orange">
+        <li><a href="/"><i class="material-icons">home</i> Home</a></li>
+        <li class="active"><i class="material-icons">library_books</i> Productos</li>
+    </ol>	
+{% endblock %}
+
+{% block content %}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    PRODUCTOS
+                    <small>Listado de productos</small>
+                </h2>                
+                <div class="header-dropdown m-r--5">                	
+	                <a href="{% url 'add_product' %}" class="btn bg-blue-grey waves-effect">
+                        <i class="material-icons">add</i>
+                        <span>CREAR</span>
+                    </a>   
+                </div>                
+            </div>
+            <div class="body">
+                {% load ui_components %}
+
+                {% table object in object_list %}                
+                    {% theaders 'Nombre' 'Precio' 'Garantia' 'Gategoria' %}
+                    {% tfields name price warranty category%}
+                {% endtable %}                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

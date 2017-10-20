@@ -1,0 +1,7 @@
+{% load widget_tweaks %}
+<div class="form-group form-float">
+    <div class="form-line">
+        {{ field|add_class:"form-control" }}
+        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+    </div>
+</div>
