@@ -23,27 +23,13 @@
                     </a>   
                 </div>                
             </div>
-            <div class="body table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                    	{% for object in object_list %}
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>{{ object }}</td>                            
-                        </tr>
-                        {% empty %}
-						<tr>
-                            <td colspan="2">Sin registros.</td>
-                        </tr>
-                        {% endfor %}            
-                    </tbody>
-                </table>
+            <div class="body">
+                {% load ui_components %}
+
+                {% table object in object_list %}                
+                    {% theaders 'Nombre' %}
+                    {% tfields object %}
+                {% endtable %}                
             </div>
         </div>
     </div>
