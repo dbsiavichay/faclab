@@ -3,7 +3,7 @@
 {% block title %}
 	<ol class="breadcrumb breadcrumb-bg-orange">
         <li><a href="/"><i class="material-icons">home</i> Home</a></li>
-        <li class="active"><i class="material-icons">library_books</i> Productos</li>
+        <li class="active"><i class="material-icons">library_books</i> Clientes</li>
     </ol>	
 {% endblock %}
 
@@ -13,11 +13,11 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    PRODUCTOS
-                    <small>Listado de productos</small>
+                    CLIENTES
+                    <small>Listado de clientes</small>
                 </h2>                
                 <div class="header-dropdown m-r--5">                	
-	                <a href="{% url 'add_product' %}" class="btn bg-blue-grey waves-effect">
+	                <a href="{% url 'add_customer' %}" class="btn bg-blue-grey waves-effect">
                         <i class="material-icons">add</i>
                         <span>CREAR</span>
                     </a>   
@@ -27,8 +27,8 @@
                 {% load ui_components %}
 
                 {% table object in object_list %}                
-                    {% theaders 'Nombre' 'Precio' 'Garantía' 'Gategoria' %}
-                    {% tfields name price warranty category%}
+                    {% theaders 'Nombre' 'Ruc' 'Telefono' 'Dirección' %}
+                    {% tfields name ruc telephone address %}
                 {% endtable %}                
             </div>
         </div>

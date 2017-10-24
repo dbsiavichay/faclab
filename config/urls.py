@@ -21,4 +21,5 @@ from django.views.generic import TemplateView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^inventory/', include('inventory.urls')),
+    url(r'^billing/', include('billing.urls')),
 ]

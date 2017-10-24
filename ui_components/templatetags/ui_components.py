@@ -1,4 +1,5 @@
 from django import template
+from django.utils.encoding import force_text
 from django.template.loader import render_to_string
 
 register = template.Library()
@@ -60,9 +61,9 @@ def get_attribute(instance, field):
         attr = instance if name == 'object' else getattr(instance, name)        
         
         if callable(attr):
-            return  str(attr())
+            return force_text(attr())
         
-        return str(attr)
+        return force_text(attr)
  
     return get_attribute(getattr(instance, name), '.'.join(names))
 

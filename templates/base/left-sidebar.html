@@ -48,6 +48,20 @@
                     </li>
                 </ul>
             </li>           
+            <li {% if 'billing' in request.path %} class="active" {% endif %}>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">shopping_cart</i>
+                    <span>Facturación</span>
+                </a>
+                <ul class="ml-menu">
+                    <li {% if 'customer' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'customers' %}">Clientes</a>
+                    </li>
+                    <li {% if 'tax' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'taxes' %}">Impuestos</a>
+                    </li>
+                </ul>
+            </li> 
             <li class="header">LABELS</li>
             <li>
                 <a href="javascript:void(0);">

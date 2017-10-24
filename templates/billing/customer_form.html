@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
 {% load ui_components %}
 
 {% block title %}
     <ol class="breadcrumb breadcrumb-bg-orange">
         <li><a href="/"><i class="material-icons">home</i> Home</a></li>
-        <li><a href="{% url 'categories' %}"><i class="material-icons">library_books</i> Categorias</a></li>
+        <li><a href="{% url 'customers' %}"><i class="material-icons">library_books</i> Clientes</a></li>
         <li class="active"><i class="material-icons">library_books</i> Crear</li>
     </ol>   
 {% endblock %}
@@ -16,8 +15,8 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    DATOS DE CATEGORIAS
-                    <small>EER</small>
+                    DATOS DE CLIENTE
+                    <small>Datos de cliente</small>
                 </h2>                
                 <ul class="header-dropdown m-r--5">
                     <li class="dropdown">
@@ -32,13 +31,14 @@
                     </li>
                 </ul>                
             </div>
-            <div class="body">
-                {{ form.errors }}
+            <div class="body">                
                 <form action="" method="POST" enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
 
                     {% input form.name %}
-                    {% input form.parent %}                
+                    {% input form.ruc %}
+                    {% input form.telephone %}
+                    {% input form.address %}
 
                     <button type="submit" class="btn btn-primary m-t-15 waves-effect">GUARDAR</button>
                 </form>
