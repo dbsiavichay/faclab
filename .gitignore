@@ -2,4 +2,6 @@
 *~
 *.pyc
 media/
+ui_components/migrations/
 inventory/migrations/
+billing/migrations/
