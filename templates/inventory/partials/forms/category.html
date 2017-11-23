@@ -1,0 +1,11 @@
+{% load ui_components %}
+
+{{ form.errors }}
+<form action="" method="POST" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+
+    {% ui_input form.name %}
+    {% ui_input form.parent %}                
+
+    <button type="submit" class="btn btn-primary m-t-15 waves-effect">GUARDAR</button>
+</form>

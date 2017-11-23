@@ -33,20 +33,7 @@
                 </ul>                
             </div>
             <div class="body">
-                {{ form.errors }}
-
-                <form action="" method="POST" enctype="multipart/form-data" novalidate>
-                    {% csrf_token %}
-
-                    {% input form.name %}
-                    {% input form.price %}
-                    {% input form.warranty %}                    
-                    {% input form.type %}                 
-                    {% input form.category %}                 
-                    {% input form.werehouse %}                 
-
-                    <button type="submit" class="btn btn-primary m-t-15 waves-effect">GUARDAR</button>
-                </form>
+                {% include 'inventory/partials/forms/product.html' with form=form %}                
             </div>
         </div>
     </div>
