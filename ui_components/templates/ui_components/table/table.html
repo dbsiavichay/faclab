@@ -1,0 +1,21 @@
+{% load ui_components %}
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            	{% for header in headers %}
+            	<th>{{ header }}</th>
+            	{% endfor %}        	
+            </tr>
+        </thead>
+        <tbody>                  
+            {% for row in rows %}        
+            {{ row }}
+            {% empty %}
+            <tr>
+                <td colspan="{{ headers|length|add:'1' }}">Sin registros.</td>
+            </tr>            
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
