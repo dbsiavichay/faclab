@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load ui_components %}
 
 {% block title %}
-	<ol class="breadcrumb breadcrumb-bg-orange">
+    <ol class="breadcrumb breadcrumb-bg-orange">
         <li><a href="/"><i class="material-icons">home</i> Home</a></li>
         <li class="active"><i class="material-icons">library_books</i> Clientes</li>
-    </ol>	
+    </ol>   
 {% endblock %}
 
 {% block content %}
@@ -16,20 +17,19 @@
                     CLIENTES
                     <small>Listado de clientes</small>
                 </h2>                
-                <div class="header-dropdown m-r--5">                	
-	                <a href="{% url 'add_customer' %}" class="btn bg-blue-grey waves-effect">
+                <div class="header-dropdown m-r--5">                    
+                    <a href="{% url 'add_customer' %}" class="btn bg-blue-grey waves-effect">
                         <i class="material-icons">add</i>
                         <span>CREAR</span>
                     </a>   
                 </div>                
             </div>
             <div class="body">
-                {% load ui_components %}
-
-                {% table object in object_list %}                
-                    {% theaders 'Nombre' 'Ruc' 'Telefono' 'Dirección' %}
-                    {% tfields name ruc telephone address %}
-                {% endtable %}                
+                {% ui_table object in object_list %}                
+                    {{ 'Nombre' }}{{ 'Ruc' }}{{ 'Telefono' }}{{ 'Dirección' }}
+                {% body %}                    
+                    {{ object.name }}{{ object.ruc }}{{ object.telephone }}{{ object.address }}
+                {% endui_table %}                
             </div>
         </div>
     </div>
