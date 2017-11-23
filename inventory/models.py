@@ -11,7 +11,7 @@ class Category(models.Model):
 	create_date = models.DateTimeField(auto_now_add=True)
 	parent = models.ForeignKey('self', blank=True, null=True, verbose_name='padre')
 
-	def __unicode__(self):		
+	def __str__(self):		
 		return '%s / %s' % (str(self.parent),self.name) if self.parent else self.name
 
 class Product(models.Model):
@@ -27,4 +27,7 @@ class Product(models.Model):
 	create_date = models.DateTimeField(auto_now_add=True)
 	write_date = models.DateTimeField(auto_now=True)
 	category = models.ForeignKey(Category, verbose_name='categoría')
-	werehouse = models.ForeignKey(Werehouse, blank=True, null=True, verbose_name='bodega')	
+	werehouse = models.ForeignKey(Werehouse, blank=True, null=True, verbose_name='bodega')
+
+	def __str__(self):
+		return self.name

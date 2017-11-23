@@ -77,8 +77,16 @@ def get_data(object_list, fields):
 
 #####
 @register.inclusion_tag('input.html')
-def input(field):
-    return {'field':field}
+def input(field):    
+    return {
+        'field':field,        
+    }
+
+@register.inclusion_tag('datetimepicker.html')
+def datepicker(field):    
+    return {
+        'field':field,        
+    }
 
 @register.inclusion_tag('select.html')
 def select(field):

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load ui_components %}
+
+{% block css %}
+    {% include 'forms/css.html' %}
+{% endblock %}
+
+{% block title %}
+    <ol class="breadcrumb breadcrumb-bg-orange">
+        <li><a href="/"><i class="material-icons">home</i> Home</a></li>
+        <li><a href="{% url 'invoices' %}"><i class="material-icons">library_books</i> Facturas</a></li>
+        <li class="active"><i class="material-icons">library_books</i> Crear</li>
+    </ol>   
+{% endblock %}
+
+{% block content %}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    FACTURAS
+                    <small>Registrar una nueva factura</small>
+                </h2>                
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);">Action</a></li>
+                            <li><a href="javascript:void(0);">Another action</a></li>
+                            <li><a href="javascript:void(0);">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>                
+            </div>
+            <div class="body">                
+                <form action="" method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    {% input form.customer %}
+                    {% datepicker form.date %}
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                        <li role="presentation" class="active"><a href="#invoicelines" data-toggle="tab">LINEAS DE FACTURA</a></li>
+                        <li role="presentation"><a href="#profile" data-toggle="tab">OTRA INFORMACIÓN</a></li>                    
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="invoicelines">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio Unitario</th>
+                                            <th>Impuestos</th>
+                                            <th>Subtotal</th>
+                                            <th>Eliminar?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ invoiceline_formset.management_form }}
+                                        {% for form in invoiceline_formset %}
+                                        {{ form.id }}                                
+                                        <tr class="inline {{ invoiceline_formset.prefix }}">
+                                            <td class="col-xs-3 product">
+                                                {{ form.product|add_class:"form-control" }}{{ form.product.errors }}
+                                            </td>
+                                            <td class="col-xs-2">
+                                                {{ form.quantity|add_class:"form-control" }}{{ form.quantity.errors }}
+                                            </td>
+                                            <td class="col-xs-2">
+                                                {{ form.unit_price|add_class:"form-control" }}{{ form.unit_price.errors }}
+                                            </td>
+                                            <td class="col-xs-2 taxes">
+                                                {{ form.taxes }}{{ form.taxes.errors }}
+                                            </td>
+                                            <td class="col-xs-2">
+                                                {{ form.total_price|add_class:"form-control"|attr:"readOnly" }}{{ form.total_price.errors }}
+                                            </td>
+                                            <td class="col-xs-1">                    
+                                            {{ form.DELETE }}
+                                            </td>                                    
+                                        </tr>
+                                        {% endfor %}            
+                                    </tbody>
+                                </table>    
+                            </div>
+
+                            {% input form.untaxed_amount|attr:"readOnly" %}
+                            {% input form.tax_amount|attr:"readOnly" %}
+                            {% input form.total_amount|attr:"readOnly" %}
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                            
+                        </div>                    
+                    </div>
+
+                    <button type="submit" class="btn btn-primary m-t-15 waves-effect">GUARDAR</button>
+                </form>            
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    {% load static %}
+    {% include 'forms/js.html' %}
+    <script src="{% static 'plugins/jquery-formset/jquery.formset.js' %}"></script>    
+    <script src="{% static 'js/billing/invoice.js' %}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $(".inline.{{ invoiceline_formset.prefix }}").formset({
+                prefix: "{{ invoiceline_formset.prefix }}",
+                addText: '<span class="fa fa-plus"></span> Agregar caracteristica adicional',
+                deleteText: '<span class="fa fa-close"></span>',
+                added: function ($row) {
+                    var $taxes = $row.find('.taxes');
+                    var $products = $row.find('.product');
+                    var select_taxes = $taxes.find('select').clone();
+                    var select_product = $products.find('select').clone();
+                    $taxes.empty();
+                    $taxes.append(select_taxes);
+                    $products.empty();
+                    $products.append(select_product)
+                    $.app.select.activate();
+                    addListeners($row);
+                }                
+            });            
+        })
+    </script>
+{% endblock %}

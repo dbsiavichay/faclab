@@ -2,8 +2,8 @@ if (typeof jQuery === "undefined") {
     throw new Error("jQuery plugins need to be before this file");
 }
 
-$.AdminBSB = {};
-$.AdminBSB.options = {
+$.app = {};
+$.app.options = {
     colors: {
         red: '#F44336',
         pink: '#E91E63',
@@ -46,7 +46,7 @@ $.AdminBSB.options = {
 *  You can manage the left sidebar menu options
 *  
 */
-$.AdminBSB.leftSideBar = {
+$.app.leftSideBar = {
     activate: function () {
         var _this = this;
         var $body = $('body');
@@ -109,7 +109,7 @@ $.AdminBSB.leftSideBar = {
     },
     setMenuHeight: function (isFirstTime) {
         if (typeof $.fn.slimScroll != 'undefined') {
-            var configs = $.AdminBSB.options.leftSideBar;
+            var configs = $.app.options.leftSideBar;
             var height = ($(window).height() - ($('.legal').outerHeight() + $('.user-info').outerHeight() + $('.navbar').innerHeight()));
             var $el = $('.list');
 
@@ -123,7 +123,7 @@ $.AdminBSB.leftSideBar = {
             });
 
             //Scroll active menu item when page load, if option set = true
-            if ($.AdminBSB.options.leftSideBar.scrollActiveItemWhenPageLoad) {
+            if ($.app.options.leftSideBar.scrollActiveItemWhenPageLoad) {
                 var activeItemOffsetTop = $('.menu .list li.active')[0].offsetTop
                 if (activeItemOffsetTop > 150) $el.slimscroll({ scrollTo: activeItemOffsetTop + 'px' });
             }
@@ -140,7 +140,7 @@ $.AdminBSB.leftSideBar = {
             });
         }
 
-        if (width < $.AdminBSB.options.leftSideBar.breakpointWidth) {
+        if (width < $.app.options.leftSideBar.breakpointWidth) {
             $body.addClass('ls-closed');
             $openCloseBar.fadeIn();
         }
@@ -159,7 +159,7 @@ $.AdminBSB.leftSideBar = {
 *  You can manage the right sidebar menu options
 *  
 */
-$.AdminBSB.rightSideBar = {
+$.app.rightSideBar = {
     activate: function () {
         var _this = this;
         var $sidebar = $('#rightsidebar');
@@ -192,7 +192,7 @@ $.AdminBSB.rightSideBar = {
 *  
 */
 var $searchBar = $('.search-bar');
-$.AdminBSB.search = {
+$.app.search = {
     activate: function () {
         var _this = this;
 
@@ -228,7 +228,7 @@ $.AdminBSB.search = {
 *  You can manage the navbar
 *  
 */
-$.AdminBSB.navbar = {
+$.app.navbar = {
     activate: function () {
         var $body = $('body');
         var $overlay = $('.overlay');
@@ -258,7 +258,7 @@ $.AdminBSB.navbar = {
 *  You can manage the inputs(also textareas) with name of class 'form-control'
 *  
 */
-$.AdminBSB.input = {
+$.app.input = {
     activate: function () {
         //On focus event
         $('.form-control').focus(function () {
@@ -295,8 +295,8 @@ $.AdminBSB.input = {
 *  You can manage the 'select' of form elements
 *  
 */
-$.AdminBSB.select = {
-    activate: function () {
+$.app.select = {
+    activate: function () {        
         if ($.fn.selectpicker) { $('select:not(.ms)').selectpicker(); }
     }
 }
@@ -307,7 +307,7 @@ $.AdminBSB.select = {
 *  
 */
 
-$.AdminBSB.dropdownMenu = {
+$.app.dropdownMenu = {
     activate: function () {
         var _this = this;
 
@@ -339,7 +339,7 @@ $.AdminBSB.dropdownMenu = {
         Waves.init();
     },
     dropdownEffect: function (target) {
-        var effectIn = $.AdminBSB.options.dropdownMenu.effectIn, effectOut = $.AdminBSB.options.dropdownMenu.effectOut;
+        var effectIn = $.app.options.dropdownMenu.effectIn, effectOut = $.app.options.dropdownMenu.effectOut;
         var dropdown = $(target), dropdownMenu = $('.dropdown-menu', target);
 
         if (dropdown.length > 0) {
@@ -392,7 +392,7 @@ var firefox = 'Mozilla Firefox';
 var chrome = 'Google Chrome';
 var safari = 'Safari';
 
-$.AdminBSB.browser = {
+$.app.browser = {
     activate: function () {
         var _this = this;
         var className = _this.getClassName();
@@ -442,17 +442,18 @@ $.AdminBSB.browser = {
         }
     }
 }
+
 //==========================================================================================================================
 
 $(function () {
-    $.AdminBSB.browser.activate();
-    $.AdminBSB.leftSideBar.activate();
-    $.AdminBSB.rightSideBar.activate();
-    $.AdminBSB.navbar.activate();
-    $.AdminBSB.dropdownMenu.activate();
-    $.AdminBSB.input.activate();
-    $.AdminBSB.select.activate();
-    $.AdminBSB.search.activate();
+    $.app.browser.activate();
+    $.app.leftSideBar.activate();
+    $.app.rightSideBar.activate();
+    $.app.navbar.activate();
+    $.app.dropdownMenu.activate();
+    $.app.input.activate();
+    $.app.select.activate();
+    $.app.search.activate();
 
     setTimeout(function () { $('.page-loader-wrapper').fadeOut(); }, 50);
 });

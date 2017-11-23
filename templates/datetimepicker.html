@@ -1,0 +1,17 @@
+{% load widget_tweaks %}
+
+<div class="row clearfix">
+    <div class="col-xs-5 col-sm-4 col-md-2 form-control-label">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    </div>
+    <div class="col-xs-7 col-sm-8 col-md-10">
+        <div class="form-group">
+            <div class="form-line">
+                {{ field|add_class:"datepicker form-control" }}                        
+            </div>
+            {% for error in field.errors %}
+            <label class="error" for="{{ field.id_for_label }}">{{ error }}</label>
+            {% endfor %}
+        </div>
+    </div>
+</div>

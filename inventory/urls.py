@@ -6,4 +6,5 @@ urlpatterns = [
 	url(r'^category/add/$', CategoryCreateView.as_view(), name='add_category'),    
 	url(r'^product/$', ProductListView.as_view(), name='products'),    
 	url(r'^product/add/$', ProductCreateView.as_view(), name='add_product'),    
+	url(r'^product/(?P<pk>\d+)/$', ProductDetailView.as_view(), name='detail_product'),    
 ]

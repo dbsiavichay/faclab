@@ -1,4 +1,5 @@
-{% load widget_tweaks %}	
+{% load widget_tweaks %}
+
 <div class="row clearfix">
     <div class="col-xs-5 col-sm-4 col-md-2 form-control-label">
         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -7,7 +8,7 @@
         <div class="form-group">
             <div class="form-line">
             {% if field.field.widget.input_type != 'select' %}
-                {{ field|add_class:"form-control" }}
+                {{ field|add_class:"form-control" }}            
             {% else %}
             	{{ field|add_class:"form-control show-tick" }}
             {% endif %}

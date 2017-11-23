@@ -60,6 +60,9 @@
                     <li {% if 'tax' in request.path %} class="active" {% endif %}>
                         <a href="{% url 'taxes' %}">Impuestos</a>
                     </li>
+                    <li {% if 'invoice' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'invoices' %}">Facturas</a>
+                    </li>
                 </ul>
             </li> 
             <li class="header">LABELS</li>
@@ -87,7 +90,7 @@
     <!-- Footer -->
     <div class="legal">
         <div class="copyright">
-            &copy; 2017 - 2018 <a href="javascript:void(0);">Denis Siavichay</a>.
+            &copy; 2017 - 2018 <a href="http://dbsiavichay.com" target="_blank" >Denis Siavichay</a>.
         </div>
         <div class="version">
             <b>Version: </b> 0.0.1
