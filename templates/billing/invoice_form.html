@@ -40,8 +40,8 @@
                 <form action="" method="POST" enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
 
-                    {% input form.customer %}
-                    {% datepicker form.date %}
+                    {% ui_input form.customer %}
+                    {% ui_datepicker form.date %}
 
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs tab-nav-right" role="tablist">
@@ -93,9 +93,9 @@
                                 </table>    
                             </div>
 
-                            {% input form.untaxed_amount|attr:"readOnly" %}
-                            {% input form.tax_amount|attr:"readOnly" %}
-                            {% input form.total_amount|attr:"readOnly" %}
+                            {% ui_input form.untaxed_amount|attr:"readOnly" %}
+                            {% ui_input form.tax_amount|attr:"readOnly" %}
+                            {% ui_input form.total_amount|attr:"readOnly" %}
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="profile">
                             

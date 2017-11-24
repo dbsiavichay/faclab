@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
 {% load ui_components %}
 
 {% block title %}
@@ -17,7 +16,7 @@
             <div class="header">
                 <h2>
                     DATOS DE CATEGORIAS
-                    <small>EER</small>
+                    <small>Llene el formulario</small>
                 </h2>                
                 <ul class="header-dropdown m-r--5">
                     <li class="dropdown">
@@ -33,7 +32,7 @@
                 </ul>                
             </div>
             <div class="body">
-                {% include 'inventory/partials/forms/category.html' %}
+                {% ui_form form %}
             </div>
         </div>
     </div>

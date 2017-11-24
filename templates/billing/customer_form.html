@@ -16,7 +16,7 @@
             <div class="header">
                 <h2>
                     DATOS DE CLIENTE
-                    <small>Datos de cliente</small>
+                    <small>Llene el formulario</small>
                 </h2>                
                 <ul class="header-dropdown m-r--5">
                     <li class="dropdown">
@@ -32,16 +32,7 @@
                 </ul>                
             </div>
             <div class="body">                
-                <form action="" method="POST" enctype="multipart/form-data" novalidate>
-                    {% csrf_token %}
-
-                    {% input form.name %}
-                    {% input form.ruc %}
-                    {% input form.telephone %}
-                    {% input form.address %}
-
-                    <button type="submit" class="btn btn-primary m-t-15 waves-effect">GUARDAR</button>
-                </form>
+                {% ui_form form %}
             </div>
         </div>
     </div>

@@ -14,7 +14,6 @@ from django.template.base import (
 
 register = template.Library()
 
-
 class TableNode(Node):
     child_nodelists = ('nodelist_headers', 'nodelist_loop',)
 
@@ -128,7 +127,7 @@ class TableNode(Node):
         return mark_safe(table)
 
 @register.tag('ui_table')
-def do_table(parser, token):    
+def ui_table(parser, token):
     bits = token.split_contents()
     if len(bits) < 4:
         raise TemplateSyntaxError("'ui_table' statements should have at least four"
@@ -158,13 +157,27 @@ def do_table(parser, token):
 
     return TableNode(loopvars, sequence, is_reversed, nodelist_headers, nodelist_loop)
 
-#####
+#####FORMS######
+@register.inclusion_tag('ui_components/form.html')
+def ui_form(form):    
+    return {
+        'form':form,        
+    }
+
+#####INPUTS######
 @register.inclusion_tag('ui_components/input.html')
 def ui_input(field):    
     return {
         'field':field,        
     }
 
+@register.inclusion_tag('ui_components/datetimepicker.html')
+def ui_datepicker(field):    
+    return {
+        'field':field,        
+    }
+
+###BUTTONS####
 @register.inclusion_tag('ui_components/button.html')
 def ui_button(obj, size, icon, name = None):
     if name is not None:
@@ -177,14 +190,9 @@ def ui_button(obj, size, icon, name = None):
         'icon':icon
     }
 
-@register.inclusion_tag('datetimepicker.html')
-def datepicker(field):    
-    return {
-        'field':field,        
-    }
 
 
-#Filters
+###FILTERS####
 @register.filter(name='hash')
 def hash(h, key):     
     return h[key]

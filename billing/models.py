@@ -26,6 +26,13 @@ class Tax(models.Model):
 	def __str__(self):
 		return self.name
 
+	def get_scope(self):
+		return dict(self.SCOPE_CHOICES).get(self.scope)
+
+	def get_amount_type(self):
+		return dict(self.AMOUNT_TYPE_CHOICES).get(self.amount_type)
+		
+
 class Invoice(models.Model):
 	untaxed_amount = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='base imponible')
 	tax_amount = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='impuestos')

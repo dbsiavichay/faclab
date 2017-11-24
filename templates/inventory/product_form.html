@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
 {% load ui_components %}
 
 {% block title %}
@@ -33,7 +32,7 @@
                 </ul>                
             </div>
             <div class="body">
-                {% include 'inventory/partials/forms/product.html' with form=form %}                
+                {% ui_form form %}                
             </div>
         </div>
     </div>

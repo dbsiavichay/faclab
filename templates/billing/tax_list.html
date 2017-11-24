@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load ui_components %}
 
 {% block title %}
-	<ol class="breadcrumb breadcrumb-bg-orange">
+    <ol class="breadcrumb breadcrumb-bg-orange">
         <li><a href="/"><i class="material-icons">home</i> Home</a></li>
         <li class="active"><i class="material-icons">library_books</i> Impuestos</li>
-    </ol>	
+    </ol>   
 {% endblock %}
 
 {% block content %}
@@ -16,20 +17,20 @@
                     IMPUESTOS
                     <small>Listado de impuestos</small>
                 </h2>                
-                <div class="header-dropdown m-r--5">                	
-	                <a href="{% url 'add_tax' %}" class="btn bg-blue-grey waves-effect">
+                <div class="header-dropdown m-r--5">                    
+                    <a href="{% url 'add_tax' %}" class="btn bg-blue-grey waves-effect">
                         <i class="material-icons">add</i>
                         <span>CREAR</span>
                     </a>   
                 </div>                
             </div>
             <div class="body">
-                {% load ui_components %}
 
-                {% table object in object_list %}                
-                    {% theaders 'Nombre' 'Ámbito' 'Calculo' 'Valor' %}
-                    {% tfields name scope amount_type amount %}
-                {% endtable %}                
+                {% ui_table object in object_list %}                                    
+                    {{ 'Nombre' }}{{ 'Ámbito' }}{{ 'Calculo' }}{{ 'valor' }}
+                {% body %}                    
+                    {{ object.name }}{{ object.get_scope }}{{ object.get_amount_type }}{{ object.amount }}
+                {% endui_table %}                
             </div>
         </div>
     </div>
