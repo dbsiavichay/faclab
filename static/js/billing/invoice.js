@@ -39,18 +39,19 @@ var getProductDetail = function () {
 
 var calculateTotal = function () {
 	var inputs = $('input[name*=total_price]');
-	var totalAmount = 0;
+	var untaxedAmount = 0;
 	inputs.each(function (index, elem) {
 		var value = $(elem).val();
-		if (value) totalAmount+=parseFloat($(elem).val());			
+		if (value) untaxedAmount+=parseFloat($(elem).val());			
 		
 	});
 
-	console.log(totalAmount)
+	console.log(untaxedAmount)
 
-	$('input[name*=untaxed_amount]').val(totalAmount);
-	$('input[name*=total_amount]').val(totalAmount);
-	calculateTaxAmount();
+	var taxAmount = calculateTaxAmount();
+	var totalAmount = taxAmount + untaxedAmount;
+	$('#untaxed_amount').text('$' + untaxedAmount.toFixed(2));
+	$('#total_amount').text('$' + totalAmount.toFixed(2));
 }
 
 var calculateTotalPrice = function () {
@@ -73,19 +74,21 @@ var calculateTaxAmount = function () {
 
 			for (var i in pks) {
 				var tax = taxes[pks[i]]
-				rowTax+=(total * parseFloat(tax.amount))/100;
+				if (tax.amount_type==1) rowTax+=total + parseFloat(tax.amount);
+				if (tax.amount_type==2) rowTax+=(total * parseFloat(tax.amount))/100;
 			}
 			taxAmount+=rowTax;
 		}
 	});
-	$('input[name*=tax_amount').val(taxAmount)
+	$('#tax_amount').text('$' + taxAmount.toFixed(2))
+	return taxAmount;
 }
 
 var addListeners = function (row) {
 	$(row).find('select[name*=product]').on('change', getProductDetail);
 	$(row).find('input[name*=quantity]').on('change', calculateTotalPrice);
 	$(row).find('input[name*=unit_price]').on('change', calculateTotalPrice);	
-	$(row).find('select[name*=taxes]').on('change', calculateTaxAmount);
+	$(row).find('select[name*=taxes]').on('change', calculateTotalPrice);
 }
 
 var init = function () {
