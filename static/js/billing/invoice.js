@@ -46,6 +46,8 @@ var calculateTotal = function () {
 		
 	});
 
+	console.log(totalAmount)
+
 	$('input[name*=untaxed_amount]').val(totalAmount);
 	$('input[name*=total_amount]').val(totalAmount);
 	calculateTaxAmount();
@@ -79,16 +81,18 @@ var calculateTaxAmount = function () {
 	$('input[name*=tax_amount').val(taxAmount)
 }
 
-var addListeners = function ($row) {
-	$row.find('select[name*=product]').on('change', getProductDetail);
-	$row.find('input[name*=quantity]').on('change', calculateTotalPrice);
-	$row.find('input[name*=unit_price]').on('change', calculateTotalPrice);	
-	$row.find('select[name*=taxes]').on('change', calculateTaxAmount);
+var addListeners = function (row) {
+	$(row).find('select[name*=product]').on('change', getProductDetail);
+	$(row).find('input[name*=quantity]').on('change', calculateTotalPrice);
+	$(row).find('input[name*=unit_price]').on('change', calculateTotalPrice);	
+	$(row).find('select[name*=taxes]').on('change', calculateTaxAmount);
 }
 
 var init = function () {
-	var $row = $('tbody tr').first();
-	addListeners($row);
+	var $rows = $('tbody tr.inline');
+	$rows.each(function (index, row) {
+		addListeners(row);		
+	});
 	getTaxes();	
 }
 

@@ -53,9 +53,11 @@ class InvoiceCreateView(CreateView)	:
 		invoiceline_formset = self.get_invoiceline_formset()
 		
 		if invoiceline_formset.is_valid():
-			self.object = form.save()
+			self.object = form.save(commit=False)
 			invoiceline_formset.instance = self.object
-			invoiceline_formset.save()			
+			invoiceline_formset.save(commit=False)			
+			self.object.save()
+			invoiceline_formset.save()
 			return redirect(self.get_success_url())
 		else:
 			return self.form_invalid(form)

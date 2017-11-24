@@ -51,17 +51,17 @@
         $(function() {
             $(".inline.{{ invoiceline_formset.prefix }}").formset({
                 prefix: "{{ invoiceline_formset.prefix }}",
-                addText: '<span class="fa fa-plus"></span> Agregar caracteristica adicional',
+                addText: '<span class="fa fa-plus"></span> Agregar linea adicional',
                 deleteText: '<span class="fa fa-close"></span>',
                 added: function ($row) {
                     var $taxes = $row.find('.taxes');
-                    var $products = $row.find('.product');
+                    var $product = $row.find('.product');
                     var select_taxes = $taxes.find('select').clone();
-                    var select_product = $products.find('select').clone();
+                    var select_product = $product.find('select').clone();
                     $taxes.empty();
                     $taxes.append(select_taxes);
-                    $products.empty();
-                    $products.append(select_product)
+                    $product.empty();
+                    $product.append(select_product)
                     $.app.select.activate();
                     addListeners($row);
                 }                
