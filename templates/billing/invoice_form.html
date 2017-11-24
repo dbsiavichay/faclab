@@ -1,6 +1,4 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
-{% load ui_components %}
 
 {% block css %}
     {% include 'forms/css.html' %}
@@ -37,73 +35,7 @@
                 </ul>                
             </div>
             <div class="body">                
-                <form action="" method="POST" enctype="multipart/form-data" novalidate>
-                    {% csrf_token %}
-
-                    {% ui_input form.customer %}
-                    {% ui_datepicker form.date %}
-
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                        <li role="presentation" class="active"><a href="#invoicelines" data-toggle="tab">LINEAS DE FACTURA</a></li>
-                        <li role="presentation"><a href="#profile" data-toggle="tab">OTRA INFORMACIÓN</a></li>                    
-                    </ul>
-
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade in active" id="invoicelines">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio Unitario</th>
-                                            <th>Impuestos</th>
-                                            <th>Subtotal</th>
-                                            <th>Eliminar?</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{ invoiceline_formset.management_form }}
-                                        {% for form in invoiceline_formset %}
-                                        {{ form.id }}                                
-                                        <tr class="inline {{ invoiceline_formset.prefix }}">
-                                            <td class="col-xs-3 product">
-                                                {{ form.product|add_class:"form-control" }}{{ form.product.errors }}
-                                            </td>
-                                            <td class="col-xs-2">
-                                                {{ form.quantity|add_class:"form-control" }}{{ form.quantity.errors }}
-                                            </td>
-                                            <td class="col-xs-2">
-                                                {{ form.unit_price|add_class:"form-control" }}{{ form.unit_price.errors }}
-                                            </td>
-                                            <td class="col-xs-2 taxes">
-                                                {{ form.taxes }}{{ form.taxes.errors }}
-                                            </td>
-                                            <td class="col-xs-2">
-                                                {{ form.total_price|add_class:"form-control"|attr:"readOnly" }}{{ form.total_price.errors }}
-                                            </td>
-                                            <td class="col-xs-1">                    
-                                            {{ form.DELETE }}
-                                            </td>                                    
-                                        </tr>
-                                        {% endfor %}            
-                                    </tbody>
-                                </table>    
-                            </div>
-
-                            {% ui_input form.untaxed_amount|attr:"readOnly" %}
-                            {% ui_input form.tax_amount|attr:"readOnly" %}
-                            {% ui_input form.total_amount|attr:"readOnly" %}
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="profile">
-                            
-                        </div>                    
-                    </div>
-
-                    <button type="submit" class="btn btn-primary m-t-15 waves-effect">GUARDAR</button>
-                </form>            
+                {% include 'billing/formsets/invoice_formset.html' %}            
             </div>
         </div>
     </div>

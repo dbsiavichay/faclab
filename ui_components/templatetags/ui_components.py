@@ -165,13 +165,19 @@ def ui_form(form):
     }
 
 #####INPUTS######
-@register.inclusion_tag('ui_components/input.html')
+@register.inclusion_tag('ui_components/inputs/input.html')
 def ui_input(field):    
     return {
         'field':field,        
     }
 
-@register.inclusion_tag('ui_components/datetimepicker.html')
+@register.inclusion_tag('ui_components/inputs/select.html')
+def ui_select(field):
+    return {
+        'field':field,        
+    }
+
+@register.inclusion_tag('ui_components/inputs/datetimepicker.html')
 def ui_datepicker(field):    
     return {
         'field':field,        
@@ -193,6 +199,10 @@ def ui_button(obj, size, icon, name = None):
 
 
 ###FILTERS####
+@register.filter(name='ui_input_type')
+def hash(input):     
+    return input.field.widget.__class__.__name__
+
 @register.filter(name='hash')
 def hash(h, key):     
     return h[key]
