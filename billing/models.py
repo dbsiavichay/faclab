@@ -16,7 +16,10 @@ class Customer(models.Model):
 
 class Tax(models.Model):
 	SCOPE_CHOICES = ((1, 'Ventas'),(2, 'Compras'),(3, 'Ninguno'))
-	AMOUNT_TYPE_CHOICES = ((1, 'Fijo'),(2, 'Porcentaje sobre el precio'))
+
+	AMOUNT_TYPE_FIXED = 1
+	AMOUNT_TYPE_PERCENT = 2
+	AMOUNT_TYPE_CHOICES = ((AMOUNT_TYPE_FIXED, 'Fijo'),(AMOUNT_TYPE_PERCENT, 'Porcentaje sobre el precio'))
 
 	name = models.CharField(max_length=140, verbose_name='nombre')
 	scope = models.PositiveSmallIntegerField(choices=SCOPE_CHOICES, verbose_name='ámbito')

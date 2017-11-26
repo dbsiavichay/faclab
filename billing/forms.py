@@ -43,7 +43,10 @@ class InvoiceLineFormSet(BaseInlineFormSet):
                 continue
             untaxed_amount+=form.cleaned_data.get('total_price')                        
             for tax in form.cleaned_data.get('taxes'):
-                tax_amount+=(form.cleaned_data.get('total_price') * Decimal.from_float(tax.amount))/100
+                if tax.amount_type == tax.AMOUNT_TYPE_FIXED:
+                    tax_amount+=form.cleaned_data.get('total_price') + Decimal.from_float(tax.amount)
+                else:
+                    tax_amount+=(form.cleaned_data.get('total_price') * Decimal.from_float(tax.amount))/100
 
         total_amount=untaxed_amount+tax_amount
         self.instance.untaxed_amount = untaxed_amount
