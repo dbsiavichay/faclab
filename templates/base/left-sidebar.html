@@ -40,6 +40,9 @@
                     <span>Inventario</span>
                 </a>
                 <ul class="ml-menu">
+                    <li {% if 'werehouse' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'werehouses' %}">Bodegas</a>
+                    </li>
                     <li {% if 'category' in request.path %} class="active" {% endif %}>
                         <a href="{% url 'categories' %}">Categorias</a>
                     </li>

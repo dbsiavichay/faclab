@@ -6,6 +6,14 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from .models import *		
 
+class WerehouseListView(ListView):
+	model = Werehouse
+
+class WerehouseCreateView(CreateView):
+	model = Werehouse
+	fields = '__all__'
+	success_url = reverse_lazy('werehouses')
+
 class CategoryListView(ListView):
 	model = Category
 
