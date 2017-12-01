@@ -1,5 +1,11 @@
+{% load ui_components %}
 <tr>
 	{% for td in row %}
 	{{ td }}
-	{% endfor %}	
+	{% endfor %}
+	{% if is_edit %}
+	<td>
+		{% ui_button object 'edit' 'teal' 'xs' %}		
+	</td>
+	{% endif %}
 </tr>

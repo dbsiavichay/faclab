@@ -17,16 +17,16 @@ register = template.Library()
 class TableNode(Node):
     child_nodelists = ('nodelist_headers', 'nodelist_loop',)
 
-    def __init__(self, loopvars, sequence, is_reversed, nodelist_headers, nodelist_loop):        
+    def __init__(self, loopvars, sequence, is_edit, nodelist_headers, nodelist_loop):        
         self.loopvars, self.sequence = loopvars, sequence
-        self.is_reversed = is_reversed
+        self.is_edit = is_edit
         self.nodelist_headers, self.nodelist_loop = nodelist_headers, nodelist_loop        
 
     def __repr__(self):
-        reversed_text = ' reversed' if self.is_reversed else ''
+        edit_text = ' edit' if self.is_edit else ''
         return "<Table Node: ui_table %s in %s, tail_len: %d%s>" % \
             (', '.join(self.loopvars), self.sequence, len(self.nodelist_loop),
-             reversed_text)
+             edit_text)
 
     def __iter__(self):        
         for node in self.nodelist_loop:
@@ -58,9 +58,8 @@ class TableNode(Node):
                 values = []
             if not hasattr(values, '__len__'):
                 values = list(values)
-            len_values = len(values)            
-            if self.is_reversed:
-                values = reversed(values)
+            len_values = len(values)
+
             num_loopvars = len(self.loopvars)
             unpack = num_loopvars > 1
             # Create a forloop value in the context.  We'll update counters on each
@@ -71,8 +70,7 @@ class TableNode(Node):
             for i, item in enumerate(values):
                 # Shortcuts for current loop iteration number.                
                 loop_dict['counter'] = i + 1
-                # Reverse counter iteration numbers.
-                loop_dict['revcounter'] = len_values - i                
+                              
                 # Boolean values designating first and last times through loop.
                 loop_dict['first'] = (i == 0)
                 loop_dict['last'] = (i == len_values - 1)
@@ -105,7 +103,7 @@ class TableNode(Node):
                     row.append(td)
 
                 t = context.template.engine.get_template('ui_components/table/tr.html')
-                tr = t.render(Context({'row': row, 'row_id': item.id}, autoescape=context.autoescape))
+                tr = t.render(Context({'row': row, 'is_edit': self.is_edit, 'object': item}, autoescape=context.autoescape))
                 rows.append(tr)
 
                 if pop_context:
@@ -119,7 +117,10 @@ class TableNode(Node):
             headers = []
             for node in self.nodelist_headers:
                 header = node.render_annotated(context)
-                headers.append(header)            
+                headers.append(header) 
+
+            if self.is_edit:
+                headers.append('Editar')
 
             t = context.template.engine.get_template('ui_components/table/table.html')
             table = t.render(Context({ 'headers':headers, 'rows': rows}, autoescape=context.autoescape))            
@@ -133,8 +134,8 @@ def ui_table(parser, token):
         raise TemplateSyntaxError("'ui_table' statements should have at least four"
                                   " words: %s" % token.contents)
 
-    is_reversed = bits[-1] == 'reversed'
-    in_index = -3 if is_reversed else -2
+    is_edit = bits[-1] == 'edit'
+    in_index = -3 if is_edit else -2
     if bits[in_index] != 'in':
         raise TemplateSyntaxError("'ui_table' statements should use the format"
                                   " 'ui_table x in y': %s" % token.contents)
@@ -155,7 +156,7 @@ def ui_table(parser, token):
     else:
         nodelist_empty = None    
 
-    return TableNode(loopvars, sequence, is_reversed, nodelist_headers, nodelist_loop)
+    return TableNode(loopvars, sequence, is_edit, nodelist_headers, nodelist_loop)
 
 #####FORMS######
 @register.inclusion_tag('ui_components/form.html')
