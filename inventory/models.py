@@ -22,6 +22,9 @@ class Category(models.Model):
 	def __str__(self):		
 		return '%s / %s' % (str(self.parent),self.name) if self.parent else self.name
 
+	def get_absolute_url(self):
+		return reverse_lazy('update_category', args=[self.id])
+
 class Product(models.Model):
 	TYPE_CHOICES = (
 		(1, 'Producto'),
@@ -39,3 +42,6 @@ class Product(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def get_absolute_url(self):
+		return reverse_lazy('update_product', args=[self.id])

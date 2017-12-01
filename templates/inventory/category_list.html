@@ -17,20 +17,37 @@
                     CATEGORIAS
                     <small>Listado de categorias</small>
                 </h2>                
-                <div class="header-dropdown m-r--5">                    
-                    <a href="{% url 'add_category' %}" class="btn bg-blue-grey waves-effect">
-                        <i class="material-icons">add</i>
-                        <span>CREAR</span>
-                    </a>   
-                </div>                
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="{% url 'add_category' %}">
+                                    <i class="material-icons">add_circle</i>Nueva categoria
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a href="javascript:void(0);">
+                                    <i class="material-icons">delete</i>Eliminar
+                                </a>
+                            </li>                            
+                        </ul>
+                    </li>
+                </ul>              
             </div>
             <div class="body">
-
                 {% ui_table object in object_list %}                
-                    {{ 'Nombre' }}
+                    {{ 'Nombre' }} {{ 'Editar' }}
                 {% body %}
-                    {{ object }}                
-                {% endui_table %}                
+                    {{ object }} 
+                    {% ui_button object 'edit' 'teal' 'xs' %}         
+                {% endui_table %}
+                <a href="{% url 'add_category' %}" type="button" class="btn bg-blue-grey waves-effect">
+                    <i class="material-icons">add_circle</i> 
+                    <span>NUEVO</span>
+                </a>
             </div>
         </div>
     </div>

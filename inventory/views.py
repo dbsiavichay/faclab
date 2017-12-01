@@ -27,10 +27,20 @@ class CategoryCreateView(CreateView):
 	fields = '__all__'
 	success_url = reverse_lazy('categories')
 
+class CategoryUpdateView(UpdateView):
+	model = Category
+	fields = '__all__'
+	success_url = reverse_lazy('categories')
+
 class ProductListView(ListView):
 	model = Product
 
 class ProductCreateView(CreateView):
+	model = Product
+	fields = '__all__'
+	success_url = reverse_lazy('products')
+
+class ProductUpdateView(UpdateView):
 	model = Product
 	fields = '__all__'
 	success_url = reverse_lazy('products')
