@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
+from django.urls import reverse_lazy
 
 class Werehouse(models.Model):
 	name = models.CharField(max_length=140, verbose_name='nombre')
@@ -8,6 +9,10 @@ class Werehouse(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def get_absolute_url(self):
+		return reverse_lazy('update_werehouse', args=[self.id])
+
 
 class Category(models.Model):
 	name = models.CharField(max_length=140, verbose_name='nombre')

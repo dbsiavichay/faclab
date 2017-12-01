@@ -1,3 +1,4 @@
-<a href="{{ url }}" class="btn btn-{{ size }} btn-default">
-    <span class="fa fa-{{ icon }}"></span>
-</a>              
+<a href="{{ url }}" class="btn bg-{{ color }} {% if size %}btn-{{ size }}{% endif %} waves-effect">
+    <i class="material-icons">{{ icon }}</i>    
+</a>
+

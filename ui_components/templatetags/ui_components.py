@@ -105,7 +105,7 @@ class TableNode(Node):
                     row.append(td)
 
                 t = context.template.engine.get_template('ui_components/table/tr.html')
-                tr = t.render(Context({'row': row}, autoescape=context.autoescape))
+                tr = t.render(Context({'row': row, 'row_id': item.id}, autoescape=context.autoescape))
                 rows.append(tr)
 
                 if pop_context:
@@ -185,17 +185,17 @@ def ui_datepicker(field):
 
 ###BUTTONS####
 @register.inclusion_tag('ui_components/button.html')
-def ui_button(obj, size, icon, name = None):
+def ui_button(obj, icon, color, size=None, name = None):
     if name is not None:
         url = reverse_lazy(name, args=[obj])
     else:
         url = obj.get_absolute_url()
     return {
         'url':url,
+        'icon':icon,
+        'color':color,
         'size':size,
-        'icon':icon
     }
-
 
 
 ###FILTERS####

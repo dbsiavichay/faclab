@@ -4,6 +4,7 @@ from .views import *
 urlpatterns = [
 	url(r'^werehouse/$', WerehouseListView.as_view(), name='werehouses'),    
 	url(r'^werehouse/add/$', WerehouseCreateView.as_view(), name='add_werehouse'),
+	url(r'^werehouse/(?P<pk>\d+)/update/$', WerehouseUpdateView.as_view(), name='update_werehouse'),    
 	url(r'^category/$', CategoryListView.as_view(), name='categories'),    
 	url(r'^category/add/$', CategoryCreateView.as_view(), name='add_category'),    
 	url(r'^product/$', ProductListView.as_view(), name='products'),    

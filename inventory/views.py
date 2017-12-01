@@ -14,6 +14,11 @@ class WerehouseCreateView(CreateView):
 	fields = '__all__'
 	success_url = reverse_lazy('werehouses')
 
+class WerehouseUpdateView(UpdateView):
+	model = Werehouse
+	fields = '__all__'
+	success_url = reverse_lazy('werehouses')
+
 class CategoryListView(ListView):
 	model = Category
 
