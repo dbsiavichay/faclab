@@ -38,11 +38,10 @@
                 </ul>              
             </div>
             <div class="body">
-                {% ui_table object in object_list %}                
-                    {{ 'Nombre' }} {{ 'Editar' }}
+                {% ui_table object in object_list edit %}                
+                    {{ 'Nombre' }}
                 {% body %}
-                    {{ object }} 
-                    {% ui_button object 'edit' 'teal' 'xs' %}         
+                    {{ object }}                    
                 {% endui_table %}
                 <a href="{% url 'add_category' %}" type="button" class="btn bg-blue-grey waves-effect">
                     <i class="material-icons">add_circle</i> 

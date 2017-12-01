@@ -38,11 +38,10 @@
                 </ul>                
             </div>
             <div class="body">
-                {% ui_table object in object_list %}                                    
-                    {{ 'Nombre' }}{{ 'Precio' }}{{ 'Garantía' }}{{ 'Categoría' }}{{ 'Editar' }}
+                {% ui_table object in object_list edit %}                                    
+                    {{ 'Nombre' }}{{ 'Precio' }}{{ 'Garantía' }}{{ 'Categoría' }}
                 {% body %}                    
                     {{ object.name }}{{ object.price }}{{ object.warranty }}{{ object.category }}
-                    {% ui_button object 'edit' 'teal' 'xs' %}
                 {% endui_table %} 
                 <a href="{% url 'add_product' %}" type="button" class="btn bg-blue-grey waves-effect">
                     <i class="material-icons">add_circle</i> 

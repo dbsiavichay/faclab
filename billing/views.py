@@ -15,10 +15,20 @@ class CustomerCreateView(CreateView):
 	fields = '__all__'
 	success_url = reverse_lazy('customers')
 
+class CustomerUpdateView(UpdateView):
+	model = Customer
+	fields = '__all__'
+	success_url = reverse_lazy('customers')
+
 class TaxListView(ListView):
 	model = Tax
 
 class TaxCreateView(CreateView):
+	model = Tax
+	fields = '__all__'
+	success_url = reverse_lazy('taxes')
+
+class TaxUpdateView(UpdateView):
 	model = Tax
 	fields = '__all__'
 	success_url = reverse_lazy('taxes')

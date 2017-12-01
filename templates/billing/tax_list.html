@@ -17,20 +17,36 @@
                     IMPUESTOS
                     <small>Listado de impuestos</small>
                 </h2>                
-                <div class="header-dropdown m-r--5">                    
-                    <a href="{% url 'add_tax' %}" class="btn bg-blue-grey waves-effect">
-                        <i class="material-icons">add</i>
-                        <span>CREAR</span>
-                    </a>   
-                </div>                
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="{% url 'add_tax' %}">
+                                    <i class="material-icons">add_circle</i>Nuevo impuesto
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a href="javascript:void(0);">
+                                    <i class="material-icons">delete</i>Eliminar
+                                </a>
+                            </li>                            
+                        </ul>
+                    </li>
+                </ul>                
             </div>
             <div class="body">
-
-                {% ui_table object in object_list %}                                    
+                {% ui_table object in object_list edit %}                                    
                     {{ 'Nombre' }}{{ 'Ámbito' }}{{ 'Calculo' }}{{ 'valor' }}
                 {% body %}                    
                     {{ object.name }}{{ object.get_scope }}{{ object.get_amount_type }}{{ object.amount }}
-                {% endui_table %}                
+                {% endui_table %} 
+                <a href="{% url 'add_tax' %}" type="button" class="btn bg-blue-grey waves-effect">
+                    <i class="material-icons">add_circle</i> 
+                    <span>NUEVO</span>
+                </a>               
             </div>
         </div>
     </div>

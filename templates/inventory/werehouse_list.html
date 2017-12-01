@@ -38,13 +38,11 @@
                 </ul>                
             </div>
             <div class="body">                
-                {% ui_table object in object_list %}                                    
-                    {{ 'Nombre' }}{{ 'Dirección' }}{{ 'Editar' }}
+                {% ui_table object in object_list edit %}                                    
+                    {{ 'Nombre' }}{{ 'Dirección' }}
                 {% body %}                    
                     {{ object.name }}{{ object.address }}
-                    {% ui_button object 'edit' 'teal' 'xs' %}
-                {% endui_table %}                 
-                                            
+                {% endui_table %}
                 <a href="{% url 'add_werehouse' %}" type="button" class="btn bg-blue-grey waves-effect">
                     <i class="material-icons">add_circle</i> 
                     <span>NUEVO</span>

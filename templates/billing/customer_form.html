@@ -5,7 +5,13 @@
     <ol class="breadcrumb breadcrumb-bg-orange">
         <li><a href="/"><i class="material-icons">home</i> Home</a></li>
         <li><a href="{% url 'customers' %}"><i class="material-icons">library_books</i> Clientes</a></li>
-        <li class="active"><i class="material-icons">library_books</i> Crear</li>
+        <li class="active"><i class="material-icons">library_books</i> 
+            {% if not object %}
+            Crear
+            {% else %}
+            Editar
+            {% endif %}
+        </li>
     </ol>   
 {% endblock %}
 

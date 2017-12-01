@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.urls import reverse_lazy
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
@@ -13,6 +14,9 @@ class Customer(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def get_absolute_url(self):
+		return reverse_lazy('update_customer', args=[self.id])
 
 class Tax(models.Model):
 	SCOPE_CHOICES = ((1, 'Ventas'),(2, 'Compras'),(3, 'Ninguno'))
@@ -28,6 +32,9 @@ class Tax(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def get_absolute_url(self):
+		return reverse_lazy('update_tax', args=[self.id])
 
 	def get_scope(self):
 		return dict(self.SCOPE_CHOICES).get(self.scope)

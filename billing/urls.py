@@ -4,8 +4,10 @@ from .views import *
 urlpatterns = [
 	url(r'^customer/$', CustomerListView.as_view(), name='customers'),    
 	url(r'^customer/add/$', CustomerCreateView.as_view(), name='add_customer'),    
+	url(r'^customer/(?P<pk>\d+)/update/$', CustomerUpdateView.as_view(), name='update_customer'),    	
 	url(r'^tax/$', TaxListView.as_view(), name='taxes'),    
 	url(r'^tax/add/$', TaxCreateView.as_view(), name='add_tax'),    	
+	url(r'^tax/(?P<pk>\d+)/update/$', TaxUpdateView.as_view(), name='update_tax'),    	
 	url(r'^tax/(?P<pk>\d+)/$', TaxDetailView.as_view(), name='detail_tax'),    	
 	url(r'^invoice/$', InvoiceListView.as_view(), name='invoices'),    
 	url(r'^invoice/add/$', InvoiceCreateView.as_view(), name='add_invoice'),    	
