@@ -2,10 +2,10 @@
 {% load ui_components %}
 
 {% block title %}
-    <ol class="breadcrumb breadcrumb-bg-orange">
-        <li><a href="/"><i class="material-icons">home</i> Home</a></li>
-        <li class="active"><i class="material-icons">library_books</i> Bodegas</li>
-    </ol>   
+<ol class="breadcrumb breadcrumb-bg-orange">
+    <li><a href="/"><i class="material-icons">home</i> Home</a></li>
+    <li class="active"><i class="material-icons">library_books</i> Bodegas</li>
+</ol>   
 {% endblock %}
 
 {% block content %}
@@ -23,9 +23,16 @@
                             <i class="material-icons">more_vert</i>
                         </a>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);">Action</a></li>
-                            <li><a href="javascript:void(0);">Another action</a></li>
-                            <li><a href="javascript:void(0);">Something else here</a></li>
+                            <li>
+                                <a href="{% url 'add_werehouse' %}">
+                                    <i class="material-icons">add_circle</i>Nueva bodega
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a href="javascript:void(0);">
+                                    <i class="material-icons">delete</i>Eliminar
+                                </a>
+                            </li>                            
                         </ul>
                     </li>
                 </ul>                
@@ -35,13 +42,13 @@
                     {{ 'Nombre' }}{{ 'Dirección' }}{{ 'Editar' }}
                 {% body %}                    
                     {{ object.name }}{{ object.address }}
-                    {% ui_button object 'edit' 'purple' 'xs' %}
+                    {% ui_button object 'edit' 'teal' 'xs' %}
                 {% endui_table %}                 
                                             
-                <button type="button" class="btn bg-blue-grey waves-effect">
+                <a href="{% url 'add_werehouse' %}" type="button" class="btn bg-blue-grey waves-effect">
                     <i class="material-icons">add_circle</i> 
                     <span>NUEVO</span>
-                </button>
+                </a>
             </div>
         </div>
     </div>
