@@ -9,6 +9,7 @@ from .models import *
 
 class CustomerListView(ListView):
 	model = Customer
+	paginate_by = 10
 
 class CustomerCreateView(CreateView):
 	model = Customer
@@ -22,6 +23,7 @@ class CustomerUpdateView(UpdateView):
 
 class TaxListView(ListView):
 	model = Tax
+	paginate_by = 10
 
 class TaxCreateView(CreateView):
 	model = Tax

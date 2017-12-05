@@ -8,6 +8,7 @@ from .models import *
 
 class WerehouseListView(ListView):
 	model = Werehouse
+	paginate_by = 10
 
 class WerehouseCreateView(CreateView):
 	model = Werehouse
@@ -21,6 +22,7 @@ class WerehouseUpdateView(UpdateView):
 
 class CategoryListView(ListView):
 	model = Category
+	paginate_by = 10
 
 class CategoryCreateView(CreateView):
 	model = Category
@@ -34,6 +36,7 @@ class CategoryUpdateView(UpdateView):
 
 class ProductListView(ListView):
 	model = Product
+	paginate_by = 10
 
 class ProductCreateView(CreateView):
 	model = Product
