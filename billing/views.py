@@ -47,6 +47,7 @@ class TaxDetailView(DetailView):
 
 class InvoiceListView(ListView):
 	model = Invoice
+	paginate_by = 10
 
 class InvoiceCreateView(CreateView)	:
 	model = Invoice

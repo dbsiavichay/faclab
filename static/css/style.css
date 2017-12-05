@@ -8040,3 +8040,17 @@ html.ie11 .dropdown-menu ul.menu li a {
 html.ie11 .bs-searchbox .form-control {
   width: 90%; }
 
+/*Custom Denis Siavichay*/
+.breadcrumb.custom {
+  margin: -30px -30px 10px -30px
+}
+
+.pagination.custom {
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  .pagination.custom {
+    margin-top: 10px;
+  }  
+}

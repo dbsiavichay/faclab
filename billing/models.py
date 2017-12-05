@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.urls import reverse_lazy
+from django.utils.html import format_html
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
@@ -43,15 +44,38 @@ class Tax(models.Model):
 		return dict(self.AMOUNT_TYPE_CHOICES).get(self.amount_type)
 		
 
-class Invoice(models.Model):
+class Invoice(models.Model):	
+	DRAFT = 1
+	INVOICED = 2
+	ISSUED = 3
+	PAID = 4
+	ANNULLED = 10		
+
+	STATUS_CHOICES = (
+		(DRAFT, 'Borrador'),(INVOICED, 'Facturado'),(ISSUED, 'Emitido'),
+		(PAID, 'Pagado'),(ANNULLED, 'Anulado'),
+	)
+
+	STATUS_LABELS = (
+		(DRAFT, 'default'),(INVOICED, 'primary'),(ISSUED, 'success'),
+		(PAID, 'info'),(ANNULLED, 'danger'),
+	)
+
 	untaxed_amount = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='base imponible')
 	tax_amount = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='impuestos')
 	total_amount = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='total')
-	#status = models.PositiveSmallIntegerField()
+	status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=DRAFT)
 	date = models.DateField(verbose_name='fecha de emisión')
 	create_date = models.DateTimeField(auto_now_add=True)
 	write_date = models.DateTimeField(auto_now=True)
-	customer = models.ForeignKey(Customer, verbose_name='cliente')	
+	customer = models.ForeignKey(Customer, verbose_name='cliente')
+
+	def get_status(self):
+		return format_html(
+            '<span class="label label-{}">{}</span>',
+            dict(self.STATUS_LABELS).get(self.status),            
+            dict(self.STATUS_CHOICES).get(self.status),
+        )	
 
 class InvoiceLine(models.Model):
 	quantity = models.FloatField(validators = [MinValueValidator(0.01),])	
