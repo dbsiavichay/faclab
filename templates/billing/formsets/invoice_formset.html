@@ -1,7 +1,7 @@
 {% load widget_tweaks %}
 {% load ui_components %}
 
-<form action="" method="POST" enctype="multipart/form-data" novalidate>
+<form id="form" action="" method="POST" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
 
     {% ui_input form.customer %}
@@ -72,7 +72,5 @@
         <div role="tabpanel" class="tab-pane fade" id="profile">
             
         </div>                    
-    </div>
-
-    <button type="submit" class="btn btn-primary m-t-15 waves-effect">GUARDAR</button>
+    </div>    
 </form>

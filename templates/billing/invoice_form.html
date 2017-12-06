@@ -5,15 +5,21 @@
 {% endblock %}
 
 {% block title %}
-    <ol class="breadcrumb breadcrumb-bg-orange">
+<div class="breadcrumb-custom">    
+    <ol class="breadcrumb">
         <li><a href="/"><i class="material-icons">home</i> Home</a></li>
         <li><a href="{% url 'invoices' %}"><i class="material-icons">library_books</i> Facturas</a></li>
         <li class="active"><i class="material-icons">library_books</i> Crear</li>
-    </ol>   
+    </ol>
+    <div class="keypad">
+        <button type="submit" form="form" class="btn bg-blue-grey waves-effect">GUARDAR</button>
+        <a href="{% url 'invoices' %}" class="btn btn-default waves-effect">DESCARTAR</a>
+    </div>
+</div>    
 {% endblock %}
 
 {% block content %}
-<div class="row clearfix">
+<div class="row clearfix p-t-50">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">

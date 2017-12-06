@@ -8041,13 +8041,28 @@ html.ie11 .bs-searchbox .form-control {
   width: 90%; }
 
 /*Custom Denis Siavichay*/
-.breadcrumb.custom {
-  margin: -30px -30px 10px -30px
+.block-header.custom {
+  position: relative;
+}
+
+.breadcrumb-custom {
+  background-color: #EEE;
+  border-bottom: 1px solid grey;
+  margin: -30px -30px 0 -30px;
+  position: fixed;  
+  width: 100%;
+  z-index: 5;
 }
 
 .pagination.custom {
   margin: 0;
 }
+
+.breadcrumb-custom .keypad {
+  margin-top: -5px;
+  padding: 0 15px 8px 15px;
+}
+
 
 @media (max-width: 767px) {
   .pagination.custom {
