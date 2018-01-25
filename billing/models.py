@@ -68,7 +68,7 @@ class Invoice(models.Model):
 	date = models.DateField(verbose_name='fecha de emisión')
 	create_date = models.DateTimeField(auto_now_add=True)
 	write_date = models.DateTimeField(auto_now=True)
-	customer = models.ForeignKey(Customer, verbose_name='cliente')
+	customer = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name='cliente')
 
 	def get_status(self):
 		return format_html(
@@ -87,5 +87,5 @@ class InvoiceLine(models.Model):
 	create_date = models.DateTimeField(auto_now_add=True)
 	write_date = models.DateTimeField(auto_now=True)
 	taxes = models.ManyToManyField(Tax)
-	product = models.ForeignKey('inventory.Product')
-	invoice = models.ForeignKey(Invoice)
+	product = models.ForeignKey('inventory.Product', on_delete=models.CASCADE)
+	invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)

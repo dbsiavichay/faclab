@@ -17,7 +17,7 @@ class Werehouse(models.Model):
 class Category(models.Model):
 	name = models.CharField(max_length=140, verbose_name='nombre')
 	create_date = models.DateTimeField(auto_now_add=True)
-	parent = models.ForeignKey('self', blank=True, null=True, verbose_name='padre')
+	parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE, verbose_name='padre')
 
 	def __str__(self):		
 		return '%s / %s' % (str(self.parent),self.name) if self.parent else self.name
@@ -37,8 +37,8 @@ class Product(models.Model):
 	type = models.PositiveSmallIntegerField(choices=TYPE_CHOICES, verbose_name='tipo')
 	create_date = models.DateTimeField(auto_now_add=True)
 	write_date = models.DateTimeField(auto_now=True)
-	category = models.ForeignKey(Category, verbose_name='categoría')
-	werehouse = models.ForeignKey(Werehouse, blank=True, null=True, verbose_name='bodega')
+	category = models.ForeignKey(Category, verbose_name='categoría', on_delete=models.CASCADE)
+	werehouse = models.ForeignKey(Werehouse, blank=True, null=True, on_delete=models.CASCADE, verbose_name='bodega')
 
 	def __str__(self):
 		return self.name
