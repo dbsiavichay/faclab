@@ -1,14 +1,15 @@
 from django.conf.urls import url
+from django.urls import path
 from .views import *
 
 urlpatterns = [
-	url(r'^customer/$', CustomerListView.as_view(), name='customers'),    
-	url(r'^customer/add/$', CustomerCreateView.as_view(), name='add_customer'),    
-	url(r'^customer/(?P<pk>\d+)/update/$', CustomerUpdateView.as_view(), name='update_customer'),    	
-	url(r'^tax/$', TaxListView.as_view(), name='taxes'),    
-	url(r'^tax/add/$', TaxCreateView.as_view(), name='add_tax'),    	
-	url(r'^tax/(?P<pk>\d+)/update/$', TaxUpdateView.as_view(), name='update_tax'),    	
-	url(r'^tax/(?P<pk>\d+)/$', TaxDetailView.as_view(), name='detail_tax'),    	
-	url(r'^invoice/$', InvoiceListView.as_view(), name='invoices'),    
-	url(r'^invoice/add/$', InvoiceCreateView.as_view(), name='add_invoice'),    	
+	path('customer/', CustomerListView.as_view(), name='customers'),    
+	path('customer/add/', CustomerCreateView.as_view(), name='add_customer'),    
+	path('customer/<int:pk>/update/', CustomerUpdateView.as_view(), name='update_customer'),    	
+	path('tax/', TaxListView.as_view(), name='taxes'),    
+	path('tax/add/', TaxCreateView.as_view(), name='add_tax'),    	
+	path('tax/<int:pk>/update/', TaxUpdateView.as_view(), name='update_tax'),    	
+	path('tax/<int:pk>/', TaxDetailView.as_view(), name='detail_tax'),    	
+	path('invoice/', InvoiceListView.as_view(), name='invoices'),    
+	path('invoice/add/', InvoiceCreateView.as_view(), name='add_invoice'),    	
 ]
