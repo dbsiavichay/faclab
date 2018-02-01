@@ -46,9 +46,9 @@
             </div>
             <div class="body">
                 {% ui_table object in object_list edit %}                
-                    {{ 'Nombre' }}{{ 'Ruc' }}{{ 'Telefono' }}{{ 'Dirección' }}
+                    {{ 'Nombre' }}{{ 'Ruc' }}{{ 'Telefono' }}{{ 'Dirección' }} {{ 'Email' }}
                 {% body %}                    
-                    {{ object.name }}{{ object.ruc }}{{ object.telephone }}{{ object.address }}
+                    {{ object.name }}{{ object.ruc }}{{ object.telephone }}{{ object.address }}{{object.email}}
                 {% endui_table %}
                 <a href="{% url 'add_customer' %}" type="button" class="btn bg-blue-grey waves-effect">
                     <i class="material-icons">add_circle</i> 

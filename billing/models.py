@@ -10,6 +10,7 @@ class Customer(models.Model):
 	ruc = models.CharField(max_length=16, verbose_name='ruc')
 	telephone = models.CharField(max_length=10, verbose_name='teléfono')
 	address = models.CharField(max_length=100, verbose_name='dirección')
+	email = models.EmailField(blank=True, null=True)
 	create_date = models.DateTimeField(auto_now_add=True)
 	write_date = models.DateTimeField(auto_now=True)
 
