@@ -61,9 +61,15 @@
                     <tbody>
                         <tr class="bg-cyan">
                             <th scope="row">TOTALES</th>
-                            <td class="col-xs-3">Base imponible <strong id="untaxed_amount">$0.00</strong></td>
-                            <td class="col-xs-3">Impuestos <strong id="tax_amount">$0.00</strong></td>
-                            <td class="col-xs-3">Total <strong id="total_amount">$0.00</strong></td>                            
+                            <td class="col-xs-3">Base imponible 
+                                <strong id="untaxed_amount">{% if object %} ${{ object.untaxed_amount }} {% else %} $0.00 {% endif %}</strong>
+                            </td>
+                            <td class="col-xs-3">Impuestos
+                                <strong id="tax_amount">{% if object %} ${{ object.tax_amount }} {% else %} $0.00 {% endif %}</strong>
+                            </td>
+                            <td class="col-xs-3">Total
+                                <strong id="total_amount">{% if object %} ${{ object.total_amount }} {% else %} $0.00 {% endif %}</strong>
+                            </td>                            
                         </tr>                        
                     </tbody>
                 </table>

@@ -54,7 +54,7 @@
                 </ul>                 
             </div>
             <div class="body">
-                {% ui_table object in object_list %}                                    
+                {% ui_table object in object_list edit %}                                    
                     {{ 'Cliente' }}{{ 'Fecha' }}{{ 'Estado' }}{{ 'Subtotal' }}{{ 'Impuestos' }}{{ 'Total' }}
                 {% body %}                    
                     {{ object.customer }}{{ object.date }}{{ object.get_status }}

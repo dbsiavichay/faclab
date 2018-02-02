@@ -76,7 +76,10 @@ class Invoice(models.Model):
             '<span class="label label-{}">{}</span>',
             dict(self.STATUS_LABELS).get(self.status),            
             dict(self.STATUS_CHOICES).get(self.status),
-        )	
+        )
+	
+	def get_absolute_url(self):
+		return reverse_lazy('update_invoice', args=[self.id])
 
 class InvoiceLine(models.Model):
 	quantity = models.FloatField(validators = [MinValueValidator(0.01),])	

@@ -1,0 +1,78 @@
+.status-bar {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 5px 0 0 5px;
+}
+  
+.status-bar li {
+    list-style-type: none;
+    display: inline-block;
+  
+    position: relative;
+    margin: 0;
+    padding: 0;
+  
+    text-align: center;
+    line-height: 30px;
+    height: 30px;
+  
+    background-color: #E4E4E4;
+}
+
+.status-bar[data-steps="3"] li { width: 33%; }
+.status-bar[data-steps="4"] li { width: 25%; }
+.status-bar[data-steps="5"] li { width: 20%; }
+
+.status-bar li > span {
+    display: block;
+  
+    color: #555;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+  
+.status-bar li.done > span {
+    color: #fff;
+    background-color: #FF4F65;
+}
+
+.status-bar li > span:after,
+.status-bar li > span:before {
+  content: "";
+  display: block;
+  width: 0px;
+  height: 0px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  border: solid transparent;
+  border-left-color: #E4E4E4;
+  border-width: 15px;
+}
+
+.status-bar li > span:after {
+  top: -5px;
+  z-index: 1;
+  border-left-color: white;
+  border-width: 20px;
+}
+
+.status-bar li > span:before {
+  z-index: 2;
+}
+
+.status-bar li.done + li > span:before {
+    border-left-color: #FF4F65;
+}
+  
+.status-bar li:first-child > span:after,
+.status-bar li:first-child > span:before {
+    display: none;
+}
+
+.status-bar li:last-child {
+    border-radius: 0 5px 5px 0;
+}

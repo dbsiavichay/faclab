@@ -79,3 +79,33 @@ class InvoiceCreateView(CreateView)	:
 		post_data = self.request.POST if self.request.method == 'POST' else None
 		formset = InvoiceLineInlineFormSet(post_data)
 		return formset
+
+class InvoiceUpdateView(UpdateView):
+	model = Invoice
+	form_class = InvoiceForm
+	success_url = reverse_lazy('invoices')
+
+	def get_context_data(self, **kwargs):
+		context = super(InvoiceUpdateView, self).get_context_data(**kwargs)
+		context['invoiceline_formset'] = self.get_invoiceline_formset()
+
+		return context
+
+	def form_valid(self, form):
+		invoiceline_formset = self.get_invoiceline_formset()
+		
+		if invoiceline_formset.is_valid():
+			self.object = form.save(commit=False)
+			invoiceline_formset.instance = self.object
+			invoiceline_formset.save(commit=False)			
+			self.object.save()
+			invoiceline_formset.save()
+			return redirect(self.get_success_url())
+		else:
+			return self.form_invalid(form)
+
+	def get_invoiceline_formset(self):
+		self.object = self.get_object()
+		post_data = self.request.POST if self.request.method == 'POST' else None
+		formset = InvoiceLineInlineFormSet(post_data, instance=self.object)
+		return formset
