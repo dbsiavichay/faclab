@@ -109,3 +109,25 @@ class InvoiceUpdateView(UpdateView):
 		post_data = self.request.POST if self.request.method == 'POST' else None
 		formset = InvoiceLineInlineFormSet(post_data, instance=self.object)
 		return formset
+
+class InvoiceStatusBaseView(UpdateView):
+	model = Invoice
+	fields = ()
+	success_url = reverse_lazy('invoices')
+	status = 1
+
+	def post(self, request, *args, **kwargs):
+		return redirect(self.success_url)	
+
+class InvoicedUpdateView(InvoiceStatusBaseView):
+	status = Invoice.INVOICED
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.status == self.status:
+			return redirect('update_invoice', self.object.id)
+
+		self.object.status = self.status 
+		self.object.save()
+
+		return redirect('update_invoice', self.object.id)

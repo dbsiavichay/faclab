@@ -9,10 +9,17 @@
     <ol class="breadcrumb">
         <li><a href="/"><i class="material-icons">home</i> Home</a></li>
         <li><a href="{% url 'invoices' %}"><i class="material-icons">library_books</i> Facturas</a></li>
+        {% if not object %}
         <li class="active"><i class="material-icons">library_books</i> Crear</li>
+        {% else %}
+        <li class="active"># {{ object.id }}</li>
+        {% endif %}
     </ol>
     <div class="keypad">
         <button type="submit" form="form" class="btn bg-blue-grey waves-effect">GUARDAR</button>
+        {% if object %}
+        <a href="{% url 'invoiced_invoice' object.id %}" class="btn bg-blue-grey waves-effect">FACTURAR</a>
+        {% endif %}
         <a href="{% url 'invoices' %}" class="btn btn-default waves-effect">DESCARTAR</a>
     </div>
 </div>    
@@ -27,6 +34,19 @@
                     FACTURA
                     {% if object %}
                     <small>Detalle de factura <span class="label label-primary">#{{ object.id }}</span></small>
+                    <small>
+                        <ol class="status-bar" data-steps="3">
+                                <li {% if object.status == object.DRAFT %} class="done" {% endif %}>
+                                    <span>Borrador</span>
+                                </li><!--
+                             --><li {% if object.status == object.INVOICED %} class="done" {% endif %}>
+                                    <span>Facturado</span>                                
+                                </li><!--
+                             --><li {% if object.status == object.PAID %} class="done" {% endif %}>
+                                    <span>Pagado</span>
+                                </li>
+                            </ol>
+                    </small>
                     {% else %}
                     <small>Registrar una nueva factura</small>
                     {% endif %}
@@ -44,22 +64,7 @@
                     </li>
                 </ul>                
             </div>
-            <div class="body">
-                {% if object %} 
-                <small>
-                    <ol class="status-bar" data-steps="3">
-                            <li class="done">
-                                <span>Borrador</span>
-                            </li><!--
-                        --><li>
-                                <span>Facturado</span>                                
-                            </li><!--
-                        --><li>
-                                <span>Pagado</span>
-                            </li>
-                        </ol>
-                </small>
-                {% endif %}               
+            <div class="body">                
                 {% include 'billing/formsets/invoice_formset.html' %}                         
             </div>
         </div>
