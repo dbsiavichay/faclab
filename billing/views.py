@@ -4,8 +4,8 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from .forms import *
-from .models import *
+from .forms import InvoiceForm, InvoiceLineInlineFormSet
+from .models import Customer, Tax, Invoice, InvoiceLine
 
 class CustomerListView(ListView):
 	model = Customer
@@ -131,6 +131,19 @@ class InvoiceInvoicedView(InvoiceStatusBaseView):
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		if self.object.status == self.status:
+			return redirect('update_invoice', self.object.id)
+
+		self.object.status = self.status 
+		self.object.save()
+
+		return redirect('update_invoice', self.object.id)
+
+class InvoicePaidView(InvoiceStatusBaseView):
+	status = Invoice.PAID
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.status != Invoice.INVOICED:
 			return redirect('update_invoice', self.object.id)
 
 		self.object.status = self.status 

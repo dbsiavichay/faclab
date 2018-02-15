@@ -17,8 +17,10 @@
     </ol>
     <div class="keypad">
         <button type="submit" form="form" class="btn bg-blue-grey waves-effect">GUARDAR</button>
-        {% if object %}
+        {% if object and object.status == object.DRAFT %}
         <a href="{% url 'invoiced_invoice' object.id %}" class="btn bg-blue-grey waves-effect">FACTURAR</a>
+        {% elif object and object.status == object.INVOICED %}
+        <a href="{% url 'paid_invoice' object.id %}" class="btn bg-blue-grey waves-effect">PAGAR</a>
         {% endif %}
         <a href="{% url 'invoices' %}" class="btn btn-default waves-effect">DESCARTAR</a>
     </div>
@@ -57,9 +59,7 @@
                             <i class="material-icons">more_vert</i>
                         </a>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);">Action</a></li>
-                            <li><a href="javascript:void(0);">Another action</a></li>
-                            <li><a href="javascript:void(0);">Something else here</a></li>
+                            <li><a href="javascript:void(0);">Imprimir</a></li>                            
                         </ul>
                     </li>
                 </ul>                
