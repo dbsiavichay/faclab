@@ -1,6 +1,10 @@
 from django.conf.urls import url
 from django.urls import path
-from .views import *
+from .views import (
+	CustomerListView, CustomerCreateView, CustomerUpdateView,
+	TaxListView, TaxCreateView, TaxUpdateView, TaxDetailView,
+	InvoiceListView, InvoiceCreateView, InvoiceUpdateView, InvoiceInvoicedView, InvoicePaidView
+)
 
 urlpatterns = [
 	path('customer/', CustomerListView.as_view(), name='customers'),    
