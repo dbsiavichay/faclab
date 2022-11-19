@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: faclab
+    container_name: faclab_web
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - redis
+      - minio
+    networks:
+      - network
+
+  redis:
+    restart: unless-stopped
+    image: redis
+    container_name: faclab_redis
+    expose:
+      - "6379"
+    networks:
+      - network
+
+  minio:
+    image: minio/minio
+    container_name: faclab_minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+    networks:
+      - network
+
+networks:
+  network:
