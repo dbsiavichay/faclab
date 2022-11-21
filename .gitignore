@@ -1,0 +1,8 @@
+*~
+*.py[cod]
+.*
+!.gitignore
+!.dockerignore
+__pycache__/
+/data/
+/media/

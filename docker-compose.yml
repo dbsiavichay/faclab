@@ -1,6 +1,17 @@
 version: "3"
 
 services:
+  db:
+      image: postgres:14
+      container_name: faclab_db
+      restart: always
+      environment:
+        POSTGRES_PASSWORD: 12345
+        POSTGRES_DB: faclab
+      volumes:
+        - .data:/var/lib/postgresql/data
+      networks:
+        - network
   web:
     build: 
       context: .
@@ -15,6 +26,7 @@ services:
       - "8000:8000"
     restart: always
     depends_on:
+      - db
       - redis
       - minio
     networks:
