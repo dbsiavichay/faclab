@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+
+{% load static superadmin_forms %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/forms/validation.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <form id="main-form" data-errors="{{ form.errors.as_json }}" action="" method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                {% block form %}
+                    {% include 'forms/form.html' with form=form %}
+                {% endblock %}
+
+                {% block extra_forms %}{% endblock %}
+
+            {% block submit %}
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary default mr-1 mb-1" id="guardar_formulario">
+                        Guardar
+                    </button>
+                    {% if object %}
+                        <a href="{{ site.urls.delete }}" class="btn btn-danger default mr-1 mb-1">Eliminar</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endblock %}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <!-- form set js -->
+    <script src="{% static 'vendors/formset/jquery.formset.js' %}"></script>
+    <script src="{% static 'vendors/formset/formsets.init.js' %}"></script>
+
+    <script src="{% static 'vendors/inputmask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'vendors/inputmask/inputmask.init.js' %}"></script>
+
+    <script src="{% static 'assets/js/apps/insoles.js' %}"></script>
+    <script src="{% static 'assets/js/apps/indexing.js' %}"></script>
+
+    <script src="{% static 'assets/js/forms/validation.js' %}"></script>
+    
+{% endblock %}

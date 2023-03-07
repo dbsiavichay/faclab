@@ -1,0 +1,12 @@
+{% extends './textinput.html' %}
+
+{% load hydra %}
+
+{% block field %}
+<fieldset class="form-group position-relative has-icon-left">
+    {{ field|add_class:"form-control input-mask"|data:"inputmask:'alias': 'datetime'"|data:"inputmask-inputformat:dd/mm/yyyy" }}
+    <div class="form-control-position">
+        <i class="bx bx-calendar-check"></i>
+    </div>
+</fieldset>
+{% endblock %}

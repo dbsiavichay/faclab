@@ -1,0 +1,21 @@
+{% load superadmin_forms %}
+
+<div class="inline-group" id="{{ formset.prefix }}-group" data-prefix="{{ formset.prefix }}">
+    {{ formset.management_form }}
+    {% for form in formset %}
+    <div id="{{ formset.prefix }}-{{ forloop.counter0 }}" class="card border-primary inline {{ formset.prefix }}">
+        <div class="card-header">
+            <a class="heading-elements">
+                <i class="bx bx-x"></i>
+            </a>
+        </div>
+        <div class="card-body">
+            {% include "forms/form.html" with form=form %}
+        </div>
+    </div>
+    {% endfor %}
+
+    <div id="{{ formset.prefix }}-empty" class="d-none">
+        {% include "forms/form.html" with form=empty_form %}
+    </div>
+</div>

@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="alert alert-primary">
+  <h3>¿Este seguro de eliminar este registro.?</h3>
+  <p>** Recuerde que esta acción puede afectar otras funciones del sistema. **</p>
+  <h5 class="text-warning"><strong>Elemento a eliminar:</strong> {{ object }}</h5>
+  <div class="btn-list">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <a href="{{ site.urls.detail }}" class="btn btn-success">Cancelar</a>
+      <button type="submit" class="btn btn-danger">Eliminar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+.was-validated .django-select2:invalid + .select2 .select2-selection,
+.django-select2.is-invalid + .select2 .select2-selection {
+    border-color: #FF5B5C!important;
+}
+
+.was-validated .form-control:valid, .was-validated .form-control:invalid, 
+.form-control.is-valid, .form-control.is-invalid {
+    background-image: none;
+}
+
+.was-validated .custom-select:valid, .was-validated .custom-select:invalid, 
+.custom-select.is-valid, .custom-select.is-invalid  {
+    background-image: url("/static/vendors/bootstrap/images/arrow-down.png");
+    background-position: calc(100% - 12px) 13px, calc(100% - 20px) 13px, 100% 0;
+    background-size: 12px 12px, 10px 10px;
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 1.5rem;
+}
+
+.invalid-feedback ul {
+    list-style: circle;
+    padding-left: 1rem;
+    margin-bottom: 0;
+}

@@ -1,0 +1,16 @@
+{% for menu in menulist %}
+
+{% if menu.is_root %}
+<li class="navigation-header"><span>{{ menu.name }}</span></li>
+{% include "base/menu.html" with menulist=menu.submenus %}
+{% else %}
+<li class="{% if menu.url in request.path %}active{% endif %} nav-item"><a href="{{ menu.url }}"><i class="{{ menu.icon }}"></i><span class="menu-title">{{ menu.name }}</span></a>
+    {% if menu.submenus|length %}
+    <ul class="menu-content">
+        {% include "base/menu.html" with menulist=menu.submenus %}
+    </ul>
+    {% endif %}
+</li>
+{% endif %}
+
+{% endfor %}

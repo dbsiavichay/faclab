@@ -1,0 +1,186 @@
+{% extends 'base/base.html' %}
+
+{% load superadmin_utils %}
+
+{% block content %}
+
+
+<section class="list-wrapper">
+    {% block create %}
+    <div class="mb-1">
+        <a href="{{ site.urls.create }}" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true">
+            <i class="bx bx-plus"></i>&nbsp; Crear nuevo
+        </a>
+    </div>
+    {% endblock %}
+
+    {% block list %}
+    <div class="table-responsive">
+        <table class="table list-datatable dt-responsive nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    {% if object_list %}
+                    {% for name, label in site.fields %}
+                    <th>{{ label }}</th>
+                    {% endfor %}
+                    <th>Acciones</th>
+                    {% else %}
+                    <th>{{ site.title }}</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in site.rows %}
+                <tr data-id="{{ row.instance.id }}">
+                    <td></td>
+                    <td></td>
+                    {% for value in row.values %}
+                    <td>{{ value|default:""|truncatechars:"50" }}</td>
+                    {% endfor %}
+                    <td>
+                        {% if row.urls.detail %}
+                        <a href="{{ row.urls.detail }}" class="text-secondary ml-25 mr-25">
+                            <i class="bx bx-show"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if row.urls.update %}
+                        <a href="{{ row.urls.update }}" class="text-secondary ml-25 mr-25">
+                            <i class="bx bx-pencil"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if row.urls.duplicate %}
+                        <a href="{{ row.urls.duplicate }}" class="text-secondary ml-25 mr-25">
+                            <i class="bx bx-layer"></i>
+                        </a>
+                        {% endif %}
+                        {% if row.urls.delete %}
+                        <a href="{{ row.urls.delete }}" class="text-secondary ml-25 mr-25">
+                            <i class="bx bx-trash"></i>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>"Sin resultados."</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
+</section>
+
+<div class="table-search p-1">
+    <input type="search" class="form-control form-control" placeholder="Buscar">
+</div>
+
+<div class="table-filter dropdown">
+    <button class="btn border dropdown-toggle mr-1" type="button" id="invoice-filter-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filtrar
+    </button>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoice-filter-btn">
+        <a class="dropdown-item" href="#">Filtro 1</a>
+        <a class="dropdown-item" href="#">Filtro 2</a>
+    </div>
+</div>
+
+<div class="table-actions dropdown">
+    <button class="btn border dropdown-toggle mr-1" type="button" id="invoice-options-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Acciones
+    </button>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoice-options-btn">
+        <a class="dropdown-item list-action" data-action="delete" href="#"><i class="bx bx-trash mr-50"></i>Eliminar</a>
+        <a class="dropdown-item list-action" data-action="update" href="#"><i class="bx bx-pencil mr-50"></i>Editar</a>
+    </div>
+</div>
+
+<div class="table-columns dropdown">
+    <button class="btn border dropdown-toggle mr-2" type="button" data-toggle="dropdown"  aria-expanded="false">
+        Columnas
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+        <div class="data-columns d-flex p-1">
+            {% for chunk in site.fields|chunks:"7" %}
+            <ul class="pl-0 mb-0">
+                {% for name, label in chunk %}
+                <li>
+                    {% with forloop.counter0|add:"2" as counter %}
+                    <a href="#" data-column="{{ forloop.parentloop.counter|multiply:'7'|subtract:'7'|add:counter }}">
+                    {% endwith %}
+                        <div class="checkbox text-nowrap">
+                            <input type="checkbox" id="{{ label|slugify }}" class="checkbox-input" checked="">
+                            
+                            <label for="{{ label|slugify }}">{{ label }}</label>
+                            
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="table-results d-flex flex-wrap align-items-center p-1">
+    <div class="">
+        <div class="d-flex align-items-center">
+            <label for="id_paginate_by" class="col-form-label mr-1">Resultados:</label>
+            <select class="form-control" name="paginate_by" id="id_paginate_by">
+                <option value="10" selected>10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+          </div>
+    </div>
+    <div class="flex-grow-1 text-right">
+        Mostrando {{ site.page_start_index }} a {{ site.page_end_index }} de {{ site.total_records }} registros
+    </div>
+</div>
+{% include "base/paginator.html"%}
+
+<div class="modal fade text-left show" data-url="{{ site.urls.mass_update }}" data-app="{{ site.app_name }}" data-model="{{ site.model_name }}" id="mass-update-modal" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title white">Edición de campos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="bx bx-x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_fetch_field">Seleccione el campo</label>
+                        <select class="form-control" id="id_fetch_field" name="field">
+                            <option value="">------------</option>
+                            {% for name, label in site.fields %}
+                            <option value="{{ name }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+                    <i class="bx bx-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Cerrar</span>
+                </button>
+                <button type="button" id="mass-update-btn" class="btn btn-primary ml-1">
+                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Aceptar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

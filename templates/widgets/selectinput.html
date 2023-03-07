@@ -1,0 +1,11 @@
+{% extends "widgets/base_input.html" %}
+
+{% load superadmin_forms %}
+
+{% block field %}
+    {% if not field.errors %}
+    {{ field|add_class:"custom-select"}}
+    {% else %}
+    {{ field|add_class:"custom-select is-invalid"}}
+    {% endif %}
+{% endblock %}

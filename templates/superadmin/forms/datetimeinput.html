@@ -1,0 +1,12 @@
+<label class="form-group has-float-label {{ col }} {{ field.required }}">
+  {{ field }}
+  {% if field.errors %}
+    <span style="color: red !important; font-weight: bold;">{{ field.label }}</span>
+    {{ field.errors }}
+  {% else %}
+    <span>{{ field.label }}</span>
+  {% endif %}
+</label>
+{% if field.help_text %}
+    <span style="color: rgba(33,33,33,.7); font-size: x-small;">{{ field.help_text }}</span>
+{% endif %}

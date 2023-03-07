@@ -1,0 +1,250 @@
+/* List datatables css */
+/*-------------------------*/
+
+.list-wrapper .dataTables_wrapper .top {
+    border: 1px solid #DFE3E7;
+    background-color: #FFFFFF;
+    border-top-left-radius: 0.267rem;
+    border-top-right-radius: 0.267rem;
+}
+  
+.list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter {
+    padding: 0 15px;
+}
+  
+.list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter label {
+    width: 100%;
+    margin-bottom: 0;
+    position: relative;
+    font-family: boxicons !important;
+    line-height: 1;
+    font-size: 1rem;
+}
+  
+.list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter label::after {
+    position: absolute;
+    content: "\eb2e";
+    left: 20px;
+    top: 12px;
+}
+  
+.list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter label input {
+    width: 99%;
+    height: 38px;
+    font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+    padding-left: 2rem;
+    font-size: 1rem;
+}
+  
+.list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter label input::placeholder {
+    font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+    color: #828D99;
+    font-size: 1rem;
+}
+  
+.list-wrapper .dataTables_wrapper .top .action-btns button {
+    padding: 0.367rem 1.5rem;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable {
+    background-color: #FFFFFF;
+    border: 1px solid #DFE3E7;
+    border-top: none;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable thead th {
+    font-weight: normal;
+    font-size: .99rem;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable thead th:last-child::after, .list-wrapper .dataTables_wrapper .list-datatable thead th:last-child::before {
+    display: none;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable tr:hover {
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.12);
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable tr th:nth-child(2),
+.list-wrapper .dataTables_wrapper .list-datatable tr td:nth-child(2) {
+    padding-left: 10px;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable tr .invoice-action a {
+    color: #b3c0ce;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable tr td {
+    white-space: nowrap;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable .dt-checkboxes-cell {
+    width: 1px !important;
+    padding: 0 20px 3px 19px;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable .dt-checkboxes-cell::after, .list-wrapper .dataTables_wrapper .list-datatable .dt-checkboxes-cell::before {
+    display: none;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable .dt-checkboxes-cell input {
+    width: 0;
+    position: relative;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable .dt-checkboxes-cell input::before {
+    content: '';
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    border: 1px solid #DFE3E7;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable .dt-checkboxes-cell input::after {
+    content: ' ';
+    height: 20px;
+    width: 20px;
+    border: 1px solid #DFE3E7;
+    position: absolute;
+    border-radius: 4px;
+    top: 0;
+    left: 0;
+    transition: 100ms ease-in-out;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable .dt-checkboxes-cell input:checked::after {
+    border-top-style: none;
+    border-right-style: none;
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    height: 0.4rem;
+    width: 0.8rem;
+    border-color: #5A8DEE;
+    border-radius: 0;
+    border-width: 2px;
+    top: 6px;
+    left: 4px;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable .dt-checkboxes-cell input:checked::before {
+    box-shadow: 0 0 6px 0 rgba(22, 22, 22, 0.2);
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable tbody .selected-row-bg {
+    background-color: #e7edf3;
+}
+  
+.list-wrapper .dataTables_wrapper .list-datatable tbody .bullet-sm {
+    margin-right: .2rem;
+}
+  
+.list-wrapper table.dataTable.dtr-column > tbody > tr > td.control:before,
+.list-wrapper table.dataTable.dtr-column > tbody > tr > th.control:before {
+    line-height: 18px;
+}
+  
+@media screen and (max-width: 1290px) {
+    .invoice-subtotal {
+      width: 100% !important;
+    }
+    .invoice-subtotal .invoice-title {
+      width: auto !important;
+    }
+}
+  
+@media screen and (max-width: 596px) {
+    .action-btns {
+      margin-bottom: 1rem;
+      padding-left: 23px;
+    }
+}
+  
+@media screen and (max-width: 767px) {
+    .invoice-payment {
+      border: 1px solid #DFE3E7;
+      border-radius: 0.267rem;
+      padding: 1rem;
+    }
+}
+  
+@media print {
+    /* Hide a Unnecessary div while print invoice*/
+    html, body {
+      visibility: hidden;
+    }
+    .invoice-print-area {
+      visibility: visible;
+      page-break-after: auto;
+    }
+    .invoice-print-area .divider {
+      margin: .5rem 0 !important;
+    }
+    .invoice-action-wrapper,
+    .sidenav-main,
+    .navbar,
+    .btn-customizer,
+    .theme-cutomizer,
+    .btn-buy-now,
+    .page-footer {
+      display: none;
+    }
+    .horizontal-menu.navbar-sticky .content > .content-wrapper {
+      margin-top: 0 !important;
+    }
+    html body.navbar-sticky .app-content .content-wrapper,
+    body.vertical-layout.vertical-menu-modern.menu-collapsed .app-content {
+      margin: 0;
+      padding: 0;
+    }
+    .content-header,
+    .main-menu {
+      display: none;
+    }
+    /* card shadow remove while printing invoice*/
+    .card {
+      box-shadow: none;
+    }
+    .card .card-content {
+      padding: 0 !important;
+    }
+    /* table border added while printing invoice*/
+    table th,
+    table td {
+      border: 1px solid #DFE3E7;
+    }
+    /* column size change*/
+    .invoice-subtotal .row .col {
+      width: 50% !important;
+    }
+    .invoice-date-number .col,
+    .invoice-logo-title .col,
+    .invoice-info .col {
+      width: 50% !important;
+    }
+}
+  
+@page {
+    size: auto;
+    /* auto is the initial value */
+    margin: 0;
+    padding: 0;
+    /* this affects the margin in the printer settings */
+}
+  
+.table-footer {
+  border: 1px solid #DFE3E7;
+  border-top-width: 0;
+  background-color: #FFFFFF;
+  border-bottom-left-radius: 0.267rem;
+  border-bottom-right-radius: 0.267rem;
+}
+.dropdown .data-columns ul {
+  list-style: none;
+  margin: 0 0.5rem;
+}

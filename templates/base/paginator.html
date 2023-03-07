@@ -1,0 +1,45 @@
+{% if is_paginated %}
+<ul class="pagination d-flex justify-content-center mb-1">
+    {% if page_obj.has_previous %}
+        <li class="page-item previous">
+            <a class="page-link" href="#" data-page="{{ page_obj.previous_page_number }}">&laquo;</a>
+        </li>
+        {% if page_obj.number > 4 %}
+        <li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>
+        {% endif %}
+    {% else %}
+        <li class="page-item previous disabled">
+            <a class="page-link" href="#">&laquo;</a>
+        </li>
+    {% endif %}
+
+    {% if page_obj.number|add:'-3' > 1 %}
+        <li class="page-item"><a class="page-link" href="#" data-page="{{ page_obj.number|add:'-4' }}">&hellip;</a></li>
+    {% endif %}
+
+    {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+            <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+        {% elif i > page_obj.number|add:'-4' and i < page_obj.number|add:'4' %}
+            <li class="page-item"><a class="page-link" href="#" data-page="{{ i }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.paginator.num_pages > page_obj.number|add:'3' %}
+        <li class="page-item"><a class="page-link" href="#" data-page="{{ page_obj.number|add:'4' }}">&hellip;</a></li>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        {% if page_obj.number|add:'3' < paginator.num_pages %}
+            <li class="page-item"><a class="page-link" href="#" data-page="{{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+        {% endif %}
+        <li class="page-item next">
+            <a class="page-link" href="#" data-page="{{ page_obj.next_page_number }}">&raquo;</a>
+        </li>
+    {% else %}
+        <li class="page-item next disabled">
+            <a class="page-link" href="#">&raquo;</a>
+        </li>
+    {% endif %}
+</ul>
+{% endif %}

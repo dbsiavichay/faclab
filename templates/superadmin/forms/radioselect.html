@@ -1,0 +1,16 @@
+{% extends './textinput.html' %}
+
+{% block field %}
+<ul class="list-unstyled mb-0">
+  {% for radio in field %}
+  <li class="d-inline-block mr-2 mb-1">
+      <fieldset>
+          <div class="radio">
+              {{ radio.tag }}
+              <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+          </div>
+      </fieldset>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

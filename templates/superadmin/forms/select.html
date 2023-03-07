@@ -1,0 +1,7 @@
+{% extends './textinput.html' %}
+
+{% load hydra %}
+
+{% block field %}
+    {{ field|add_class:"form-control custom-select"}}
+{% endblock %}
