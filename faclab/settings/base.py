@@ -31,9 +31,7 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -45,7 +43,9 @@ DJANGO_APPS = [
 
 LIBRARY_APPS = []
 
-LOCAL_APPS = []
+LOCAL_APPS = [
+    "apps.account",
+]
 
 INSTALLED_APPS = DJANGO_APPS + LIBRARY_APPS + LOCAL_APPS
 
@@ -79,11 +79,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "faclab.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES
 DATABASES = {"default": env.db()}
 
 # Password validation
@@ -132,3 +130,9 @@ STATICFILES_FINDERS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Custom user model
+# https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#substituting-a-custom-user-model
+
+AUTH_USER_MODEL = "account.User"
