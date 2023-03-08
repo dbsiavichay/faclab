@@ -41,7 +41,9 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LIBRARY_APPS = []
+LIBRARY_APPS = [
+    "viewpack",
+]
 
 LOCAL_APPS = [
     "apps.account",
