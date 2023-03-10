@@ -17,6 +17,8 @@ class UpdateMixin:
 
 
 class UpdateView(View):
+    pack = None
+
     def view(self, request, *args, **kwargs):
         mixins = [UpdateMixin]
         View = get_base_view(BaseUpdateView, mixins, self.pack)

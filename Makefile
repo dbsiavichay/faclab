@@ -8,6 +8,9 @@ migrations:
 migrate:
 	docker-compose run --rm web python3 manage.py migrate
 
+lint:
+	docker-compose run --rm web make check
+
 check:  ## Fix code to pep8 standards
 	black .
 	isort . --profile black

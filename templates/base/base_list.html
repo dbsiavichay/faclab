@@ -1,14 +1,12 @@
 {% extends 'base/base.html' %}
 
-{% load superadmin_utils %}
+{% load vp_utils %}
 
 {% block content %}
-
-
 <section class="list-wrapper">
     {% block create %}
     <div class="mb-1">
-        <a href="{{ site.urls.create }}" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true">
+        <a href="{{ pack_info.paths.create }}" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true">
             <i class="bx bx-plus"></i>&nbsp; Crear nuevo
         </a>
     </div>
@@ -22,17 +20,17 @@
                     <th></th>
                     <th></th>
                     {% if object_list %}
-                    {% for name, label in site.fields %}
+                    {% for name, label in pack_info.fields %}
                     <th>{{ label }}</th>
                     {% endfor %}
                     <th>Acciones</th>
                     {% else %}
-                    <th>{{ site.title }}</th>
+                    <th>{{ pack_info.title }}</th>
                     {% endif %}
                 </tr>
             </thead>
             <tbody>
-                {% for row in site.rows %}
+                {% for row in pack_info.rows %}
                 <tr data-id="{{ row.instance.id }}">
                     <td></td>
                     <td></td>
@@ -52,11 +50,6 @@
                         </a>
                         {% endif %}
 
-                        {% if row.urls.duplicate %}
-                        <a href="{{ row.urls.duplicate }}" class="text-secondary ml-25 mr-25">
-                            <i class="bx bx-layer"></i>
-                        </a>
-                        {% endif %}
                         {% if row.urls.delete %}
                         <a href="{{ row.urls.delete }}" class="text-secondary ml-25 mr-25">
                             <i class="bx bx-trash"></i>
@@ -107,7 +100,7 @@
     </button>
     <div class="dropdown-menu dropdown-menu-right">
         <div class="data-columns d-flex p-1">
-            {% for chunk in site.fields|chunks:"7" %}
+            {% for chunk in pack_info.fields|chunks:"7" %}
             <ul class="pl-0 mb-0">
                 {% for name, label in chunk %}
                 <li>
@@ -142,12 +135,12 @@
           </div>
     </div>
     <div class="flex-grow-1 text-right">
-        Mostrando {{ site.page_start_index }} a {{ site.page_end_index }} de {{ site.total_records }} registros
+        Mostrando {{ pack_info.start_index }} a {{ pack_info.end_index }} de {{ pack_info.count }} registros
     </div>
 </div>
 {% include "base/paginator.html"%}
 
-<div class="modal fade text-left show" data-url="{{ site.urls.mass_update }}" data-app="{{ site.app_name }}" data-model="{{ site.model_name }}" id="mass-update-modal" tabindex="-1" role="dialog" aria-modal="true">
+<div class="modal fade text-left show" data-url="{{ pack_info.urls.mass_update }}" data-app="{{ pack_info.app_name }}" data-model="{{ pack_info.model_name }}" id="mass-update-modal" tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -163,7 +156,7 @@
                         <label for="id_fetch_field">Seleccione el campo</label>
                         <select class="form-control" id="id_fetch_field" name="field">
                             <option value="">------------</option>
-                            {% for name, label in site.fields %}
+                            {% for name, label in pack_info.fields %}
                             <option value="{{ name }}">{{ label }}</option>
                             {% endfor %}
                         </select>

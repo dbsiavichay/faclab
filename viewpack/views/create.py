@@ -23,6 +23,8 @@ class CreateMixin:
 
 
 class CreateView(View):
+    pack = None
+
     def view(self, request, *args, **kwargs):
         mixins = [CreateMixin]
         View = get_base_view(BaseCreateView, mixins, self.pack)

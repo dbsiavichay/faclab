@@ -46,10 +46,10 @@ class PackService:
     def get_default_urls(self):
         urlpatterns = []
 
-        for model, pack in self._registry.items():
+        for pack in self._registry.values():
             urlpatterns += [
                 path(
-                    "%s/%s/" % (model._meta.app_label, model._meta.model_name),
+                    "%s/%s/" % pack.model_info,
                     include(pack.urls),
                 ),
             ]

@@ -11,6 +11,8 @@ class DeleteMixin:
 
 
 class DeleteView(View):
+    pack = None
+
     def view(self, request, *args, **kwargs):
         mixins = [DeleteMixin]
         View = get_base_view(BaseDeleteView, mixins, self.pack)

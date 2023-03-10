@@ -2,9 +2,18 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db.models import QuerySet
 from django.urls import path
 
+from .enums import PackViews
 from .views import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 ALL_FIELDS = "__all__"
+
+ALL_VIEWS = {
+    PackViews.LIST: ListView,
+    PackViews.CREATE: CreateView,
+    PackViews.UPDATE: UpdateView,
+    PackViews.DETAIL: DetailView,
+    PackViews.DELETE: DeleteView,
+}
 
 
 class ModelPack:
@@ -26,7 +35,7 @@ class ModelPack:
     delete_success_url = "list"
 
     # Context
-    list_extra_context = {}
+    # list_extra_context = {}
     form_extra_context = {}
     detail_extra_context = {}
 
@@ -38,6 +47,7 @@ class ModelPack:
     form_template_name = None  # Says which form template use
     detail_template_name = None  # Says which detail template use
     delete_template_name = None  # Says which delete template use
+    _template_names = None
 
     # Mixins
     list_mixins = ()  # List of mixins that include in ListViews
@@ -74,6 +84,14 @@ class ModelPack:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+        self._template_names = {
+            PackViews.LIST: self.list_template_name,
+            PackViews.CREATE: self.form_template_name,
+            PackViews.UPDATE: self.form_template_name,
+            PackViews.DETAIL: self.detail_template_name,
+            PackViews.DELETE: self.delete_template_name,
+        }
+
         if not isinstance(self.queryset, QuerySet):
             self.queryset = self.model._default_manager.all()
 
@@ -99,76 +117,29 @@ class ModelPack:
     def get_urls(self):
         urlpatterns = []
 
-        # has_slug = hasattr(self.model, self.slug_field)
-        has_slug = False
-        route_param = "<slug:slug>" if has_slug else "<int:pk>"
-
-        if "list" in self.allow_views:
-            url_name = self.get_base_url_name("list")
+        for enum in PackViews:
+            url_name = self.get_base_url_name(enum.value)
+            route = "{0}/{1}/".format(enum.param, enum.suffix)
+            route = route.replace("//", "/")
+            route = route.lstrip("/") if route.startswith("/") else route
+            View = ALL_VIEWS.get(enum)
             urlpatterns += [
-                path(route="", view=ListView.as_view(site=self), name=url_name)
-            ]
-
-        if "create" in self.allow_views:
-            url_create_name = self.get_base_url_name("create")
-
-            urlpatterns += [
-                path(
-                    route=f"{self.url_create_suffix}/",
-                    view=CreateView.as_view(site=self),
-                    name=url_create_name,
-                ),
-            ]
-
-        if "update" in self.allow_views:
-            url_update_name = self.get_base_url_name("update")
-
-            urlpatterns += [
-                path(
-                    route=f"{route_param}/{self.url_update_suffix}/",
-                    view=UpdateView.as_view(site=self),
-                    name=url_update_name,
-                )
-            ]
-
-        if "detail" in self.allow_views:
-            url_detail_name = self.get_base_url_name("detail")
-            urlpatterns += [
-                path(
-                    route=f"{route_param}/{self.url_detail_suffix}/",
-                    view=DetailView.as_view(site=self),
-                    name=url_detail_name,
-                ),
-            ]
-
-        if "delete" in self.allow_views:
-            url_delete_name = self.get_base_url_name("delete")
-
-            urlpatterns += [
-                path(
-                    route=f"{route_param}/{self.url_delete_suffix}/",
-                    view=DeleteView.as_view(site=self),
-                    name=url_delete_name,
-                ),
+                path(route=route, view=View.as_view(pack=self), name=url_name)
             ]
 
         return urlpatterns
 
-    def get_paths(self):
+    def get_paths(self, instance=None):
         paths = {}
 
-        actions = (
-            ("create", ""),
-            ("list", ""),
-            ("update", "pk"),
-            ("detail", "pk"),
-            ("delete", "pk"),
-        )
+        for enum in PackViews:
+            path = "/{0}/{1}/{2}/{3}/".format(*self.model_info, enum.kwarg, enum.suffix)
+            path = path.replace("//", "/").replace("//", "/")
 
-        for action, kwarg in actions:
-            path = "/%s/%s/{kwarg}/%s" % (*self.model_info, kwarg, action)
-            path = path.replace("//", "/")
-            paths.update({action: path})
+            if instance:
+                path = path.format(**instance.__dict__)
+
+            paths.update({enum.name.lower(): path})
 
         return paths
 

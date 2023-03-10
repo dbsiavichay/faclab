@@ -77,6 +77,8 @@ class DetailMixin:
 
 
 class DetailView(View):
+    pack = None
+
     def view(self, request, *args, **kwargs):
         mixins = [DetailMixin]
         View = get_base_view(BaseDetailView, mixins, self.pack)

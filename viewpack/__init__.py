@@ -9,4 +9,4 @@ default_app_config = "viewpack.apps.ViewPackConfig"
 
 
 def autodiscover():
-    autodiscover_modules("sites")
+    autodiscover_modules("packs")

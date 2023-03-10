@@ -18,11 +18,10 @@ def get_base_view(ClassView, mixins, pack):
 
             return context
 
-        """
-        def form_valid(self, form):
-            messages.success(self.request, "Se ha guardado correctamente.")
-            return super().form_valid(form)
-        """
+        def get_template_names(self):
+            self.template_name = self.pack._template_names.get(self.action)
+
+            return super().get_template_names()
 
     View.__bases__ = (*mixins, *View.__bases__)
     View.pack = pack

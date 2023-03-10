@@ -1,33 +1,37 @@
 from django.views.generic import ListView as BaseListView
 from django.views.generic import View
 
-from ..services.fields import FieldService
+from viewpack.enums import PackViews
+from viewpack.services.fields import FieldService
+
 from .base import get_base_view
 
 
 class ListMixin:
+    action = PackViews.LIST
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(self.pack.list_extra_context)
-
-        data = {
-            "fields": self.get_list_fields(),
-            "rows": self.get_rows(context["object_list"]),
-            "page_start_index": context["page_obj"].start_index()
-            if context["is_paginated"]
-            else 1,
-            "page_end_index": context["page_obj"].end_index()
-            if context["is_paginated"]
-            else context["object_list"].count(),
-            "total_records": context["paginator"].count
-            if context["is_paginated"]
-            else context["object_list"].count(),
-        }
-
-        if "pack" in context:
-            context["pack"].update(data)
-        else:
-            context.update({"pack": data})
+        pack_info = context.get("pack_info", {})
+        object_list = context.get("object_list")
+        object_list_count = object_list.count()
+        is_paginated = context.get("is_paginated")
+        paginator = context.get("paginator")
+        page_obj = context.get("page_obj")
+        start_index = page_obj.start_index() if is_paginated else 1
+        end_index = page_obj.end_index() if is_paginated else object_list_count
+        count = paginator.count if is_paginated else object_list_count
+        pack_info.update(
+            {
+                "fields": self.get_list_fields(),
+                "rows": self.get_rows(object_list),
+                "start_index": start_index,
+                "end_index": end_index,
+                "count": count,
+                "paths": self.pack.paths,
+            }
+        )
+        context["pack_info"] = pack_info
 
         return context
 
@@ -51,9 +55,7 @@ class ListMixin:
             {
                 "instance": instance,
                 "values": self.get_values(instance),
-                # "urls": get_urls_of_site(
-                #    self.pack, object=instance, user=self.request.user
-                # ),
+                "urls": self.pack.get_paths(instance),
             }
             for instance in queryset
         ]
@@ -68,6 +70,8 @@ class ListMixin:
 
 
 class ListView(View):
+    pack = None
+
     def view(self, request, *args, **kwargs):
         mixins = [ListMixin]
         View = get_base_view(BaseListView, mixins, self.pack)
@@ -76,3 +80,6 @@ class ListView(View):
         view = View.as_view()
 
         return view(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        return self.view(request, *args, **kwargs)
