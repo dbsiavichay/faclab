@@ -1,21 +1,13 @@
-from django.contrib import messages
 from django.views.generic import CreateView as BaseCreateView
 from django.views.generic import View
+
+from viewpack.enums import PackViews
 
 from .base import get_base_view
 
 
 class CreateMixin:
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(self.pack.form_extra_context)
-
-        return context
-
-    def form_valid(self, form):
-        messages.success(self.request, "Saved successfully.")
-
-        return super().form_valid(form)
+    name = PackViews.CREATE
 
     def get_success_url(self):
         paths = self.pack.paths

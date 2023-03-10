@@ -1,6 +1,3 @@
-from django.contrib import messages
-
-
 def get_base_view(ClassView, mixins, pack):
     class View(ClassView):
         def get_context_data(self, **kwargs):
@@ -19,7 +16,7 @@ def get_base_view(ClassView, mixins, pack):
             return context
 
         def get_template_names(self):
-            self.template_name = self.pack._template_names.get(self.action)
+            self.template_name = self.pack._template_names.get(self.name)
 
             return super().get_template_names()
 

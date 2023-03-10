@@ -8,7 +8,7 @@ from .base import get_base_view
 
 
 class ListMixin:
-    action = PackViews.LIST
+    name = PackViews.LIST
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

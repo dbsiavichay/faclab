@@ -43,6 +43,7 @@ DJANGO_APPS = [
 
 LIBRARY_APPS = [
     "viewpack",
+    "widget_tweaks",
 ]
 
 LOCAL_APPS = [
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "es-EC"
 TIME_ZONE = "America/Guayaquil"
-
+LOCALE_PATHS = [BASE_DIR / "locale"]
 USE_I18N = True
 USE_L10N = True
 USE_TZ = False

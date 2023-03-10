@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: faclab
-    container_name: faclab_web
+    container_name: web
     volumes:
       - ./:/app
     env_file:
@@ -21,7 +21,7 @@ services:
       - faclab_net
   db:
     image: postgres:14
-    container_name: faclab_db
+    container_name: db
     restart: always
     env_file:
       - .env
@@ -39,14 +39,14 @@ services:
   redis:
     restart: unless-stopped
     image: redis
-    container_name: faclab_redis
+    container_name: cache
     expose:
       - "6379"
     networks:
       - faclab_net
   minio:
     image: minio/minio
-    container_name: faclab_minio
+    container_name: minio
     ports:
       - "9000:9000"
       - "9001:9001"
