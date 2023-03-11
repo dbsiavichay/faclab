@@ -4,7 +4,7 @@ from copy import copy
 
 from django import template
 from django.core.exceptions import ImproperlyConfigured
-from django.template.base import FILTER_SEPARATOR, Node, TemplateSyntaxError
+from django.template.base import Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
 from .. import settings

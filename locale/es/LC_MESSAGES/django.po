@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-10 23:27+0000\n"
+"POT-Creation-Date: 2023-03-11 15:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,34 +34,39 @@ msgstr "Pasaporte"
 msgid "foreign identification"
 msgstr "Identificación del exterior"
 
-#: apps/customers/models.py:8
+#: apps/customers/models.py:10
 msgid "code type"
 msgstr "tipo de identificación"
 
-#: apps/customers/models.py:9
+#: apps/customers/models.py:13
 msgid "code"
-msgstr "identification"
+msgstr "identificación"
 
-#: apps/customers/models.py:10
+#: apps/customers/models.py:16
 msgid "first name"
 msgstr "nombres"
 
-#: apps/customers/models.py:11
+#: apps/customers/models.py:19
 msgid "last name"
 msgstr "apellidos"
 
-#: apps/customers/models.py:12
+#: apps/customers/models.py:23
 msgid "bussiness name"
 msgstr "razón social"
 
-#: apps/customers/models.py:13
+#: apps/customers/models.py:28
 msgid "address"
 msgstr "dirección"
 
-#: apps/customers/models.py:14
+#: apps/customers/models.py:31
 msgid "phone"
 msgstr "teléfono"
 
-#: apps/customers/models.py:15
+#: apps/customers/models.py:33
 msgid "email"
 msgstr "correo electrónico"
+
+#: apps/customers/validators.py:43
+#, python-format
+msgid "%(value)s is not a valid value"
+msgstr "%(value)s no es un valor válido"

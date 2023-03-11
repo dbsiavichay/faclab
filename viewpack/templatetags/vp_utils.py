@@ -3,10 +3,6 @@ import json
 from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.urls import NoReverseMatch
-
-from viewpack import packs
-from viewpack.shortcuts import get_urls_of_site
 
 register = template.Library()
 
@@ -33,15 +29,6 @@ def subtract(value, number):
 def multiply(value, number):
     number = float(number)
     return value * number
-
-
-@register.simple_tag()
-def site_url(instance, action):
-    model_site = packs.get_pack(instance.__class__)
-    urls = get_urls_of_site(model_site, object=instance)
-    if action in urls:
-        return urls[action]
-    raise NoReverseMatch("The action '%s' doesn't exist in the model" % action)
 
 
 @register.filter("has_perm")

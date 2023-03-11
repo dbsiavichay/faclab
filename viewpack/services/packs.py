@@ -15,33 +15,31 @@ class PackService:
                 app_label, model_name = model.split(".")
                 model = apps.get_model(app_label, model_name)
             except ValueError:
-                raise Exception(
-                    "The model_name passed must be contains app label and model name like 'app_label.model_name'"
+                raise ImproperlyConfigured(
+                    "The model_name passed"
+                    "must be contains app label and model name"
+                    "like 'app_label.model_name'"
                 )
+
         if not isinstance(model, ModelBase):
-            raise Exception("The model passed cannot be registered but not is a model.")
+            raise ImproperlyConfigured(
+                "The model passed cannot be registered.",
+            )
 
         if model._meta.abstract:
             raise ImproperlyConfigured(
-                "The model %s is abstract, so it cannot be registered." % model.__name__
+                "The abstract model %s cannot be registered." % model.__name__
             )
 
         if model in self._registry:
-            raise Exception("The model %s is already registered" % model.__name__)
+            raise ImproperlyConfigured(
+                "The model %s is already registered" % model.__name__
+            )
 
         self._registry[model] = pack_cls(model)
 
     def is_registered(self, model):
         return model in self._registry
-
-    def get_pack(self, model):
-        if not isinstance(model, ModelBase):
-            raise Exception("The model passed is not a Model.")
-
-        if not self.is_registered(model):
-            raise Exception("The model %s is not registered" % model.__name__)
-
-        return self._registry[model]
 
     def get_default_urls(self):
         urlpatterns = []

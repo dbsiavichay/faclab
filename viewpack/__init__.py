@@ -1,6 +1,6 @@
 from django.utils.module_loading import autodiscover_modules
 
-from viewpack.options import ModelPack
+from viewpack.base import ModelPack
 from viewpack.services.packs import packs
 
 __all__ = ["packs", "ModelPack"]

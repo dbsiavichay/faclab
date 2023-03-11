@@ -19,10 +19,14 @@ ALL_VIEWS = {
 class ModelPack:
     # Views
     model = None
-    form_class = None  # Used on Create and Update views
-    fields = None  # User for passed to Create and Update views for generate forms
-    list_fields = ("__str__",)  # Used for create ListView with de specified fields
-    detail_fields = ()  # Used for create DetailView with specified fields
+    # Used on Create and Update views
+    form_class = None
+    # User for passed to Create and Update views for generate forms
+    fields = None
+    # Used for create ListView with de specified fields
+    list_fields = ("__str__",)
+    # Used for create DetailView with specified fields
+    detail_fields = ()
     allow_views = (
         "list",
         "create",
@@ -77,7 +81,8 @@ class ModelPack:
 
     def __init__(self, model, **kwargs):
         if not model:
-            raise ImproperlyConfigured("The 'model' attribute must be specified.")
+            error = "The 'model' attribute must be specified."
+            raise ImproperlyConfigured(error)
 
         self.model = model
 
@@ -96,7 +101,8 @@ class ModelPack:
             self.queryset = self.model._default_manager.all()
 
         if not isinstance(self.allow_views, tuple):
-            raise ImproperlyConfigured("The 'allow_views' attribute must be a tuple.")
+            error = "The 'allow_views' attribute must be a tuple."
+            raise ImproperlyConfigured(error)
 
         if not self.form_class and not self.fields:
             self.fields = ALL_FIELDS
@@ -133,7 +139,11 @@ class ModelPack:
         paths = {}
 
         for enum in PackViews:
-            path = "/{0}/{1}/{2}/{3}/".format(*self.model_info, enum.kwarg, enum.suffix)
+            path = "/{0}/{1}/{2}/{3}/".format(
+                *self.model_info,
+                enum.kwarg,
+                enum.suffix,
+            )
             path = path.replace("//", "/").replace("//", "/")
 
             if instance:

@@ -5,11 +5,11 @@ from django.utils.translation import gettext_lazy as _
 def code_validator(code):
     code_long = len(code)
     province_code = int(code[:2])
-    province_ok = province_code in range(1, 25) or province_code == 30
-    long_ok = code_long in (10, 13)
+    valid_province = province_code in range(1, 25) or province_code == 30
+    valid_long = code_long in (10, 13)
     is_valid = False
 
-    if province_ok and long_ok:
+    if valid_province and valid_long:
         third_digit = int(code[2])
         natural = code_long == 10
         public = code_long == 13 and third_digit == 6
@@ -22,8 +22,7 @@ def code_validator(code):
         elif private:
             coefficients = (4, 3, 2, 7, 6, 5, 4, 3, 2)
 
-        checker = len(coefficients)
-
+        checker = int(code[len(coefficients)])
         total = 0
 
         for i, value in enumerate(coefficients):
