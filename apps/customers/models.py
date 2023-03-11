@@ -2,13 +2,16 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .enums import CodeTypes
+from .validators import code_validator
 
 
 class Customer(models.Model):
     code_type = models.CharField(
         choices=CodeTypes.choices, max_length=4, verbose_name=_("code type")
     )
-    code = models.CharField(max_length=16, verbose_name=_("code"))
+    code = models.CharField(
+        max_length=16, validators=[code_validator], verbose_name=_("code")
+    )
     first_name = models.CharField(
         max_length=64, blank=True, null=True, verbose_name=_("first name")
     )
