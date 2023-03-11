@@ -1,15 +1,12 @@
 from django.views.generic import UpdateView as BaseUpdateView
 from django.views.generic import View
+from viewpack.enums import PackViews
 
 from .base import get_base_view
 
 
 class UpdateMixin:
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(self.site.form_extra_context)
-
-        return context
+    name = PackViews.UPDATE
 
     def get_success_url(self):
         paths = self.pack.paths
@@ -28,3 +25,6 @@ class UpdateView(View):
         view = View.as_view()
 
         return view(request, *args, **kwargs)
+    
+    def dispatch(self, request, *args, **kwargs):
+        return self.view(request, *args, **kwargs)
