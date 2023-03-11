@@ -11,7 +11,7 @@ def import_class(module_name, class_name):
             if name == class_name:
                 cls = klass
                 break
-    except ModuleNotFoundError as error:
+    except ModuleNotFoundError:
         print("Not found %s" % module_name)
     return cls
 

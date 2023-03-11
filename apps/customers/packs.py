@@ -5,3 +5,4 @@ from viewpack.decorators import register
 @register("customers.Customer")
 class CustomerPack(BasePack):
     list_fields = ("code_type", "code", "bussiness_name")
+    # detail_fields = ("first_name",)

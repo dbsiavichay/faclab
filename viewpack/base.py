@@ -84,6 +84,11 @@ class ModelPack:
             error = "The 'model' attribute must be specified."
             raise ImproperlyConfigured(error)
 
+        if not isinstance(self.detail_fields, (tuple, list, dict)):
+            raise ImproperlyConfigured(
+                "The 'detail_fields' must be an instance of tuple, list or dict"  # NOQA: E501
+            )
+
         self.model = model
 
         for key, value in kwargs.items():

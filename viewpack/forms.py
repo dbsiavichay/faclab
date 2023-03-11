@@ -25,7 +25,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             fields = flatten(fieldsets)
         elif isinstance(fieldsets, dict):
             fields = reduce(
-                lambda acc, fieldset: acc + flatten(fieldset), fieldsets.values(), []
+                lambda acc, fieldset: acc + flatten(fieldset),
+                fieldsets.values(),
+                [],
             )
         else:
             raise ImproperlyConfigured(

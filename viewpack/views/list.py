@@ -2,7 +2,7 @@ from django.views.generic import ListView as BaseListView
 from django.views.generic import View
 
 from viewpack.enums import PackViews
-from viewpack.services.fields import FieldService
+from viewpack.services import FieldService
 
 from .base import get_base_view
 
