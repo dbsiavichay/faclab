@@ -8,7 +8,7 @@
   <div class="btn-list">
     <form action="" method="POST">
       {% csrf_token %}
-      <a href="{{ site.urls.detail }}" class="btn btn-success">Cancelar</a>
+      <a href="{{ pack_info.paths.list }}" class="btn btn-success">Cancelar</a>
       <button type="submit" class="btn btn-danger">Eliminar</button>
     </form>
   </div>

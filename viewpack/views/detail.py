@@ -22,6 +22,7 @@ class DetailMixin:
             {
                 "fields": fields_data.values(),
                 "bs_fielsets": fieldsets_data,
+                "paths": self.pack.get_paths(self.object),
             }
         )
         context["pack_info"] = pack_info
@@ -85,8 +86,8 @@ class DetailView(View):
         mixins = [DetailMixin]
         View = get_base_view(BaseDetailView, mixins, self.pack)
         View.__bases__ = (*self.pack.detail_mixins, *View.__bases__)
-
         view = View.as_view()
+
         return view(request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
