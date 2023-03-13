@@ -47,7 +47,7 @@ LIBRARY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "apps.account",
+    "apps.accounts",
     "apps.customers",
 ]
 
@@ -139,4 +139,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Custom user model
 # https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#substituting-a-custom-user-model
 
-AUTH_USER_MODEL = "account.User"
+AUTH_USER_MODEL = "accounts.User"

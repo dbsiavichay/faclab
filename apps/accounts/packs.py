@@ -2,7 +2,7 @@ from faclab.base import BasePack
 from viewpack.decorators import register
 
 
-@register("account.User")
+@register("accounts.User")
 class UserPack(BasePack):
     list_fields = (
         "email",

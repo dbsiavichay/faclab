@@ -28,6 +28,9 @@ i18n-compile:  ## Compile translations
 run:
 	docker-compose run --rm -p 8000:8000 web
 
+runtests:
+	docker-compose run --rm web pytest
+
 shell:
 	docker-compose run --rm web python3 manage.py shell
 
