@@ -3,6 +3,14 @@ from django.utils.translation import gettext_lazy as _
 
 
 def code_validator(code):
+    error = ValidationError(
+        _("%(value)s is not a valid value"),
+        params={"value": code},
+    )
+
+    if not isinstance(code, str) or not code.isdigit():
+        raise error
+
     code_long = len(code)
     province_code = int(code[:2])
     valid_province = province_code in range(1, 25) or province_code == 30
@@ -39,7 +47,4 @@ def code_validator(code):
         is_valid = result == checker
 
     if not is_valid:
-        raise ValidationError(
-            _("%(value)s is not a valid value"),
-            params={"value": code},
-        )
+        raise error
