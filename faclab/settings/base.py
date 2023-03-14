@@ -49,6 +49,7 @@ LIBRARY_APPS = [
 LOCAL_APPS = [
     "apps.accounts",
     "apps.customers",
+    "apps.sites",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LIBRARY_APPS + LOCAL_APPS
