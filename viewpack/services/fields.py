@@ -1,3 +1,6 @@
+from functools import reduce
+
+from django.contrib.admin.utils import flatten
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.forms.utils import pretty_name
 from django.utils.html import format_html
@@ -156,6 +159,19 @@ class FieldService:
             cls.get_field_value(object, field),
             cls.get_field_type(object, field),
         )
+
+    @classmethod
+    def get_flatten_field_names(cls, field_names):
+        if isinstance(field_names, dict):
+            field_names = reduce(
+                lambda accumulator, names: accumulator + flatten(names),
+                field_names.values(),
+                [],
+            )
+        else:
+            field_names = flatten(field_names)
+
+        return field_names
 
     @classmethod
     def get_botstrap_fields(cls, field_names, fields_data):

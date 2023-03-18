@@ -1,0 +1,17 @@
+<fieldset>
+  {% if title %}
+    <legend class="font-weight-bold">{{ title|capfirst }}</legend>
+    <div class="separator separator-solid separator-border-2 separator-primary mb-10"></div>
+  {% endif %}
+  {% for row in fieldset %}
+    <div class="row">
+      {% for field, cols in row %}
+        {% if not field.is_hidden %}
+          <div class="col-md-{{ cols }}">
+            {% include "forms/formgroup.html" with field=field %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
+</fieldset>

@@ -1,6 +1,3 @@
-from functools import reduce
-
-from django.contrib.admin.utils import flatten
 from django.views.generic import DetailView as BaseDetailView
 from django.views.generic import View
 
@@ -61,16 +58,7 @@ class DetailMixin:
             if field_names
             else (field.name for field in self.model._meta.fields)
         )
-
-        if isinstance(field_names, dict):
-            field_names = reduce(
-                lambda acc, names: acc + flatten(names),
-                field_names.values(),
-                [],
-            )
-        else:
-            field_names = flatten(field_names)
-
+        field_names = FieldService.get_flatten_field_names(field_names)
         data = {
             name: FieldService.get_field_data(self.object, name)
             for name in field_names  # Data {"attr": (label, value, type)}
