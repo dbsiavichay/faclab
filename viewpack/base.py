@@ -27,6 +27,9 @@ class ModelPack:
     list_fields = ("__str__",)
     # Used for create DetailView with specified fields
     detail_fields = ()
+    # Labels for fields
+    default_labels = {}
+
     allow_views = (
         "list",
         "create",
@@ -86,13 +89,23 @@ class ModelPack:
 
         if not isinstance(self.detail_fields, (tuple, list, dict)):
             raise ImproperlyConfigured(
-                "The 'detail_fields' must be an instance of tuple, list or dict"  # NOQA: E501
+                "The 'detail_fields' must be an instance of tuple, list or dict"
+            )
+
+        if not isinstance(self.default_labels, dict):
+            raise ImproperlyConfigured(
+                "The 'default_labels' must be an instance of dict"
             )
 
         self.model = model
 
         for key, value in kwargs.items():
             setattr(self, key, value)
+
+        self.list_fields = tuple(self.list_fields)
+
+        if not self.detail_fields:
+            self.detail_fields = tuple(field.name for field in self.model._meta.fields)
 
         self._template_names = {
             PackViews.LIST: self.list_template_name,

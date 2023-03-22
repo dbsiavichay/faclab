@@ -1,0 +1,6 @@
+{% load widget_tweaks %}
+
+<div class="checkbox">
+  {% render_field field class+="checkbox-input" %}
+  <label for="{{ field.id_for_label }}">{{ field.label|capfirst }}</label>
+</div>

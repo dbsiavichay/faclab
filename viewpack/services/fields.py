@@ -1,74 +1,60 @@
 from functools import reduce
 
 from django.contrib.admin.utils import flatten
-from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
+from django.core.exceptions import FieldDoesNotExist
 from django.forms.utils import pretty_name
 from django.utils.html import format_html
 
 
 class FieldService:
-    FIELD_SEPARATOR = "__"
-    LABEL_SEPARATOR = ":"
+    JSON_SPLITTER = "__"
 
     @classmethod
-    def get_field_label(cls, model, field):
-        try:
-            name, verbose_name = field.split(cls.LABEL_SEPARATOR)
-            return pretty_name(verbose_name)
-        except ValueError:
-            pass
+    def get_field_labels(cls, model, field_names, default_labels):
+        labels = []
 
-        if "__str__" in field:
+        for name in field_names:
+            label = (
+                default_labels.get(name)
+                if name in default_labels
+                else cls.get_field_label(model, name)
+            )
+            labels.append((name, label))
+
+        return labels
+
+    @classmethod
+    def get_field_label(cls, model, field_name):
+        if "__str__" in field_name:
             label = str(model._meta.verbose_name)
             return pretty_name(label)
 
-        names = field.split(cls.FIELD_SEPARATOR)
+        names = field_name.split(cls.JSON_SPLITTER)
         name = names.pop(0)
-
-        if not hasattr(model, name):
-            model_name = (
-                model._meta.model_name
-                if hasattr(model, "_meta")
-                else str(model)  # Model name
-            )
-            raise AttributeError(
-                "Does not exist attribute <{0}> for {1}".format(
-                    name,
-                    model_name,
-                )
-            )
 
         try:
             field = model._meta.get_field(name)
-
-            if len(names):
-                related_model = field.related_model
-                return cls.get_field_label(
-                    related_model, cls.FIELD_SEPARATOR.join(names)
-                )
             label = field.verbose_name
         except FieldDoesNotExist:
-            attr = getattr(object, name)
-
-            if len(names):
-                return cls.get_field_label(
-                    attr(model) if callable(attr) else attr,
-                    cls.FIELD_SEPARATOR.join(names),
-                )
-            label = name
+            label = field_name
 
         return pretty_name(label)
 
     @classmethod
-    def get_field_value(cls, object, field):
-        if object is None or "__str__" in field:
+    def get_field_value(cls, object, field_name):
+        if object is None or "__str__" in field_name:
             return object
 
-        field = field.split(cls.LABEL_SEPARATOR)[0]
-        names = field.split(cls.FIELD_SEPARATOR)
+        names = field_name.split(cls.JSON_SPLITTER)
         name = names.pop(0)
+        value = (
+            object.get(name)
+            if isinstance(object, dict)
+            else getattr(object, name, None)
+        )
+        value = value() if callable(value) else value
 
-        if not hasattr(object, name):
+        if value is None:
             raise AttributeError(
                 "Does not exist attribute <{0}> for {1}".format(
                     name,
@@ -76,89 +62,26 @@ class FieldService:
                 )
             )
 
-        if len(names):
-            attr = getattr(object, name)
-            attr = attr() if callable(attr) else attr
-
+        if len(names) and isinstance(value, dict):
             return cls.get_field_value(
-                attr,
-                cls.FIELD_SEPARATOR.join(names),
+                value,
+                cls.JSON_SPLITTER.join(names),
             )
 
         try:
             field = object._meta.get_field(name)
+            internal_type = field.get_internal_type()
 
             if hasattr(field, "choices") and field.choices:
-                return dict(field.choices).get(field.value_from_object(object))
-            elif field.related_model:
-                if field.one_to_many or field.many_to_many:
-                    raise ImproperlyConfigured(
-                        "OneToMany or ManyToMany is not supported: '%s'"
-                        % field.name  # For performace
-                    )
+                value = dict(field.choices).get(value)
 
-                try:
-                    return field.related_model.objects.get(
-                        pk=field.value_from_object(object)
-                    )
-                except field.related_model.DoesNotExist:
-                    return None
-            else:
-                return field.value_from_object(object)
-        except FieldDoesNotExist:
-            attr = getattr(object, name)
-            attr = attr() if callable(attr) else attr
-
-            return format_html(str(attr))
-
-    @classmethod
-    def get_field_type(cls, model, field):
-        field = field.split(cls.LABEL_SEPARATOR)[0]
-        names = field.split(cls.FIELD_SEPARATOR)
-        name = names.pop(0)
-
-        if not hasattr(model, name):
-            model_name = (
-                model._meta.model_name
-                if hasattr(model, "_meta")
-                else str(model)  # Model name
-            )
-            raise AttributeError(
-                "Does not exist attribute <{0}> on {1}".format(
-                    name,
-                    model_name,
-                )
-            )
-
-        if len(names):
-            if hasattr(model, "_meta"):
-                return cls.get_field_type(
-                    model._meta.get_field(name).related_model,
-                    cls.FIELD_SEPARATOR.join(names),
-                )
-            else:
-                attr = getattr(model, name)
-                attr = attr() if callable(attr) else attr
-                return cls.get_field_type(
-                    attr,
-                    cls.FIELD_SEPARATOR.join(names),
-                )
-
-        try:
-            field = model._meta.get_field(name)
-            type = model._meta.get_field(name).get_internal_type()
-        except FieldDoesNotExist:
-            type = "str"
-
-        return type
+            return value, internal_type
+        except (FieldDoesNotExist, AttributeError):
+            return format_html(str(value)), type(value)
 
     @classmethod
     def get_field_data(cls, object, field):
-        return (
-            cls.get_field_label(object, field),
-            cls.get_field_value(object, field),
-            cls.get_field_type(object, field),
-        )
+        return (cls.get_field_label(object, field), *cls.get_field_value(object, field))
 
     @classmethod
     def get_flatten_field_names(cls, field_names):

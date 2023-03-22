@@ -52,16 +52,9 @@ class DetailMixin:
         return data
 
     def get_fields_data(self):
-        field_names = self.pack.detail_fields
-        field_names = (
-            field_names
-            if field_names
-            else (field.name for field in self.model._meta.fields)
-        )
-        field_names = FieldService.get_flatten_field_names(field_names)
+        field_names = FieldService.get_flatten_field_names(self.pack.detail_fields)
         data = {
-            name: FieldService.get_field_data(self.object, name)
-            for name in field_names  # Data {"attr": (label, value, type)}
+            name: FieldService.get_field_data(self.object, name) for name in field_names
         }
 
         return data

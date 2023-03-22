@@ -25,7 +25,9 @@ class ConfigForm(ModelForm):
     withholding_agent_resolution = forms.CharField(
         max_length=32, required=False, label=_("withholding agent resolution")
     )
-    accounting_required = forms.BooleanField(label=_("accounting required"))
+    accounting_required = forms.BooleanField(
+        required=False, label=_("accounting required")
+    )
 
     class Meta:
         model = Config

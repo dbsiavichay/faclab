@@ -44,11 +44,11 @@ class ListMixin:
         return super().get_paginate_by(queryset)
 
     def get_list_fields(self):
-        fields = [
-            (name, FieldService.get_field_label(self.model, name))
-            for name in self.pack.list_fields
-        ]
-        return fields
+        labels = FieldService.get_field_labels(
+            self.model, self.pack.list_fields, self.pack.default_labels
+        )
+
+        return labels
 
     def get_rows(self, queryset):
         rows = [
@@ -59,13 +59,15 @@ class ListMixin:
             }
             for instance in queryset
         ]
+
         return rows
 
     def get_values(self, instance):
         values = [
-            FieldService.get_field_value(instance, name)
+            FieldService.get_field_value(instance, name)[0]
             for name in self.pack.list_fields
         ]
+
         return values
 
 

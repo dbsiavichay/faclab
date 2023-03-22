@@ -1,9 +1,3 @@
-{% load widget_tweaks %}
-
 <div class="form-group">
-  {% if field.widget_type != "checkbox" %}
-  <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-  {% endif %}
-
-  {% render_field field class+="form-control" %}
+  {% include "forms/inputs/"|add:field.widget_type|add:".html" with field=field %}
 </div>
