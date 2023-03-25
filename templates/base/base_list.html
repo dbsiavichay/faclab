@@ -1,7 +1,5 @@
 {% extends 'base/base.html' %}
 
-{% load vp_utils %}
-
 {% block content %}
 <section class="list-wrapper">
     {% block create %}
@@ -20,8 +18,8 @@
                     <th></th>
                     <th></th>
                     {% if object_list %}
-                    {% for name, label in pack_info.fields %}
-                    <th>{{ label }}</th>
+                    {% for header in pack_info.headers.values %}
+                    <th>{{ header }}</th>
                     {% endfor %}
                     <th>Acciones</th>
                     {% else %}
@@ -30,12 +28,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in pack_info.rows %}
-                <tr data-id="{{ row.instance.id }}">
+                {% for instance, row in pack_info.rows %}
+                <tr data-id="{{ instance.id }}">
                     <td></td>
                     <td></td>
-                    {% for value in row.values %}
-                    <td>{{ value|default:""|truncatechars:"50" }}</td>
+                    {% for data in row.data.values %}
+                    <td>{{ data.value|default:""|truncatechars:"50" }}</td>
                     {% endfor %}
                     <td>
                         {% if row.urls.detail %}
@@ -100,6 +98,7 @@
     </button>
     <div class="dropdown-menu dropdown-menu-right">
         <div class="data-columns d-flex p-1">
+            {% comment %}
             {% for chunk in pack_info.fields|chunks:"7" %}
             <ul class="pl-0 mb-0">
                 {% for name, label in chunk %}
@@ -118,6 +117,7 @@
                 {% endfor %}
             </ul>
             {% endfor %}
+            {% endcomment %}
         </div>
     </div>
 </div>
@@ -140,40 +140,4 @@
 </div>
 {% include "base/paginator.html"%}
 
-<div class="modal fade text-left show" data-url="{{ pack_info.urls.mass_update }}" data-app="{{ pack_info.app_name }}" data-model="{{ pack_info.model_name }}" id="mass-update-modal" tabindex="-1" role="dialog" aria-modal="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title white">Edición de campos</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="bx bx-x"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="id_fetch_field">Seleccione el campo</label>
-                        <select class="form-control" id="id_fetch_field" name="field">
-                            <option value="">------------</option>
-                            {% for name, label in pack_info.fields %}
-                            <option value="{{ name }}">{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Cerrar</span>
-                </button>
-                <button type="button" id="mass-update-btn" class="btn btn-primary ml-1">
-                    <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Aceptar</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}

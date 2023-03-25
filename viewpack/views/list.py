@@ -23,8 +23,7 @@ class ListMixin:
         count = paginator.count if is_paginated else object_list_count
         pack_info.update(
             {
-                "fields": self.get_list_fields(),
-                "rows": self.get_rows(object_list),
+                **self.get_fields_data(object_list),
                 "start_index": start_index,
                 "end_index": end_index,
                 "count": count,
@@ -35,6 +34,23 @@ class ListMixin:
 
         return context
 
+    def get_fields_data(self, queryset):
+        service = FieldService(self.pack)
+        data = service.get_list_data(queryset)
+
+        return {
+            "headers": {
+                name: service._get_field_label(name) for name in self.pack.list_fields
+            },
+            "rows": self.get_rows(data),
+        }
+
+    def get_rows(self, data):
+        return [
+            (instance, {"data": row, "urls": self.pack.get_paths(instance)})
+            for instance, row in data
+        ]
+
     def get_paginate_by(self, queryset):
         paginate_by = self.request.GET.get("paginate_by")
 
@@ -42,33 +58,6 @@ class ListMixin:
             return paginate_by
 
         return super().get_paginate_by(queryset)
-
-    def get_list_fields(self):
-        labels = FieldService.get_field_labels(
-            self.model, self.pack.list_fields, self.pack.default_labels
-        )
-
-        return labels
-
-    def get_rows(self, queryset):
-        rows = [
-            {
-                "instance": instance,
-                "values": self.get_values(instance),
-                "urls": self.pack.get_paths(instance),
-            }
-            for instance in queryset
-        ]
-
-        return rows
-
-    def get_values(self, instance):
-        values = [
-            FieldService.get_field_value(instance, name)[0]
-            for name in self.pack.list_fields
-        ]
-
-        return values
 
 
 class ListView(View):

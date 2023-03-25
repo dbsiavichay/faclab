@@ -87,10 +87,20 @@ class ModelPack:
             error = "The 'model' attribute must be specified."
             raise ImproperlyConfigured(error)
 
-        if not isinstance(self.detail_fields, (tuple, list, dict)):
+        try:
+            self.list_fields = tuple(self.list_fields)
+        except TypeError:
             raise ImproperlyConfigured(
-                "The 'detail_fields' must be an instance of tuple, list or dict"
+                "The 'list_fields' must be an instance of tuple or list"
             )
+
+        if not isinstance(self.detail_fields, (list, dict)):
+            try:
+                self.detail_fields = tuple(self.detail_fields)
+            except TypeError:
+                raise ImproperlyConfigured(
+                    "The 'detail_fields' must be an instance of tuple, list or dict"
+                )
 
         if not isinstance(self.default_labels, dict):
             raise ImproperlyConfigured(
@@ -101,8 +111,6 @@ class ModelPack:
 
         for key, value in kwargs.items():
             setattr(self, key, value)
-
-        self.list_fields = tuple(self.list_fields)
 
         if not self.detail_fields:
             self.detail_fields = tuple(field.name for field in self.model._meta.fields)

@@ -12,52 +12,19 @@ class DetailMixin:
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        fields_data = self.get_fields_data()
-        fieldsets_data = self.get_fieldsets_data(fields_data)
         pack_info = context.get("pack_info", {})
         pack_info.update(
-            {
-                "fields": fields_data.values(),
-                "bs_fielsets": fieldsets_data,
-                "paths": self.pack.get_paths(self.object),
-            }
+            {**self.get_fields_data(), "paths": self.pack.get_paths(self.object)}
         )
         context["pack_info"] = pack_info
 
         return context
 
-    def get_fieldsets_data(self, fields_data):
-        field_names = self.pack.detail_fields
-
-        if not field_names:
-            field_names = fields_data.keys()
-
-        fieldsets = (
-            field_names.items()
-            if isinstance(field_names, dict)
-            else [("", field_names)]
-        )
-
-        data = [
-            {
-                "title": title,
-                "fieldset": FieldService.get_botstrap_fields(
-                    fieldset,
-                    fields_data,
-                ),
-            }
-            for title, fieldset in fieldsets
-        ]
-
-        return data
-
     def get_fields_data(self):
-        field_names = FieldService.get_flatten_field_names(self.pack.detail_fields)
-        data = {
-            name: FieldService.get_field_data(self.object, name) for name in field_names
-        }
+        service = FieldService(pack=self.pack)
+        data, bs_data = service.get_detail_data(self.object)
 
-        return data
+        return {"fields": data, "bs_fieldsets": bs_data}
 
 
 class DetailView(View):

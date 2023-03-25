@@ -6,13 +6,12 @@
     <div class="card-header"><h3>{{ object|capfirst }}</h3></div>
     <div class="card-body">
         {% block detail %}
-        {% for label, value, type in pack_info.fields %}
+        {% for field in pack_info.fields.values %}
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label>{{ label|capfirst }}</label>
-                    <input class="form-control" type="text" value="{{ value|default_if_none:'' }}" readonly>
-                    <!--<p class="form-control-static">{{ value|default_if_none:"" }}</p>-->
+                    <label>{{ field.label|capfirst }}</label>
+                    <input class="form-control" type="text" value="{{ field.value|default_if_none:'' }}" readonly>
                 </div>
             </div>
         </div>
