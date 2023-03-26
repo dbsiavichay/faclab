@@ -5,7 +5,7 @@ from apps.sites.forms import ConfigForm
 from apps.sites.models import Config
 
 
-class TestConfig:
+class TestConfigForm:
     @pytest.mark.django_db
     def test_config_create(self):
         data = {
