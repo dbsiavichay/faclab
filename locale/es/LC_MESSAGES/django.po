@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-18 15:22+0000\n"
+"POT-Creation-Date: 2023-03-26 23:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "charter"
 msgstr "Cédula"
 
-#: apps/customers/enums.py:7 apps/sites/forms.py:10
+#: apps/customers/enums.py:7 apps/sites/forms.py:12
 msgid "ruc"
 msgstr "Ruc"
 
@@ -34,7 +34,12 @@ msgstr "Pasaporte"
 msgid "foreign identification"
 msgstr "Identificación del exterior"
 
-#: apps/customers/models.py:10
+#: apps/customers/forms.py:26
+#, python-format
+msgid "The code entered does not correspond to a %(code_type)s"
+msgstr "La identificación ingresada no corresponde a %(code_type)s"
+
+#: apps/customers/models.py:13
 msgid "code type"
 msgstr "tipo de identificación"
 
@@ -50,59 +55,59 @@ msgstr "nombres"
 msgid "last name"
 msgstr "apellidos"
 
-#: apps/customers/models.py:26
+#: apps/customers/models.py:24
 msgid "bussiness name"
 msgstr "razón social"
 
-#: apps/customers/models.py:31
+#: apps/customers/models.py:25
 msgid "address"
 msgstr "dirección"
 
-#: apps/customers/models.py:34
+#: apps/customers/models.py:27
 msgid "phone"
 msgstr "teléfono"
 
-#: apps/customers/models.py:36
+#: apps/customers/models.py:29
 msgid "email"
 msgstr "correo electrónico"
 
-#: apps/customers/validators.py:7
+#: apps/customers/validators.py:6
 #, python-format
 msgid "%(value)s is not a valid value"
 msgstr "%(value)s no es un valor válido"
 
-#: apps/sites/forms.py:11
+#: apps/sites/forms.py:14
 msgid "company name"
 msgstr "razón social"
 
-#: apps/sites/forms.py:12
+#: apps/sites/forms.py:15
 msgid "trade name"
 msgstr "nombre comercial"
 
-#: apps/sites/forms.py:13
+#: apps/sites/forms.py:16
 msgid "main address"
 msgstr "dirección matriz"
 
-#: apps/sites/forms.py:14
+#: apps/sites/forms.py:17
 msgid "company address"
 msgstr "dirección de establecimiento"
 
-#: apps/sites/forms.py:15
+#: apps/sites/forms.py:18
 msgid "company code"
 msgstr "código de establecimiento"
 
-#: apps/sites/forms.py:16
+#: apps/sites/forms.py:20
 msgid "company point sale code"
 msgstr "código de punto de emisión"
 
-#: apps/sites/forms.py:17
+#: apps/sites/forms.py:23
 msgid "special taxpayer resolution"
 msgstr "contribuyente especial (Nro de resolución)"
 
-#: apps/sites/forms.py:18
+#: apps/sites/forms.py:26
 msgid "withholding agent resolution"
 msgstr "agente de retención (Nro de resolución)"
 
-#: apps/sites/forms.py:19
+#: apps/sites/forms.py:29
 msgid "accounting required"
 msgstr "obligado a llevar contabilidad"

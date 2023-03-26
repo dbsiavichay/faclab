@@ -53,7 +53,7 @@ class ModelForm(BaseModelForm, metaclass=ModelFormMetaclass):
 
     @cached_property
     def bs_fieldsets(self):
-        field_names = self._meta.fieldsets
+        field_names = getattr(self._meta, "fieldsets", self.fields.keys())
         fieldsets = (
             field_names.items()
             if isinstance(field_names, dict)
