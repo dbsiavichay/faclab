@@ -1,7 +1,7 @@
-{% extends './textinput.html' %}
+{% extends './text.html' %}
 
-{% load hydra %}
+{% load widget_tweaks %}
 
 {% block field %}
-    {{ field|add_class:"form-control custom-select"}}
+  {% render_field field class+="form-control custom-select" %}
 {% endblock %}

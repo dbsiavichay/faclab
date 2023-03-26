@@ -3,10 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 def code_validator(code):
-    error = ValidationError(
-        _("%(value)s is not a valid value"),
-        params={"value": code},
-    )
+    error = ValidationError(_("%(value)s is not a valid value"), params={"value": code})
 
     if not isinstance(code, str) or not code.isdigit():
         raise error
@@ -19,9 +16,9 @@ def code_validator(code):
 
     if valid_province and valid_long:
         third_digit = int(code[2])
-        natural = code_long == 10
         public = code_long == 13 and third_digit == 6
         private = code_long == 13 and third_digit == 9
+        natural = not (public or private)
         base = 10 if natural else 11
         coefficients = (2, 1, 2, 1, 2, 1, 2, 1, 2)
 
