@@ -30,13 +30,7 @@ class ModelPack:
     # Labels for fields
     default_labels = {}
 
-    allow_views = (
-        "list",
-        "create",
-        "update",
-        "detail",
-        "delete",
-    )
+    allow_views = ("list", "create", "update", "detail", "delete")
     create_success_url = "list"
     update_success_url = "list"
     delete_success_url = "list"

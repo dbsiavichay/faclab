@@ -62,6 +62,13 @@ class FieldService:
         return pretty_name(label)
 
     def _get_field_data(self, obj, large_field_name, field_name):
+        if "__str__" == field_name:
+            return {
+                "value": obj,
+                "label": self._get_field_label(large_field_name),
+                "type": type(obj).__name__,
+            }
+
         names = field_name.split(self.JSON_SPLITTER)
         name = names.pop(0)
         has_attr = name in obj if isinstance(obj, dict) else hasattr(obj, name)
