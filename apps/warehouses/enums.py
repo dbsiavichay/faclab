@@ -3,8 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class ProductTypes(TextChoices):
-    PRODUCT = "p", _("product")
-    SERVICE = "s", _("service")
+    PRODUCT = "p", _("product").capitalize()
+    SERVICE = "s", _("service").capitalize()
 
 
 class PriceTypes(TextChoices):

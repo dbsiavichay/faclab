@@ -13,7 +13,10 @@ class Customer(models.Model):
         choices=CodeTypes.choices, max_length=4, verbose_name=_("code type")
     )
     code = models.CharField(
-        max_length=16, validators=[code_validator], unique=True, verbose_name=_("code")
+        max_length=16,
+        validators=[code_validator],
+        unique=True,
+        verbose_name=_("identification"),
     )
     first_name = models.CharField(
         max_length=64, blank=True, null=True, verbose_name=_("first name")
