@@ -42,6 +42,7 @@ DJANGO_APPS = [
 ]
 
 LIBRARY_APPS = [
+    "simple_menu",
     "viewpack",
     "widget_tweaks",
 ]
@@ -49,6 +50,7 @@ LIBRARY_APPS = [
 LOCAL_APPS = [
     "apps.accounts",
     "apps.customers",
+    "apps.menus",
     "apps.sites",
     "apps.warehouses",
 ]

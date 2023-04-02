@@ -1,4 +1,2 @@
 gettext
 libpq-dev
-openjdk-8-jre
-openjdk-8-jdk

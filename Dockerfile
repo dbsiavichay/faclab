@@ -23,9 +23,9 @@ RUN apt install --fix-missing -y build-essential software-properties-common apt-
     python3-dev python3-pip python3-setuptools python3-wheel python3-cffi python3-brotli
 
 RUN mkdir ${CONFIG_ROOT}
-COPY requirements_sys.txt ${CONFIG_ROOT}/
-COPY ./requirements_dev.txt ${CONFIG_ROOT}/requirements_dev.txt
-COPY ./requirements.txt ${CONFIG_ROOT}/requirements.txt
+COPY ./requirements_sys.txt ${CONFIG_ROOT}/
+COPY ./requirements_dev.txt ${CONFIG_ROOT}/
+COPY ./requirements.txt ${CONFIG_ROOT}/
 
 WORKDIR ${CONFIG_ROOT}
 ARG DEBIAN_FRONTEND=noninteractive

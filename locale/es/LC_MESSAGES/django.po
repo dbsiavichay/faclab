@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-01 16:30+0000\n"
+"POT-Creation-Date: 2023-04-02 04:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,35 +39,35 @@ msgstr "Identificación del exterior"
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
-#: apps/customers/models.py:14
+#: apps/customers/models.py:13
 msgid "code type"
 msgstr "tipo de identificación"
 
-#: apps/customers/models.py:17
+#: apps/customers/models.py:19
 msgid "identification"
 msgstr "identificación"
 
-#: apps/customers/models.py:20
+#: apps/customers/models.py:22
 msgid "first name"
 msgstr "nombres"
 
-#: apps/customers/models.py:23
+#: apps/customers/models.py:25
 msgid "last name"
 msgstr "apellidos"
 
-#: apps/customers/models.py:25
+#: apps/customers/models.py:27
 msgid "bussiness name"
 msgstr "razón social"
 
-#: apps/customers/models.py:26
+#: apps/customers/models.py:28
 msgid "address"
 msgstr "dirección"
 
-#: apps/customers/models.py:28
+#: apps/customers/models.py:30
 msgid "phone"
 msgstr "teléfono"
 
-#: apps/customers/models.py:30
+#: apps/customers/models.py:32
 msgid "email"
 msgstr "correo electrónico"
 
@@ -75,6 +75,34 @@ msgstr "correo electrónico"
 #, python-format
 msgid "%(value)s is not a valid value"
 msgstr "%(value)s no es un valor válido"
+
+#: apps/menus/menus/__init__.py:11
+msgid "modules"
+msgstr "módulos"
+
+#: apps/menus/menus/sales.py:7
+msgid "customers"
+msgstr "clientes"
+
+#: apps/menus/menus/sales.py:15
+msgid "sales"
+msgstr "ventas"
+
+#: apps/menus/menus/warehouses.py:7
+msgid "categories"
+msgstr "categorias"
+
+#: apps/menus/menus/warehouses.py:13
+msgid "measures"
+msgstr "medidas"
+
+#: apps/menus/menus/warehouses.py:19
+msgid "products"
+msgstr "productos"
+
+#: apps/menus/menus/warehouses.py:27
+msgid "warehouses"
+msgstr "bodegas"
 
 #: apps/sites/forms.py:14
 msgid "company name"
@@ -129,54 +157,54 @@ msgid "sale"
 msgstr "venta"
 
 #: apps/warehouses/models.py:9 apps/warehouses/models.py:17
-#: apps/warehouses/models.py:33
+#: apps/warehouses/models.py:25
 msgid "name"
 msgstr "nombre"
 
-#: apps/warehouses/models.py:16 apps/warehouses/models.py:27
+#: apps/warehouses/models.py:16 apps/warehouses/models.py:24
 msgid "code"
 msgstr "código"
 
-#: apps/warehouses/models.py:25 apps/warehouses/models.py:49
-msgid "type"
-msgstr "tipo"
-
-#: apps/warehouses/models.py:31
-msgid "category"
-msgstr "categoria"
-
-#: apps/warehouses/models.py:34
+#: apps/warehouses/models.py:26
 msgid "short name"
 msgstr "nombre corto"
 
-#: apps/warehouses/models.py:35
+#: apps/warehouses/models.py:27
 msgid "description"
 msgstr "descripción"
 
-#: apps/warehouses/models.py:36
+#: apps/warehouses/models.py:28
 msgid "is inventoried"
 msgstr "es inventariado"
 
-#: apps/warehouses/models.py:37
+#: apps/warehouses/models.py:29
 msgid "apply iva"
 msgstr "aplica IVA"
 
-#: apps/warehouses/models.py:38
+#: apps/warehouses/models.py:30
 msgid "apply ice"
 msgstr "aplica ICE"
 
-#: apps/warehouses/models.py:42
-msgid "unit of measure"
-msgstr "unidad de medida"
-
-#: apps/warehouses/models.py:44
+#: apps/warehouses/models.py:31
 msgid "stock"
 msgstr "stock"
 
+#: apps/warehouses/models.py:37 apps/warehouses/models.py:60
+msgid "type"
+msgstr "tipo"
+
+#: apps/warehouses/models.py:44
+msgid "category"
+msgstr "categoria"
+
 #: apps/warehouses/models.py:51
+msgid "unit of measure"
+msgstr "unidad de medida"
+
+#: apps/warehouses/models.py:62
 msgid "amount"
 msgstr "monto"
 
-#: apps/warehouses/models.py:52
+#: apps/warehouses/models.py:63
 msgid "revenue"
 msgstr "utilidad"
