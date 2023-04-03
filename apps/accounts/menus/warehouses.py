@@ -18,7 +18,7 @@ submenu_items = [
     MenuItem(
         _("products").capitalize(),
         reverse("packs:warehouses_product_list"),
-        weight=11,
+        weight=12,
         icon="bx-right-arrow-alt",
     ),
 ]

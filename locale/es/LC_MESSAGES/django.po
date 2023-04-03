@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-02 04:44+0000\n"
+"POT-Creation-Date: 2023-04-03 21:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,42 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/accounts/menus/__init__.py:12
+msgid "modules"
+msgstr "módulos"
+
+#: apps/accounts/menus/config.py:7
+msgid "sri"
+msgstr ""
+
+#: apps/accounts/menus/config.py:15
+msgid "configuration"
+msgstr "configuración"
+
+#: apps/accounts/menus/sales.py:7
+msgid "customers"
+msgstr "clientes"
+
+#: apps/accounts/menus/sales.py:15
+msgid "sales"
+msgstr "ventas"
+
+#: apps/accounts/menus/warehouses.py:7
+msgid "categories"
+msgstr "categorias"
+
+#: apps/accounts/menus/warehouses.py:13
+msgid "measures"
+msgstr "medidas"
+
+#: apps/accounts/menus/warehouses.py:19
+msgid "products"
+msgstr "productos"
+
+#: apps/accounts/menus/warehouses.py:27
+msgid "warehouses"
+msgstr "bodegas"
 
 #: apps/customers/enums.py:6
 msgid "charter"
@@ -75,34 +111,6 @@ msgstr "correo electrónico"
 #, python-format
 msgid "%(value)s is not a valid value"
 msgstr "%(value)s no es un valor válido"
-
-#: apps/menus/menus/__init__.py:11
-msgid "modules"
-msgstr "módulos"
-
-#: apps/menus/menus/sales.py:7
-msgid "customers"
-msgstr "clientes"
-
-#: apps/menus/menus/sales.py:15
-msgid "sales"
-msgstr "ventas"
-
-#: apps/menus/menus/warehouses.py:7
-msgid "categories"
-msgstr "categorias"
-
-#: apps/menus/menus/warehouses.py:13
-msgid "measures"
-msgstr "medidas"
-
-#: apps/menus/menus/warehouses.py:19
-msgid "products"
-msgstr "productos"
-
-#: apps/menus/menus/warehouses.py:27
-msgid "warehouses"
-msgstr "bodegas"
 
 #: apps/sites/forms.py:14
 msgid "company name"
