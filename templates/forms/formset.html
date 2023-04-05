@@ -1,35 +1,35 @@
-{% load vp_forms vp_utils %}
+{% load widget_tweaks %}
 
-<div class="table-responsive inline-group" data-label="{{ label }}" data-errors="{{ formset.errors|json }}" id="{{ formset.prefix }}-group" data-prefix="{{ formset.prefix }}">
-    {{ formset.management_form }}
-    <table class="table mb-0">
-        <thead class="thead-light">
-            {% for header in headers %}
-            <th>{{ header }}</th>
-            {% endfor %}
-            <th>Eliminar</th>
-        </thead>
-        <tbody>
-            {% for form in formset %}
-            <tr id="{{ formset.prefix }}-{{ forloop.counter0 }}" class="inline {{ formset.prefix }}">
-                {% for field in form.hidden_fields %}
-                {{ field }}
-                {% endfor %}
+<div class="table-responsive inline-group" data-label="{{ label }}" data-errors="{{ formset.errors }}" id="{{ formset.prefix }}-group" data-prefix="{{ formset.prefix }}">
+  {{ formset.management_form }}
+  <table class="table table-bordered mb-0">
+    <thead>
+      {% for header in headers %}
+      <th>{{ header }}</th>
+      {% endfor %}
+      <th>Eliminar</th>
+    </thead>
+    <tbody>
+      {% for form in formset %}
+      <tr id="{{ formset.prefix }}-{{ forloop.counter0 }}" class="inline {{ formset.prefix }}">
+        {% for field in form.hidden_fields %}
+        {{ field }}
+        {% endfor %}
 
-                {% for field in form.visible_fields %}
-                <td>
-                    {% render_field field class="form-control" %}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-            <tr id="{{ formset.prefix }}-empty" class="d-none">
-                {% for field in formset.empty_form.visible_fields %}
-                <td>
-                    {% render_field field class="form-control" %}
-                </td>
-                {% endfor %}
-            </tr>
-        </tbody>
-    </table>
+        {% for field in form.visible_fields %}
+        <td class="px-1" style="padding: 0.4rem">
+          {% render_field field class+="form-control form-control-sm" %}
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      <tr id="{{ formset.prefix }}-empty" class="d-none">
+        {% for field in formset.empty_form.visible_fields %}
+        <td>
+          {% render_field field class+="form-control form-control-sm" %}
+        </td>
+        {% endfor %}
+      </tr>
+    </tbody>
+  </table>
 </div>

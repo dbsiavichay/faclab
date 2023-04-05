@@ -1,13 +1,43 @@
 {% extends "base/base_form.html" %}
 
+{% load static %}
+
 {% block form %}
 {{ block.super }}
 
-<fieldset>
-  <legend class="font-weight-bold">Caracteristicas</legend>
-  <hr>
-  {% include "forms/formgroup.html" with field=form.type %}
-  {% include "forms/formgroup.html" with field=form.category %}
-  {% include "forms/formgroup.html" with field=form.measure %}
-</fieldset>
+<div class="divider divider-center divider-primary">
+  <div class="divider-text text-uppercase text-bold-600">Precio de compra</div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    {% include "forms/formgroup.html" with field=form.cost_price %}
+  </div>
+  <div class="col-md-6">
+    {% include "forms/formgroup.html" with field=form.cost_price_gross %}
+  </div>
+</div>
+
+<div class="divider divider-center divider-primary">
+  <div class="divider-text text-uppercase text-bold-600">Precios de venta</div>
+</div>
+
+{% include "forms/formset.html" with formset=pack_info.inlines.prices.formset headers=pack_info.inlines.prices.headers %}
+
+<div class="divider divider-center divider-primary">
+  <div class="divider-text text-uppercase text-bold-600">Información adicional</div>
+</div>
+
+{% include "forms/formgroup.html" with field=form.type %}
+{% include "forms/formgroup.html" with field=form.category %}
+{% include "forms/formgroup.html" with field=form.measure %}
+
 {% endblock %}
+
+{% block js %}
+    {{ block.super }}
+  
+    <script src="{% static 'assets/js/apps/warehouses-product.js' %}"></script>
+{% endblock %}
+
+

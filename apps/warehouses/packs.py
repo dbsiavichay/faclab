@@ -2,6 +2,7 @@ from faclab.base import BasePack
 from viewpack.decorators import register
 
 from .forms import ProductForm
+from .formsets import ProductPriceFormset
 
 
 @register("warehouses.ProductCategory")
@@ -19,6 +20,7 @@ class MeasurePack(BasePack):
 @register("warehouses.Product")
 class ProductPack(BasePack):
     form_class = ProductForm
+    inlines = {"prices": ProductPriceFormset}
     form_template_name = None
     list_fields = ("code", "name", "short_name")
     detail_fields = (

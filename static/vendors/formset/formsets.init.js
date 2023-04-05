@@ -3,7 +3,7 @@ const renderFormset = (prefix, addText = "Añadir Nuevo Item", additionalFunctio
     prefix: prefix,
     addText: `<i class="bx bx-plus"></i> ${addText}`,
     addCssClass: "btn btn-success add-row",
-    deleteCssClass: "btn btn-danger delete-row",
+    deleteCssClass: "btn btn-icon btn-danger rounded-circle delete-row",
     deleteText: "<i class=\"bx bx-x\"></i>",
     added: function ($row) {
       additionalFunction($row)

@@ -1,3 +1,5 @@
+from functools import cached_property
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from tree_queries.models import TreeNode
@@ -53,6 +55,18 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @cached_property
+    def cost_price(self):
+        cost = self.prices.filter(type=PriceTypes.PURCHASE).first()
+
+        return cost.amount if cost else 0
+
+    @cached_property
+    def cost_price_gross(self):
+        cost = self.cost_price
+
+        return round(cost * 1.12, 2)
 
 
 class Price(models.Model):

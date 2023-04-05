@@ -101,6 +101,9 @@ class ModelPack:
                 "The 'default_labels' must be an instance of dict"
             )
 
+        if not isinstance(self.inlines, dict):
+            raise ImproperlyConfigured("The 'inlines' must be an instance of dict")
+
         self.model = model
 
         for key, value in kwargs.items():

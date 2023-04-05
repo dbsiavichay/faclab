@@ -8,10 +8,9 @@ def get_base_view(ClassView, mixins, pack):
                 "model_name": self.model._meta.model_name,
             }
 
-            if "pack" in context:
-                context["pack"].update(config)
-            else:
-                context.update({"pack": config})
+            pack_info = context.get("pack_info", {})
+            pack_info.update(config)
+            context["pack_info"] = pack_info
 
             return context
 

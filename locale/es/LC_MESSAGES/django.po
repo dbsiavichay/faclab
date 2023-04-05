@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-03 21:10+0000\n"
+"POT-Creation-Date: 2023-04-05 02:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -163,6 +163,18 @@ msgstr "compra"
 #: apps/warehouses/enums.py:12
 msgid "sale"
 msgstr "venta"
+
+#: apps/warehouses/forms.py:11 apps/warehouses/forms.py:43
+msgid "price net"
+msgstr "precio sin IVA"
+
+#: apps/warehouses/forms.py:14 apps/warehouses/forms.py:31
+msgid "price gross"
+msgstr "precio con IVA"
+
+#: apps/warehouses/forms.py:32
+msgid "percent revenue"
+msgstr "porcentaje de utilidad"
 
 #: apps/warehouses/models.py:9 apps/warehouses/models.py:17
 #: apps/warehouses/models.py:25
