@@ -78,3 +78,14 @@ class Price(models.Model):
     product = models.ForeignKey(
         "warehouses.Product", on_delete=models.CASCADE, related_name="prices"
     )
+
+    @cached_property
+    def gross_amount(self):
+        if self.amount:
+            return round(self.amount * 1.12, 5)
+
+    @cached_property
+    def percent_revenue(self):
+        if self.amount and self.revenue:
+            cost = self.amount - self.revenue
+            return round((self.revenue * 100) / cost, 5)

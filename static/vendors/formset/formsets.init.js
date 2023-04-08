@@ -1,4 +1,4 @@
-const renderFormset = (prefix, addText = "Añadir Nuevo Item", additionalFunction = () => {}) => {
+const renderFormset = (prefix, addText = "Nuevo", additionalFunction = () => {}) => {
   $(`.inline.${prefix}`).formset({
     prefix: prefix,
     addText: `<i class="bx bx-plus"></i> ${addText}`,
@@ -11,11 +11,20 @@ const renderFormset = (prefix, addText = "Añadir Nuevo Item", additionalFunctio
   })
 }
 
+let formsetCallbackAdd = row => {
+    initSelect2(row)
+}
+
+
+let initFormset = () => {
+  const formsets = document.querySelectorAll('.inline-group');
+  for (let i = 0; i < formsets.length; i++) {
+    const prefix = formsets[i].dataset.prefix
+    renderFormset(prefix, 'Agregar elemento', formsetCallbackAdd)
+  }
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
-  const formsets = document.querySelectorAll('.inline-group');
-  for (let i=0;i<formsets.length;i++){
-    const prefix = formsets[i].dataset.prefix
-    renderFormset(prefix, 'Agregar elemento', initSelect2)
-  }
+  initFormset()
 });

@@ -40,22 +40,16 @@ class InlineMixin:
             for name, inline_class in self.pack.inlines.items()
         }
 
-    def post(self, request, *args, **kwargs):
-        # self.object = self.get_object() if self.action == "update" else None
-        self.object = self.get_object()
-        form = self.get_form()
+    def form_valid(self, form):
         inlines = self.get_inlines().values()
-        form.inlines = inlines
 
-        if form.is_valid() and all([inline.is_valid() for inline in inlines]):
-            return self.form_valid(form)
-        else:
+        if any([not inline.is_valid() for inline in inlines]):
+            form.inlines = inlines
             return self.form_invalid(form)
 
-    def form_valid(self, form):
         self.object = form.save()
 
-        for inline in form.inlines:
+        for inline in inlines:
             inline.instance = self.object
             inline.save()
 

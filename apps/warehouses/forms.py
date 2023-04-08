@@ -30,18 +30,20 @@ class ProductForm(ModelForm):
         return super().get_initial_for_field(field, field_name)
 
     def save(self, commit=True):
-        obj = super().save(commit=True)
+        obj = super().save(commit=False)
 
-        price = obj.prices.filter(type=PriceTypes.PURCHASE).first()
-        cost_price = self.cleaned_data.get("cost_price")
+        if commit:
+            obj.save()
+            price = obj.prices.filter(type=PriceTypes.PURCHASE).first()
+            cost_price = self.cleaned_data.get("cost_price")
 
-        if price:
-            price.amount = cost_price
-            price.save(update_fields=["amount"])
-        else:
-            Price.objects.create(
-                type=PriceTypes.PURCHASE, amount=cost_price, revenue=0, product=obj
-            )
+            if price:
+                price.amount = cost_price
+                price.save(update_fields=["amount"])
+            else:
+                Price.objects.create(
+                    type=PriceTypes.PURCHASE, amount=cost_price, revenue=0, product=obj
+                )
 
         return obj
 
@@ -56,3 +58,18 @@ class PriceForm(ModelForm):
         model = Price
         fields = ("amount", "gross_amount", "percent_revenue", "revenue")
         labels = {"amount": _("price net")}
+
+    def get_initial_for_field(self, field, field_name):
+        if field_name in ("gross_amount", "percent_revenue"):
+            return getattr(self.instance, field_name, None)
+
+        return super().get_initial_for_field(field, field_name)
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        obj.type = PriceTypes.SALE
+
+        if commit:
+            obj.save()
+
+        return obj
