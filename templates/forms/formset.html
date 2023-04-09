@@ -18,7 +18,7 @@
 
         {% for field in form.visible_fields %}
         <td class="px-1" style="padding: 0.4rem">
-          {% render_field field class+="form-control form-control-sm" %}
+          {% include "forms/inputs/"|add:field.widget_type|add:".html" with field=field %}
         </td>
         {% endfor %}
       </tr>
@@ -26,7 +26,7 @@
       <tr id="{{ formset.prefix }}-empty" class="d-none">
         {% for field in formset.empty_form.visible_fields %}
         <td>
-          {% render_field field class+="form-control form-control-sm" %}
+          {% include "forms/inputs/"|add:field.widget_type|add:".html" with field=field %}
         </td>
         {% endfor %}
       </tr>

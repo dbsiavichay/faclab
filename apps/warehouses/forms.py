@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
+from faclab.base import PercentInput, PriceInput
 from viewpack.forms import ModelForm
 
 from .enums import PriceTypes
@@ -8,8 +9,8 @@ from .models import Price, Product
 
 
 class ProductForm(ModelForm):
-    cost_price = forms.FloatField(label=_("price net"))
-    cost_price_gross = forms.FloatField(label=_("price gross"))
+    cost_price = forms.FloatField(widget=PriceInput, label=_("price net"))
+    cost_price_gross = forms.FloatField(widget=PriceInput, label=_("price gross"))
 
     class Meta:
         model = Product
@@ -49,15 +50,16 @@ class ProductForm(ModelForm):
 
 
 class PriceForm(ModelForm):
-    gross_amount = forms.FloatField(label=_("price gross"))
+    gross_amount = forms.FloatField(widget=PriceInput, label=_("price gross"))
     percent_revenue = forms.FloatField(
-        min_value=0, max_value=100, label=_("percent revenue")
+        min_value=0, max_value=100, widget=PercentInput, label=_("percent revenue")
     )
 
     class Meta:
         model = Price
         fields = ("amount", "gross_amount", "percent_revenue", "revenue")
         labels = {"amount": _("price net")}
+        widgets = {"amount": PriceInput, "revenue": PriceInput}
 
     def get_initial_for_field(self, field, field_name):
         if field_name in ("gross_amount", "percent_revenue"):

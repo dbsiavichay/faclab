@@ -22,6 +22,7 @@ class ProductPack(BasePack):
     form_class = ProductForm
     inlines = {"prices": ProductPriceFormset}
     form_template_name = None
+    detail_template_name = None
     list_fields = ("code", "name", "short_name")
     detail_fields = (
         "code",
