@@ -19,11 +19,11 @@ const addIvaEvents = (netInput, grossInput, revenuePercentInput=null, revenueInp
         }
     }
 
-    netInput.addEventListener("keyup", event => {
+    $(netInput).on("change", event => {
        setPrices(event);
     })
 
-    grossInput.addEventListener("keyup", event => {
+    $(grossInput).on("change", event => {
         let price = event.currentTarget.value;
         let netPrice = price / (ivaRate + 1);
         netInput.value = netPrice.toFixed(5);
@@ -31,7 +31,7 @@ const addIvaEvents = (netInput, grossInput, revenuePercentInput=null, revenueInp
     });   
 
     if (revenuePercentInput) {
-        revenuePercentInput.addEventListener("keyup", event => {
+        $(revenuePercentInput).on("change", event => {
             let costNet = parseFloat(costNetInput.value) || 0;
             let percent = (event.currentTarget.value/100) + 1;
             let priceNet = costNet * percent;
@@ -41,7 +41,7 @@ const addIvaEvents = (netInput, grossInput, revenuePercentInput=null, revenueInp
     }
 
     if (revenueInput) {
-        revenueInput.addEventListener("keyup", event => {
+        $(revenueInput).on("change", event => {
             let costNet = parseFloat(costNetInput.value) || 0;
             let revenue = parseFloat(event.currentTarget.value);
             let priceNet = costNet + revenue;
@@ -54,6 +54,7 @@ const addIvaEvents = (netInput, grossInput, revenuePercentInput=null, revenueInp
 
 formsetCallbackAdd = row => {
     initSelect2(row)
+    initTouchspin(row)
     let net = row[0].querySelector('[id$=-amount]');
     let gross = row[0].querySelector('[id$=-gross_amount]');
     let percent = row[0].querySelector('[id$=-percent_revenue]');

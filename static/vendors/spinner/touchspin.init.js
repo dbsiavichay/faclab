@@ -1,19 +1,7 @@
-/*=========================================================================================
-	File Name: input-groups.js
-	Description: Input Groups js
-	----------------------------------------------------------------------------------------
-	Item Name: Frest HTML Admin Template
-	Version: 1.0
-	Author: PIXINVENT
-	Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
+const initTouchspin = function (selector) {
+  let elem = selector ? $(selector) : $(document)
 
-(function (window, document, $) {
-  'use strict';
-  var $html = $('html');
-
-
-  $(".touchspin-price").TouchSpin({
+  elem.find(".touchspin-price").TouchSpin({
     buttondown_class: "btn btn-primary",
     buttonup_class: "btn btn-primary",
     max: 9000000000,
@@ -22,7 +10,7 @@
     prefix: "$"
   });
 
-  $(".touchspin-percent").TouchSpin({
+  elem.find(".touchspin-percent").TouchSpin({
     buttondown_class: "btn btn-primary",
     buttonup_class: "btn btn-primary",
     max: 100,
@@ -30,5 +18,9 @@
     decimals: 2,
     postfix: "%"
   });
+}
 
-})(window, document, jQuery);
+
+document.addEventListener("DOMContentLoaded", function () {
+  initTouchspin();
+});
