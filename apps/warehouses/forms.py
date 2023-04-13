@@ -25,8 +25,13 @@ class ProductForm(ModelForm):
         widgets = {"type": forms.RadioSelect}
 
     def get_initial_for_field(self, field, field_name):
-        if field_name in ("cost_price", "cost_price_gross"):
-            return getattr(self.instance, field_name, None)
+        if field_name == "cost_price":
+            cost_price = getattr(self.instance, "cost_price", None)
+            return cost_price.amount if cost_price else 0
+
+        if field_name == "cost_price_gross":
+            cost_price = getattr(self.instance, "cost_price", None)
+            return cost_price.gross_amount if cost_price else 0
 
         return super().get_initial_for_field(field, field_name)
 
