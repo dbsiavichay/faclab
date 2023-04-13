@@ -1,2 +1,50 @@
 {% extends "base/base_detail.html" %}
 
+{% block detail %}
+  {% include "detail/fieldset.html" with fieldset=pack_info.bs_fieldsets.0 %}
+
+  <div class="divider divider-center divider-primary">
+    <div class="divider-text text-uppercase text-bold-600">Precio de compra</div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Precio sin IVA</label>
+        {% include "detail/fields/charfield.html" with value=object.cost_price.amount %}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Precio con IVA</label>
+        {% include "detail/fields/charfield.html" with value=object.cost_price.gross_amount %}
+      </div>
+    </div>
+  </div>
+
+  <div class="divider divider-center divider-primary">
+    <div class="divider-text text-uppercase text-bold-600">Precios de venta</div>
+  </div>
+
+
+  <table class="table table-bordered mb-0">
+    <thead>
+      <th>Precio sin IVA</th>
+      <th>Precio con IVA</th>
+      <th>Porcentaje de utilidad</th>
+      <th>Utilidad</th>
+    </thead>
+    <tbody>
+      {% for price in object.sale_prices %}
+      <tr>
+        <td>${{ price.amount }}</td>
+        <td>${{ price.gross_amount }}</td>
+        <td>{{ price.percent_revenue }}%</td>
+        <td>${{ price.revenue }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include "detail/fieldset.html" with fieldset=pack_info.bs_fieldsets.1 %}
+{% endblock %}

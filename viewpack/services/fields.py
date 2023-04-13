@@ -33,8 +33,12 @@ class FieldService:
         def wrap(fields):
             fields = fields if isinstance(fields, (list, tuple)) else (fields,)
             cols = int(12 / len(fields))
+            result = {field: fields_data.get(field) for field in fields}
 
-            return [fields_data.get(field).setdefault("cols", cols) for field in fields]
+            for value in result.values():
+                value.update({"cols": cols})
+
+            return result
 
         data = list(map(wrap, field_names))
 
@@ -97,6 +101,7 @@ class FieldService:
             internal_type = type(value).__name__
 
         label = self._get_field_label(large_field_name)
+        internal_type = internal_type.lower()
 
         return {"value": value, "label": label, "type": internal_type}
 

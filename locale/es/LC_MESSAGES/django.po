@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 02:19+0000\n"
+"POT-Creation-Date: 2023-04-13 22:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,67 +164,71 @@ msgstr "compra"
 msgid "sale"
 msgstr "venta"
 
-#: apps/warehouses/forms.py:11 apps/warehouses/forms.py:43
+#: apps/warehouses/forms.py:12 apps/warehouses/forms.py:61
 msgid "price net"
 msgstr "precio sin IVA"
 
-#: apps/warehouses/forms.py:14 apps/warehouses/forms.py:31
+#: apps/warehouses/forms.py:13 apps/warehouses/forms.py:53
 msgid "price gross"
 msgstr "precio con IVA"
 
-#: apps/warehouses/forms.py:32
+#: apps/warehouses/forms.py:55
 msgid "percent revenue"
 msgstr "porcentaje de utilidad"
 
-#: apps/warehouses/models.py:9 apps/warehouses/models.py:17
-#: apps/warehouses/models.py:25
+#: apps/warehouses/models.py:11 apps/warehouses/models.py:19
+#: apps/warehouses/models.py:27
 msgid "name"
 msgstr "nombre"
 
-#: apps/warehouses/models.py:16 apps/warehouses/models.py:24
+#: apps/warehouses/models.py:18 apps/warehouses/models.py:26
 msgid "code"
 msgstr "código"
 
-#: apps/warehouses/models.py:26
+#: apps/warehouses/models.py:28
 msgid "short name"
 msgstr "nombre corto"
 
-#: apps/warehouses/models.py:27
+#: apps/warehouses/models.py:29
 msgid "description"
 msgstr "descripción"
 
-#: apps/warehouses/models.py:28
+#: apps/warehouses/models.py:30
 msgid "is inventoried"
 msgstr "es inventariado"
 
-#: apps/warehouses/models.py:29
+#: apps/warehouses/models.py:31
 msgid "apply iva"
 msgstr "aplica IVA"
 
-#: apps/warehouses/models.py:30
+#: apps/warehouses/models.py:32
 msgid "apply ice"
 msgstr "aplica ICE"
 
-#: apps/warehouses/models.py:31
+#: apps/warehouses/models.py:33
 msgid "stock"
 msgstr "stock"
 
-#: apps/warehouses/models.py:37 apps/warehouses/models.py:60
+#: apps/warehouses/models.py:39 apps/warehouses/models.py:70
 msgid "type"
 msgstr "tipo"
 
-#: apps/warehouses/models.py:44
+#: apps/warehouses/models.py:46
 msgid "category"
 msgstr "categoria"
 
-#: apps/warehouses/models.py:51
+#: apps/warehouses/models.py:53
 msgid "unit of measure"
 msgstr "unidad de medida"
 
-#: apps/warehouses/models.py:62
+#: apps/warehouses/models.py:72
 msgid "amount"
 msgstr "monto"
 
-#: apps/warehouses/models.py:63
+#: apps/warehouses/models.py:73
 msgid "revenue"
 msgstr "utilidad"
+
+#: apps/warehouses/packs.py:30
+msgid "additional information"
+msgstr "información adicional"

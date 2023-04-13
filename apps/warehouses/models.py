@@ -58,15 +58,11 @@ class Product(models.Model):
 
     @cached_property
     def cost_price(self):
-        cost = self.prices.filter(type=PriceTypes.PURCHASE).first()
-
-        return cost.amount if cost else 0
+        return self.prices.filter(type=PriceTypes.PURCHASE).first()
 
     @cached_property
-    def cost_price_gross(self):
-        cost = self.cost_price
-
-        return round(cost * 1.12, 2)
+    def sale_prices(self):
+        return self.prices.filter(type=PriceTypes.SALE)
 
 
 class Price(models.Model):

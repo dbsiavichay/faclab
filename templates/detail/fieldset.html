@@ -1,0 +1,17 @@
+{% if fieldset.title %}
+<div class="divider divider-center divider-primary">
+  <div class="divider-text text-uppercase text-bold-600">{{ fieldset.title }}</div>
+</div>
+{% endif %}
+{% for row in fieldset.fieldset %}
+<div class="row">
+  {% for field in row.values %}
+  <div class="col-md-{{ field.cols }}">
+    <div class="form-group">
+      <label>{{ field.label|capfirst }}</label>
+      {% include "detail/fields/"|add:field.type|add:".html" with value=field.value %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}

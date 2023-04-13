@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+
 from faclab.base import BasePack
 from viewpack.decorators import register
 
@@ -24,15 +26,7 @@ class ProductPack(BasePack):
     form_template_name = None
     detail_template_name = None
     list_fields = ("code", "name", "short_name")
-    detail_fields = (
-        "code",
-        "name",
-        "short_name",
-        "description",
-        "is_inventoried",
-        "apply_iva",
-        "apply_ice",
-        "type",
-        "category",
-        "measure",
-    )
+    detail_fields = {
+        "": ProductForm.Meta.fieldsets,
+        _("additional information"): ("type", "category", "measure"),
+    }

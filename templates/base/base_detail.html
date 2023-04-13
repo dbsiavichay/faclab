@@ -1,53 +1,45 @@
 {% extends 'base/base.html' %}
 
-
 {% block content %}
 <div class="card">
-    <div class="card-header"><h3>{{ object|capfirst }}</h3></div>
-    <div class="card-body">
-        {% block detail %}
-        {% for field in pack_info.fields.values %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>{{ field.label|capfirst }}</label>
-                    <input class="form-control" type="text" value="{{ field.value|default_if_none:'' }}" readonly>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
+  <div class="card-header"><h3>{{ object|capfirst }}</h3></div>
+  <div class="card-body">
+    {% block detail %}
+      {% for fieldset in pack_info.bs_fieldsets %}
+        {% include "detail/fieldset.html" with fieldset=fieldset %}
+      {% endfor %}
+    {% endblock %}
+      
+    <div class="row mt-3">
+      <div class="col-12">
+        {% block buttons %}
+        <a class="btn btn-primary default mr-1 mb-1" href="{{ pack_info.paths.create }}">Nuevo</a>
+        <a class="btn btn-secondary default mr-1 mb-1" href="{{ pack_info.paths.update }}">Editar</a>
+        <a class="btn btn-danger default mr-1 mb-1" href="{{ pack_info.paths.delete }}">Eliminar</a>
         {% endblock %}
-        
-        <div class="row mt-3">
-            <div class="col-12">
-                {% block buttons %}
-                <a class="btn btn-primary default mr-1 mb-1" href="{{ pack_info.paths.create }}">Nuevo</a>
-                <a class="btn btn-secondary default mr-1 mb-1" href="{{ pack_info.paths.update }}">Editar</a>
-                <a class="btn btn-danger default mr-1 mb-1" href="{{ pack_info.paths.delete }}">Eliminar</a>
-                {% endblock %}
-            </div>
-        </div>
-
-        <hr>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Creación</label>
-                    <p class="form-control-static">
-                        {{ object.created_date|default_if_none:"" }} <strong>por</strong> {{ object.created_user|default_if_none:"" }}
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Ultima modificación</label>
-                    <p class="form-control-static">
-                        {{ object.modified_date|default_if_none:"" }} <strong>por</strong> {{ object.modified_user|default_if_none:"" }} 
-                    </p>
-                </div>
-            </div>
-        </div>
-        <hr>
+      </div>
     </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Creación</label>
+          <p class="form-control-static">
+            {{ object.created_date|default_if_none:"" }} <strong>por</strong> {{ object.created_user|default_if_none:"" }}
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Ultima modificación</label>
+          <p class="form-control-static">
+            {{ object.modified_date|default_if_none:"" }} <strong>por</strong> {{ object.modified_user|default_if_none:"" }} 
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
 </div>
 {% endblock %}
