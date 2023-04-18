@@ -49,7 +49,7 @@ LIBRARY_APPS = [
 
 LOCAL_APPS = [
     "apps.accounts",
-    "apps.customers",
+    "apps.sales",
     "apps.sites",
     "apps.warehouses",
 ]

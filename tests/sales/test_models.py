@@ -3,14 +3,14 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.forms.models import model_to_dict
 
-from apps.customers.enums import CodeTypes
-from apps.customers.models import Customer
-from apps.customers.validators import code_validator
+from apps.sales.enums import CodeTypes
+from apps.sales.models import Customer
+from apps.sales.validators import code_validator
 
 
 class TestCustomer:
     def test_settings(self):
-        assert "apps.customers" in settings.INSTALLED_APPS
+        assert "apps.sales" in settings.INSTALLED_APPS
 
     @pytest.mark.django_db
     def test_customer_create(self):

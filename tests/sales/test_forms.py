@@ -1,9 +1,9 @@
 import pytest
 from django.forms.models import model_to_dict
 
-from apps.customers.enums import CodeTypes
-from apps.customers.forms import CustomerForm
-from apps.customers.models import Customer
+from apps.sales.enums import CodeTypes
+from apps.sales.forms import CustomerForm
+from apps.sales.models import Customer
 
 
 class TestCustomerForm:
