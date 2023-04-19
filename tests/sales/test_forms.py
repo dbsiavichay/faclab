@@ -2,13 +2,13 @@ import pytest
 from django.forms.models import model_to_dict
 
 from apps.sales.forms import CustomerForm
-from apps.sales.models import Customer, CustomerCodeType
+from apps.sales.models import Customer
 
 
 class TestCustomerForm:
     @pytest.mark.django_db
-    def test_customer_create(self):
-        code_type = CustomerCodeType.objects.first()
+    def test_customer_create(self, customer_code_types):
+        code_type = customer_code_types.first()
         data = {
             "code_type": code_type.id,
             "code": "0941531600001",
@@ -28,8 +28,8 @@ class TestCustomerForm:
         [("04", "0941531600"), ("05", "0941531600001"), ("05", "0941531500001")],
     )
     @pytest.mark.django_db
-    def test_customer_create_invalid(self, code_type, code):
-        code_type = CustomerCodeType.objects.get(code=code_type)
+    def test_customer_create_invalid(self, code_type, code, customer_code_types):
+        code_type = customer_code_types.get(code=code_type)
         data = {
             "code_type": code_type.id,
             "code": code,

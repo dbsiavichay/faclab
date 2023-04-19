@@ -13,7 +13,7 @@ class TestCustomerCodeType:
 
     @pytest.mark.django_db
     def test_customer_code_type_create(self):
-        data = {"code": "09", "name": "Test", "length": 10}
+        data = {"code": "04", "name": "Test", "length": 10}
         code_type = CustomerCodeType.objects.create(**data)
 
         assert isinstance(code_type, CustomerCodeType)
@@ -22,8 +22,8 @@ class TestCustomerCodeType:
 
 class TestCustomer:
     @pytest.mark.django_db
-    def test_customer_create(self):
-        code_type = CustomerCodeType.objects.first()
+    def test_customer_create(self, customer_code_types):
+        code_type = customer_code_types.first()
 
         data = {
             "code_type": code_type,
