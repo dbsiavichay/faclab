@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-13 22:03+0000\n"
+"POT-Creation-Date: 2023-04-19 20:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,103 +54,136 @@ msgstr "productos"
 msgid "warehouses"
 msgstr "bodegas"
 
-#: apps/customers/enums.py:6
-msgid "charter"
-msgstr "Cédula"
-
-#: apps/customers/enums.py:7 apps/sites/forms.py:12
-msgid "ruc"
-msgstr "Ruc"
-
-#: apps/customers/enums.py:8
-msgid "passport"
-msgstr "Pasaporte"
-
-#: apps/customers/enums.py:9
-msgid "foreign identification"
-msgstr "Identificación del exterior"
-
-#: apps/customers/forms.py:26
+#: apps/sales/forms.py:31
 #, python-format
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
-#: apps/customers/models.py:13
-msgid "code type"
-msgstr "tipo de identificación"
-
-#: apps/customers/models.py:19
+#: apps/sales/models/customers.py:18
 msgid "identification"
 msgstr "identificación"
 
-#: apps/customers/models.py:22
+#: apps/sales/models/customers.py:21
 msgid "first name"
 msgstr "nombres"
 
-#: apps/customers/models.py:25
+#: apps/sales/models/customers.py:24
 msgid "last name"
 msgstr "apellidos"
 
-#: apps/customers/models.py:27
+#: apps/sales/models/customers.py:26
 msgid "bussiness name"
 msgstr "razón social"
 
-#: apps/customers/models.py:28
+#: apps/sales/models/customers.py:27
 msgid "address"
 msgstr "dirección"
 
-#: apps/customers/models.py:30
+#: apps/sales/models/customers.py:29
 msgid "phone"
 msgstr "teléfono"
 
-#: apps/customers/models.py:32
+#: apps/sales/models/customers.py:31
 msgid "email"
 msgstr "correo electrónico"
 
-#: apps/customers/validators.py:6
+#: apps/sales/models/customers.py:33
+msgid "code type"
+msgstr "tipo de identificación"
+
+#: apps/sales/models/invoices.py:6
+msgid "date"
+msgstr "fecha"
+
+#: apps/sales/models/invoices.py:8 apps/sales/models/invoices.py:19
+#: apps/sales/models/invoices.py:20
+msgid "subtotal"
+msgstr "subtotal"
+
+#: apps/sales/models/invoices.py:9 apps/sales/models/invoices.py:10
+msgid "tax"
+msgstr "iva"
+
+#: apps/sales/models/invoices.py:12
+msgid "customer"
+msgstr "cliente"
+
+#: apps/sales/models/invoices.py:17
+msgid "quantity"
+msgstr "cantidad"
+
+#: apps/sales/models/invoices.py:18
+msgid "unit price"
+msgstr "precio unitario"
+
+#: apps/sales/models/invoices.py:22 apps/warehouses/enums.py:6
+msgid "product"
+msgstr "producto"
+
+#: apps/sales/validators.py:6
 #, python-format
 msgid "%(value)s is not a valid value"
 msgstr "%(value)s no es un valor válido"
 
-#: apps/sites/forms.py:14
+#: apps/sites/enums.py:6
+msgid "testing"
+msgstr "pruebas"
+
+#: apps/sites/enums.py:7
+msgid "production"
+msgstr "producción"
+
+#: apps/sites/enums.py:11
+msgid "normal"
+msgstr "normal"
+
+#: apps/sites/forms.py:16
+msgid "ruc"
+msgstr "Ruc"
+
+#: apps/sites/forms.py:18
 msgid "company name"
 msgstr "razón social"
 
-#: apps/sites/forms.py:15
+#: apps/sites/forms.py:19
 msgid "trade name"
 msgstr "nombre comercial"
 
-#: apps/sites/forms.py:16
+#: apps/sites/forms.py:20
 msgid "main address"
 msgstr "dirección matriz"
 
-#: apps/sites/forms.py:17
+#: apps/sites/forms.py:21
 msgid "company address"
 msgstr "dirección de establecimiento"
 
-#: apps/sites/forms.py:18
+#: apps/sites/forms.py:22
 msgid "company code"
 msgstr "código de establecimiento"
 
-#: apps/sites/forms.py:20
+#: apps/sites/forms.py:24
 msgid "company point sale code"
 msgstr "código de punto de emisión"
 
-#: apps/sites/forms.py:23
+#: apps/sites/forms.py:27
 msgid "special taxpayer resolution"
 msgstr "contribuyente especial (Nro de resolución)"
 
-#: apps/sites/forms.py:26
+#: apps/sites/forms.py:30
 msgid "withholding agent resolution"
 msgstr "agente de retención (Nro de resolución)"
 
-#: apps/sites/forms.py:29
+#: apps/sites/forms.py:33
 msgid "accounting required"
 msgstr "obligado a llevar contabilidad"
 
-#: apps/warehouses/enums.py:6
-msgid "product"
-msgstr "producto"
+#: apps/sites/forms.py:38
+msgid "type of environment"
+msgstr "tipo de ambiente"
+
+#: apps/sites/forms.py:41
+msgid "type of emission"
+msgstr "tipo de emisión"
 
 #: apps/warehouses/enums.py:7
 msgid "service"
@@ -164,15 +197,15 @@ msgstr "compra"
 msgid "sale"
 msgstr "venta"
 
-#: apps/warehouses/forms.py:12 apps/warehouses/forms.py:61
+#: apps/warehouses/forms.py:12 apps/warehouses/forms.py:66
 msgid "price net"
 msgstr "precio sin IVA"
 
-#: apps/warehouses/forms.py:13 apps/warehouses/forms.py:53
+#: apps/warehouses/forms.py:13 apps/warehouses/forms.py:58
 msgid "price gross"
 msgstr "precio con IVA"
 
-#: apps/warehouses/forms.py:55
+#: apps/warehouses/forms.py:60
 msgid "percent revenue"
 msgstr "porcentaje de utilidad"
 
@@ -229,6 +262,6 @@ msgstr "monto"
 msgid "revenue"
 msgstr "utilidad"
 
-#: apps/warehouses/packs.py:30
+#: apps/warehouses/packs.py:31
 msgid "additional information"
 msgstr "información adicional"

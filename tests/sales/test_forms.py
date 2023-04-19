@@ -1,17 +1,17 @@
 import pytest
 from django.forms.models import model_to_dict
 
-from apps.sales.enums import CodeTypes
 from apps.sales.forms import CustomerForm
-from apps.sales.models import Customer
+from apps.sales.models import Customer, CustomerCodeType
 
 
 class TestCustomerForm:
     @pytest.mark.django_db
     def test_customer_create(self):
+        code_type = CustomerCodeType.objects.first()
         data = {
-            "code_type": CodeTypes.CHARTER,
-            "code": "0941531600",
+            "code_type": code_type.id,
+            "code": "0941531600001",
             "bussiness_name": "test",
             "email": "test@test.com",
         }
@@ -25,12 +25,13 @@ class TestCustomerForm:
 
     @pytest.mark.parametrize(
         "code_type, code",
-        [(CodeTypes.CHARTER, "0941531600001"), (CodeTypes.RUC, "0941531600")],
+        [("04", "0941531600"), ("05", "0941531600001"), ("05", "0941531500001")],
     )
     @pytest.mark.django_db
     def test_customer_create_invalid(self, code_type, code):
+        code_type = CustomerCodeType.objects.get(code=code_type)
         data = {
-            "code_type": code_type,
+            "code_type": code_type.id,
             "code": code,
             "bussiness_name": "test",
             "email": "test@test.com",

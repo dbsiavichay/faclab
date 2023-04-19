@@ -1,6 +1,7 @@
 import pytest
 from django.forms.models import model_to_dict
 
+from apps.sites.enums import Emissions, Environments
 from apps.sites.forms import ConfigForm
 from apps.sites.models import Config
 
@@ -19,6 +20,8 @@ class TestConfigForm:
             "special_taxpayer_resolution": "test",
             "withholding_agent_resolution": "test",
             "accounting_required": False,
+            "environment": str(Environments.TESTING),
+            "emission": str(Emissions.NORMAL),
         }
         form = ConfigForm(data)
         config = form.save()

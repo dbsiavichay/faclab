@@ -1,20 +1,19 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .enums import CodeTypes
-from .validators import code_validator
 
-User = get_user_model()
+class CustomerCodeType(models.Model):
+    code = models.CharField(max_length=2, unique=True)
+    name = models.CharField(max_length=32)
+    length = models.PositiveSmallIntegerField()
+
+    def __str__(self):
+        return self.name
 
 
 class Customer(models.Model):
-    code_type = models.CharField(
-        choices=CodeTypes.choices, max_length=4, verbose_name=_("code type")
-    )
     code = models.CharField(
         max_length=16,
-        validators=[code_validator],
         unique=True,
         verbose_name=_("identification"),
     )
@@ -30,6 +29,9 @@ class Customer(models.Model):
         max_length=16, blank=True, null=True, verbose_name=_("phone")
     )
     email = models.EmailField(verbose_name=_("email"))
+    code_type = models.ForeignKey(
+        "sales.CustomerCodeType", on_delete=models.PROTECT, verbose_name=_("code type")
+    )
 
     def __str__(self):
         return self.bussiness_name

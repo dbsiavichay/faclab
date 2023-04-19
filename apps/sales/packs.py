@@ -8,4 +8,4 @@ from .forms import CustomerForm
 class CustomerPack(BasePack):
     form_class = CustomerForm
     list_fields = ("code_type", "code", "bussiness_name")
-    # detail_fields = ("first_name",)
+    detail_fields = CustomerForm.Meta.fieldsets

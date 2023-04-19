@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 
-def code_validator(code):
+def customer_code_validator(code):
     error = ValidationError(_("%(value)s is not a valid value"), params={"value": code})
 
     if not isinstance(code, str) or not code.isdigit():

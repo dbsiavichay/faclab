@@ -3,14 +3,20 @@ from django.utils.translation import gettext_lazy as _
 
 from viewpack.forms import ModelForm
 
-from .enums import CodeTypes
 from .models import Customer
+from .validators import customer_code_validator
 
 
 class CustomerForm(ModelForm):
     class Meta:
         model = Customer
-        fields = "__all__"
+        fieldsets = (
+            ("code_type", "code"),
+            ("first_name", "last_name"),
+            "bussiness_name",
+            "address",
+            ("phone", "email"),
+        )
 
     def clean(self):
         cleaned_data = super().clean()
@@ -19,12 +25,14 @@ class CustomerForm(ModelForm):
 
         if code_type and code:
             long = len(code)
-            valids = {CodeTypes.CHARTER: 10, CodeTypes.RUC: 13}
 
-            if valids.get(code_type) != long:
+            if code_type.length != long:
                 raise ValidationError(
                     _("The code entered does not correspond to a %(code_type)s"),
-                    params={"code_type": CodeTypes(code_type).label.upper()},
+                    params={"code_type": code_type.name},
                 )
+
+            if code_type.code in ("04", "05"):
+                customer_code_validator(code)
 
         return cleaned_data
