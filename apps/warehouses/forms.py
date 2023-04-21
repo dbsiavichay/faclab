@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from faclab.base import PercentInput, PriceInput
+from faclab.widgets import PercentInput, PriceInput
 from viewpack.forms import ModelForm
 
 from .enums import PriceTypes

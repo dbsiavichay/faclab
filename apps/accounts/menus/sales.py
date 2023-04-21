@@ -9,6 +9,12 @@ submenu_items = [
         weight=20,
         icon="bx-right-arrow-alt",
     ),
+    MenuItem(
+        _("sales").capitalize(),
+        reverse("packs:sales_invoice_list"),
+        weight=20,
+        icon="bx-right-arrow-alt",
+    ),
 ]
 
 sales_item = MenuItem(

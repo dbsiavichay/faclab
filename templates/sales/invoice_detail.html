@@ -1,0 +1,70 @@
+{% extends "base/base_detail.html" %}
+
+{% block detail %}
+  {{ block.super }}
+
+  <div class="divider divider-center divider-primary">
+    <div class="divider-text text-uppercase text-bold-600">Detalle de factura</div>
+  </div>
+  
+  <table class="table table-bordered mb-0">
+    <thead>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Precio Unitario</th>
+      <th>Subtotal</th>
+    </thead>
+    <tbody>
+      {% for line in object.lines.all %}
+      <tr>
+        <td>{{ line.product }}</td>
+        <td>{{ line.quantity }}</td>
+				<td>${{ line.unit_price }}</td>
+        <td>${{ line.subtotal }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <hr>
+
+	<div class="pt-50">
+		<div class="row">
+			<div class="col-md-5 col-12">
+					<div class="form-group">
+							<input type="text" class="form-control" value="Partial Payment">
+					</div>
+					<div class="form-group">
+							<input type="text" class="form-control" value="Happy to give you a 10% discount.">
+					</div>
+			</div>
+			<div class="col-lg-5 col-md-7 offset-lg-2 col-12">
+				<ul class="list-group list-group-flush">
+						<li class="list-group-item d-flex justify-content-between border-0 pb-0">
+							<span>Subtotal</span>
+							<h6 class="invoice-subtotal mb-0">${{ object.subtotal|default_if_none:"0" }}</h6>
+						</li>
+						<li class="list-group-item d-flex justify-content-between border-0 pb-0">
+							<span>Descuento</span>
+							<h6 class="invoice-discount mb-0">- $0</h6>
+						</li>
+						<li class="list-group-item d-flex justify-content-between border-0 pb-0">
+							<span>IVA</span>
+							<h6 class="invoice-tax-rate mb-0">12%</h6>
+						</li>
+						<li class="list-group-item d-flex justify-content-between border-0 pb-0">
+							<span>Valor de IVA</span>
+							<h6 class="invoice-tax mb-0">${{ object.tax|default_if_none:"0" }}</h6>
+						</li>
+						<li class="list-group-item py-0 border-0 mt-25">
+								<hr>
+						</li>
+						<li class="list-group-item d-flex justify-content-between border-0 py-0">
+								<span>Total a pagar</span>
+								<h6 class="invoice-total mb-0">${{ object.total|default_if_none:"0" }}</h6>
+						</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

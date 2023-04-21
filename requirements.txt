@@ -1,5 +1,7 @@
 django==3.2.16
 django-environ==0.9.0
+django-redis==5.2.0
+django-select2==8.1.1
 django-simple-menu==2.1.1
 django-tree-queries==0.14.0
 django-widget-tweaks==1.4.12

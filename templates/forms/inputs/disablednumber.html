@@ -1,0 +1,9 @@
+{% extends './text.html' %}
+
+{% load widget_tweaks %}
+
+{% block input %}
+<div class="input-group input-group-sm disabled-touchspin">
+  {% render_field field class+="touchspin" disabled="true" %}
+</div>
+{% endblock %}

@@ -18,6 +18,12 @@ const initTouchspin = function (selector) {
     decimals: 2,
     postfix: "%"
   });
+
+  elem.find(".touchspin").TouchSpin({
+    buttondown_class: "btn btn-primary",
+    buttonup_class: "btn btn-primary",
+    max: 9000000000
+  });
 }
 
 

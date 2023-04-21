@@ -13,6 +13,7 @@ const renderFormset = (prefix, addText = "Nuevo", additionalFunction = () => {})
 
 let formsetCallbackAdd = row => {
     initSelect2(row)
+    initTouchspin(row)
 }
 
 

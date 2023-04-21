@@ -1,0 +1,64 @@
+{% extends "base/base_form.html" %}
+
+{% load static %}
+
+{% block form %}
+{{ block.super }}
+
+<div class="divider divider-center divider-primary">
+  <div class="divider-text text-uppercase text-bold-600">Detalle de venta</div>
+</div>
+
+{% include "forms/formset.html" with formset=pack_info.inlines.lines.formset headers=pack_info.inlines.lines.headers %}
+
+<hr>
+
+<div class="pt-50">
+  <div class="row">
+    <div class="col-md-5 col-12">
+        <div class="form-group">
+            <input type="text" class="form-control" value="Partial Payment">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" value="Happy to give you a 10% discount.">
+        </div>
+    </div>
+    <div class="col-lg-5 col-md-7 offset-lg-2 col-12">
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+            <span>Subtotal</span>
+            <h6 class="invoice-subtotal mb-0">${{ form.instance.subtotal|default_if_none:"0" }}</h6>
+          </li>
+          <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+            <span>Descuento</span>
+            <h6 class="invoice-discount mb-0">- $0</h6>
+          </li>
+          <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+            <span>IVA</span>
+            <h6 class="invoice-tax-rate mb-0">12%</h6>
+          </li>
+          <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+            <span>Valor de IVA</span>
+            <h6 class="invoice-tax mb-0">${{ form.instance.tax|default_if_none:"0" }}</h6>
+          </li>
+          <li class="list-group-item py-0 border-0 mt-25">
+              <hr>
+          </li>
+          <li class="list-group-item d-flex justify-content-between border-0 py-0">
+              <span>Total a pagar</span>
+              <h6 class="invoice-total mb-0">${{ form.instance.total|default_if_none:"0" }}</h6>
+          </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+  
+    <script src="{% static 'assets/js/apps/sales-invoice.js' %}"></script>
+{% endblock %}
+
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-19 20:43+0000\n"
+"POT-Creation-Date: 2023-04-21 03:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "configuración"
 msgid "customers"
 msgstr "clientes"
 
-#: apps/accounts/menus/sales.py:15
+#: apps/accounts/menus/sales.py:13 apps/accounts/menus/sales.py:21
 msgid "sales"
 msgstr "ventas"
 
@@ -54,7 +54,7 @@ msgstr "productos"
 msgid "warehouses"
 msgstr "bodegas"
 
-#: apps/sales/forms.py:31
+#: apps/sales/forms.py:32
 #, python-format
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
@@ -95,28 +95,35 @@ msgstr "tipo de identificación"
 msgid "date"
 msgstr "fecha"
 
-#: apps/sales/models/invoices.py:8 apps/sales/models/invoices.py:19
-#: apps/sales/models/invoices.py:20
+#: apps/sales/models/invoices.py:7
+msgid "number"
+msgstr "número"
+
+#: apps/sales/models/invoices.py:8 apps/sales/models/invoices.py:21
 msgid "subtotal"
 msgstr "subtotal"
 
-#: apps/sales/models/invoices.py:9 apps/sales/models/invoices.py:10
+#: apps/sales/models/invoices.py:9
 msgid "tax"
 msgstr "iva"
 
-#: apps/sales/models/invoices.py:12
+#: apps/sales/models/invoices.py:11 apps/sales/models/invoices.py:22
+msgid "total"
+msgstr "total"
+
+#: apps/sales/models/invoices.py:14
 msgid "customer"
 msgstr "cliente"
 
-#: apps/sales/models/invoices.py:17
+#: apps/sales/models/invoices.py:19
 msgid "quantity"
 msgstr "cantidad"
 
-#: apps/sales/models/invoices.py:18
+#: apps/sales/models/invoices.py:20
 msgid "unit price"
 msgstr "precio unitario"
 
-#: apps/sales/models/invoices.py:22 apps/warehouses/enums.py:6
+#: apps/sales/models/invoices.py:24 apps/warehouses/enums.py:6
 msgid "product"
 msgstr "producto"
 
