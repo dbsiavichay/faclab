@@ -22,6 +22,7 @@ class TestConfigForm:
             "accounting_required": False,
             "environment": str(Environments.TESTING),
             "emission": str(Emissions.NORMAL),
+            "iva_percent": 12,
         }
         form = ConfigForm(data)
         config = form.save()

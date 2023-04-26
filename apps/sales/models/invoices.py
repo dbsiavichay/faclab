@@ -10,7 +10,7 @@ class VoucherType(models.Model):
 
 
 class Invoice(models.Model):
-    date = models.DateField(verbose_name=_("date"))
+    date = models.DateField(auto_now_add=True, verbose_name=_("date"))
     company_code = models.CharField(max_length=3, verbose_name=_("company code"))
     company_point_sale_code = models.CharField(
         max_length=3, verbose_name=_("company point sale code")

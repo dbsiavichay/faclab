@@ -46,7 +46,7 @@ class CustomerForm(ModelForm):
 class InvoiceForm(ModelForm):
     class Meta:
         model = Invoice
-        fieldsets = (("customer", "date"),)
+        fieldsets = ("customer",)
         widgets = {
             "customer": Select2(
                 model="sales.Customer",
@@ -91,11 +91,8 @@ class InvoiceLineForm(ModelForm):
         }
 
     def save(self, commit=True):
-        config = SRIConfigService.get_sri_config()
         obj = super().save(commit=False)
-        obj.subtotal = obj.unit_price * obj.quantity
-        obj.tax = obj.subtotal * config.iva_rate
-        obj.total = obj.subtotal * config.iva_factor
+        InvoiceService.calculate_line_totals(obj)
 
         if commit:
             obj.save()
@@ -117,4 +114,6 @@ InvoiceLineFormset = forms.inlineformset_factory(
     form=InvoiceLineForm,
     formset=InvoiceLineInlineFormset,
     extra=1,
+    min_num=1,
+    validate_min=True,
 )

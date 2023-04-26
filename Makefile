@@ -29,7 +29,7 @@ run:
 	docker-compose run --rm -p 8000:8000 web
 
 runtests:
-	docker-compose run --rm web pytest --reuse-db --no-migrations
+	docker-compose run --rm web pytest --reuse-db --create-db --no-migrations
 
 shell:
 	docker-compose run --rm web python3 manage.py shell

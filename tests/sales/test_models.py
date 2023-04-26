@@ -1,9 +1,10 @@
 import pytest
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db.utils import DataError
 from django.forms.models import model_to_dict
 
-from apps.sales.models import Customer, CustomerCodeType
+from apps.sales.models import Customer, CustomerCodeType, Invoice, InvoiceLine
 from apps.sales.validators import customer_code_validator
 
 
@@ -65,3 +66,48 @@ class TestCustomer:
     def test_customer_code_validator_fail(self, code):
         with pytest.raises(ValidationError):
             customer_code_validator(code)
+
+
+class TestInvoice:
+    @pytest.mark.django_db
+    def test_invoice_create(self, customer, product, sri_config):
+        data = {
+            "company_code": "tst",
+            "company_point_sale_code": "tst",
+            "sequence": "tst",
+            "customer": customer,
+        }
+        invoice = Invoice.objects.create(**data)
+        data.update({"customer": customer.id})
+
+        assert isinstance(invoice, Invoice)
+        assert invoice.number == "tst-tst-tst"
+        assert data == model_to_dict(invoice, fields=data.keys())
+
+        line_data = {
+            "quantity": 1,
+            "unit_price": 100,
+            "product": product,
+            "invoice": invoice,
+            "subtotal": 100,
+            "tax": 12,
+            "total": 112,
+        }
+
+        line = InvoiceLine.objects.create(**line_data)
+        line.save()
+        line_data.update({"product": product.id, "invoice": invoice.id})
+
+        assert isinstance(line, InvoiceLine)
+        assert line_data == model_to_dict(line, fields=line_data.keys())
+
+    @pytest.mark.django_db
+    def test_invoice_create_fail(self, customer):
+        data = {
+            "company_code": "test",
+            "company_point_sale_code": "test",
+            "sequence": "test",
+            "customer": customer,
+        }
+        with pytest.raises(DataError):
+            Invoice.objects.create(**data)

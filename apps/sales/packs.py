@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+
 from faclab.base import BasePack
 from viewpack.decorators import register
 
@@ -24,3 +26,5 @@ class InvoicePack(BasePack):
     detail_fields = (("customer", "date"),)
     form_template_name = None
     detail_template_name = None
+
+    default_labels = {"number": _("number")}
