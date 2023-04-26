@@ -4,6 +4,11 @@ from viewpack.decorators import register
 from .forms import CustomerForm, InvoiceForm, InvoiceLineFormset
 
 
+@register("sales.VoucherType")
+class VoucherTypePack(BasePack):
+    list_fields = ("code", "name", "current", "ends")
+
+
 @register("sales.Customer")
 class CustomerPack(BasePack):
     form_class = CustomerForm

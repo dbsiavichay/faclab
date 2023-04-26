@@ -1,0 +1,9 @@
+{% extends './text.html' %}
+
+{% load widget_tweaks %}
+
+{% block field %}
+<div class="input-group">
+  {% render_field field class+="touchspin-percent" %}
+</div>
+{% endblock %}

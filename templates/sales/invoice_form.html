@@ -25,29 +25,29 @@
     </div>
     <div class="col-lg-5 col-md-7 offset-lg-2 col-12">
       <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex justify-content-between border-0 pb-0">
-            <span>Subtotal</span>
-            <h6 class="invoice-subtotal mb-0">${{ form.instance.subtotal|default_if_none:"0" }}</h6>
-          </li>
-          <li class="list-group-item d-flex justify-content-between border-0 pb-0">
-            <span>Descuento</span>
-            <h6 class="invoice-discount mb-0">- $0</h6>
-          </li>
-          <li class="list-group-item d-flex justify-content-between border-0 pb-0">
-            <span>IVA</span>
-            <h6 class="invoice-tax-rate mb-0">12%</h6>
-          </li>
-          <li class="list-group-item d-flex justify-content-between border-0 pb-0">
-            <span>Valor de IVA</span>
-            <h6 class="invoice-tax mb-0">${{ form.instance.tax|default_if_none:"0" }}</h6>
-          </li>
-          <li class="list-group-item py-0 border-0 mt-25">
-              <hr>
-          </li>
-          <li class="list-group-item d-flex justify-content-between border-0 py-0">
-              <span>Total a pagar</span>
-              <h6 class="invoice-total mb-0">${{ form.instance.total|default_if_none:"0" }}</h6>
-          </li>
+        <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+          <span>Subtotal</span>
+          <h6 class="invoice-subtotal mb-0">${{ form.instance.subtotal|default_if_none:"0" }}</h6>
+        </li>
+        <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+          <span>Descuento</span>
+          <h6 class="invoice-discount mb-0">- $0</h6>
+        </li>
+        <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+          <span>IVA</span>
+          <h6 class="invoice-tax-rate mb-0">12%</h6>
+        </li>
+        <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+          <span>Valor de IVA</span>
+          <h6 class="invoice-tax mb-0">${{ form.instance.tax|default_if_none:"0" }}</h6>
+        </li>
+        <li class="list-group-item py-0 border-0 mt-25">
+          <hr>
+        </li>
+        <li class="list-group-item d-flex justify-content-between border-0 py-0">
+          <span>Total a pagar</span>
+          <h6 class="invoice-total mb-0">${{ form.instance.total|default_if_none:"0" }}</h6>
+        </li>
       </ul>
     </div>
   </div>
@@ -60,5 +60,3 @@
   
     <script src="{% static 'assets/js/apps/sales-invoice.js' %}"></script>
 {% endblock %}
-
-

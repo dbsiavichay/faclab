@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from apps.sites.services import SRIConfigService
 from apps.warehouses.querysets import ProductQueryset
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
@@ -45,12 +46,32 @@ class CustomerForm(ModelForm):
 class InvoiceForm(ModelForm):
     class Meta:
         model = Invoice
-        fieldsets = (("customer", "date"), "number")
+        fieldsets = (("customer", "date"),)
         widgets = {
             "customer": Select2(
-                model="sales.Customer", search_fields=["code__icontains"]
+                model="sales.Customer",
+                search_fields=[
+                    "code__icontains",
+                    "first_name__icontains",
+                    "last_name__icontains",
+                ],
             )
         }
+
+    def save(self, commit=True):
+        config = SRIConfigService.get_sri_config()
+        obj = super().save(commit=False)
+        obj.company_code = config.company_code
+        obj.company_point_sale_code = config.company_point_sale_code
+
+        if not obj.sequence:
+            sequence = str(InvoiceService.get_sequence()).zfill(9)
+            obj.sequence = sequence
+
+        if commit:
+            obj.save()
+
+        return obj
 
 
 class InvoiceLineForm(ModelForm):
@@ -70,10 +91,11 @@ class InvoiceLineForm(ModelForm):
         }
 
     def save(self, commit=True):
+        config = SRIConfigService.get_sri_config()
         obj = super().save(commit=False)
         obj.subtotal = obj.unit_price * obj.quantity
-        obj.tax = obj.subtotal * 0.12
-        obj.total = obj.subtotal * 1.12
+        obj.tax = obj.subtotal * config.iva_rate
+        obj.total = obj.subtotal * config.iva_factor
 
         if commit:
             obj.save()

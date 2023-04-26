@@ -9,6 +9,12 @@ submenu_items = [
         weight=30,
         icon="bx-right-arrow-alt",
     ),
+    MenuItem(
+        _("vouchers").capitalize(),
+        reverse("packs:sales_vouchertype_list"),
+        weight=31,
+        icon="bx-right-arrow-alt",
+    ),
 ]
 
 config_item = MenuItem(

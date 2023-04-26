@@ -1,4 +1,4 @@
 from .customers import Customer, CustomerCodeType
-from .invoices import Invoice, InvoiceLine
+from .invoices import Invoice, InvoiceLine, VoucherType
 
-__all__ = ["Customer", "CustomerCodeType", "Invoice", "InvoiceLine"]
+__all__ = ["Customer", "CustomerCodeType", "Invoice", "InvoiceLine", "VoucherType"]

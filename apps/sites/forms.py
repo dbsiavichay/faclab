@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from apps.sales.validators import customer_code_validator
+from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm
 
 from .enums import Emissions, Environments
@@ -40,6 +41,7 @@ class ConfigForm(ModelForm):
     emission = forms.ChoiceField(
         choices=Emissions.choices, initial=Emissions.NORMAL, label=_("type of emission")
     )
+    iva_percent = forms.FloatField(widget=PercentInput, label=_("iva percent"))
 
     class Meta:
         model = Config
@@ -53,6 +55,7 @@ class ConfigForm(ModelForm):
             "withholding_agent_resolution",
             "accounting_required",
             ("environment", "emission"),
+            "iva_percent",
         )
 
     def save(self, commit=True):
