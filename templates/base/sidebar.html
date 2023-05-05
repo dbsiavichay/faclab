@@ -17,19 +17,6 @@
   <div class="shadow-bottom"></div>
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">
-      <li class=" nav-item">
-        <a href="index.html">
-          <i class="bx bx-home-alt"></i>
-          <span class="menu-title" data-i18n="Dashboard">Módulos</span>
-        </a>
-        <ul class="menu-content">
-          {% for menu in menu_tree %}
-          <li class="">
-            <a href="{{ menu.url }}"><i class="{{ menu.css_class }}"></i><span class="menu-item" data-i18n="eCommerce">{{ menu.name }}</span></a>
-          </li>
-          {% endfor %}
-        </ul>
-      </li>
       {% include "base/menu.html" with menulist=menus.main %}   
     </ul>
   </div>

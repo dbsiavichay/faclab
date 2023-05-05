@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-22 18:16+0000\n"
+"POT-Creation-Date: 2023-05-05 02:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,13 +58,29 @@ msgstr "productos"
 msgid "warehouses"
 msgstr "bodegas"
 
+#: apps/sales/enums.py:6
+msgid "generated"
+msgstr "generado"
+
+#: apps/sales/enums.py:7
+msgid "signed"
+msgstr "firmado"
+
+#: apps/sales/enums.py:8
+msgid "validated"
+msgstr "validado"
+
+#: apps/sales/enums.py:9
+msgid "authorized"
+msgstr "autorizado"
+
 #: apps/sales/forms.py:36
 #, python-format
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
-#: apps/sales/forms.py:59 apps/sales/models/invoices.py:14
-#: apps/sales/models/invoices.py:30
+#: apps/sales/forms.py:79 apps/sales/models/invoices.py:15
+#: apps/sales/models/invoices.py:48
 msgid "subtotal"
 msgstr "subtotal"
 
@@ -100,60 +116,80 @@ msgstr "correo electrónico"
 msgid "code type"
 msgstr "tipo de identificación"
 
-#: apps/sales/models/invoices.py:5 apps/warehouses/models.py:18
-#: apps/warehouses/models.py:26
-msgid "code"
-msgstr "código"
-
-#: apps/sales/models/invoices.py:6 apps/warehouses/models.py:11
-#: apps/warehouses/models.py:19 apps/warehouses/models.py:27
-msgid "name"
-msgstr "nombre"
-
-#: apps/sales/models/invoices.py:7
-msgid "current"
-msgstr "actual"
-
 #: apps/sales/models/invoices.py:8
-msgid "ends"
-msgstr "termina"
-
-#: apps/sales/models/invoices.py:12
 msgid "date"
 msgstr "fecha"
 
-#: apps/sales/models/invoices.py:13
-msgid "number"
-msgstr "número"
+#: apps/sales/models/invoices.py:9
+msgid "access code"
+msgstr "clave de acceso"
 
-#: apps/sales/models/invoices.py:15 apps/sales/models/invoices.py:31
+#: apps/sales/models/invoices.py:10 apps/sites/forms.py:23
+msgid "company code"
+msgstr "código de establecimiento"
+
+#: apps/sales/models/invoices.py:12 apps/sites/forms.py:25
+msgid "company point sale code"
+msgstr "código de punto de emisión"
+
+#: apps/sales/models/invoices.py:14
+msgid "sequence"
+msgstr ""
+
+#: apps/sales/models/invoices.py:16 apps/sales/models/invoices.py:49
 msgid "tax"
 msgstr "iva"
 
-#: apps/sales/models/invoices.py:17 apps/sales/models/invoices.py:32
+#: apps/sales/models/invoices.py:18 apps/sales/models/invoices.py:50
 msgid "total"
 msgstr "total"
 
-#: apps/sales/models/invoices.py:20
+#: apps/sales/models/invoices.py:24
+msgid "status"
+msgstr "estado"
+
+#: apps/sales/models/invoices.py:29
 msgid "customer"
 msgstr "cliente"
 
-#: apps/sales/models/invoices.py:24
+#: apps/sales/models/invoices.py:36
 #, python-brace-format
 msgid "invoice # {0}"
 msgstr "factura # {0}"
 
-#: apps/sales/models/invoices.py:28
+#: apps/sales/models/invoices.py:46
 msgid "quantity"
 msgstr "cantidad"
 
-#: apps/sales/models/invoices.py:29
+#: apps/sales/models/invoices.py:47
 msgid "unit price"
 msgstr "precio unitario"
 
-#: apps/sales/models/invoices.py:34 apps/warehouses/enums.py:6
+#: apps/sales/models/invoices.py:52 apps/warehouses/enums.py:6
 msgid "product"
 msgstr "producto"
+
+#: apps/sales/models/vouchers.py:6 apps/warehouses/models.py:18
+#: apps/warehouses/models.py:26
+msgid "code"
+msgstr "código"
+
+#: apps/sales/models/vouchers.py:7 apps/warehouses/models.py:11
+#: apps/warehouses/models.py:19 apps/warehouses/models.py:27
+msgid "name"
+msgstr "nombre"
+
+#: apps/sales/models/vouchers.py:8
+msgid "current"
+msgstr "actual"
+
+#: apps/sales/models/vouchers.py:9
+msgid "ends"
+msgstr "termina"
+
+#: apps/sales/packs.py:30
+msgid "number"
+msgstr "número"
 
 #: apps/sales/validators.py:6
 #, python-format
@@ -191,14 +227,6 @@ msgstr "dirección matriz"
 #: apps/sites/forms.py:22
 msgid "company address"
 msgstr "dirección de establecimiento"
-
-#: apps/sites/forms.py:23
-msgid "company code"
-msgstr "código de establecimiento"
-
-#: apps/sites/forms.py:25
-msgid "company point sale code"
-msgstr "código de punto de emisión"
 
 #: apps/sites/forms.py:28
 msgid "special taxpayer resolution"

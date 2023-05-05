@@ -104,6 +104,8 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
     def save(self, commit=True):
         object_list = super().save(commit=commit)
         InvoiceService.calculate_totals(self.instance)
+        InvoiceService.generate_access_code(self.instance)
+        InvoiceService.generate_xml(self.instance)
 
         return object_list
 

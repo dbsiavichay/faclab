@@ -8,44 +8,42 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-body">
-            <form id="main-form" data-errors="{{ form.errors.as_json }}" action="" method="POST" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
+<div class="card">
+  <div class="card-body">
+    <form id="main-form" data-errors="{{ form.errors.as_json }}" action="" method="POST" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
 
-                {% block form %}
-                    {% include 'forms/form.html' with form=form %}
-                {% endblock %}
+      {% block form %}
+        {% include 'forms/form.html' with form=form %}
+      {% endblock %}
 
-            {% block submit %}
-            <hr>
-            <div class="row">
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary default mr-1 mb-1" id="guardar_formulario">
-                        Guardar
-                    </button>
-                    {% if object %}
-                        <a href="{{ site.urls.delete }}" class="btn btn-danger default mr-1 mb-1">Eliminar</a>
-                    {% endif %}
-                </div>
-            </div>
-            {% endblock %}
-        </form>
-    </div>
+      {% block submit %}
+      <hr>
+      <div class="row">
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary default mr-1 mb-1">Guardar</button>
+          {% if object %}
+          <a href="{{ site.urls.delete }}" class="btn btn-danger default mr-1 mb-1">Eliminar</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endblock %}
+    </form>
+  </div>
 </div>
 {% endblock %}
 
 {% block js %}
-    {{ block.super }}
-    <!-- form set js -->
-    <script src="{% static 'vendors/formset/jquery.formset.js' %}"></script>
-    <script src="{% static 'vendors/formset/formsets.init.js' %}"></script>
+  {{ block.super }}
+  <!-- form set js -->
+  <script src="{% static 'vendors/formset/jquery.formset.js' %}"></script>
+  <script src="{% static 'vendors/formset/formsets.init.js' %}"></script>
 
-    <script src="{% static 'vendors/inputmask/jquery.inputmask.js' %}"></script>
-    <script src="{% static 'vendors/inputmask/inputmask.init.js' %}"></script>
+  <script src="{% static 'vendors/inputmask/jquery.inputmask.js' %}"></script>
+  <script src="{% static 'vendors/inputmask/inputmask.init.js' %}"></script>
 
-    <script src="{% static 'vendors/spinner/jquery.bootstrap-touchspin.js' %}"></script>
-    <script src="{% static 'vendors/spinner/touchspin.init.js' %}"></script>
+  <script src="{% static 'vendors/spinner/jquery.bootstrap-touchspin.js' %}"></script>
+  <script src="{% static 'vendors/spinner/touchspin.init.js' %}"></script>
 
-    <script src="{% static 'assets/js/forms/validation.js' %}"></script>
+  <script src="{% static 'assets/js/forms/validation.js' %}"></script>
 {% endblock %}

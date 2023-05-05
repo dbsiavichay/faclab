@@ -1,16 +1,12 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-
-class VoucherType(models.Model):
-    code = models.CharField(max_length=2, unique=True, verbose_name=_("code"))
-    name = models.CharField(max_length=32, verbose_name=_("name"))
-    current = models.PositiveIntegerField(default=0, verbose_name=_("current"))
-    ends = models.PositiveIntegerField(default=999999999, verbose_name=_("ends"))
+from apps.sales.enums import VoucherStatuses
 
 
 class Invoice(models.Model):
     date = models.DateField(auto_now_add=True, verbose_name=_("date"))
+    code = models.CharField(max_length=64, null=True, verbose_name=_("access code"))
     company_code = models.CharField(max_length=3, verbose_name=_("company code"))
     company_point_sale_code = models.CharField(
         max_length=3, verbose_name=_("company point sale code")
@@ -21,6 +17,14 @@ class Invoice(models.Model):
     total = models.DecimalField(
         default=0, max_digits=10, decimal_places=2, verbose_name=_("total")
     )
+    status = models.CharField(
+        max_length=4,
+        choices=VoucherStatuses.choices,
+        default=VoucherStatuses.GENERATED,
+        verbose_name=_("status"),
+    )
+    file = models.FileField(upload_to="vouchers", null=True)
+    signed_file = models.FileField(upload_to="vouchers", null=True)
     customer = models.ForeignKey(
         "sales.Customer", on_delete=models.PROTECT, verbose_name=_("customer")
     )

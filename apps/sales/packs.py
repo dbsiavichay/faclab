@@ -23,7 +23,7 @@ class InvoicePack(BasePack):
     form_class = InvoiceForm
     inlines = {"lines": InvoiceLineFormset}
     list_fields = ("customer", "number", "date", "subtotal", "tax", "total")
-    detail_fields = (("customer", "date"),)
+    detail_fields = (("customer", "date"), "code")
     form_template_name = None
     detail_template_name = None
 

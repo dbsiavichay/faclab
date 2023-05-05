@@ -6,3 +6,4 @@ django-simple-menu==2.1.1
 django-tree-queries==0.14.0
 django-widget-tweaks==1.4.12
 psycopg2==2.9.5
+xmltodict==0.13.0
