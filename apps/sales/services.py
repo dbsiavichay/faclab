@@ -14,20 +14,24 @@ class InvoiceService:
     INVOICE_CODE = "01"
 
     @classmethod
-    def get_sequence(cls):
+    def generate_sequence(cls, invoice, commit=True):
         sequence = 1
         voucher_type = VoucherType.objects.filter(code=cls.INVOICE_CODE).first()
 
         if voucher_type:
             voucher_type.current = voucher_type.current + 1
             voucher_type.save(update_fields=["current"])
+            sequence = voucher_type.current
 
-            return voucher_type.current
+        invoice.sequence = str(sequence).zfill(9)
+
+        if commit:
+            invoice.save(update_fields=["sequence"])
 
         return sequence
 
     @classmethod
-    def generate_access_code(cls, invoice):
+    def generate_access_code(cls, invoice, commit=True):
         config = SRIConfigService.get_sri_config()
         date = invoice.date.strftime("%d%m%Y")
         doc = cls.INVOICE_CODE
@@ -53,18 +57,21 @@ class InvoiceService:
         verifier = 11 - (sum % 11)
         verifier = 0 if verifier == 11 else 1 if verifier == 10 else verifier
         code = f"{code}{verifier}"
-
         invoice.code = code
-        invoice.save(update_fields=["code"])
+
+        if commit:
+            invoice.save(update_fields=["code"])
 
     @classmethod
-    def calculate_totals(cls, invoice):
+    def calculate_totals(cls, invoice, commit=True):
         config = SRIConfigService.get_sri_config()
         subtotal = invoice.lines.aggregate(subtotal=Sum("subtotal")).get("subtotal")
         invoice.subtotal = subtotal
         invoice.tax = subtotal * config.iva_rate
         invoice.total = subtotal * config.iva_factor
-        invoice.save(update_fields=["subtotal", "tax", "total"])
+
+        if commit:
+            invoice.save(update_fields=["subtotal", "tax", "total"])
 
     @classmethod
     def calculate_line_totals(cls, invoice_line):
@@ -170,7 +177,7 @@ class InvoiceService:
         return data
 
     @classmethod
-    def generate_xml(cls, invoice):
+    def generate_xml(cls, invoice, commit=True):
         data = cls.get_xml_data(invoice)
         xml = xmltodict.unparse(data, pretty=True)
         xml_file = NamedTemporaryFile(suffix=".xml")
@@ -184,6 +191,8 @@ class InvoiceService:
         content_file = ContentFile(xml_file.read())
         file = File(file=content_file, name=file_name)
         invoice.file = file
-        invoice.save(update_fields=["file"])
+
+        if commit:
+            invoice.save(update_fields=["file"])
 
         return file

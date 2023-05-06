@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-05 02:43+0000\n"
+"POT-Creation-Date: 2023-05-06 03:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,7 @@ msgstr "autorizado"
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
-#: apps/sales/forms.py:79 apps/sales/models/invoices.py:15
+#: apps/sales/forms.py:78 apps/sales/models/invoices.py:15
 #: apps/sales/models/invoices.py:48
 msgid "subtotal"
 msgstr "subtotal"
@@ -124,11 +124,11 @@ msgstr "fecha"
 msgid "access code"
 msgstr "clave de acceso"
 
-#: apps/sales/models/invoices.py:10 apps/sites/forms.py:23
+#: apps/sales/models/invoices.py:10 apps/sites/forms.py:25
 msgid "company code"
 msgstr "código de establecimiento"
 
-#: apps/sales/models/invoices.py:12 apps/sites/forms.py:25
+#: apps/sales/models/invoices.py:12 apps/sites/forms.py:27
 msgid "company point sale code"
 msgstr "código de punto de emisión"
 
@@ -208,49 +208,65 @@ msgstr "producción"
 msgid "normal"
 msgstr "normal"
 
-#: apps/sites/forms.py:17
+#: apps/sites/forms.py:19
 msgid "ruc"
 msgstr "Ruc"
 
-#: apps/sites/forms.py:19
+#: apps/sites/forms.py:21
 msgid "company name"
 msgstr "razón social"
 
-#: apps/sites/forms.py:20
+#: apps/sites/forms.py:22
 msgid "trade name"
 msgstr "nombre comercial"
 
-#: apps/sites/forms.py:21
+#: apps/sites/forms.py:23
 msgid "main address"
 msgstr "dirección matriz"
 
-#: apps/sites/forms.py:22
+#: apps/sites/forms.py:24
 msgid "company address"
 msgstr "dirección de establecimiento"
 
-#: apps/sites/forms.py:28
+#: apps/sites/forms.py:30
 msgid "special taxpayer resolution"
 msgstr "contribuyente especial (Nro de resolución)"
 
-#: apps/sites/forms.py:31
+#: apps/sites/forms.py:33
 msgid "withholding agent resolution"
 msgstr "agente de retención (Nro de resolución)"
 
-#: apps/sites/forms.py:34
+#: apps/sites/forms.py:36
 msgid "accounting required"
 msgstr "obligado a llevar contabilidad"
 
-#: apps/sites/forms.py:39
+#: apps/sites/forms.py:41
 msgid "type of environment"
 msgstr "tipo de ambiente"
 
-#: apps/sites/forms.py:42
+#: apps/sites/forms.py:44
 msgid "type of emission"
 msgstr "tipo de emisión"
 
-#: apps/sites/forms.py:44
+#: apps/sites/forms.py:46
 msgid "iva percent"
 msgstr "porcentaje de IVA"
+
+#: apps/sites/forms.py:48
+msgid "signature file"
+msgstr "archivo de firma electrónica"
+
+#: apps/sites/forms.py:50
+msgid "signature password"
+msgstr "contraseña de firma electrónica"
+
+#: apps/sites/forms.py:56
+msgid "company settings"
+msgstr "configuración de la empresa"
+
+#: apps/sites/forms.py:68
+msgid "electronic invoicing"
+msgstr "facturación electrónica"
 
 #: apps/warehouses/enums.py:7
 msgid "service"

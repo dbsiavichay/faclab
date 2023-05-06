@@ -1,4 +1,8 @@
+from faclab import cache
+
 from .models import Config
+
+SRI_CONFIG_CACHE_KEY = "sri_config"
 
 
 class SRIConfig:
@@ -17,6 +21,8 @@ class SRIConfig:
     iva_percent = None
     iva_rate = None
     iva_factor = None
+    signature_file = None
+    signature_password = None
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -28,6 +34,7 @@ class SRIConfig:
 
 class SRIConfigService:
     @classmethod
+    @cache.set_cache(SRI_CONFIG_CACHE_KEY, [])
     def get_sri_config(cls):
         config = Config.objects.first()
         sri_config = SRIConfig(**config.sri_config)

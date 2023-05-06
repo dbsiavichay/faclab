@@ -65,8 +65,7 @@ class InvoiceForm(ModelForm):
         obj.company_point_sale_code = config.company_point_sale_code
 
         if not obj.sequence:
-            sequence = str(InvoiceService.get_sequence()).zfill(9)
-            obj.sequence = sequence
+            InvoiceService.generate_sequence(obj, commit=False)
 
         if commit:
             obj.save()
@@ -103,9 +102,10 @@ class InvoiceLineForm(ModelForm):
 class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
     def save(self, commit=True):
         object_list = super().save(commit=commit)
-        InvoiceService.calculate_totals(self.instance)
-        InvoiceService.generate_access_code(self.instance)
-        InvoiceService.generate_xml(self.instance)
+        InvoiceService.calculate_totals(self.instance, commit=False)
+        InvoiceService.generate_access_code(self.instance, commit=False)
+        InvoiceService.generate_xml(self.instance, commit=False)
+        self.instance.save()
 
         return object_list
 

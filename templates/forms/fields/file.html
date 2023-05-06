@@ -1,0 +1,11 @@
+{% extends './text.html' %}
+
+{% load widget_tweaks %}
+
+{% block field %}
+<div class="custom-file">
+  {% render_field field class+="custom-file-input" %}
+  <label class="custom-file-label" for="{{ field.id_for_label }}" style="top: auto !important;">Seleccionar</label>
+</div>
+{% endblock %}
+
