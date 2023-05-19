@@ -9,8 +9,7 @@ from django.core.files.base import ContentFile
 from django.db.models import Sum
 
 from apps.sites.services import SRIConfigService
-from apps.sri.services import SRIClient
-from apps.sri.services import XMLSigner
+from apps.sri.services import SRIClient, XMLSigner
 
 from .models import VoucherType
 
@@ -217,7 +216,7 @@ class InvoiceService:
                     "@URI": "",
                     "ds:Transforms": {
                         "ds:Transform": {
-                            "@Algorithm": "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
+                            "@Algorithm": "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"  # NOQA
                         }
                     },
                     "ds:DigestMethod": {

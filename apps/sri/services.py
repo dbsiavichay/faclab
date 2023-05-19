@@ -109,7 +109,9 @@ class BaseSigner:
         self.password = password
 
         java_class = "Validate"
-        command = f"java -cp {self.CLASSPATH}{self.JAR_PATH} {java_class} {self.cert_chain} {self.password}"
+        command = "java -cp {0}{1} {2} {3} {4}".format(
+            self.CLASSPATH, self.JAR_PATH, java_class, self.cert_chain, self.password
+        )
         result = os.popen(command).read()
 
         for key, value in EXCEPTIONS.items():
@@ -130,8 +132,17 @@ class XMLSigner(BaseSigner):
             out_path, out_file_name,
         ]
         """
-        command = f"java -jar {self.XML_JAR_PATH} {xml_path} {self.cert_chain} {self.password} {out_path} {out_file_name}"
+
+        command = "java -jar {0} {1} {2} {3} {4} {5}".format(
+            self.XML_JAR_PATH,
+            xml_path,
+            self.cert_chain,
+            self.password,
+            out_path,
+            out_file_name,
+        )
+
         try:
-            result = os.popen(command).read()
+            _ = os.popen(command).read()
         except ValueError as e:
             raise Exception(str(e))
