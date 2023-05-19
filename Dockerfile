@@ -22,6 +22,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt install --fix-missing -y build-essential software-properties-common apt-utils \
     python3-dev python3-pip python3-setuptools python3-wheel python3-cffi python3-brotli
 
+ARG DEBIAN_FRONTEND=noninteractive
+RUN add-apt-repository ppa:openjdk-r/ppa -y
+
 RUN mkdir ${CONFIG_ROOT}
 COPY ./requirements_sys.txt ${CONFIG_ROOT}/
 COPY ./requirements_dev.txt ${CONFIG_ROOT}/

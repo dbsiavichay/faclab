@@ -1,2 +1,5 @@
 gettext
 libpq-dev
+openssl
+openjdk-8-jre
+openjdk-8-jdk

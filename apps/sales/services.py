@@ -1,11 +1,16 @@
+import base64
+import hashlib
 from tempfile import NamedTemporaryFile
 
+import OpenSSL.crypto
 import xmltodict
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.db.models import Sum
 
 from apps.sites.services import SRIConfigService
+from apps.sri.services import SRIClient
+from apps.sri.services import XMLSigner
 
 from .models import VoucherType
 
@@ -89,7 +94,7 @@ class InvoiceService:
         data = {
             "factura": {
                 "@id": "comprobante",
-                "@version": "1.1.0",
+                "@version": "1.0.0",
                 "infoTributaria": {
                     "ambiente": config.environment,
                     "tipoEmision": config.emission,
@@ -196,3 +201,104 @@ class InvoiceService:
             invoice.save(update_fields=["file"])
 
         return file
+
+    @classmethod
+    def get_sign_data(cls, digest_value, signature_value, cert_value):
+        data = {
+            "@xmlns:ds": "http://www.w3.org/2000/09/xmldsig#",
+            "ds:SignedInfo": {
+                "ds:CanonicalizationMethod": {
+                    "@Algorithm": "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
+                },
+                "ds:SignatureMethod": {
+                    "@Algorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+                },
+                "ds:Reference": {
+                    "@URI": "",
+                    "ds:Transforms": {
+                        "ds:Transform": {
+                            "@Algorithm": "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
+                        }
+                    },
+                    "ds:DigestMethod": {
+                        "@Algorithm": "http://www.w3.org/2001/04/xmlenc#sha256"
+                    },
+                    "ds:DigestValue": digest_value,
+                },
+            },
+            "ds:SignatureValue": signature_value,
+            "ds:KeyInfo": {"ds:X509Data": {"ds:X509Certificate": cert_value}},
+        }
+
+        return data
+
+    @classmethod
+    def sign_xml(cls, invoice):
+        config = SRIConfigService.get_sri_config()
+
+        p12 = OpenSSL.crypto.load_pkcs12(
+            open(config.signature_file, "rb").read(), config.signature_password
+        )
+        cert = p12.get_certificate()
+        private_key = p12.get_privatekey()
+
+        with invoice.file.open(mode="r") as file:
+            xml_invoice = file.read()
+
+        invoice_dict = xmltodict.parse(xml_invoice)
+
+        signature = OpenSSL.crypto.sign(
+            private_key, xml_invoice.encode("utf-8"), "sha256"
+        )
+        signature_base64 = base64.b64encode(signature).decode("utf-8")
+
+        invoice_xml = xmltodict.unparse(invoice_dict, pretty=True)
+        digest = hashlib.sha256(invoice_xml.encode("utf-8")).digest()
+        digest_base64 = base64.b64encode(digest).decode("utf-8")
+
+        cert_pem = OpenSSL.crypto.dump_certificate(OpenSSL.crypto.FILETYPE_PEM, cert)
+        cert_base64 = base64.b64encode(cert_pem).decode("utf-8")
+
+        data = cls.get_sign_data(digest_base64, signature_base64, cert_base64)
+        invoice_dict["factura"].update({"Signature": data})
+
+        signed_xml = xmltodict.unparse(invoice_dict, pretty=True)
+
+        xml_file = NamedTemporaryFile(suffix=".xml")
+
+        with open(xml_file.name, "w") as file:
+            file.write(signed_xml)
+
+        file.close()
+
+        file_name = f"{invoice.code}_signed.xml"
+        content_file = ContentFile(xml_file.read())
+        file = File(file=content_file, name=file_name)
+        invoice.signed_file = file
+
+        invoice.save(update_fields=["signed_file"])
+
+    @classmethod
+    def sign_invoice(cls, invoice):
+        config = SRIConfigService.get_sri_config()
+        signer = XMLSigner(config.signature_file, config.signature_password)
+        signer.sign(invoice.file.path)
+
+    @classmethod
+    def send_xml(cls, invoice):
+        try:
+            client = SRIClient()
+            client.send_voucher(invoice.file.path)
+        except Exception as e:
+            msg = str(e)
+
+            if "acceso registrada" not in msg:
+                raise Exception(msg)
+
+        """
+        SRIClient.fetch_retention(retention.code)
+        file_name = f"{retention.code}.xml"
+        content_file = ContentFile(xml.read())
+        file = File(file=content_file, name=file_name)
+        return file
+        """

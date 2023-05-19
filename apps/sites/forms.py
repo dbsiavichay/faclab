@@ -47,7 +47,7 @@ class ConfigForm(ModelForm):
     iva_percent = forms.FloatField(widget=PercentInput, label=_("iva percent"))
 
     signature_file = forms.FileField(
-        validators=[FileExtensionValidator("p12")], label=_("signature file")
+        validators=[FileExtensionValidator(["p12"])], label=_("signature file")
     )
     signature_password = forms.CharField(
         max_length=256, widget=forms.PasswordInput, label=_("signature password")
