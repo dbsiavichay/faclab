@@ -10,6 +10,7 @@ from viewpack.forms import ModelForm
 
 from .enums import Emissions, Environments
 from .models import Config
+from .services import SRIConfigService
 
 
 class ConfigForm(ModelForm):
@@ -84,5 +85,7 @@ class ConfigForm(ModelForm):
 
         if commit:
             obj.save()
+
+        SRIConfigService.delete_sri_cache_config()
 
         return obj

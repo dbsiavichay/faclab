@@ -40,3 +40,7 @@ class SRIConfigService:
         sri_config = SRIConfig(**config.sri_config)
 
         return sri_config
+
+    @classmethod
+    def delete_sri_cache_config(cls):
+        cache.delete(SRI_CONFIG_CACHE_KEY)
