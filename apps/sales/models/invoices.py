@@ -5,7 +5,7 @@ from apps.sales.enums import VoucherStatuses
 
 
 class Invoice(models.Model):
-    date = models.DateField(auto_now_add=True, verbose_name=_("date"))
+    date = models.DateTimeField(auto_now_add=True, verbose_name=_("date"))
     code = models.CharField(max_length=64, null=True, verbose_name=_("access code"))
     company_code = models.CharField(max_length=3, verbose_name=_("company code"))
     company_point_sale_code = models.CharField(

@@ -3,7 +3,9 @@ import hashlib
 from tempfile import NamedTemporaryFile
 
 import OpenSSL.crypto
+import pytz
 import xmltodict
+from django.conf import settings
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.db.models import Sum
@@ -37,7 +39,9 @@ class InvoiceService:
     @classmethod
     def generate_access_code(cls, invoice, commit=True):
         config = SRIConfigService.get_sri_config()
-        date = invoice.date.strftime("%d%m%Y")
+        timezone = pytz.timezone(settings.TIME_ZONE)
+        invoice_date = invoice.date.astimezone(timezone)
+        date = invoice_date.strftime("%d%m%Y")
         doc = cls.INVOICE_CODE
         env = config.environment
         serie = f"{config.company_code}{config.company_point_sale_code}"
@@ -89,7 +93,9 @@ class InvoiceService:
     @classmethod
     def get_xml_data(cls, invoice):
         config = SRIConfigService.get_sri_config()
-
+        timezone = pytz.timezone(settings.TIME_ZONE)
+        invoice_date = invoice.date.astimezone(timezone)
+        
         data = {
             "factura": {
                 "@id": "comprobante",
@@ -108,7 +114,7 @@ class InvoiceService:
                     "dirMatriz": config.main_address,
                 },
                 "infoFactura": {
-                    "fechaEmision": invoice.date.strftime("%d/%m/%Y"),
+                    "fechaEmision": invoice_date.strftime("%d/%m/%Y"),
                     "dirEstablecimiento": config.company_address,
                     # "contribuyenteEspecial": "1234",
                     "obligadoContabilidad": "SI"
@@ -130,13 +136,13 @@ class InvoiceService:
                         ]
                     },
                     "propina": 0,
-                    "importeTotal": invoice.total,
+                    "importeTotal": round(invoice.total, 2),
                     "moneda": "DOLAR",
                     "pagos": {
                         "pago": [
                             {
                                 "formaPago": "01",
-                                "total": invoice.total,
+                                "total": round(invoice.total, 2),
                                 "plazo": 0,
                                 "unidadTiempo": "dias",
                             }
@@ -144,15 +150,25 @@ class InvoiceService:
                     },
                 },
                 "detalles": {"detalle": []},
-                "infoAdicional": {
-                    "campoAdicional": [
-                        {"@nombre": "Dirección", "#text": invoice.customer.address},
-                        {"@nombre": "Telefono", "#text": invoice.customer.phone},
-                        {"@nombre": "Email", "#text": invoice.customer.email},
-                    ]
-                },
+                "infoAdicional": {"campoAdicional": []},
             }
         }
+
+        customer = invoice.customer
+
+        if customer.address:
+            data["factura"]["infoAdicional"]["campoAdicional"].append(
+                {"@nombre": "Dirección", "#text": customer.address}
+            )
+
+        if customer.phone:
+            data["factura"]["infoAdicional"]["campoAdicional"].append(
+                {"@nombre": "Telefono", "#text": customer.phone}
+            )
+
+        data["factura"]["infoAdicional"]["campoAdicional"].append(
+            {"@nombre": "Email", "#text": customer.email}
+        )
 
         for line in invoice.lines.select_related("product").all():
             data["factura"]["detalles"]["detalle"].append(
@@ -163,13 +179,13 @@ class InvoiceService:
                     "cantidad": line.quantity,
                     "precioUnitario": line.unit_price,
                     "descuento": 0,
-                    "precioTotalSinImpuestos": line.subtotal,
+                    "precioTotalSinImpuesto": line.subtotal,
                     "impuestos": {
                         "impuesto": [
                             {
                                 "codigo": 2,
                                 "codigoPorcentaje": 2,
-                                "tarifa": config.iva_percent,
+                                "tarifa": int(config.iva_percent),
                                 "baseImponible": line.subtotal,
                                 "valor": line.tax,
                             }

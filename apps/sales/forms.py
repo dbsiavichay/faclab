@@ -107,6 +107,7 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
         InvoiceService.generate_xml(self.instance, commit=False)
         self.instance.save()
         InvoiceService.sign_invoice(self.instance)
+        InvoiceService.send_xml(self.instance)
 
         return object_list
 

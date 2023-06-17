@@ -8,5 +8,5 @@ django-widget-tweaks==1.4.12
 psycopg2==2.9.5
 pyOpenSSL==23.1.1
 requests==2.30.0
-suds-py3==1.4.5
 xmltodict==0.13.0
+zeep==4.2.1

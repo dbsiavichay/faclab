@@ -118,7 +118,7 @@ TIME_ZONE = "America/Guayaquil"
 LOCALE_PATHS = [BASE_DIR / "locale"]
 USE_I18N = True
 USE_L10N = True
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -158,3 +158,9 @@ CACHES = {
 # Django select2
 SELECT2_CACHE_BACKEND = "default"
 SELECT2_CSS = ["vendors/select2/select2.css"]
+
+
+# SRI
+SRI_SEND_VOUCHERS_WS = env("SRI_SEND_VOUCHERS_WS")
+SRI_GET_VOUCHERS_WS = env("SRI_GET_VOUCHERS_WS")
+SRI_GET_TAXPAYERS_WS = env("SRI_GET_TAXPAYERS_WS")
