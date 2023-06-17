@@ -3,21 +3,22 @@ import os
 
 import requests
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 from zeep import Client
 
 
 class SRIClient:
-    TEST_ENVIRONMENT = 1
-    PRODUCTION_ENVIRONMENT = 2
-
     def __init__(self):
         try:
             self.client = Client(settings.SRI_SEND_VOUCHERS_WS)
             self.fetch_client = Client(settings.SRI_GET_VOUCHERS_WS)
         except Exception as e:
-            raise Exception("Problemas de red al conectarse con el SRI " + str(e))
+            message = _("SRI Error connecting to server")
+            raise Exception(f"{message}: {e}")
 
     def send_voucher(self, path):
+        FAIL_STATUS = "DEVUELTA"
+
         try:
             with open(path, "rb") as file:
                 data = base64.encodebytes(file.read()).decode("utf-8")
@@ -25,33 +26,38 @@ class SRIClient:
 
             file.close()
         except Exception as e:
-            raise Exception("Problemas al enviar la rentención al SRI " + str(e))
+            message = _("SRI Error to send voucher")
+            raise Exception(f"{message}: {e}")
 
-        if result.estado == "DEVUELTA":
+        if result.estado == FAIL_STATUS:
             messages = [
                 mensaje.mensaje.capitalize()
                 for mensaje in result.comprobantes.comprobante[0].mensajes.mensaje
             ]
-            message = "Devuelta por el SRI: " + " * ".join(messages)
+            message = _("SRI Voucher not received") + " * ".join(messages)
             raise Exception(message)
 
     def fetch_voucher(self, code):
+        UNAUTHORIZED_STATUS = "NO AUTORIZADO"
+
         try:
             result = self.fetch_client.service.autorizacionComprobante(code)
         except Exception as e:
-            raise Exception("Problemas traer la retención del SRI " + str(e))
+            message = _("SRI Error to fetch voucher")
+            raise Exception(f"{message}: {e}")
 
         if hasattr(result, "numeroComprobantes"):
             number_of_vouchers = int(result.numeroComprobantes)
-            if not number_of_vouchers:
-                raise Exception("La clave de acceso consultada es incorrecta")
 
-        if result.autorizaciones.autorizacion[0].estado == "NO AUTORIZADO":
+            if not number_of_vouchers:
+                raise Exception(_("Invalid code"))
+
+        if result.autorizaciones.autorizacion[0].estado == UNAUTHORIZED_STATUS:
             messages = [
                 mensaje.mensaje.capitalize()
                 for mensaje in result.autorizaciones.autorizacion[0].mensajes.mensaje
             ]
-            message = "Devuelta por el SRI: " + " * ".join(messages)
+            message = _("SRI Voucher not received") + " * ".join(messages)
             raise Exception(message)
 
         return result.autorizaciones.autorizacion[0].comprobante

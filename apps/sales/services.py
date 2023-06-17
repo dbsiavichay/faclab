@@ -95,7 +95,7 @@ class InvoiceService:
         config = SRIConfigService.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
         invoice_date = invoice.date.astimezone(timezone)
-        
+
         data = {
             "factura": {
                 "@id": "comprobante",
