@@ -106,7 +106,7 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
         InvoiceService.generate_access_code(self.instance, commit=False)
         InvoiceService.generate_xml(self.instance, commit=False)
         self.instance.save()
-        InvoiceService.sign_invoice(self.instance)
+        InvoiceService.sign_xml(self.instance)
         InvoiceService.send_xml(self.instance)
 
         return object_list
