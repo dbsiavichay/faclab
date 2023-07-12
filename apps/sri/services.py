@@ -217,7 +217,11 @@ class SRISigner:
             URI=f"#{self.signature_id}-{self.signed_properties_id}",
         )
         self._create_node(
-            "DigestMethod", parent=ref_1, ns=ds, tail="\n", Algorithm=Methods.digest.value
+            "DigestMethod",
+            parent=ref_1,
+            ns=ds,
+            tail="\n",
+            Algorithm=Methods.digest.value,
         )
         self._create_node(
             "DigestValue", parent=ref_1, ns=ds, tail="\n", text=signed_properties_b64
@@ -232,7 +236,11 @@ class SRISigner:
             URI=f"#{self.certificate_id}",
         )
         self._create_node(
-            "DigestMethod", parent=ref_2, ns=ds, tail="\n", Algorithm=Methods.digest.value
+            "DigestMethod",
+            parent=ref_2,
+            ns=ds,
+            tail="\n",
+            Algorithm=Methods.digest.value,
         )
         self._create_node(
             "DigestValue", parent=ref_2, ns=ds, tail="\n", text=key_info_b64
@@ -258,7 +266,11 @@ class SRISigner:
             Algorithm=Methods.signature_construction.value,
         )
         self._create_node(
-            "DigestMethod", parent=ref_3, ns=ds, tail="\n", Algorithm=Methods.digest.value
+            "DigestMethod",
+            parent=ref_3,
+            ns=ds,
+            tail="\n",
+            Algorithm=Methods.digest.value,
         )
         self._create_node(
             "DigestValue", parent=ref_3, ns=ds, tail="\n", text=voucher_b64
@@ -371,7 +383,6 @@ class SRIClient:
             with open(path, "rb") as file:
                 data = base64.encodebytes(file.read()).decode("utf-8")
                 result = self.client.service.validarComprobante(data)
-                breakpoint()
             file.close()
         except Exception as e:
             message = _("SRI Error to send voucher")
@@ -400,15 +411,18 @@ class SRIClient:
             if not number_of_vouchers:
                 raise Exception(_("Invalid code"))
 
-        if result.autorizaciones.autorizacion[0].estado == UNAUTHORIZED_STATUS:
+        voucher = result.autorizaciones.autorizacion[0]
+
+        if voucher.estado == UNAUTHORIZED_STATUS:
             messages = [
-                mensaje.mensaje.capitalize()
-                for mensaje in result.autorizaciones.autorizacion[0].mensajes.mensaje
+                mensaje.mensaje.capitalize() for mensaje in voucher.mensajes.mensaje
             ]
             message = _("SRI Voucher not received") + " * ".join(messages)
             raise Exception(message)
 
-        return result.autorizaciones.autorizacion[0].comprobante
+        authorization_date = voucher.fechaAutorizacion.astimezone(pytz.utc)
+
+        return voucher.comprobante, authorization_date
 
     @classmethod
     def fetch_taxpayer(cls, code):

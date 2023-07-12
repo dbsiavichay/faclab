@@ -5,7 +5,10 @@ from apps.sales.enums import VoucherStatuses
 
 
 class Invoice(models.Model):
-    date = models.DateTimeField(auto_now_add=True, verbose_name=_("date"))
+    issue_date = models.DateTimeField(auto_now_add=True, verbose_name=_("issue date"))
+    authorization_date = models.DateTimeField(
+        null=True, verbose_name=_("authorization date")
+    )
     code = models.CharField(max_length=64, null=True, verbose_name=_("access code"))
     company_code = models.CharField(max_length=3, verbose_name=_("company code"))
     company_point_sale_code = models.CharField(
@@ -25,6 +28,8 @@ class Invoice(models.Model):
     )
     file = models.FileField(upload_to="vouchers", null=True)
     signed_file = models.FileField(upload_to="vouchers", null=True)
+    authorized_file = models.FileField(upload_to="vouchers", null=True)
+    errors = models.JSONField(default=dict)
     customer = models.ForeignKey(
         "sales.Customer", on_delete=models.PROTECT, verbose_name=_("customer")
     )

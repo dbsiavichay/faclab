@@ -10,6 +10,7 @@ from django.db.models import Sum
 from apps.sites.services import SRIConfigService
 from apps.sri.services import SRIClient, SRISigner
 
+from .enums import VoucherStatuses
 from .models import VoucherType
 
 
@@ -37,7 +38,7 @@ class InvoiceService:
     def generate_access_code(cls, invoice, commit=True):
         config = SRIConfigService.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
-        invoice_date = invoice.date.astimezone(timezone)
+        invoice_date = invoice.issue_date.astimezone(timezone)
         date = invoice_date.strftime("%d%m%Y")
         doc = cls.INVOICE_CODE
         env = config.environment
@@ -91,7 +92,7 @@ class InvoiceService:
     def get_xml_data(cls, invoice):
         config = SRIConfigService.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
-        invoice_date = invoice.date.astimezone(timezone)
+        invoice_date = invoice.issue_date.astimezone(timezone)
 
         data = {
             "factura": {
@@ -228,25 +229,28 @@ class InvoiceService:
         content_file = ContentFile(xml_file.read())
         file = File(file=content_file, name=file_name)
         invoice.signed_file = file
-        invoice.save(update_fields=["signed_file"])
+        invoice.status = VoucherStatuses.SIGNED
+        invoice.save(update_fields=["status", "signed_file"])
 
         return file
 
     @classmethod
     def send_xml(cls, invoice):
-        try:
-            client = SRIClient()
-            client.send_voucher(invoice.signed_file.path)
-        except Exception as e:
-            msg = str(e)
+        client = SRIClient()
+        client.send_voucher(invoice.signed_file.path)
+        authotization, authotization_date = client.fetch_voucher(invoice.code)
 
-            if "acceso registrada" not in msg:
-                raise Exception(msg)
+        xml_file = NamedTemporaryFile(suffix=".xml")
 
-        """
-        SRIClient.fetch_retention(retention.code)
-        file_name = f"{retention.code}.xml"
-        content_file = ContentFile(xml.read())
+        with open(xml_file.name, "w") as file:
+            file.write(authotization)
+
+        file_name = f"{invoice.code}_authorized.xml"
+        content_file = ContentFile(xml_file.read())
         file = File(file=content_file, name=file_name)
+        invoice.authorized_file = file
+        invoice.authorization_date = authotization_date
+        invoice.status = VoucherStatuses.AUTHORIZED
+        invoice.save(update_fields=["authorized_file", "authorization_date", "status"])
+
         return file
-        """

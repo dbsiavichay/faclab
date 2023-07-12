@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-17 23:28+0000\n"
+"POT-Creation-Date: 2023-07-12 01:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,11 @@ msgstr "configuración"
 msgid "customers"
 msgstr "clientes"
 
-#: apps/accounts/menus/sales.py:13 apps/accounts/menus/sales.py:21
+#: apps/accounts/menus/sales.py:13
+msgid "invoices"
+msgstr "facturas"
+
+#: apps/accounts/menus/sales.py:21
 msgid "sales"
 msgstr "ventas"
 
@@ -79,8 +83,8 @@ msgstr "autorizado"
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
-#: apps/sales/forms.py:78 apps/sales/models/invoices.py:15
-#: apps/sales/models/invoices.py:48
+#: apps/sales/forms.py:78 apps/sales/models/invoices.py:18
+#: apps/sales/models/invoices.py:53
 msgid "subtotal"
 msgstr "subtotal"
 
@@ -117,55 +121,59 @@ msgid "code type"
 msgstr "tipo de identificación"
 
 #: apps/sales/models/invoices.py:8
-msgid "date"
-msgstr "fecha"
+msgid "issue date"
+msgstr "fecha de emisión"
 
-#: apps/sales/models/invoices.py:9
+#: apps/sales/models/invoices.py:10
+msgid "authorization date"
+msgstr "fecha de autorización"
+
+#: apps/sales/models/invoices.py:12
 msgid "access code"
 msgstr "clave de acceso"
 
-#: apps/sales/models/invoices.py:10 apps/sites/forms.py:27
+#: apps/sales/models/invoices.py:13 apps/sites/forms.py:27
 msgid "company code"
 msgstr "código de establecimiento"
 
-#: apps/sales/models/invoices.py:12 apps/sites/forms.py:29
+#: apps/sales/models/invoices.py:15 apps/sites/forms.py:29
 msgid "company point sale code"
 msgstr "código de punto de emisión"
 
-#: apps/sales/models/invoices.py:14
+#: apps/sales/models/invoices.py:17
 msgid "sequence"
 msgstr ""
 
-#: apps/sales/models/invoices.py:16 apps/sales/models/invoices.py:49
+#: apps/sales/models/invoices.py:19 apps/sales/models/invoices.py:54
 msgid "tax"
 msgstr "iva"
 
-#: apps/sales/models/invoices.py:18 apps/sales/models/invoices.py:50
+#: apps/sales/models/invoices.py:21 apps/sales/models/invoices.py:55
 msgid "total"
 msgstr "total"
 
-#: apps/sales/models/invoices.py:24
+#: apps/sales/models/invoices.py:27
 msgid "status"
 msgstr "estado"
 
-#: apps/sales/models/invoices.py:29
+#: apps/sales/models/invoices.py:34
 msgid "customer"
 msgstr "cliente"
 
-#: apps/sales/models/invoices.py:36
+#: apps/sales/models/invoices.py:41
 #, python-brace-format
 msgid "invoice # {0}"
 msgstr "factura # {0}"
 
-#: apps/sales/models/invoices.py:46
+#: apps/sales/models/invoices.py:51
 msgid "quantity"
 msgstr "cantidad"
 
-#: apps/sales/models/invoices.py:47
+#: apps/sales/models/invoices.py:52
 msgid "unit price"
 msgstr "precio unitario"
 
-#: apps/sales/models/invoices.py:52 apps/warehouses/enums.py:6
+#: apps/sales/models/invoices.py:57 apps/warehouses/enums.py:6
 msgid "product"
 msgstr "producto"
 
@@ -268,23 +276,23 @@ msgstr "configuración de la empresa"
 msgid "electronic invoicing"
 msgstr "facturación electrónica"
 
-#: apps/sri/services.py:16
+#: apps/sri/services.py:376
 msgid "SRI Error connecting to server"
 msgstr "SRI Error al conectarse al servidor"
 
-#: apps/sri/services.py:29
+#: apps/sri/services.py:388
 msgid "SRI Error to send voucher"
 msgstr "SRI Erro al enviar el comprobante"
 
-#: apps/sri/services.py:37 apps/sri/services.py:60
+#: apps/sri/services.py:396 apps/sri/services.py:419
 msgid "SRI Voucher not received"
 msgstr "SRI Comprobante no recibido"
 
-#: apps/sri/services.py:46
+#: apps/sri/services.py:405
 msgid "SRI Error to fetch voucher"
 msgstr "SRI Error al obtener el comprobante"
 
-#: apps/sri/services.py:53
+#: apps/sri/services.py:412
 msgid "Invalid code"
 msgstr "Clave de acceso incorrecta"
 
