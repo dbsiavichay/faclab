@@ -37,17 +37,24 @@ class SignatureForm(ModelForm):
             try:
                 p12_data = file.read()
                 pkcs12.load_pkcs12(p12_data, password.encode())
-                cleaned_data["p12_data"] = p12_data
             except ValueError:
                 raise ValidationError(_("signature file or password are invalid"))
+
+            data = SRISigner.get_signature_metadata(p12_data, password)
+            exists = Signature.objects.filter(
+                serial_number=data.get("serial_number")
+            ).exists()
+
+            if exists:
+                raise ValidationError(_("signature file has already been registered"))
+
+            cleaned_data["metadata"] = data
 
         return cleaned_data
 
     def save(self, commit=True):
         obj = super().save(commit=False)
-        p12_data = self.cleaned_data.get("p12_data")
-        password = self.cleaned_data.get("signature_password")
-        data = SRISigner.get_signature_metadata(p12_data, password)
+        data = self.cleaned_data.get("metadata")
 
         for key, value in data.items():
             setattr(obj, key, value)
