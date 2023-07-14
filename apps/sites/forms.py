@@ -1,16 +1,61 @@
+from cryptography.hazmat.primitives.serialization import pkcs12
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
 from apps.sales.validators import customer_code_validator
+from apps.sri.services import SRISigner
 from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm
 
 from .enums import Emissions, Environments
-from .models import Config
+from .models import Config, Signature
 from .services import SRIConfigService
+
+
+class SignatureForm(ModelForm):
+    signature_file = forms.FileField(
+        validators=[FileExtensionValidator(["p12"])], label=_("signature file")
+    )
+    signature_password = forms.CharField(
+        max_length=256, widget=forms.PasswordInput, label=_("signature password")
+    )
+
+    class Meta:
+        model = Signature
+        fieldsets = ("signature_file", "signature_password")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        file = cleaned_data.get("signature_file")
+        password = cleaned_data.get("signature_password")
+
+        if file and password:
+            try:
+                p12_data = file.read()
+                pkcs12.load_pkcs12(p12_data, password.encode())
+                cleaned_data["p12_data"] = p12_data
+            except ValueError:
+                raise ValidationError(_("signature file or password are invalid"))
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        p12_data = self.cleaned_data.get("p12_data")
+        password = self.cleaned_data.get("signature_password")
+        data = SRISigner.get_signature_metadata(p12_data, password)
+
+        for key, value in data.items():
+            setattr(obj, key, value)
+
+        if commit:
+            obj.save()
+
+        return obj
 
 
 class ConfigForm(ModelForm):

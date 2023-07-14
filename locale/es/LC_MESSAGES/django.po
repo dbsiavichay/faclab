@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-12 01:23+0000\n"
+"POT-Creation-Date: 2023-07-14 14:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,14 +23,18 @@ msgid "modules"
 msgstr "módulos"
 
 #: apps/accounts/menus/config.py:7
+msgid "signatures"
+msgstr "firmas electrónicas"
+
+#: apps/accounts/menus/config.py:13
 msgid "sri"
 msgstr ""
 
-#: apps/accounts/menus/config.py:13
+#: apps/accounts/menus/config.py:19
 msgid "vouchers"
 msgstr "comprobantes"
 
-#: apps/accounts/menus/config.py:21
+#: apps/accounts/menus/config.py:27
 msgid "configuration"
 msgstr "configuración"
 
@@ -120,7 +124,7 @@ msgstr "correo electrónico"
 msgid "code type"
 msgstr "tipo de identificación"
 
-#: apps/sales/models/invoices.py:8
+#: apps/sales/models/invoices.py:8 apps/sites/models.py:8
 msgid "issue date"
 msgstr "fecha de emisión"
 
@@ -132,11 +136,11 @@ msgstr "fecha de autorización"
 msgid "access code"
 msgstr "clave de acceso"
 
-#: apps/sales/models/invoices.py:13 apps/sites/forms.py:27
+#: apps/sales/models/invoices.py:13 apps/sites/forms.py:72
 msgid "company code"
 msgstr "código de establecimiento"
 
-#: apps/sales/models/invoices.py:15 apps/sites/forms.py:29
+#: apps/sales/models/invoices.py:15 apps/sites/forms.py:74
 msgid "company point sale code"
 msgstr "código de punto de emisión"
 
@@ -195,7 +199,7 @@ msgstr "actual"
 msgid "ends"
 msgstr "termina"
 
-#: apps/sales/packs.py:30
+#: apps/sales/packs.py:38
 msgid "number"
 msgstr "número"
 
@@ -216,83 +220,107 @@ msgstr "producción"
 msgid "normal"
 msgstr "normal"
 
-#: apps/sites/forms.py:21
-msgid "ruc"
-msgstr "Ruc"
-
-#: apps/sites/forms.py:23
-msgid "company name"
-msgstr "razón social"
-
-#: apps/sites/forms.py:24
-msgid "trade name"
-msgstr "nombre comercial"
-
-#: apps/sites/forms.py:25
-msgid "main address"
-msgstr "dirección matriz"
-
-#: apps/sites/forms.py:26
-msgid "company address"
-msgstr "dirección de establecimiento"
-
-#: apps/sites/forms.py:32
-msgid "special taxpayer resolution"
-msgstr "contribuyente especial (Nro de resolución)"
-
-#: apps/sites/forms.py:35
-msgid "withholding agent resolution"
-msgstr "agente de retención (Nro de resolución)"
-
-#: apps/sites/forms.py:38
-msgid "accounting required"
-msgstr "obligado a llevar contabilidad"
-
-#: apps/sites/forms.py:43
-msgid "type of environment"
-msgstr "tipo de ambiente"
-
-#: apps/sites/forms.py:46
-msgid "type of emission"
-msgstr "tipo de emisión"
-
-#: apps/sites/forms.py:48
-msgid "iva percent"
-msgstr "porcentaje de IVA"
-
-#: apps/sites/forms.py:51
+#: apps/sites/forms.py:21 apps/sites/forms.py:96
 msgid "signature file"
 msgstr "archivo de firma electrónica"
 
-#: apps/sites/forms.py:54
+#: apps/sites/forms.py:24 apps/sites/forms.py:99
 msgid "signature password"
 msgstr "contraseña de firma electrónica"
 
-#: apps/sites/forms.py:60
+#: apps/sites/forms.py:42
+msgid "signature file or password are invalid"
+msgstr "archivo o contraseña de firma electrónica son inválidos"
+
+#: apps/sites/forms.py:66
+msgid "ruc"
+msgstr "Ruc"
+
+#: apps/sites/forms.py:68
+msgid "company name"
+msgstr "razón social"
+
+#: apps/sites/forms.py:69
+msgid "trade name"
+msgstr "nombre comercial"
+
+#: apps/sites/forms.py:70
+msgid "main address"
+msgstr "dirección matriz"
+
+#: apps/sites/forms.py:71
+msgid "company address"
+msgstr "dirección de establecimiento"
+
+#: apps/sites/forms.py:77
+msgid "special taxpayer resolution"
+msgstr "contribuyente especial (Nro de resolución)"
+
+#: apps/sites/forms.py:80
+msgid "withholding agent resolution"
+msgstr "agente de retención (Nro de resolución)"
+
+#: apps/sites/forms.py:83
+msgid "accounting required"
+msgstr "obligado a llevar contabilidad"
+
+#: apps/sites/forms.py:88
+msgid "type of environment"
+msgstr "tipo de ambiente"
+
+#: apps/sites/forms.py:91
+msgid "type of emission"
+msgstr "tipo de emisión"
+
+#: apps/sites/forms.py:93
+msgid "iva percent"
+msgstr "porcentaje de IVA"
+
+#: apps/sites/forms.py:105
 msgid "company settings"
 msgstr "configuración de la empresa"
 
-#: apps/sites/forms.py:72
+#: apps/sites/forms.py:117
 msgid "electronic invoicing"
 msgstr "facturación electrónica"
 
-#: apps/sri/services.py:376
+#: apps/sites/models.py:6
+msgid "subject"
+msgstr "sujeto"
+
+#: apps/sites/models.py:7
+msgid "serial number"
+msgstr "número de serie"
+
+#: apps/sites/models.py:9
+msgid "expiry date"
+msgstr "fecha de expiración"
+
+#: apps/sri/services.py:392
+msgid "an error has occurred while call keytool command"
+msgstr "un error ha ocurrido mientras se llamaba al comando de keytool"
+
+#: apps/sri/services.py:401
+msgid "signature file has not valid keys"
+msgstr "el archivo de firma no tiene claves válidas"
+
+#: apps/sri/services.py:432
 msgid "SRI Error connecting to server"
 msgstr "SRI Error al conectarse al servidor"
 
-#: apps/sri/services.py:388
+#: apps/sri/services.py:444
 msgid "SRI Error to send voucher"
 msgstr "SRI Erro al enviar el comprobante"
 
-#: apps/sri/services.py:396 apps/sri/services.py:419
+#: apps/sri/services.py:452 apps/sri/services.py:476
 msgid "SRI Voucher not received"
 msgstr "SRI Comprobante no recibido"
 
-#: apps/sri/services.py:405
+#: apps/sri/services.py:461
 msgid "SRI Error to fetch voucher"
 msgstr "SRI Error al obtener el comprobante"
 
-#: apps/sri/services.py:412
+#: apps/sri/services.py:468
 msgid "Invalid code"
 msgstr "Clave de acceso incorrecta"
 

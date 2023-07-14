@@ -1,8 +1,15 @@
 from faclab.base import BasePack
 from viewpack.decorators import register
 
-from .forms import ConfigForm
+from .forms import ConfigForm, SignatureForm
 from .mixins import ConfigFormMixin
+
+
+@register("sites.Signature")
+class SignaturePack(BasePack):
+    form_class = SignatureForm
+    list_fields = ("subject_name", "serial_number", "issue_date", "expiry_date")
+    list_template_name = None
 
 
 @register("sites.Config")

@@ -4,15 +4,21 @@ from simple_menu import MenuItem
 
 submenu_items = [
     MenuItem(
+        _("signatures").capitalize(),
+        reverse("packs:sites_signature_list"),
+        weight=30,
+        icon="bx-right-arrow-alt",
+    ),
+    MenuItem(
         _("sri").upper(),
         reverse("packs:sites_config_list"),
-        weight=30,
+        weight=31,
         icon="bx-right-arrow-alt",
     ),
     MenuItem(
         _("vouchers").capitalize(),
         reverse("packs:sales_vouchertype_list"),
-        weight=31,
+        weight=32,
         icon="bx-right-arrow-alt",
     ),
 ]
