@@ -6,6 +6,7 @@ SRI_CONFIG_CACHE_KEY = "sri_config"
 
 
 class SRIConfig:
+    id = None
     code = None
     company_name = None
     trade_name = None
@@ -19,8 +20,6 @@ class SRIConfig:
     environment = None
     emission = None
     iva_percent = None
-    iva_rate = None
-    iva_factor = None
     signature_file = None
     signature_password = None
 
@@ -28,8 +27,13 @@ class SRIConfig:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-        self.iva_rate = self.iva_percent / 100
-        self.iva_factor = (self.iva_percent / 100) + 1
+    @property
+    def iva_rate(self):
+        return self.iva_percent / 100 if self.iva_percent else None
+
+    @property
+    def iva_factor(self):
+        return (self.iva_percent / 100) + 1 if self.iva_percent else None
 
 
 class SRIConfigService:
@@ -37,7 +41,8 @@ class SRIConfigService:
     @cache.set_cache(SRI_CONFIG_CACHE_KEY, [])
     def get_sri_config(cls):
         config = Config.objects.first()
-        sri_config = SRIConfig(**config.sri_config)
+        data_config = {"id": config.id, **config.sri_config} if config else {}
+        sri_config = SRIConfig(**data_config)
 
         return sri_config
 

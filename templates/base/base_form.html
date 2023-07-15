@@ -22,8 +22,8 @@
       <div class="row">
         <div class="col-12">
           <button type="submit" class="btn btn-primary default mr-1 mb-1">Guardar</button>
-          {% if object %}
-          <a href="{{ site.urls.delete }}" class="btn btn-danger default mr-1 mb-1">Eliminar</a>
+          {% if object and pack_info.paths.delete %}
+          <a href="{{ pack_info.paths.delete }}" class="btn btn-danger default mr-1 mb-1">Eliminar</a>
           {% endif %}
         </div>
       </div>

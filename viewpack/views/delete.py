@@ -9,17 +9,10 @@ from .base import get_base_view
 class DeleteMixin:
     name = PackViews.DELETE
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pack_info = context.get("pack_info", {})
-        pack_info.update({"paths": self.pack.paths})
-        context["pack_info"] = pack_info
-
-        return context
-
     def get_success_url(self):
-        paths = self.pack.paths
-        return paths.get(self.pack.delete_success_url)
+        self.success_url = self.pack.get_default_success_url()
+
+        return super().get_success_url()
 
 
 class DeleteView(View):

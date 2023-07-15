@@ -2,6 +2,10 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
 
+from apps.sites.services import SRIConfigService
+
+sri_config = SRIConfigService.get_sri_config()
+
 submenu_items = [
     MenuItem(
         _("signatures").capitalize(),
@@ -11,7 +15,7 @@ submenu_items = [
     ),
     MenuItem(
         _("sri").upper(),
-        reverse("packs:sites_config_list"),
+        reverse("packs:sites_config_update", args=[sri_config.id]),
         weight=31,
         icon="bx-right-arrow-alt",
     ),

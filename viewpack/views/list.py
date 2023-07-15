@@ -27,7 +27,6 @@ class ListMixin:
                 "start_index": start_index,
                 "end_index": end_index,
                 "count": count,
-                "paths": self.pack.paths,
             }
         )
         context["pack_info"] = pack_info

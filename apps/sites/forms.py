@@ -1,8 +1,6 @@
 from cryptography.hazmat.primitives.serialization import pkcs12
 from django import forms
 from django.core.exceptions import ValidationError
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
@@ -99,40 +97,24 @@ class ConfigForm(ModelForm):
     )
     iva_percent = forms.FloatField(widget=PercentInput, label=_("iva percent"))
 
-    signature_file = forms.FileField(
-        validators=[FileExtensionValidator(["p12"])], label=_("signature file")
-    )
-    signature_password = forms.CharField(
-        max_length=256, widget=forms.PasswordInput, label=_("signature password")
-    )
-
     class Meta:
         model = Config
-        fieldsets = {
-            _("company settings"): (
-                "code",
-                ("company_name", "trade_name"),
-                "main_address",
-                "company_address",
-                ("company_code", "company_point_sale_code"),
-                "special_taxpayer_resolution",
-                "withholding_agent_resolution",
-                "accounting_required",
-                ("environment", "emission"),
-                "iva_percent",
-            ),
-            _("electronic invoicing"): (
-                "signature_file",
-                "signature_password",
-            ),
-        }
+        fieldsets = (
+            "code",
+            ("company_name", "trade_name"),
+            "main_address",
+            "company_address",
+            ("company_code", "company_point_sale_code"),
+            "special_taxpayer_resolution",
+            "withholding_agent_resolution",
+            "accounting_required",
+            ("environment", "emission"),
+            "iva_percent",
+        )
 
     def save(self, commit=True):
         obj = super().save(commit=False)
         data = {**self.cleaned_data}
-        file = data.pop("signature_file")
-        file_path = default_storage.save(file.name, ContentFile(file.read()))
-        data["signature_file"] = file_path
         obj.sri_config = data
 
         if commit:

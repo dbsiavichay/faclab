@@ -31,9 +31,7 @@ class ModelPack:
     default_labels = {}
 
     allowed_views = tuple(PackViews.__members__.values())
-    create_success_url = "list"
-    update_success_url = "list"
-    delete_success_url = "list"
+    default_success_url = None
 
     # Context
     # list_extra_context = {}
@@ -123,8 +121,16 @@ class ModelPack:
         if not isinstance(self.queryset, QuerySet):
             self.queryset = self.model._default_manager.all()
 
-        if not isinstance(self.allowed_views, tuple):
-            error = "The 'allowed_views' attribute must be a tuple."
+        if not self.allowed_views:
+            error = "The 'allowed_views' attribute is required."
+            raise ImproperlyConfigured(error)
+
+        if not isinstance(self.allowed_views, (list, tuple)):
+            error = "The 'allowed_views' attribute must be a list or tuple."
+            raise ImproperlyConfigured(error)
+
+        if not all([isinstance(enum, PackViews) for enum in self.allowed_views]):
+            error = "The 'allowed_views' items must be a PackViews element."
             raise ImproperlyConfigured(error)
 
         if not self.form_class and not self.fields:
@@ -175,6 +181,19 @@ class ModelPack:
             paths.update({enum.name.lower(): path})
 
         return paths
+
+    def get_default_success_url(self):
+        if self.default_success_url:
+            return self.default_success_url
+
+        name_url = PackViews.LIST.name.lower()
+        paths = self.paths
+        success_url = paths.get(name_url)
+
+        if not success_url:
+            success_url = tuple(paths.values())[0]
+
+        return success_url
 
     @property
     def urls(self):

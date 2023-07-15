@@ -11,8 +11,9 @@ class CreateMixin:
     name = PackViews.CREATE
 
     def get_success_url(self):
-        paths = self.pack.paths
-        return paths.get(self.pack.create_success_url)
+        self.success_url = self.pack.get_default_success_url()
+
+        return super().get_success_url()
 
 
 class CreateView(View):
