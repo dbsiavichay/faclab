@@ -36,20 +36,20 @@
                     <td>{{ data.value|default:""|truncatechars:"50" }}</td>
                     {% endfor %}
                     <td>
-                        {% if row.urls.detail %}
-                        <a href="{{ row.urls.detail }}" class="text-secondary ml-25 mr-25">
+                        {% if row.paths.detail %}
+                        <a href="{{ row.paths.detail }}" class="text-secondary ml-25 mr-25">
                             <i class="bx bx-show"></i>
                         </a>
                         {% endif %}
 
-                        {% if row.urls.update %}
-                        <a href="{{ row.urls.update }}" class="text-secondary ml-25 mr-25">
+                        {% if row.paths.update %}
+                        <a href="{{ row.paths.update }}" class="text-secondary ml-25 mr-25">
                             <i class="bx bx-pencil"></i>
                         </a>
                         {% endif %}
 
-                        {% if row.urls.delete %}
-                        <a href="{{ row.urls.delete }}" class="text-secondary ml-25 mr-25">
+                        {% if row.paths.delete %}
+                        <a href="{{ row.paths.delete }}" class="text-secondary ml-25 mr-25">
                             <i class="bx bx-trash"></i>
                         </a>
                         {% endif %}

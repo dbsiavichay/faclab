@@ -47,7 +47,7 @@ class ListMixin:
 
     def get_rows(self, data):
         return [
-            (instance, {"data": row, "urls": self.pack.get_paths(instance)})
+            (instance, {"data": row, "paths": self.pack.get_paths(instance)})
             for instance, row in data
         ]
 

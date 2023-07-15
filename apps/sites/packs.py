@@ -1,5 +1,6 @@
 from faclab.base import BasePack
 from viewpack.decorators import register
+from viewpack.enums import PackViews
 
 from .forms import ConfigForm, SignatureForm
 from .mixins import ConfigFormMixin
@@ -9,7 +10,7 @@ from .mixins import ConfigFormMixin
 class SignaturePack(BasePack):
     form_class = SignatureForm
     list_fields = ("subject_name", "serial_number", "issue_date", "expiry_date")
-    list_template_name = None
+    allowed_views = (PackViews.LIST, PackViews.CREATE, PackViews.DELETE)
 
 
 @register("sites.Config")

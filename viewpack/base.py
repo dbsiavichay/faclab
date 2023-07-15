@@ -30,7 +30,7 @@ class ModelPack:
     # Labels for fields
     default_labels = {}
 
-    allow_views = ("list", "create", "update", "detail", "delete")
+    allowed_views = tuple(PackViews.__members__.values())
     create_success_url = "list"
     update_success_url = "list"
     delete_success_url = "list"
@@ -123,8 +123,8 @@ class ModelPack:
         if not isinstance(self.queryset, QuerySet):
             self.queryset = self.model._default_manager.all()
 
-        if not isinstance(self.allow_views, tuple):
-            error = "The 'allow_views' attribute must be a tuple."
+        if not isinstance(self.allowed_views, tuple):
+            error = "The 'allowed_views' attribute must be a tuple."
             raise ImproperlyConfigured(error)
 
         if not self.form_class and not self.fields:
@@ -146,7 +146,7 @@ class ModelPack:
     def get_urls(self):
         urlpatterns = []
 
-        for enum in PackViews:
+        for enum in self.allowed_views:
             url_name = self.get_base_url_name(enum.value)
             route = "{0}/{1}/".format(enum.param, enum.suffix)
             route = route.replace("//", "/")
@@ -161,7 +161,7 @@ class ModelPack:
     def get_paths(self, instance=None):
         paths = {}
 
-        for enum in PackViews:
+        for enum in self.allowed_views:
             path = "/{0}/{1}/{2}/{3}/".format(
                 *self.model_info,
                 enum.kwarg,
