@@ -53,12 +53,15 @@ class TestConfigForm:
             "environment": str(Environments.TESTING),
             "emission": str(Emissions.NORMAL),
             "iva_percent": 12,
+            "signature": None,
         }
         form = ConfigForm(data)
-        config = form.save()
 
         assert form.is_valid() is True
         assert not form.errors
+
+        config = form.save()
+
         assert isinstance(config, Config)
         assert data == model_to_dict(config, fields=("sri_config",)).get("sri_config")
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:36+0000\n"
+"POT-Creation-Date: 2023-07-15 23:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,19 +22,19 @@ msgstr ""
 msgid "modules"
 msgstr "módulos"
 
-#: apps/accounts/menus/config.py:7
+#: apps/accounts/menus/config.py:11
 msgid "signatures"
 msgstr "firmas electrónicas"
 
-#: apps/accounts/menus/config.py:13
+#: apps/accounts/menus/config.py:17
 msgid "sri"
 msgstr ""
 
-#: apps/accounts/menus/config.py:19
+#: apps/accounts/menus/config.py:23
 msgid "vouchers"
 msgstr "comprobantes"
 
-#: apps/accounts/menus/config.py:27
+#: apps/accounts/menus/config.py:31
 msgid "configuration"
 msgstr "configuración"
 
@@ -124,7 +124,7 @@ msgstr "correo electrónico"
 msgid "code type"
 msgstr "tipo de identificación"
 
-#: apps/sales/models/invoices.py:8 apps/sites/models.py:8
+#: apps/sales/models/invoices.py:8 apps/sites/models.py:10
 msgid "issue date"
 msgstr "fecha de emisión"
 
@@ -136,11 +136,11 @@ msgstr "fecha de autorización"
 msgid "access code"
 msgstr "clave de acceso"
 
-#: apps/sales/models/invoices.py:13 apps/sites/forms.py:72
+#: apps/sales/models/invoices.py:13 apps/sites/forms.py:77
 msgid "company code"
 msgstr "código de establecimiento"
 
-#: apps/sales/models/invoices.py:15 apps/sites/forms.py:74
+#: apps/sales/models/invoices.py:15 apps/sites/forms.py:79
 msgid "company point sale code"
 msgstr "código de punto de emisión"
 
@@ -220,79 +220,79 @@ msgstr "producción"
 msgid "normal"
 msgstr "normal"
 
-#: apps/sites/forms.py:21 apps/sites/forms.py:96
+#: apps/sites/forms.py:19
 msgid "signature file"
 msgstr "archivo de firma electrónica"
 
-#: apps/sites/forms.py:24 apps/sites/forms.py:99
+#: apps/sites/forms.py:22
 msgid "signature password"
 msgstr "contraseña de firma electrónica"
 
-#: apps/sites/forms.py:42
+#: apps/sites/forms.py:39
 msgid "signature file or password are invalid"
 msgstr "archivo o contraseña de firma electrónica son inválidos"
 
-#: apps/sites/forms.py:66
+#: apps/sites/forms.py:47
+msgid "signature file has already been registered"
+msgstr "el archivo de firma ya ha sido registrado"
+
+#: apps/sites/forms.py:71
 msgid "ruc"
 msgstr "Ruc"
 
-#: apps/sites/forms.py:68
+#: apps/sites/forms.py:73
 msgid "company name"
 msgstr "razón social"
 
-#: apps/sites/forms.py:69
+#: apps/sites/forms.py:74
 msgid "trade name"
 msgstr "nombre comercial"
 
-#: apps/sites/forms.py:70
+#: apps/sites/forms.py:75
 msgid "main address"
 msgstr "dirección matriz"
 
-#: apps/sites/forms.py:71
+#: apps/sites/forms.py:76
 msgid "company address"
 msgstr "dirección de establecimiento"
 
-#: apps/sites/forms.py:77
+#: apps/sites/forms.py:82
 msgid "special taxpayer resolution"
 msgstr "contribuyente especial (Nro de resolución)"
 
-#: apps/sites/forms.py:80
+#: apps/sites/forms.py:85
 msgid "withholding agent resolution"
 msgstr "agente de retención (Nro de resolución)"
 
-#: apps/sites/forms.py:83
+#: apps/sites/forms.py:88
 msgid "accounting required"
 msgstr "obligado a llevar contabilidad"
 
-#: apps/sites/forms.py:88
+#: apps/sites/forms.py:93
 msgid "type of environment"
 msgstr "tipo de ambiente"
 
-#: apps/sites/forms.py:91
+#: apps/sites/forms.py:96
 msgid "type of emission"
 msgstr "tipo de emisión"
 
-#: apps/sites/forms.py:93
+#: apps/sites/forms.py:98
 msgid "iva percent"
 msgstr "porcentaje de IVA"
 
-#: apps/sites/forms.py:105
-msgid "company settings"
-msgstr "configuración de la empresa"
-
-#: apps/sites/forms.py:117
-msgid "electronic invoicing"
-msgstr "facturación electrónica"
+#: apps/sites/forms.py:102
+msgid "electronic signature"
+msgstr "firma electrónica"
 
 #: apps/sites/models.py:6
 msgid "subject"
 msgstr "sujeto"
 
-#: apps/sites/models.py:7
+#: apps/sites/models.py:8
 msgid "serial number"
 msgstr "número de serie"
 
-#: apps/sites/models.py:9
+#: apps/sites/models.py:11
 msgid "expiry date"
 msgstr "fecha de expiración"
 

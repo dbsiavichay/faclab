@@ -96,6 +96,9 @@ class ConfigForm(ModelForm):
         choices=Emissions.choices, initial=Emissions.NORMAL, label=_("type of emission")
     )
     iva_percent = forms.FloatField(widget=PercentInput, label=_("iva percent"))
+    signature = forms.ModelChoiceField(
+        Signature.objects.all(), required=False, label=_("electronic signature")
+    )
 
     class Meta:
         model = Config
@@ -110,11 +113,17 @@ class ConfigForm(ModelForm):
             "accounting_required",
             ("environment", "emission"),
             "iva_percent",
+            "signature",
         )
 
     def save(self, commit=True):
         obj = super().save(commit=False)
         data = {**self.cleaned_data}
+        signature = data.get("signature")
+
+        if signature:
+            data["signature"] = signature.id
+
         obj.sri_config = data
 
         if commit:
