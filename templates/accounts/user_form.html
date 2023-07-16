@@ -1,0 +1,120 @@
+{% extends "base/base_form.html" %}
+
+{% block form %}
+<ul class="nav nav-tabs mb-2" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center active" id="account-tab" data-toggle="tab" href="#account" aria-controls="account" role="tab" aria-selected="true">
+            <i class="bx bx-user mr-25"></i><span class="d-none d-sm-block">Cuenta</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center" id="permission-tab" data-toggle="tab" href="#permission" aria-controls="permission" role="tab" aria-selected="false">
+            <i class="bx bx-info-circle mr-25"></i><span class="d-none d-sm-block">Permisos</span>
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active fade show" id="account" aria-labelledby="account-tab" role="tabpanel">
+        <!-- users edit media object start -->
+        <div class="media mb-2">
+            <a class="mr-2" href="#">
+                {% if request.user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="users avatar" class="users-avatar-shadow rounded-circle" height="64" width="64">
+                {% endif %}
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">{{ user.get_full_name }}</h4>
+                <div class="col-12 px-0 d-flex">
+                    <span>{{ user.email }}</span>
+                </div>
+            </div>
+        </div>
+        <!-- users edit media object ends -->
+        <!-- users edit account form start -->
+
+        {% include "forms/form.html" with form=form %}
+        {% include "forms/form.html" with form=profile_form %}
+        <!-- users edit account form ends -->
+    </div>
+    <div class="tab-pane fade show" id="permission" aria-labelledby="permission-tab" role="tabpanel">
+        <div class="table-responsive">
+            <table class="table mt-1">
+                <thead>
+                    <tr>
+                        <th>Module Permission</th>
+                        <th>Read</th>
+                        <th>Write</th>
+                        <th>Create</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Users</td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox1" class="checkbox-input" checked>
+                                <label for="users-checkbox1"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox2" class="checkbox-input"><label for="users-checkbox2"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox3" class="checkbox-input"><label for="users-checkbox3"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox4" class="checkbox-input" checked>
+                                <label for="users-checkbox4"></label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Articles</td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox5" class="checkbox-input"><label for="users-checkbox5"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox6" class="checkbox-input" checked>
+                                <label for="users-checkbox6"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox7" class="checkbox-input"><label for="users-checkbox7"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox8" class="checkbox-input" checked>
+                                <label for="users-checkbox8"></label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Staff</td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox9" class="checkbox-input" checked>
+                                <label for="users-checkbox9"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox10" class="checkbox-input" checked>
+                                <label for="users-checkbox10"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox11" class="checkbox-input"><label for="users-checkbox11"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="checkbox"><input type="checkbox" id="users-checkbox12" class="checkbox-input"><label for="users-checkbox12"></label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

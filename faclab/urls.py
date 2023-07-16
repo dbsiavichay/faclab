@@ -24,6 +24,7 @@ from viewpack import packs
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("select2/", include("faclab.select2_views")),
+    path("", include("apps.accounts.urls")),
     path("", TemplateView.as_view(template_name="base/base.html")),
     path("", packs.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

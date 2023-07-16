@@ -1,0 +1,29 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+    {{ block.super }} Recuperar Contraseña
+{% endblock %}
+
+{% block welcome %}
+    <div class="card-title">
+        <h4 class="text-center mb-2">¿Olvidaste tu contraseña?</h4>
+    </div>
+{% endblock %}
+
+{% block submit %}
+    <button type="submit" class="btn btn-primary glow position-relative w-100">RECORDAR CONTRASEÑA
+        <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
+    </button>
+{% endblock %}
+
+{% block dividier %}
+    Ingresa tu correo electrónico para continuar.
+{% endblock %}
+
+{% block text_form %}
+    <div class="text-center mt-5">
+        <a href="{% url 'login' %}">
+            <small class="text-muted">Recordé mi contraseña</small>
+        </a>
+    </div>
+{% endblock %}
