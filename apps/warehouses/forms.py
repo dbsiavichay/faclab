@@ -1,11 +1,23 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from faclab.widgets import PercentInput, PriceInput
+from faclab.widgets import PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
 from .enums import PriceTypes
-from .models import Price, Product
+from .models import Price, Product, ProductCategory
+
+
+class ProductCategoryForm(ModelForm):
+    class Meta:
+        model = ProductCategory
+        fields = "__all__"
+        widgets = {
+            "parent": Select2(
+                model="sales.ProductCategory",
+                search_fields=["name__icontains"],
+            )
+        }
 
 
 class ProductForm(ModelForm):

@@ -20,7 +20,7 @@ superuser: # Create django superuser
 	docker-compose run --rm web python3 manage.py createsuperuser
 
 i18n:
-	docker-compose run --rm web python3 manage.py makemessages -l es --extension=py
+	docker-compose run --rm web python3 manage.py makemessages -l es --extension=html,py
 
 i18n-compile:  ## Compile translations
 	docker-compose run --rm web python3 manage.py compilemessages -l es

@@ -1,11 +1,13 @@
 {% extends 'base/base.html' %}
 
+{% load i18n %}
+
 {% block content %}
 <section class="list-wrapper">
     {% block create %}
     <div class="mb-1">
         <a href="{{ pack_info.paths.create }}" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true">
-            <i class="bx bx-plus"></i>&nbsp; Crear nuevo
+            <i class="bx bx-plus"></i>&nbsp; {% translate "Create new" %}
         </a>
     </div>
     {% endblock %}
@@ -21,7 +23,7 @@
                     {% for header in pack_info.headers.values %}
                     <th>{{ header }}</th>
                     {% endfor %}
-                    <th>Acciones</th>
+                    <th>{% translate "Actions" %}</th>
                     {% else %}
                     <th>{{ pack_info.title }}</th>
                     {% endif %}
@@ -59,7 +61,7 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td>"Sin resultados."</td>
+                    <td>{% translate "No results" %}</td>
                 </tr>
                 {% endfor %}
             </tbody>

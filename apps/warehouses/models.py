@@ -9,6 +9,11 @@ from .enums import PriceTypes, ProductTypes
 
 class ProductCategory(TreeNode):
     name = models.CharField(max_length=64, verbose_name=_("name"))
+    parent = TreeNode._meta.get_field("parent")
+    parent.verbose_name = _("parent category")
+
+    class Meta:
+        verbose_name = _("category")
 
     def __str__(self):
         return self.name
@@ -17,6 +22,9 @@ class ProductCategory(TreeNode):
 class Measure(models.Model):
     code = models.CharField(max_length=16, verbose_name=_("code"))
     name = models.CharField(max_length=64, verbose_name=_("name"))
+
+    class Meta:
+        verbose_name = _("measure")
 
     def __str__(self):
         return self.name

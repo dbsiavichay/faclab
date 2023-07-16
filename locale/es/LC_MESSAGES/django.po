@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-15 23:12+0000\n"
+"POT-Creation-Date: 2023-07-16 03:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,16 +23,16 @@ msgid "modules"
 msgstr "módulos"
 
 #: apps/accounts/menus/config.py:11
+msgid "vouchers"
+msgstr "comprobantes"
+
+#: apps/accounts/menus/config.py:17
 msgid "signatures"
 msgstr "firmas electrónicas"
 
-#: apps/accounts/menus/config.py:17
+#: apps/accounts/menus/config.py:23
 msgid "sri"
 msgstr ""
-
-#: apps/accounts/menus/config.py:23
-msgid "vouchers"
-msgstr "comprobantes"
 
 #: apps/accounts/menus/config.py:31
 msgid "configuration"
@@ -181,13 +181,13 @@ msgstr "precio unitario"
 msgid "product"
 msgstr "producto"
 
-#: apps/sales/models/vouchers.py:6 apps/warehouses/models.py:18
-#: apps/warehouses/models.py:26
+#: apps/sales/models/vouchers.py:6 apps/warehouses/models.py:23
+#: apps/warehouses/models.py:34
 msgid "code"
 msgstr "código"
 
 #: apps/sales/models/vouchers.py:7 apps/warehouses/models.py:11
-#: apps/warehouses/models.py:19 apps/warehouses/models.py:27
+#: apps/warehouses/models.py:24 apps/warehouses/models.py:35
 msgid "name"
 msgstr "nombre"
 
@@ -280,7 +280,7 @@ msgstr "tipo de emisión"
 msgid "iva percent"
 msgstr "porcentaje de IVA"
 
-#: apps/sites/forms.py:102
+#: apps/sites/forms.py:100
 msgid "electronic signature"
 msgstr "firma electrónica"
 
@@ -336,62 +336,82 @@ msgstr "compra"
 msgid "sale"
 msgstr "venta"
 
-#: apps/warehouses/forms.py:12 apps/warehouses/forms.py:66
+#: apps/warehouses/forms.py:24 apps/warehouses/forms.py:78
 msgid "price net"
 msgstr "precio sin IVA"
 
-#: apps/warehouses/forms.py:13 apps/warehouses/forms.py:58
+#: apps/warehouses/forms.py:25 apps/warehouses/forms.py:70
 msgid "price gross"
 msgstr "precio con IVA"
 
-#: apps/warehouses/forms.py:60
+#: apps/warehouses/forms.py:72
 msgid "percent revenue"
 msgstr "porcentaje de utilidad"
 
-#: apps/warehouses/models.py:28
-msgid "short name"
-msgstr "nombre corto"
+#: apps/warehouses/models.py:13
+msgid "parent category"
+msgstr "categoria padre"
 
-#: apps/warehouses/models.py:29
-msgid "description"
-msgstr "descripción"
-
-#: apps/warehouses/models.py:30
-msgid "is inventoried"
-msgstr "es inventariado"
-
-#: apps/warehouses/models.py:31
-msgid "apply iva"
-msgstr "aplica IVA"
-
-#: apps/warehouses/models.py:32
-msgid "apply ice"
-msgstr "aplica ICE"
-
-#: apps/warehouses/models.py:33
-msgid "stock"
-msgstr "stock"
-
-#: apps/warehouses/models.py:39 apps/warehouses/models.py:70
-msgid "type"
-msgstr "tipo"
-
-#: apps/warehouses/models.py:46
+#: apps/warehouses/models.py:16 apps/warehouses/models.py:54
 msgid "category"
 msgstr "categoria"
 
-#: apps/warehouses/models.py:53
+#: apps/warehouses/models.py:27
+msgid "measure"
+msgstr "medida"
+
+#: apps/warehouses/models.py:36
+msgid "short name"
+msgstr "nombre corto"
+
+#: apps/warehouses/models.py:37
+msgid "description"
+msgstr "descripción"
+
+#: apps/warehouses/models.py:38
+msgid "is inventoried"
+msgstr "es inventariado"
+
+#: apps/warehouses/models.py:39
+msgid "apply iva"
+msgstr "aplica IVA"
+
+#: apps/warehouses/models.py:40
+msgid "apply ice"
+msgstr "aplica ICE"
+
+#: apps/warehouses/models.py:41
+msgid "stock"
+msgstr "stock"
+
+#: apps/warehouses/models.py:47 apps/warehouses/models.py:78
+msgid "type"
+msgstr "tipo"
+
+#: apps/warehouses/models.py:61
 msgid "unit of measure"
 msgstr "unidad de medida"
 
-#: apps/warehouses/models.py:72
+#: apps/warehouses/models.py:80
 msgid "amount"
 msgstr "monto"
 
-#: apps/warehouses/models.py:73
+#: apps/warehouses/models.py:81
 msgid "revenue"
 msgstr "utilidad"
 
-#: apps/warehouses/packs.py:31
+#: apps/warehouses/packs.py:32
 msgid "additional information"
 msgstr "información adicional"
+
+#: templates/base/base_list.html:10
+msgid "Create new"
+msgstr "Crear nuevo"
+
+#: templates/base/base_list.html:26
+msgid "Actions"
+msgstr "Acciones"
+
+#: templates/base/base_list.html:64
+msgid "No results"
+msgstr "Sin resultados"

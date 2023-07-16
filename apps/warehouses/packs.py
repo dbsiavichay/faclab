@@ -3,12 +3,13 @@ from django.utils.translation import gettext_lazy as _
 from faclab.base import BasePack
 from viewpack.decorators import register
 
-from .forms import ProductForm
+from .forms import ProductCategoryForm, ProductForm
 from .formsets import ProductPriceFormset
 
 
 @register("warehouses.ProductCategory")
 class ProductCategoryPack(BasePack):
+    form_class = ProductCategoryForm
     list_fields = ("name", "parent")
     detail_fields = ("name", "parent")
 
