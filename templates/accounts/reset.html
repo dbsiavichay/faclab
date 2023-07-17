@@ -1,29 +1,31 @@
 {% extends 'accounts/base.html' %}
 
+{% load i18n %}
+
 {% block title %}
-    {{ block.super }} Recuperar Contraseña
+  {{ block.super }} {% translate "Password recovery" %}
 {% endblock %}
 
 {% block welcome %}
-    <div class="card-title">
-        <h4 class="text-center mb-2">¿Olvidaste tu contraseña?</h4>
-    </div>
+<div class="card-title">
+  <h4 class="text-center mb-2">{% translate "Forgot your pasword?" %}</h4>
+</div>
 {% endblock %}
 
 {% block submit %}
-    <button type="submit" class="btn btn-primary glow position-relative w-100">RECORDAR CONTRASEÑA
-        <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
-    </button>
+<button type="submit" class="btn btn-primary glow position-relative w-100">{% translate "Remember password" %}
+  <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
+</button>
 {% endblock %}
 
 {% block dividier %}
-    Ingresa tu correo electrónico para continuar.
+{% translate "Input your email to continue" %}
 {% endblock %}
 
 {% block text_form %}
     <div class="text-center mt-5">
         <a href="{% url 'login' %}">
-            <small class="text-muted">Recordé mi contraseña</small>
+            <small class="text-muted">{% translate "I remembered my password" %}</small>
         </a>
     </div>
 {% endblock %}

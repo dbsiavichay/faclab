@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-16 03:24+0000\n"
+"POT-Creation-Date: 2023-07-17 22:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -403,6 +403,39 @@ msgstr "utilidad"
 #: apps/warehouses/packs.py:32
 msgid "additional information"
 msgstr "información adicional"
+
+#: templates/accounts/base.html:55
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#: templates/accounts/base.html:64
+msgid "Login with your email"
+msgstr "Inicia sesión con tu email"
+
+#: templates/accounts/base.html:78
+msgid "Login"
+msgstr "Iniciar sesión"
+
+#: templates/accounts/base.html:85 templates/accounts/reset.html:11
+msgid "Forgot your pasword?"
+msgstr "¿Olvidaste tu contraseña?"
+
+#: templates/accounts/reset.html:6
+#: templates/accounts/reset_password_done.html:4
+msgid "Password recovery"
+msgstr "Recuperación de contraseña"
+
+#: templates/accounts/reset.html:16
+msgid "Remember password"
+msgstr "Recordar contraseña"
+
+#: templates/accounts/reset.html:22
+msgid "Input your email to continue"
+msgstr "Ingrese su correo electrónico para continuar"
+
+#: templates/accounts/reset.html:28
+msgid "I remembered my password"
+msgstr "Recordé mi contraseña"
 
 #: templates/base/base_list.html:10
 msgid "Create new"
