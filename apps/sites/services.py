@@ -8,6 +8,7 @@ SRI_CONFIG_CACHE_KEY = "sri_config"
 class SRIConfig:
     id = None
     iva_percent = None
+    signature = None
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():

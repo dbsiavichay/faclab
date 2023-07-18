@@ -22,6 +22,7 @@ from lxml import etree
 from lxml.etree import Element, QName
 from zeep import Client
 
+from apps.sites.models import Signature
 from apps.sites.services import SRIConfigService
 from apps.sri.enums import Methods, Namespaces
 from apps.sri.exceptions import SignatureException
@@ -300,43 +301,12 @@ class SRISigner:
 
         return signature_value
 
-    def _get_signature_node(self, voucher_b64):
+    def _get_signature_node(self, cert_digest, key_digest, voucher_b64):
         ds = Namespaces.ds.value
-        config = SRIConfigService.get_sri_config()
+        private_key = load_der_private_key(key_digest, password=None)
 
-        try:
-            keystore_name = f"{uuid4()}.jks"
-            command = settings.KEYTOOL_COMMAND.format(
-                config.signature_file,
-                keystore_name,
-                config.signature_password,
-                config.signature_password,
-            )
-            _ = subprocess.check_output(
-                command, shell=True, stderr=subprocess.STDOUT, universal_newlines=True
-            )
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing command: {command}")
-            print(f"Return code: {e.returncode}")
-            print(f"Output: {e.output}")
-
-        ks = jks.KeyStore.load(keystore_name, config.signature_password)
-        keys = [k for k in ks.private_keys.values() if "signing key" in k.alias]
-        os.remove(keystore_name)
-
-        if not keys:
-            raise Exception("not keys")
-
-        key = keys.pop()
-
-        if not key.is_decrypted():
-            key.decrypt(config.signature_password)
-
-        cert_chain = key.cert_chain[0][1]
-        private_key = load_der_private_key(key.pkey, password=None)
-
-        object, signed_properties_b64 = self._get_object_node(cert_chain)
-        key_info, key_info_b64 = self._get_key_info_node(cert_chain)
+        object, signed_properties_b64 = self._get_object_node(cert_digest)
+        key_info, key_info_b64 = self._get_key_info_node(cert_digest)
         signed_info = self._get_signed_info_node(
             signed_properties_b64, key_info_b64, voucher_b64
         )
@@ -353,6 +323,22 @@ class SRISigner:
         return signature
 
     def sign(self, voucher_path):
+        config = SRIConfigService.get_sri_config()
+        signature = Signature.objects.filter(id=config.signature).first()
+
+        if not signature:
+            raise SignatureException(
+                _("no electronic signature has been configured").capitalize()
+            )
+
+        if datetime.now() > signature.expiry_date:
+            raise SignatureException(
+                _("the electronic signature has expired").capitalize()
+            )
+
+        cert_digest = base64.b64decode(signature.cert)
+        key_digest = base64.b64decode(signature.key)
+
         with open(voucher_path, mode="rb") as file:
             xml_data = file.read()
 
@@ -361,7 +347,7 @@ class SRISigner:
         voucher_digest = hashlib.sha1(voucher_c14n).digest()
         voucher_b64 = base64.b64encode(voucher_digest).decode()
 
-        signature = self._get_signature_node(voucher_b64)
+        signature = self._get_signature_node(cert_digest, key_digest, voucher_b64)
         voucher_root.append(signature)
 
         signed_voucher = etree.tostring(voucher_root, encoding="unicode")

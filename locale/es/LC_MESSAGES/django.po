@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-17 22:51+0000\n"
+"POT-Creation-Date: 2023-07-18 19:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -296,31 +296,39 @@ msgstr "número de serie"
 msgid "expiry date"
 msgstr "fecha de expiración"
 
-#: apps/sri/services.py:392
+#: apps/sri/services.py:331
+msgid "no electronic signature has been configured"
+msgstr "no se ha configurado una firma electrónica"
+
+#: apps/sri/services.py:336
+msgid "the electronic signature has expired"
+msgstr "la firma electrónica ha expirado"
+
+#: apps/sri/services.py:378
 msgid "an error has occurred while call keytool command"
 msgstr "un error ha ocurrido mientras se llamaba al comando de keytool"
 
-#: apps/sri/services.py:401
+#: apps/sri/services.py:387
 msgid "signature file has not valid keys"
 msgstr "el archivo de firma no tiene claves válidas"
 
-#: apps/sri/services.py:432
+#: apps/sri/services.py:418
 msgid "SRI Error connecting to server"
 msgstr "SRI Error al conectarse al servidor"
 
-#: apps/sri/services.py:444
+#: apps/sri/services.py:430
 msgid "SRI Error to send voucher"
 msgstr "SRI Erro al enviar el comprobante"
 
-#: apps/sri/services.py:452 apps/sri/services.py:476
+#: apps/sri/services.py:438 apps/sri/services.py:462
 msgid "SRI Voucher not received"
 msgstr "SRI Comprobante no recibido"
 
-#: apps/sri/services.py:461
+#: apps/sri/services.py:447
 msgid "SRI Error to fetch voucher"
 msgstr "SRI Error al obtener el comprobante"
 
-#: apps/sri/services.py:468
+#: apps/sri/services.py:454
 msgid "Invalid code"
 msgstr "Clave de acceso incorrecta"
 
