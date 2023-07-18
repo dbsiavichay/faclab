@@ -1,173 +1,177 @@
 <!DOCTYPE html>
 <html class="loading" lang="es">
 <!-- BEGIN: Head-->
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <meta name="description" content="Invoicing app.">
-    <meta name="keywords" content="web app, invoicing">
-    <meta name="author" content="Faclab">
-    <title>:: Faclab :: Inicio</title>
-    {% block css %}
-    {% include 'base/css.html' %}
-    {% endblock %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <meta name="description" content="Invoicing app.">
+  <meta name="keywords" content="web app, invoicing">
+  <meta name="author" content="Faclab">
+  <title>:: Faclab :: Inicio</title>
+  {% block css %}
+  {% include 'base/css.html' %}
+  {% endblock %}
 </head>
 <!-- END: Head-->
 
+{% load simple_menu custom_breadcrumbs %}
+
+{% generate_menu %}
+{% build_breadcrumbs selected_menu %}
+
 <!-- BEGIN: Body-->
+<body class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 2-columns  navbar-sticky footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+  {% include 'base/header.html' %}
 
-<body class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 2-columns  navbar-sticky footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+  {% include 'base/sidebar.html' %}
 
-    {% include 'base/header.html' %}
-
-    {% include 'base/sidebar.html' %}
-
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
-                {% block breadcrumb %}
-                <div class="content-header-left col-12 mb-2 mt-1">
-                    <div class="row breadcrumbs-top">
-                        <div class="col-12">
-                            <h5 class="content-header-title float-left pr-1 mb-0">{{ site.title|capfirst }}</h5>
-                            <div class="breadcrumb-wrapper col-12">
-                                <ol class="breadcrumb p-0 mb-0">
-                                    {% for name, url in site.breadcrumbs %}
-                                    {% if not forloop.last %}
-                                    <li class="breadcrumb-item">
-                                        <a href="{{ url }}">{{ name|capfirst }}</a>
-                                    </li>
-                                    {% else %}
-                                    <li class="breadcrumb-item active" aria-current="page">{{ name|capfirst }}</li>
-                                    {% endif %}
-                                    {% endfor %}
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
+  <!-- BEGIN: Content-->
+  <div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper">
+      <div class="content-header row">
+        {% block breadcrumb %}
+        <div class="content-header-left col-12 mb-2 mt-1">
+            <div class="row breadcrumbs-top">
+              <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">{{ pack_info.title|capfirst }}</h5>
+                <div class="breadcrumb-wrapper col-12">
+                  <ol class="breadcrumb p-0 mb-0">
+                    <li class="breadcrumb-item">
+                      <a href="/"><i class="bx bx-home-alt"></i></a>
+                    </li>
+                    {% for item in breadcrumbs %}
+                    {% if not forloop.last %}
+                    <li class="breadcrumb-item">
+                      <a href="{{ item.url }}">{{ item.title|capfirst }}</a>
+                    </li>
+                    {% else %}
+                    <li class="breadcrumb-item active" aria-current="page">{{ item.title|capfirst }}</li>
+                    {% endif %}
+                    {% endfor %}
+                  </ol>
                 </div>
-                {% endblock %}
-            </div>
-            <div class="content-body">
-                {% for message in messages %}
-                <i class="d-none toastr-message" data-tags="{{ message.tags }}" data-message="{{ message }}"></i>
-                {% endfor %}
-
-                {% block content %}
-                {% endblock %}
+              </div>
             </div>
         </div>
-    </div>
-    <!-- END: Content-->
+        {% endblock %}
+      </div>
+      <div class="content-body">
+        {% for message in messages %}
+        <i class="d-none toastr-message" data-tags="{{ message.tags }}" data-message="{{ message }}"></i>
+        {% endfor %}
 
-    <div class="widget-insoles">
-        <div class="modal fade text-left" id="insoles" tabindex="3" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="modalLabel">Crear nuevo </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <i class="bx bx-x"></i>
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+  <!-- END: Content-->
+
+  <div class="widget-insoles">
+    <div class="modal fade text-left" id="insoles" tabindex="3" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Crear nuevo </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="bx bx-x"></i>
+                    </button>
+                </div>
+                <form id="insoles-form" action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Cancelar</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary ml-1">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Crear</span>
                         </button>
                     </div>
-                    <form id="insoles-form" action="" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="modal-body">
-                            
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Cancelar</span>
-                            </button>
-                            <button type="submit" class="btn btn-primary ml-1">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Crear</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+  </div>
 
-    <!-- demo chat-->
-    <div class="widget-chat-demo">
-        <!-- widget chat demo footer button start -->
-        <button class="btn btn-primary chat-demo-button glow px-1"><i class="livicon-evo" data-options="name: comments.svg; style: lines; size: 24px; strokeColor: #fff; autoPlay: true; repeat: loop;"></i></button>
-        <!-- widget chat demo footer button ends -->
-        <!-- widget chat demo start -->
-        <div class="widget-chat widget-chat-demo d-none">
-            <div class="card mb-0">
-                <div class="card-header border-bottom p-0">
-                    <div class="media m-75">
-                        <a href="JavaScript:void(0);">
-                            <div class="avatar mr-75">
-                                {% load static %}
-                                <img src="{% static 'assets/img/avatar-s-2.jpg' %}" alt="avtar images" width="32" height="32">
-                                <span class="avatar-status-online"></span>
-                            </div>
-                        </a>
-                        <div class="media-body">
-                            <h6 class="media-heading mb-0 pt-25"><a href="javaScript:void(0);">Kiara Cruiser</a></h6>
-                            <span class="text-muted font-small-3">Active</span>
+  <!-- demo chat-->
+  <div class="widget-chat-demo">
+    <!-- widget chat demo footer button start -->
+    <button class="btn btn-primary chat-demo-button glow px-1"><i class="livicon-evo" data-options="name: comments.svg; style: lines; size: 24px; strokeColor: #fff; autoPlay: true; repeat: loop;"></i></button>
+    <!-- widget chat demo footer button ends -->
+    <!-- widget chat demo start -->
+    <div class="widget-chat widget-chat-demo d-none">
+        <div class="card mb-0">
+            <div class="card-header border-bottom p-0">
+                <div class="media m-75">
+                    <a href="JavaScript:void(0);">
+                        <div class="avatar mr-75">
+                            {% load static %}
+                            <img src="{% static 'assets/img/avatar-s-2.jpg' %}" alt="avtar images" width="32" height="32">
+                            <span class="avatar-status-online"></span>
                         </div>
-                        <i class="bx bx-x widget-chat-close float-right my-auto cursor-pointer"></i>
+                    </a>
+                    <div class="media-body">
+                        <h6 class="media-heading mb-0 pt-25"><a href="javaScript:void(0);">Kiara Cruiser</a></h6>
+                        <span class="text-muted font-small-3">Active</span>
                     </div>
+                    <i class="bx bx-x widget-chat-close float-right my-auto cursor-pointer"></i>
                 </div>
-                <div class="card-body widget-chat-container widget-chat-demo-scroll">
-                    <div class="chat-content">
-                        <div class="badge badge-pill badge-light-secondary my-1">today</div>
-                        <div class="chat">
-                            <div class="chat-body">
-                                <div class="chat-message">
-                                    <p>How can we help? 😄</p>
-                                    <span class="chat-time">7:45 AM</span>
-                                </div>
+            </div>
+            <div class="card-body widget-chat-container widget-chat-demo-scroll">
+                <div class="chat-content">
+                    <div class="badge badge-pill badge-light-secondary my-1">today</div>
+                    <div class="chat">
+                        <div class="chat-body">
+                            <div class="chat-message">
+                                <p>How can we help? 😄</p>
+                                <span class="chat-time">7:45 AM</span>
                             </div>
                         </div>
-                        <div class="chat chat-left">
-                            <div class="chat-body">
-                                <div class="chat-message">
-                                    <p>Hey John, I am looking for the best admin template.</p>
-                                    <p>Could you please help me to find it out? 🤔</p>
-                                    <span class="chat-time">7:50 AM</span>
-                                </div>
+                    </div>
+                    <div class="chat chat-left">
+                        <div class="chat-body">
+                            <div class="chat-message">
+                                <p>Hey John, I am looking for the best admin template.</p>
+                                <p>Could you please help me to find it out? 🤔</p>
+                                <span class="chat-time">7:50 AM</span>
                             </div>
                         </div>
-                        <div class="chat">
-                            <div class="chat-body">
-                                <div class="chat-message">
-                                    <p>Stack admin is the responsive bootstrap 4 admin template.</p>
-                                    <span class="chat-time">8:01 AM</span>
-                                </div>
+                    </div>
+                    <div class="chat">
+                        <div class="chat-body">
+                            <div class="chat-message">
+                                <p>Stack admin is the responsive bootstrap 4 admin template.</p>
+                                <span class="chat-time">8:01 AM</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer border-top p-1">
-                    <form class="d-flex" onsubmit="widgetChatMessageDemo();" action="javascript:void(0);">
-                        <input type="text" class="form-control chat-message-demo mr-75" placeholder="Type here...">
-                        <button type="submit" class="btn btn-primary glow px-1"><i class="bx bx-paper-plane"></i></button>
-                    </form>
-                </div>
+            </div>
+            <div class="card-footer border-top p-1">
+                <form class="d-flex" onsubmit="widgetChatMessageDemo();" action="javascript:void(0);">
+                    <input type="text" class="form-control chat-message-demo mr-75" placeholder="Type here...">
+                    <button type="submit" class="btn btn-primary glow px-1"><i class="bx bx-paper-plane"></i></button>
+                </form>
             </div>
         </div>
-        <!-- widget chat demo ends -->
-
     </div>
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
+    <!-- widget chat demo ends -->
+  </div>
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
 
-    {% include 'base/footer.html' %}
+  {% include 'base/footer.html' %}
 
-    {% block js %}
-    {% include 'base/js.html' %}
-    {% endblock %}
+  {% block js %}
+  {% include 'base/js.html' %}
+  {% endblock %}
 </body>
 <!-- END: Body-->
 
