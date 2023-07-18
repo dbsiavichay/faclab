@@ -5,8 +5,7 @@ ENV PYTHONUNBUFFERED 1
 ENV APP_ROOT /app
 ENV CONFIG_ROOT /config
 
-RUN apt update --fix-missing -y && \
-    apt install -y git
+RUN apt update --fix-missing -y
 
 # Locale
 ARG DEBIAN_FRONTEND=noninteractive
@@ -20,7 +19,7 @@ ENV LC_ALL es_EC.UTF-8
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt install --fix-missing -y build-essential software-properties-common apt-utils \
-    python3-dev python3-pip python3-setuptools python3-wheel python3-cffi python3-brotli
+    python3-dev python3-pip python3-setuptools python3-wheel python3-cffi python3-brotli git
 
 RUN mkdir ${CONFIG_ROOT}
 COPY ./requirements_sys.txt ${CONFIG_ROOT}/
