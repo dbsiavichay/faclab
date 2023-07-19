@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-18 19:47+0000\n"
+"POT-Creation-Date: 2023-07-19 15:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,13 +82,13 @@ msgstr "validado"
 msgid "authorized"
 msgstr "autorizado"
 
-#: apps/sales/forms.py:36
+#: apps/sales/forms.py:37
 #, python-format
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
-#: apps/sales/forms.py:78 apps/sales/models/invoices.py:18
-#: apps/sales/models/invoices.py:53
+#: apps/sales/forms.py:79 apps/sales/models/invoices.py:18
+#: apps/sales/models/invoices.py:54
 msgid "subtotal"
 msgstr "subtotal"
 
@@ -148,11 +148,11 @@ msgstr "código de punto de emisión"
 msgid "sequence"
 msgstr ""
 
-#: apps/sales/models/invoices.py:19 apps/sales/models/invoices.py:54
+#: apps/sales/models/invoices.py:19 apps/sales/models/invoices.py:55
 msgid "tax"
 msgstr "iva"
 
-#: apps/sales/models/invoices.py:21 apps/sales/models/invoices.py:55
+#: apps/sales/models/invoices.py:21 apps/sales/models/invoices.py:56
 msgid "total"
 msgstr "total"
 
@@ -164,20 +164,24 @@ msgstr "estado"
 msgid "customer"
 msgstr "cliente"
 
-#: apps/sales/models/invoices.py:41
+#: apps/sales/models/invoices.py:39
+msgid "invoice"
+msgstr "factura"
+
+#: apps/sales/models/invoices.py:42
 #, python-brace-format
 msgid "invoice # {0}"
 msgstr "factura # {0}"
 
-#: apps/sales/models/invoices.py:51
+#: apps/sales/models/invoices.py:52
 msgid "quantity"
 msgstr "cantidad"
 
-#: apps/sales/models/invoices.py:52
+#: apps/sales/models/invoices.py:53
 msgid "unit price"
 msgstr "precio unitario"
 
-#: apps/sales/models/invoices.py:57 apps/warehouses/enums.py:6
+#: apps/sales/models/invoices.py:58 apps/warehouses/enums.py:6
 msgid "product"
 msgstr "producto"
 
@@ -199,7 +203,7 @@ msgstr "actual"
 msgid "ends"
 msgstr "termina"
 
-#: apps/sales/packs.py:38
+#: apps/sales/packs.py:40
 msgid "number"
 msgstr "número"
 
@@ -444,6 +448,18 @@ msgstr "Ingrese su correo electrónico para continuar"
 #: templates/accounts/reset.html:28
 msgid "I remembered my password"
 msgstr "Recordé mi contraseña"
+
+#: templates/base/base_detail.html:19
+msgid "New"
+msgstr "Nuevo"
+
+#: templates/base/base_detail.html:22
+msgid "Update"
+msgstr "Editar"
+
+#: templates/base/base_detail.html:25
+msgid "Delete"
+msgstr "Eliminar"
 
 #: templates/base/base_list.html:10
 msgid "Create new"

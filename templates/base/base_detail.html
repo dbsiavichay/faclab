@@ -1,5 +1,7 @@
 {% extends 'base/base.html' %}
 
+{% load i18n %}
+
 {% block content %}
 <div class="card">
   <div class="card-header"><h3>{{ object|capfirst }}</h3></div>
@@ -13,9 +15,15 @@
     <div class="row mt-3">
       <div class="col-12">
         {% block buttons %}
-        <a class="btn btn-primary default mr-1 mb-1" href="{{ pack_info.paths.create }}">Nuevo</a>
-        <a class="btn btn-secondary default mr-1 mb-1" href="{{ pack_info.paths.update }}">Editar</a>
-        <a class="btn btn-danger default mr-1 mb-1" href="{{ pack_info.paths.delete }}">Eliminar</a>
+        {% if pack_info.paths.create %}
+        <a class="btn btn-primary default mr-1 mb-1" href="{{ pack_info.paths.create }}">{% translate "New" %}</a>
+        {% endif %}
+        {% if pack_info.paths.update %}
+        <a class="btn btn-secondary default mr-1 mb-1" href="{{ pack_info.paths.update }}">{% translate "Update" %}</a>
+        {% endif %}
+        {% if pack_info.paths.delete %}
+        <a class="btn btn-danger default mr-1 mb-1" href="{{ pack_info.paths.delete }}">{% translate "Delete" %}</a>
+        {% endif %}
         {% endblock %}
       </div>
     </div>

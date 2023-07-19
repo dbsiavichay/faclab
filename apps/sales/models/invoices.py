@@ -36,6 +36,7 @@ class Invoice(models.Model):
 
     class Meta:
         unique_together = ("company_code", "company_point_sale_code", "sequence")
+        verbose_name = _("invoice")
 
     def __str__(self):
         return _("invoice # {0}").format(self.number).capitalize()

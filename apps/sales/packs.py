@@ -2,6 +2,7 @@ from django.utils.translation import gettext_lazy as _
 
 from faclab.base import BasePack
 from viewpack.decorators import register
+from viewpack.enums import PackViews
 
 from .forms import CustomerForm, InvoiceForm, InvoiceLineFormset
 
@@ -21,6 +22,7 @@ class CustomerPack(BasePack):
 @register("sales.Invoice")
 class InvoicePack(BasePack):
     form_class = InvoiceForm
+    allowed_views = (PackViews.LIST, PackViews.CREATE, PackViews.DETAIL)
     inlines = {"lines": InvoiceLineFormset}
     list_fields = (
         "customer",

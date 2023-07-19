@@ -35,7 +35,7 @@
                     <td></td>
                     <td></td>
                     {% for data in row.data.values %}
-                    <td>{{ data.value|default:""|truncatechars:"50" }}</td>
+                    <td>{{ data.value|default_if_none:"" }}</td>
                     {% endfor %}
                     <td>
                         {% if row.paths.detail %}
