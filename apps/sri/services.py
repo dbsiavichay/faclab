@@ -331,7 +331,7 @@ class SRISigner:
                 _("no electronic signature has been configured").capitalize()
             )
 
-        if datetime.now() > signature.expiry_date:
+        if datetime.now() > signature.expiry_date.replace(tzinfo=None):
             raise SignatureException(
                 _("the electronic signature has expired").capitalize()
             )
@@ -400,8 +400,8 @@ class SRISigner:
         metadata = {
             "subject_name": subject[0].value,
             "serial_number": certificate.serial_number,
-            "issue_date": certificate.not_valid_before,
-            "expiry_date": certificate.not_valid_after,
+            "issue_date": certificate.not_valid_before.astimezone(pytz.utc),
+            "expiry_date": certificate.not_valid_after.astimezone(pytz.utc),
             "cert": cert,
             "key": key,
         }
