@@ -9,6 +9,7 @@ from viewpack.forms import ModelForm
 
 from .models import Customer, Invoice, InvoiceLine
 from .services import InvoiceService
+from .tasks import sign_and_send_invoice_task
 from .validators import customer_code_validator
 
 
@@ -102,12 +103,11 @@ class InvoiceLineForm(ModelForm):
 class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
     def save(self, commit=True):
         object_list = super().save(commit=commit)
-        InvoiceService.calculate_totals(self.instance, commit=False)
         InvoiceService.generate_access_code(self.instance, commit=False)
+        InvoiceService.calculate_totals(self.instance, commit=False)
         InvoiceService.generate_xml(self.instance, commit=False)
         self.instance.save()
-        InvoiceService.sign_xml(self.instance)
-        InvoiceService.send_xml(self.instance)
+        sign_and_send_invoice_task.apply_async(args=[self.instance.id])
 
         return object_list
 
