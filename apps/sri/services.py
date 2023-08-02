@@ -322,7 +322,7 @@ class SRISigner:
 
         return signature
 
-    def sign(self, voucher_path):
+    def sign(self, voucher_bytes):
         config = SRIConfigService.get_sri_config()
         signature = Signature.objects.filter(id=config.signature).first()
 
@@ -339,10 +339,7 @@ class SRISigner:
         cert_digest = base64.b64decode(signature.cert)
         key_digest = base64.b64decode(signature.key)
 
-        with open(voucher_path, mode="rb") as file:
-            xml_data = file.read()
-
-        voucher_root = etree.fromstring(xml_data)
+        voucher_root = etree.fromstring(voucher_bytes)
         voucher_c14n = etree.tostring(voucher_root, method="c14n")
         voucher_digest = hashlib.sha1(voucher_c14n).digest()
         voucher_b64 = base64.b64encode(voucher_digest).decode()
@@ -418,14 +415,12 @@ class SRIClient:
             message = _("SRI Error connecting to server")
             raise Exception(f"{message}: {e}")
 
-    def send_voucher(self, path):
+    def send_voucher(self, voucher_bytes):
         FAIL_STATUS = "DEVUELTA"
 
         try:
-            with open(path, "rb") as file:
-                data = base64.encodebytes(file.read()).decode("utf-8")
-                result = self.client.service.validarComprobante(data)
-            file.close()
+            data = base64.encodebytes(voucher_bytes).decode("utf-8")
+            result = self.client.service.validarComprobante(data)
         except Exception as e:
             message = _("SRI Error to send voucher")
             raise Exception(f"{message}: {e}")

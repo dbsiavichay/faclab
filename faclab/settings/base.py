@@ -42,6 +42,7 @@ DJANGO_APPS = [
 ]
 
 LIBRARY_APPS = [
+    "minio_storage",
     "simple_menu",
     "viewpack",
     "widget_tweaks",

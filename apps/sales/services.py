@@ -218,7 +218,7 @@ class InvoiceService:
     @classmethod
     def sign_xml(cls, invoice):
         signer = SRISigner()
-        str_signed_invoice = signer.sign(invoice.file.path)
+        str_signed_invoice = signer.sign(invoice.file.read())
         xml_file = NamedTemporaryFile(suffix=".xml")
 
         with open(xml_file.name, "w") as file:
@@ -237,20 +237,8 @@ class InvoiceService:
     @classmethod
     def send_xml(cls, invoice):
         client = SRIClient()
-        client.send_voucher(invoice.signed_file.path)
-        authotization, authotization_date = client.fetch_voucher(invoice.code)
-
-        xml_file = NamedTemporaryFile(suffix=".xml")
-
-        with open(xml_file.name, "w") as file:
-            file.write(authotization)
-
-        file_name = f"{invoice.code}_authorized.xml"
-        content_file = ContentFile(xml_file.read())
-        file = File(file=content_file, name=file_name)
-        invoice.authorized_file = file
+        client.send_voucher(invoice.signed_file.read())
+        _, authotization_date = client.fetch_voucher(invoice.code)
         invoice.authorization_date = authotization_date
         invoice.status = VoucherStatuses.AUTHORIZED
-        invoice.save(update_fields=["authorized_file", "authorization_date", "status"])
-
-        return file
+        invoice.save(update_fields=["authorization_date", "status"])

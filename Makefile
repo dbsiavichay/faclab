@@ -31,7 +31,7 @@ run:
 runtests:
 	docker-compose run --rm web pytest --reuse-db --create-db --no-migrations
 
-runcelery:
+celery:
 	docker-compose run --rm web celery -A faclab worker -l INFO
 
 shell:

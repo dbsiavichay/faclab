@@ -2,6 +2,7 @@
 
 from .base import *  # Noqa F403
 from .base import env
+from .storage import *  # Noqa F403
 
 # Security
 SECRET_KEY = env(
