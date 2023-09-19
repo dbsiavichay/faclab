@@ -53,6 +53,8 @@ class InlineMixin:
             inline.instance = self.object
             inline.save()
 
+        self.pack.post_save_inlines(self.object)
+
         return redirect(self.get_success_url())
 
     def form_invalid(self, form):

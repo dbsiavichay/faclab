@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.sales.enums import VoucherStatuses
+from apps.sales.enums import PaymentTypes, VoucherStatuses
 
 
 class Invoice(models.Model):
@@ -58,4 +58,17 @@ class InvoiceLine(models.Model):
     )
     invoice = models.ForeignKey(
         "sales.Invoice", on_delete=models.CASCADE, related_name="lines"
+    )
+
+
+class InvoicePayment(models.Model):
+    type = models.CharField(
+        max_length=2,
+        choices=PaymentTypes.choices,
+        default=PaymentTypes.CASH,
+        verbose_name=_("type"),
+    )
+    amount = models.FloatField(verbose_name=_("amount"))
+    invoice = models.ForeignKey(
+        "sales.Invoice", on_delete=models.CASCADE, related_name="payments"
     )

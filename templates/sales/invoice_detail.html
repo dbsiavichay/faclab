@@ -6,7 +6,7 @@
   <div class="divider divider-center divider-primary">
     <div class="divider-text text-uppercase text-bold-600">Detalle de factura</div>
   </div>
-  
+  <a href="{{ object.file.url }}" target="_blank">Archivo</a>
   <table class="table table-bordered mb-0">
     <thead>
       <th>Producto</th>
@@ -31,12 +31,23 @@
 	<div class="pt-50">
 		<div class="row">
 			<div class="col-md-5 col-12">
-				<div class="form-group">
-					<input type="text" class="form-control" value="Partial Payment">
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" value="Happy to give you a 10% discount.">
-				</div>
+        <div class="divider divider-center divider-primary">
+          <div class="divider-text text-uppercase text-bold-600">Formas de pago</div>
+        </div>
+        <table class="table table-bordered mb-0">
+          <thead>
+            <th>Tipo</th>
+            <th>Monto</th>
+          </thead>
+          <tbody>
+            {% for payment in object.payments.all %}
+            <tr>
+              <td>{{ payment.get_type_display }}</td>
+              <td>{{ payment.amount }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
 			</div>
 			<div class="col-lg-5 col-md-7 offset-lg-2 col-12">
 				<ul class="list-group list-group-flush">

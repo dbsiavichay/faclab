@@ -140,6 +140,9 @@ class ModelPack:
     def model_info(self):
         return self.model._meta.app_label, self.model._meta.model_name
 
+    def post_save_inlines(self, instance):
+        pass
+
     def get_base_url_name(self, suffix):
         url_suffix = getattr(self, "url_%s_suffix" % suffix)
         base_url_name = "%s_%s_%s" % (*self.model_info, url_suffix)

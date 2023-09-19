@@ -7,3 +7,6 @@ class VoucherType(models.Model):
     name = models.CharField(max_length=32, verbose_name=_("name"))
     current = models.PositiveIntegerField(default=0, verbose_name=_("current"))
     ends = models.PositiveIntegerField(default=999999999, verbose_name=_("ends"))
+
+    class Meta:
+        verbose_name = _("voucher")

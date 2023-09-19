@@ -4,7 +4,8 @@ from faclab.base import BasePack
 from viewpack.decorators import register
 from viewpack.enums import PackViews
 
-from .forms import CustomerForm, InvoiceForm, InvoiceLineFormset
+from .forms import CustomerForm, InvoiceForm, InvoiceLineFormset, InvoicePaymentFormset
+from .tasks import sign_and_send_invoice_task
 
 
 @register("sales.VoucherType")
@@ -23,7 +24,7 @@ class CustomerPack(BasePack):
 class InvoicePack(BasePack):
     form_class = InvoiceForm
     allowed_views = (PackViews.LIST, PackViews.CREATE, PackViews.DETAIL)
-    inlines = {"lines": InvoiceLineFormset}
+    inlines = {"lines": InvoiceLineFormset, "payments": InvoicePaymentFormset}
     list_fields = (
         "customer",
         "number",
@@ -38,3 +39,7 @@ class InvoicePack(BasePack):
     detail_template_name = None
 
     default_labels = {"number": _("number")}
+
+    def post_save_inlines(self, instance):
+        # sign_and_send_invoice_task.apply_async(args=[instance.id])
+        sign_and_send_invoice_task(instance.id)

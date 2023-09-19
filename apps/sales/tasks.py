@@ -9,6 +9,7 @@ from .services import InvoiceService
 @app.task
 def sign_invoice_task(invoice_id):
     invoice = Invoice.objects.filter(id=invoice_id).first()
+    InvoiceService.generate_xml(invoice)
     InvoiceService.sign_xml(invoice)
 
     return invoice_id

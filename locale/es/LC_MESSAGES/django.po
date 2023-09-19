@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-19 15:45+0000\n"
+"POT-Creation-Date: 2023-08-08 02:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,13 +82,21 @@ msgstr "validado"
 msgid "authorized"
 msgstr "autorizado"
 
+#: apps/sales/enums.py:13
+msgid "cash"
+msgstr "efectivo"
+
+#: apps/sales/enums.py:15
+msgid "deposit/transfer"
+msgstr "depósito/transferencia"
+
 #: apps/sales/forms.py:37
 #, python-format
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
 #: apps/sales/forms.py:79 apps/sales/models/invoices.py:18
-#: apps/sales/models/invoices.py:54
+#: apps/sales/models/invoices.py:53
 msgid "subtotal"
 msgstr "subtotal"
 
@@ -148,11 +156,11 @@ msgstr "código de punto de emisión"
 msgid "sequence"
 msgstr ""
 
-#: apps/sales/models/invoices.py:19 apps/sales/models/invoices.py:55
+#: apps/sales/models/invoices.py:19 apps/sales/models/invoices.py:54
 msgid "tax"
 msgstr "iva"
 
-#: apps/sales/models/invoices.py:21 apps/sales/models/invoices.py:56
+#: apps/sales/models/invoices.py:21 apps/sales/models/invoices.py:55
 msgid "total"
 msgstr "total"
 
@@ -160,30 +168,39 @@ msgstr "total"
 msgid "status"
 msgstr "estado"
 
-#: apps/sales/models/invoices.py:34
+#: apps/sales/models/invoices.py:33
 msgid "customer"
 msgstr "cliente"
 
-#: apps/sales/models/invoices.py:39
+#: apps/sales/models/invoices.py:38
 msgid "invoice"
 msgstr "factura"
 
-#: apps/sales/models/invoices.py:42
+#: apps/sales/models/invoices.py:41
 #, python-brace-format
 msgid "invoice # {0}"
 msgstr "factura # {0}"
 
-#: apps/sales/models/invoices.py:52
+#: apps/sales/models/invoices.py:51
 msgid "quantity"
 msgstr "cantidad"
 
-#: apps/sales/models/invoices.py:53
+#: apps/sales/models/invoices.py:52
 msgid "unit price"
 msgstr "precio unitario"
 
-#: apps/sales/models/invoices.py:58 apps/warehouses/enums.py:6
+#: apps/sales/models/invoices.py:57 apps/warehouses/enums.py:6
 msgid "product"
 msgstr "producto"
+
+#: apps/sales/models/invoices.py:66 apps/warehouses/models.py:47
+#: apps/warehouses/models.py:78
+msgid "type"
+msgstr "tipo"
+
+#: apps/sales/models/invoices.py:68 apps/warehouses/models.py:80
+msgid "amount"
+msgstr "monto"
 
 #: apps/sales/models/vouchers.py:6 apps/warehouses/models.py:23
 #: apps/warehouses/models.py:34
@@ -202,6 +219,10 @@ msgstr "actual"
 #: apps/sales/models/vouchers.py:9
 msgid "ends"
 msgstr "termina"
+
+#: apps/sales/models/vouchers.py:12
+msgid "voucher"
+msgstr "comprobante"
 
 #: apps/sales/packs.py:40
 msgid "number"
@@ -308,31 +329,31 @@ msgstr "no se ha configurado una firma electrónica"
 msgid "the electronic signature has expired"
 msgstr "la firma electrónica ha expirado"
 
-#: apps/sri/services.py:378
+#: apps/sri/services.py:375
 msgid "an error has occurred while call keytool command"
 msgstr "un error ha ocurrido mientras se llamaba al comando de keytool"
 
-#: apps/sri/services.py:387
+#: apps/sri/services.py:384
 msgid "signature file has not valid keys"
 msgstr "el archivo de firma no tiene claves válidas"
 
-#: apps/sri/services.py:418
+#: apps/sri/services.py:415
 msgid "SRI Error connecting to server"
 msgstr "SRI Error al conectarse al servidor"
 
-#: apps/sri/services.py:430
+#: apps/sri/services.py:425
 msgid "SRI Error to send voucher"
 msgstr "SRI Erro al enviar el comprobante"
 
-#: apps/sri/services.py:438 apps/sri/services.py:462
+#: apps/sri/services.py:433 apps/sri/services.py:457
 msgid "SRI Voucher not received"
 msgstr "SRI Comprobante no recibido"
 
-#: apps/sri/services.py:447
+#: apps/sri/services.py:442
 msgid "SRI Error to fetch voucher"
 msgstr "SRI Error al obtener el comprobante"
 
-#: apps/sri/services.py:454
+#: apps/sri/services.py:449
 msgid "Invalid code"
 msgstr "Clave de acceso incorrecta"
 
@@ -396,17 +417,9 @@ msgstr "aplica ICE"
 msgid "stock"
 msgstr "stock"
 
-#: apps/warehouses/models.py:47 apps/warehouses/models.py:78
-msgid "type"
-msgstr "tipo"
-
 #: apps/warehouses/models.py:61
 msgid "unit of measure"
 msgstr "unidad de medida"
-
-#: apps/warehouses/models.py:80
-msgid "amount"
-msgstr "monto"
 
 #: apps/warehouses/models.py:81
 msgid "revenue"

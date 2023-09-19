@@ -7,9 +7,8 @@ from apps.warehouses.querysets import ProductQueryset
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
-from .models import Customer, Invoice, InvoiceLine
+from .models import Customer, Invoice, InvoiceLine, InvoicePayment
 from .services import InvoiceService
-from .tasks import sign_and_send_invoice_task
 from .validators import customer_code_validator
 
 
@@ -105,9 +104,7 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
         object_list = super().save(commit=commit)
         InvoiceService.generate_access_code(self.instance, commit=False)
         InvoiceService.calculate_totals(self.instance, commit=False)
-        InvoiceService.generate_xml(self.instance, commit=False)
         self.instance.save()
-        sign_and_send_invoice_task.apply_async(args=[self.instance.id])
 
         return object_list
 
@@ -120,4 +117,11 @@ InvoiceLineFormset = forms.inlineformset_factory(
     extra=1,
     min_num=1,
     validate_min=True,
+)
+
+InvoicePaymentFormset = forms.inlineformset_factory(
+    Invoice,
+    InvoicePayment,
+    fields=("type", "amount"),
+    extra=1,
 )

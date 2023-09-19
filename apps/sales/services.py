@@ -136,16 +136,7 @@ class InvoiceService:
                     "propina": 0,
                     "importeTotal": round(invoice.total, 2),
                     "moneda": "DOLAR",
-                    "pagos": {
-                        "pago": [
-                            {
-                                "formaPago": "01",
-                                "total": round(invoice.total, 2),
-                                "plazo": 0,
-                                "unidadTiempo": "dias",
-                            }
-                        ]
-                    },
+                    "pagos": {"pago": []},
                 },
                 "detalles": {"detalle": []},
                 "infoAdicional": {"campoAdicional": []},
@@ -167,6 +158,16 @@ class InvoiceService:
         data["factura"]["infoAdicional"]["campoAdicional"].append(
             {"@nombre": "Email", "#text": customer.email}
         )
+
+        for payment in invoice.payments.all():
+            data["factura"]["infoFactura"]["pagos"]["pago"].append(
+                {
+                    "formaPago": payment.type,
+                    "total": round(payment.amount, 2),
+                    "plazo": 0,
+                    "unidadTiempo": "dias",
+                }
+            )
 
         for line in invoice.lines.select_related("product").all():
             data["factura"]["detalles"]["detalle"].append(
