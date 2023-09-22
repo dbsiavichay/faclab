@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 02:09+0000\n"
+"POT-Creation-Date: 2023-09-22 15:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,12 +90,12 @@ msgstr "efectivo"
 msgid "deposit/transfer"
 msgstr "depósito/transferencia"
 
-#: apps/sales/forms.py:37
+#: apps/sales/forms.py:36
 #, python-format
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
-#: apps/sales/forms.py:79 apps/sales/models/invoices.py:18
+#: apps/sales/forms.py:78 apps/sales/models/invoices.py:18
 #: apps/sales/models/invoices.py:53
 msgid "subtotal"
 msgstr "subtotal"
@@ -193,12 +193,12 @@ msgstr "precio unitario"
 msgid "product"
 msgstr "producto"
 
-#: apps/sales/models/invoices.py:66 apps/warehouses/models.py:47
+#: apps/sales/models/invoices.py:69 apps/warehouses/models.py:47
 #: apps/warehouses/models.py:78
 msgid "type"
 msgstr "tipo"
 
-#: apps/sales/models/invoices.py:68 apps/warehouses/models.py:80
+#: apps/sales/models/invoices.py:71 apps/warehouses/models.py:80
 msgid "amount"
 msgstr "monto"
 
@@ -224,7 +224,7 @@ msgstr "termina"
 msgid "voucher"
 msgstr "comprobante"
 
-#: apps/sales/packs.py:40
+#: apps/sales/packs.py:41
 msgid "number"
 msgstr "número"
 
@@ -485,3 +485,56 @@ msgstr "Acciones"
 #: templates/base/base_list.html:64
 msgid "No results"
 msgstr "Sin resultados"
+
+#: templates/sales/invoice_detail.html:17
+msgid "Invoice detail"
+msgstr "Detalle de factura"
+
+#: templates/sales/invoice_detail.html:21
+msgid "Product"
+msgstr "Producto"
+
+#: templates/sales/invoice_detail.html:22
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: templates/sales/invoice_detail.html:23
+msgid "Unit price"
+msgstr "Precio unitario"
+
+#: templates/sales/invoice_detail.html:24
+#: templates/sales/invoice_detail.html:64
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#: templates/sales/invoice_detail.html:44
+msgid "Payment methods"
+msgstr "Métodos de pago"
+
+#: templates/sales/invoice_detail.html:48
+msgid "Type"
+msgstr "Tipo"
+
+#: templates/sales/invoice_detail.html:49
+msgid "Amount"
+msgstr "Monto"
+
+#: templates/sales/invoice_detail.html:68
+msgid "Discount"
+msgstr "Descuento"
+
+#: templates/sales/invoice_detail.html:72
+msgid "Tax"
+msgstr "Iva"
+
+#: templates/sales/invoice_detail.html:76
+msgid "Tax amount"
+msgstr "Monto Iva"
+
+#: templates/sales/invoice_detail.html:83
+msgid "Total to pay"
+msgstr "Total a pagar"
+
+#: templates/sales/invoice_detail.html:113
+msgid "Print"
+msgstr "Imprimir"

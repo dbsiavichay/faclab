@@ -1,81 +1,120 @@
 {% extends "base/base_detail.html" %}
 
-{% block detail %}
-  {{ block.super }}
+{% load i18n %} 
 
-  <div class="divider divider-center divider-primary">
-    <div class="divider-text text-uppercase text-bold-600">Detalle de factura</div>
-  </div>
-  <a href="{{ object.file.url }}" target="_blank">Archivo</a>
-  <table class="table table-bordered mb-0">
-    <thead>
-      <th>Producto</th>
-      <th>Cantidad</th>
-      <th>Precio Unitario</th>
-      <th>Subtotal</th>
-    </thead>
-    <tbody>
-      {% for line in object.lines.all %}
-      <tr>
-        <td>{{ line.product }}</td>
-        <td>{{ line.quantity }}</td>
-				<td>${{ line.unit_price }}</td>
-        <td>${{ line.subtotal }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <hr>
-
-	<div class="pt-50">
-		<div class="row">
-			<div class="col-md-5 col-12">
-        <div class="divider divider-center divider-primary">
-          <div class="divider-text text-uppercase text-bold-600">Formas de pago</div>
-        </div>
-        <table class="table table-bordered mb-0">
-          <thead>
-            <th>Tipo</th>
-            <th>Monto</th>
-          </thead>
-          <tbody>
-            {% for payment in object.payments.all %}
-            <tr>
-              <td>{{ payment.get_type_display }}</td>
-              <td>{{ payment.amount }}</td>
-            </tr>
+{% block content %}
+  <section>
+    <div class="row">
+      <div class="col-xl-9 col-md-8 col-12">
+        <div class="card shadow-none border">
+          <div class="card-header"><h3>{{ object|capfirst }}</h3></div>
+          <div class="card-body">
+            {% for fieldset in pack_info.bs_fieldsets %}
+              {% include "detail/fieldset.html" with fieldset=fieldset %}
             {% endfor %}
-          </tbody>
-        </table>
-			</div>
-			<div class="col-lg-5 col-md-7 offset-lg-2 col-12">
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item d-flex justify-content-between border-0 pb-0">
-						<span>Subtotal</span>
-						<h6 class="invoice-subtotal mb-0">${{ object.subtotal|default_if_none:"0" }}</h6>
-					</li>
-					<li class="list-group-item d-flex justify-content-between border-0 pb-0">
-						<span>Descuento</span>
-						<h6 class="invoice-discount mb-0">- $0</h6>
-					</li>
-					<li class="list-group-item d-flex justify-content-between border-0 pb-0">
-						<span>IVA</span>
-						<h6 class="invoice-tax-rate mb-0">12%</h6>
-					</li>
-					<li class="list-group-item d-flex justify-content-between border-0 pb-0">
-						<span>Valor de IVA</span>
-						<h6 class="invoice-tax mb-0">${{ object.tax|default_if_none:"0" }}</h6>
-					</li>
-					<li class="list-group-item py-0 border-0 mt-25">
-						<hr>
-					</li>
-					<li class="list-group-item d-flex justify-content-between border-0 py-0">
-						<span>Total a pagar</span>
-						<h6 class="invoice-total mb-0">${{ object.total|default_if_none:"0" }}</h6>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+
+            <div class="divider divider-center divider-primary">
+              <div class="divider-text text-uppercase text-bold-600">{% translate "Invoice detail" %}</div>
+            </div>
+            <table class="table table-bordered mb-0">
+              <thead>
+                <th>{% translate "Product" %}</th>
+                <th>{% translate "Quantity" %}</th>
+                <th>{% translate "Unit price" %}</th>
+                <th>{% translate "Subtotal" %}</th>
+              </thead>
+              <tbody>
+                {% for line in object.lines.all %}
+                <tr>
+                  <td>{{ line.product }}</td>
+                  <td>{{ line.quantity }}</td>
+                  <td>${{ line.unit_price }}</td>
+                  <td>${{ line.subtotal }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+            <hr>
+
+            <div class="pt-50">
+              <div class="row">
+                <div class="col-md-5 col-12">
+                  <div class="divider divider-center divider-primary">
+                    <div class="divider-text text-uppercase text-bold-600">{% translate "Payment methods" %}</div>
+                  </div>
+                  <table class="table table-bordered mb-0">
+                    <thead>
+                      <th>{% translate "Type" %}</th>
+                      <th>{% translate "Amount" %}</th>
+                    </thead>
+                    <tbody>
+                      {% for payment in object.payments.all %}
+                      <tr>
+                        <td>{{ payment.get_type_display|upper }}</td>
+                        <td>${{ payment.amount }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-5 col-md-7 offset-lg-2 col-12">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+                      <span>{% translate "Subtotal" %}</span>
+                      <h6 class="invoice-subtotal mb-0">${{ object.subtotal|default_if_none:"0" }}</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+                      <span>{% translate "Discount" %}</span>
+                      <h6 class="invoice-discount mb-0">- $0</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+                      <span>{% translate "Tax" %}</span>
+                      <h6 class="invoice-tax-rate mb-0">12%</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between border-0 pb-0">
+                      <span>{% translate "Tax amount" %}</span>
+                      <h6 class="invoice-tax mb-0">${{ object.tax|default_if_none:"0" }}</h6>
+                    </li>
+                    <li class="list-group-item py-0 border-0 mt-25">
+                      <hr>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between border-0 py-0 font-medium-3 text-bold-600">
+                      <span>{% translate "Total to pay" %}</span>
+                      <p class="invoice-total mb-0">${{ object.total|default_if_none:"0" }}</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-4 col-12">
+        <div class="card invoice-action-wrapper shadow-none border">
+          <div class="card-body">
+            <div class="row mb-1">
+              <div class="col-6">
+                <a class="btn btn-primary btn-block mb-1" href="{{ object.signed_file.url }}" target="_blank">
+                  <i class="bx bx-file"></i>
+                  <span>XML</span>
+                </a>
+              </div>
+              <div class="col-6">
+                <button class="btn btn-primary btn-block mb-1">
+                  <i class="bx bxs-file-pdf"></i>
+                  <span>PDF</span>
+                </button>
+              </div>
+            </div>
+            
+            <button class="btn btn-success btn-block">
+              <i class="bx bx-printer"></i>
+              <span>{% translate "Print" %}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}
