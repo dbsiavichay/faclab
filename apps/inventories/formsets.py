@@ -1,8 +1,8 @@
 from django import forms
 
 from .enums import PriceTypes
-from .forms import PriceForm
-from .models import Price, Product
+from .forms import ProductPriceForm
+from .models import Product, ProductPrice
 
 
 class ProductPriceInlineFormset(forms.BaseInlineFormSet):
@@ -11,5 +11,9 @@ class ProductPriceInlineFormset(forms.BaseInlineFormSet):
 
 
 ProductPriceFormset = forms.inlineformset_factory(
-    Product, Price, form=PriceForm, formset=ProductPriceInlineFormset, extra=1
+    Product,
+    ProductPrice,
+    form=ProductPriceForm,
+    formset=ProductPriceInlineFormset,
+    extra=1,
 )

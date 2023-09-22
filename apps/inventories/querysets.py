@@ -1,11 +1,11 @@
 from django.db.models import OuterRef, Subquery
 
 from apps.inventories.enums import PriceTypes
-from apps.inventories.models import Price, Product
+from apps.inventories.models import Product, ProductPrice
 
 
 class ProductQueryset:
-    subquery_first_price = Price.objects.filter(
+    subquery_first_price = ProductPrice.objects.filter(
         product=OuterRef("pk"), type=PriceTypes.SALE
     ).values("amount")
     product_with_first_price = Product.objects.annotate(

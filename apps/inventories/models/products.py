@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from tree_queries.models import TreeNode
 
-from .enums import PriceTypes, ProductTypes
+from apps.inventories.enums import PriceTypes, ProductTypes
 
 
 class ProductCategory(TreeNode):
@@ -40,6 +40,9 @@ class Product(models.Model):
     apply_iva = models.BooleanField(default=False, verbose_name=_("apply iva"))
     apply_ice = models.BooleanField(default=False, verbose_name=_("apply ice"))
     stock = models.FloatField(default=0, verbose_name=_("stock"))
+    warehouse_location = models.TextField(
+        blank=True, null=True, verbose_name=_("warehouse location")
+    )
     type = models.CharField(
         max_length=2,
         choices=ProductTypes.choices,
@@ -61,6 +64,13 @@ class Product(models.Model):
         on_delete=models.PROTECT,
         verbose_name=_("unit of measure"),
     )
+    provider = models.ForeignKey(
+        "inventories.Provider",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        verbose_name=_("provider"),
+    )
 
     def __str__(self):
         return self.name
@@ -74,7 +84,7 @@ class Product(models.Model):
         return self.prices.filter(type=PriceTypes.SALE)
 
 
-class Price(models.Model):
+class ProductPrice(models.Model):
     type = models.CharField(
         max_length=2, choices=PriceTypes.choices, verbose_name=_("type")
     )

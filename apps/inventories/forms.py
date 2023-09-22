@@ -5,7 +5,7 @@ from faclab.widgets import PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
 from .enums import PriceTypes
-from .models import Price, Product, ProductCategory
+from .models import Product, ProductCategory, ProductPrice
 
 
 class ProductCategoryForm(ModelForm):
@@ -59,21 +59,21 @@ class ProductForm(ModelForm):
                 price.amount = cost_price
                 price.save(update_fields=["amount"])
             else:
-                Price.objects.create(
+                ProductPrice.objects.create(
                     type=PriceTypes.PURCHASE, amount=cost_price, revenue=0, product=obj
                 )
 
         return obj
 
 
-class PriceForm(ModelForm):
+class ProductPriceForm(ModelForm):
     gross_amount = forms.FloatField(widget=PriceInput, label=_("price gross"))
     percent_revenue = forms.FloatField(
         min_value=0, max_value=100, widget=PercentInput, label=_("percent revenue")
     )
 
     class Meta:
-        model = Price
+        model = ProductPrice
         fields = ("amount", "gross_amount", "percent_revenue", "revenue")
         labels = {"amount": _("price net")}
         widgets = {"amount": PriceInput, "revenue": PriceInput}
