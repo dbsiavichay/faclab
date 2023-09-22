@@ -41,5 +41,4 @@ class InvoicePack(BasePack):
     default_labels = {"number": _("number")}
 
     def post_save_inlines(self, instance):
-        # sign_and_send_invoice_task.apply_async(args=[instance.id])
-        sign_and_send_invoice_task(instance.id)
+        sign_and_send_invoice_task.apply_async(args=[instance.id])

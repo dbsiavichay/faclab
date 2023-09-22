@@ -226,19 +226,20 @@ class InvoiceService:
             file.write(str_signed_invoice)
 
         file.close()
-        file_name = f"{invoice.code}_signed.xml"
+        file_name = f"{invoice.code}.xml"
         content_file = ContentFile(xml_file.read())
         file = File(file=content_file, name=file_name)
-        invoice.signed_file = file
+        invoice.file.delete()
+        invoice.file = file
         invoice.status = VoucherStatuses.SIGNED
-        invoice.save(update_fields=["status", "signed_file"])
+        invoice.save(update_fields=["status", "file"])
 
         return file
 
     @classmethod
     def send_xml(cls, invoice):
         client = SRIClient()
-        client.send_voucher(invoice.signed_file.read())
+        client.send_voucher(invoice.file.read())
         _, authotization_date = client.fetch_voucher(invoice.code)
         invoice.authorization_date = authotization_date
         invoice.status = VoucherStatuses.AUTHORIZED

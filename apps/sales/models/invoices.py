@@ -27,7 +27,6 @@ class Invoice(models.Model):
         verbose_name=_("status"),
     )
     file = models.FileField(upload_to="vouchers/invoices", null=True)
-    signed_file = models.FileField(upload_to="vouchers/invoices", null=True)
     errors = models.JSONField(default=dict)
     customer = models.ForeignKey(
         "sales.Customer", on_delete=models.PROTECT, verbose_name=_("customer")
