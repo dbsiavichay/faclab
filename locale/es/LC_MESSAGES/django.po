@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 21:02+0000\n"
+"POT-Creation-Date: 2023-09-22 23:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,68 +94,106 @@ msgstr "precio con IVA"
 msgid "percent revenue"
 msgstr "porcentaje de utilidad"
 
-#: apps/inventories/models.py:11 apps/inventories/models.py:24
-#: apps/inventories/models.py:35 apps/sales/models/vouchers.py:7
+#: apps/inventories/models/products.py:11
+#: apps/inventories/models/products.py:24
+#: apps/inventories/models/products.py:35 apps/sales/models/vouchers.py:7
 msgid "name"
 msgstr "nombre"
 
-#: apps/inventories/models.py:13
+#: apps/inventories/models/products.py:13
 msgid "parent category"
 msgstr "categoria padre"
 
-#: apps/inventories/models.py:16 apps/inventories/models.py:55
+#: apps/inventories/models/products.py:16
+#: apps/inventories/models/products.py:58
 msgid "category"
 msgstr "categoria"
 
-#: apps/inventories/models.py:23 apps/inventories/models.py:34
-#: apps/sales/models/vouchers.py:6
+#: apps/inventories/models/products.py:23
+#: apps/inventories/models/products.py:34 apps/sales/models/vouchers.py:6
 msgid "code"
 msgstr "código"
 
-#: apps/inventories/models.py:27
+#: apps/inventories/models/products.py:27
 msgid "measure"
 msgstr "medida"
 
-#: apps/inventories/models.py:36
+#: apps/inventories/models/products.py:36
 msgid "short name"
 msgstr "nombre corto"
 
-#: apps/inventories/models.py:37
+#: apps/inventories/models/products.py:37
 msgid "description"
 msgstr "descripción"
 
-#: apps/inventories/models.py:39
+#: apps/inventories/models/products.py:39
 msgid "is inventoried"
 msgstr "es inventariado"
 
-#: apps/inventories/models.py:40
+#: apps/inventories/models/products.py:40
 msgid "apply iva"
 msgstr "aplica IVA"
 
-#: apps/inventories/models.py:41
+#: apps/inventories/models/products.py:41
 msgid "apply ice"
 msgstr "aplica ICE"
 
-#: apps/inventories/models.py:42
+#: apps/inventories/models/products.py:42
 msgid "stock"
 msgstr "stock"
 
-#: apps/inventories/models.py:48 apps/inventories/models.py:79
-#: apps/sales/models/invoices.py:68
+#: apps/inventories/models/products.py:44
+msgid "warehouse location"
+msgstr ""
+
+#: apps/inventories/models/products.py:51
+#: apps/inventories/models/products.py:89 apps/sales/models/invoices.py:68
 msgid "type"
 msgstr "tipo"
 
-#: apps/inventories/models.py:62
+#: apps/inventories/models/products.py:65
 msgid "unit of measure"
 msgstr "unidad de medida"
 
-#: apps/inventories/models.py:81 apps/sales/models/invoices.py:70
+#: apps/inventories/models/products.py:72
+msgid "provider"
+msgstr ""
+
+#: apps/inventories/models/products.py:91 apps/sales/models/invoices.py:70
 msgid "amount"
 msgstr "monto"
 
-#: apps/inventories/models.py:82
+#: apps/inventories/models/products.py:92
 msgid "revenue"
 msgstr "utilidad"
+
+#: apps/inventories/models/providers.py:9 apps/sales/models/customers.py:18
+msgid "identification"
+msgstr "identificación"
+
+#: apps/inventories/models/providers.py:11 apps/sales/models/customers.py:26
+msgid "bussiness name"
+msgstr "razón social"
+
+#: apps/inventories/models/providers.py:12
+msgid "contact name"
+msgstr "nombre de contacto"
+
+#: apps/inventories/models/providers.py:13 apps/sales/models/customers.py:27
+msgid "address"
+msgstr "dirección"
+
+#: apps/inventories/models/providers.py:14 apps/sales/models/customers.py:29
+msgid "phone"
+msgstr "teléfono"
+
+#: apps/inventories/models/providers.py:15 apps/sales/models/customers.py:31
+msgid "email"
+msgstr "correo electrónico"
+
+#: apps/inventories/models/providers.py:17
+msgid "website"
+msgstr "sitio web"
 
 #: apps/inventories/packs.py:32
 msgid "additional information"
@@ -195,10 +233,6 @@ msgstr "La identificación ingresada no corresponde a %(code_type)s"
 msgid "subtotal"
 msgstr "subtotal"
 
-#: apps/sales/models/customers.py:18
-msgid "identification"
-msgstr "identificación"
-
 #: apps/sales/models/customers.py:21
 msgid "first name"
 msgstr "nombres"
@@ -206,22 +240,6 @@ msgstr "nombres"
 #: apps/sales/models/customers.py:24
 msgid "last name"
 msgstr "apellidos"
-
-#: apps/sales/models/customers.py:26
-msgid "bussiness name"
-msgstr "razón social"
-
-#: apps/sales/models/customers.py:27
-msgid "address"
-msgstr "dirección"
-
-#: apps/sales/models/customers.py:29
-msgid "phone"
-msgstr "teléfono"
-
-#: apps/sales/models/customers.py:31
-msgid "email"
-msgstr "correo electrónico"
 
 #: apps/sales/models/customers.py:33
 msgid "code type"
