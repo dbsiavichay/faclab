@@ -7,20 +7,20 @@ from .forms import ProductCategoryForm, ProductForm
 from .formsets import ProductPriceFormset
 
 
-@register("warehouses.ProductCategory")
+@register("inventories.ProductCategory")
 class ProductCategoryPack(BasePack):
     form_class = ProductCategoryForm
     list_fields = ("name", "parent")
     detail_fields = ("name", "parent")
 
 
-@register("warehouses.Measure")
+@register("inventories.Measure")
 class MeasurePack(BasePack):
     list_fields = ("code", "name")
     detail_fields = ("code", "name")
 
 
-@register("warehouses.Product")
+@register("inventories.Product")
 class ProductPack(BasePack):
     form_class = ProductForm
     inlines = {"prices": ProductPriceFormset}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 15:30+0000\n"
+"POT-Creation-Date: 2023-09-22 21:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,6 +38,22 @@ msgstr ""
 msgid "configuration"
 msgstr "configuración"
 
+#: apps/accounts/menus/inventories.py:7
+msgid "categories"
+msgstr "categorias"
+
+#: apps/accounts/menus/inventories.py:13
+msgid "measures"
+msgstr "medidas"
+
+#: apps/accounts/menus/inventories.py:19
+msgid "products"
+msgstr "productos"
+
+#: apps/accounts/menus/inventories.py:27
+msgid "inventories"
+msgstr "inventarios"
+
 #: apps/accounts/menus/sales.py:7
 msgid "customers"
 msgstr "clientes"
@@ -50,21 +66,100 @@ msgstr "facturas"
 msgid "sales"
 msgstr "ventas"
 
-#: apps/accounts/menus/warehouses.py:7
-msgid "categories"
-msgstr "categorias"
+#: apps/inventories/enums.py:6 apps/sales/models/invoices.py:56
+msgid "product"
+msgstr "producto"
 
-#: apps/accounts/menus/warehouses.py:13
-msgid "measures"
-msgstr "medidas"
+#: apps/inventories/enums.py:7
+msgid "service"
+msgstr "servicio"
 
-#: apps/accounts/menus/warehouses.py:19
-msgid "products"
-msgstr "productos"
+#: apps/inventories/enums.py:11
+msgid "purchase"
+msgstr "compra"
 
-#: apps/accounts/menus/warehouses.py:27
-msgid "warehouses"
-msgstr "bodegas"
+#: apps/inventories/enums.py:12
+msgid "sale"
+msgstr "venta"
+
+#: apps/inventories/forms.py:24 apps/inventories/forms.py:78
+msgid "price net"
+msgstr "precio sin IVA"
+
+#: apps/inventories/forms.py:25 apps/inventories/forms.py:70
+msgid "price gross"
+msgstr "precio con IVA"
+
+#: apps/inventories/forms.py:72
+msgid "percent revenue"
+msgstr "porcentaje de utilidad"
+
+#: apps/inventories/models.py:11 apps/inventories/models.py:24
+#: apps/inventories/models.py:35 apps/sales/models/vouchers.py:7
+msgid "name"
+msgstr "nombre"
+
+#: apps/inventories/models.py:13
+msgid "parent category"
+msgstr "categoria padre"
+
+#: apps/inventories/models.py:16 apps/inventories/models.py:55
+msgid "category"
+msgstr "categoria"
+
+#: apps/inventories/models.py:23 apps/inventories/models.py:34
+#: apps/sales/models/vouchers.py:6
+msgid "code"
+msgstr "código"
+
+#: apps/inventories/models.py:27
+msgid "measure"
+msgstr "medida"
+
+#: apps/inventories/models.py:36
+msgid "short name"
+msgstr "nombre corto"
+
+#: apps/inventories/models.py:37
+msgid "description"
+msgstr "descripción"
+
+#: apps/inventories/models.py:39
+msgid "is inventoried"
+msgstr "es inventariado"
+
+#: apps/inventories/models.py:40
+msgid "apply iva"
+msgstr "aplica IVA"
+
+#: apps/inventories/models.py:41
+msgid "apply ice"
+msgstr "aplica ICE"
+
+#: apps/inventories/models.py:42
+msgid "stock"
+msgstr "stock"
+
+#: apps/inventories/models.py:48 apps/inventories/models.py:79
+#: apps/sales/models/invoices.py:68
+msgid "type"
+msgstr "tipo"
+
+#: apps/inventories/models.py:62
+msgid "unit of measure"
+msgstr "unidad de medida"
+
+#: apps/inventories/models.py:81 apps/sales/models/invoices.py:70
+msgid "amount"
+msgstr "monto"
+
+#: apps/inventories/models.py:82
+msgid "revenue"
+msgstr "utilidad"
+
+#: apps/inventories/packs.py:32
+msgid "additional information"
+msgstr "información adicional"
 
 #: apps/sales/enums.py:6
 msgid "generated"
@@ -96,7 +191,7 @@ msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
 #: apps/sales/forms.py:78 apps/sales/models/invoices.py:18
-#: apps/sales/models/invoices.py:53
+#: apps/sales/models/invoices.py:52
 msgid "subtotal"
 msgstr "subtotal"
 
@@ -156,11 +251,11 @@ msgstr "código de punto de emisión"
 msgid "sequence"
 msgstr ""
 
-#: apps/sales/models/invoices.py:19 apps/sales/models/invoices.py:54
+#: apps/sales/models/invoices.py:19 apps/sales/models/invoices.py:53
 msgid "tax"
 msgstr "iva"
 
-#: apps/sales/models/invoices.py:21 apps/sales/models/invoices.py:55
+#: apps/sales/models/invoices.py:21 apps/sales/models/invoices.py:54
 msgid "total"
 msgstr "total"
 
@@ -168,49 +263,26 @@ msgstr "total"
 msgid "status"
 msgstr "estado"
 
-#: apps/sales/models/invoices.py:33
+#: apps/sales/models/invoices.py:32
 msgid "customer"
 msgstr "cliente"
 
-#: apps/sales/models/invoices.py:38
+#: apps/sales/models/invoices.py:37
 msgid "invoice"
 msgstr "factura"
 
-#: apps/sales/models/invoices.py:41
+#: apps/sales/models/invoices.py:40
 #, python-brace-format
 msgid "invoice # {0}"
 msgstr "factura # {0}"
 
-#: apps/sales/models/invoices.py:51
+#: apps/sales/models/invoices.py:50
 msgid "quantity"
 msgstr "cantidad"
 
-#: apps/sales/models/invoices.py:52
+#: apps/sales/models/invoices.py:51
 msgid "unit price"
 msgstr "precio unitario"
-
-#: apps/sales/models/invoices.py:57 apps/warehouses/enums.py:6
-msgid "product"
-msgstr "producto"
-
-#: apps/sales/models/invoices.py:69 apps/warehouses/models.py:47
-#: apps/warehouses/models.py:78
-msgid "type"
-msgstr "tipo"
-
-#: apps/sales/models/invoices.py:71 apps/warehouses/models.py:80
-msgid "amount"
-msgstr "monto"
-
-#: apps/sales/models/vouchers.py:6 apps/warehouses/models.py:23
-#: apps/warehouses/models.py:34
-msgid "code"
-msgstr "código"
-
-#: apps/sales/models/vouchers.py:7 apps/warehouses/models.py:11
-#: apps/warehouses/models.py:24 apps/warehouses/models.py:35
-msgid "name"
-msgstr "nombre"
 
 #: apps/sales/models/vouchers.py:8
 msgid "current"
@@ -357,78 +429,6 @@ msgstr "SRI Error al obtener el comprobante"
 msgid "Invalid code"
 msgstr "Clave de acceso incorrecta"
 
-#: apps/warehouses/enums.py:7
-msgid "service"
-msgstr "servicio"
-
-#: apps/warehouses/enums.py:11
-msgid "purchase"
-msgstr "compra"
-
-#: apps/warehouses/enums.py:12
-msgid "sale"
-msgstr "venta"
-
-#: apps/warehouses/forms.py:24 apps/warehouses/forms.py:78
-msgid "price net"
-msgstr "precio sin IVA"
-
-#: apps/warehouses/forms.py:25 apps/warehouses/forms.py:70
-msgid "price gross"
-msgstr "precio con IVA"
-
-#: apps/warehouses/forms.py:72
-msgid "percent revenue"
-msgstr "porcentaje de utilidad"
-
-#: apps/warehouses/models.py:13
-msgid "parent category"
-msgstr "categoria padre"
-
-#: apps/warehouses/models.py:16 apps/warehouses/models.py:54
-msgid "category"
-msgstr "categoria"
-
-#: apps/warehouses/models.py:27
-msgid "measure"
-msgstr "medida"
-
-#: apps/warehouses/models.py:36
-msgid "short name"
-msgstr "nombre corto"
-
-#: apps/warehouses/models.py:37
-msgid "description"
-msgstr "descripción"
-
-#: apps/warehouses/models.py:38
-msgid "is inventoried"
-msgstr "es inventariado"
-
-#: apps/warehouses/models.py:39
-msgid "apply iva"
-msgstr "aplica IVA"
-
-#: apps/warehouses/models.py:40
-msgid "apply ice"
-msgstr "aplica ICE"
-
-#: apps/warehouses/models.py:41
-msgid "stock"
-msgstr "stock"
-
-#: apps/warehouses/models.py:61
-msgid "unit of measure"
-msgstr "unidad de medida"
-
-#: apps/warehouses/models.py:81
-msgid "revenue"
-msgstr "utilidad"
-
-#: apps/warehouses/packs.py:32
-msgid "additional information"
-msgstr "información adicional"
-
 #: templates/accounts/base.html:55
 msgid "Welcome"
 msgstr "Bienvenido"
@@ -486,7 +486,7 @@ msgstr "Acciones"
 msgid "No results"
 msgstr "Sin resultados"
 
-#: templates/sales/invoice_detail.html:17
+#: templates/sales/invoice_detail.html:17 templates/sales/invoice_form.html:9
 msgid "Invoice detail"
 msgstr "Detalle de factura"
 
@@ -503,11 +503,11 @@ msgid "Unit price"
 msgstr "Precio unitario"
 
 #: templates/sales/invoice_detail.html:24
-#: templates/sales/invoice_detail.html:64
+#: templates/sales/invoice_detail.html:64 templates/sales/invoice_form.html:27
 msgid "Subtotal"
 msgstr "Subtotal"
 
-#: templates/sales/invoice_detail.html:44
+#: templates/sales/invoice_detail.html:44 templates/sales/invoice_form.html:20
 msgid "Payment methods"
 msgstr "Métodos de pago"
 
@@ -519,19 +519,19 @@ msgstr "Tipo"
 msgid "Amount"
 msgstr "Monto"
 
-#: templates/sales/invoice_detail.html:68
+#: templates/sales/invoice_detail.html:68 templates/sales/invoice_form.html:31
 msgid "Discount"
 msgstr "Descuento"
 
-#: templates/sales/invoice_detail.html:72
+#: templates/sales/invoice_detail.html:72 templates/sales/invoice_form.html:35
 msgid "Tax"
 msgstr "Iva"
 
-#: templates/sales/invoice_detail.html:76
+#: templates/sales/invoice_detail.html:76 templates/sales/invoice_form.html:39
 msgid "Tax amount"
 msgstr "Monto Iva"
 
-#: templates/sales/invoice_detail.html:83
+#: templates/sales/invoice_detail.html:83 templates/sales/invoice_form.html:46
 msgid "Total to pay"
 msgstr "Total a pagar"
 

@@ -50,9 +50,9 @@ LIBRARY_APPS = [
 
 LOCAL_APPS = [
     "apps.accounts",
+    "apps.inventories",
     "apps.sales",
     "apps.sites",
-    "apps.warehouses",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LIBRARY_APPS + LOCAL_APPS

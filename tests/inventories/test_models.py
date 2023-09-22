@@ -2,12 +2,12 @@ import pytest
 from django.conf import settings
 from django.forms.models import model_to_dict
 
-from apps.warehouses.models import Measure, Product, ProductCategory
+from apps.inventories.models import Measure, Product, ProductCategory
 
 
 class TestProductCategory:
     def test_settings(self):
-        assert "apps.warehouses" in settings.INSTALLED_APPS
+        assert "apps.inventories" in settings.INSTALLED_APPS
 
     @pytest.mark.django_db
     def test_category_create(self):

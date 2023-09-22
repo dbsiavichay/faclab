@@ -1,8 +1,8 @@
 import pytest
 from django.forms.models import model_to_dict
 
-from apps.warehouses.forms import ProductForm
-from apps.warehouses.models import Product
+from apps.inventories.forms import ProductForm
+from apps.inventories.models import Product
 
 IVA_RATE = 1.12
 

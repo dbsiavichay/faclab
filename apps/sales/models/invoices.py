@@ -53,7 +53,7 @@ class InvoiceLine(models.Model):
     tax = models.FloatField(default=0, verbose_name=_("tax"))
     total = models.FloatField(verbose_name=_("total"))
     product = models.ForeignKey(
-        "warehouses.Product", on_delete=models.PROTECT, verbose_name=_("product")
+        "inventories.Product", on_delete=models.PROTECT, verbose_name=_("product")
     )
     invoice = models.ForeignKey(
         "sales.Invoice", on_delete=models.CASCADE, related_name="lines"

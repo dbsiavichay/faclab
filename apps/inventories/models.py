@@ -35,6 +35,7 @@ class Product(models.Model):
     name = models.CharField(max_length=64, verbose_name=_("name"))
     short_name = models.CharField(max_length=16, verbose_name=_("short name"))
     description = models.TextField(verbose_name=_("description"))
+    sku = models.CharField(max_length=32, blank=True, null=True)
     is_inventoried = models.BooleanField(default=True, verbose_name=_("is inventoried"))
     apply_iva = models.BooleanField(default=False, verbose_name=_("apply iva"))
     apply_ice = models.BooleanField(default=False, verbose_name=_("apply ice"))
@@ -47,14 +48,14 @@ class Product(models.Model):
         verbose_name=_("type"),
     )
     category = models.ForeignKey(
-        "warehouses.ProductCategory",
+        "inventories.ProductCategory",
         blank=True,
         null=True,
         on_delete=models.PROTECT,
         verbose_name=_("category"),
     )
     measure = models.ForeignKey(
-        "warehouses.Measure",
+        "inventories.Measure",
         blank=True,
         null=True,
         on_delete=models.PROTECT,
@@ -80,7 +81,7 @@ class Price(models.Model):
     amount = models.FloatField(verbose_name=_("amount"))
     revenue = models.FloatField(verbose_name=_("revenue"))
     product = models.ForeignKey(
-        "warehouses.Product", on_delete=models.CASCADE, related_name="prices"
+        "inventories.Product", on_delete=models.CASCADE, related_name="prices"
     )
 
     @cached_property

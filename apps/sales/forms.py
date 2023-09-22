@@ -2,8 +2,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from apps.inventories.querysets import ProductQueryset
 from apps.sites.services import SRIConfigService
-from apps.warehouses.querysets import ProductQueryset
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
