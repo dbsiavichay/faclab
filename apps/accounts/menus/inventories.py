@@ -4,21 +4,27 @@ from simple_menu import MenuItem
 
 submenu_items = [
     MenuItem(
+        _("providers").capitalize(),
+        reverse("packs:inventories_provider_list"),
+        weight=10,
+        icon="bx-right-arrow-alt",
+    ),
+    MenuItem(
         _("categories").capitalize(),
         reverse("packs:inventories_productcategory_list"),
-        weight=10,
+        weight=11,
         icon="bx-right-arrow-alt",
     ),
     MenuItem(
         _("measures").capitalize(),
         reverse("packs:inventories_measure_list"),
-        weight=11,
+        weight=12,
         icon="bx-right-arrow-alt",
     ),
     MenuItem(
         _("products").capitalize(),
         reverse("packs:inventories_product_list"),
-        weight=12,
+        weight=13,
         icon="bx-right-arrow-alt",
     ),
 ]

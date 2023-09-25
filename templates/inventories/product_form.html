@@ -29,8 +29,10 @@
 </div>
 
 {% include "forms/formgroup.html" with field=form.type %}
+{% include "forms/formgroup.html" with field=form.provider %}
 {% include "forms/formgroup.html" with field=form.category %}
 {% include "forms/formgroup.html" with field=form.measure %}
+{% include "forms/formgroup.html" with field=form.warehouse_location %}
 
 {% endblock %}
 

@@ -5,7 +5,18 @@ from faclab.widgets import PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
 from .enums import PriceTypes
-from .models import Product, ProductCategory, ProductPrice
+from .models import Product, ProductCategory, ProductPrice, Provider
+
+
+class ProviderForm(ModelForm):
+    class Meta:
+        model = Provider
+        fieldsets = (
+            "code",
+            ("bussiness_name", "contact_name"),
+            "address",
+            ("phone", "email", "website"),
+        )
 
 
 class ProductCategoryForm(ModelForm):
@@ -33,7 +44,15 @@ class ProductForm(ModelForm):
             "description",
             ("is_inventoried", "apply_iva", "apply_ice"),
         )
-        fields = ("cost_price", "cost_price_gross", "type", "category", "measure")
+        fields = (
+            "cost_price",
+            "cost_price_gross",
+            "type",
+            "category",
+            "measure",
+            "provider",
+            "warehouse_location",
+        )
         widgets = {"type": forms.RadioSelect}
 
     def get_initial_for_field(self, field, field_name):
