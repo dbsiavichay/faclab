@@ -1,10 +1,47 @@
 import pytest
 from django.forms.models import model_to_dict
 
-from apps.inventories.forms import ProductForm
-from apps.inventories.models import Product
+from apps.inventories.forms import ProductForm, ProviderForm
+from apps.inventories.models import Product, Provider
 
 IVA_RATE = 1.12
+
+
+class TestProviderForm:
+    @pytest.mark.django_db
+    def test_provider_create(self):
+        data = {
+            "code": "0941531600001",
+            "bussiness_name": "test",
+            "contact_name": "test",
+            "address": "test",
+            "phone": "0912345678",
+            "email": "test@test.com",
+        }
+        form = ProviderForm(data)
+        provider = form.save()
+
+        assert form.is_valid() is True
+        assert not form.errors
+        assert isinstance(provider, Provider)
+        assert data == model_to_dict(provider, fields=data.keys())
+
+    @pytest.mark.parametrize(
+        "code",
+        ["0941531600", "0941531600001", "0941531500001"],
+    )
+    @pytest.mark.django_db
+    def test_customer_create_invalid(self, code):
+        data = {
+            "code": code,
+            "bussiness_name": "test",
+            "contact_name": "test",
+            "phone": "0912345678",
+            "email": "test@test.com",
+        }
+        form = ProviderForm(data)
+        assert form.is_valid() is False
+        assert form.errors
 
 
 class TestProductForm:

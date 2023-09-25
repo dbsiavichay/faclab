@@ -2,7 +2,7 @@ import pytest
 from django.conf import settings
 from django.forms.models import model_to_dict
 
-from apps.inventories.models import Measure, Product, ProductCategory
+from apps.inventories.models import Measure, Product, ProductCategory, Provider
 
 
 class TestProductCategory:
@@ -18,6 +18,22 @@ class TestProductCategory:
 
         assert isinstance(category, ProductCategory)
         assert data == model_to_dict(category, fields=data.keys())
+
+
+class TestProvider:
+    @pytest.mark.django_db
+    def test_provider_create(self):
+        data = {
+            "code": "test",
+            "bussiness_name": "Test",
+            "contact_name": "Test",
+            "phone": "0912334533",
+            "email": "test@test.com",
+        }
+        provider = Provider.objects.create(**data)
+
+        assert isinstance(provider, Provider)
+        assert data == model_to_dict(provider, fields=data.keys())
 
 
 class TestMeasure:
