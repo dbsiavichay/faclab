@@ -1,1 +1,7 @@
 {% extends './text.html' %}
+
+{% load widget_tweaks %}
+
+{% block field %}
+  {% render_field field class+="form-control pickadate" %}
+{% endblock %}

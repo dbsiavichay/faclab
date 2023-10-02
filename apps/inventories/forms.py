@@ -1,11 +1,20 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from faclab.widgets import PercentInput, PriceInput, Select2
+from faclab.widgets import DisabledNumberInput, PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
 from .enums import PriceTypes
-from .models import Product, ProductCategory, ProductPrice, Provider
+from .models import (
+    Product,
+    ProductCategory,
+    ProductPrice,
+    Provider,
+    Purchase,
+    PurchaseLine,
+)
+from .querysets import ProductQueryset
+from .services import PurchaseService
 
 
 class ProviderForm(ModelForm):
@@ -106,6 +115,52 @@ class ProductPriceForm(ModelForm):
     def save(self, commit=True):
         obj = super().save(commit=False)
         obj.type = PriceTypes.SALE
+
+        if commit:
+            obj.save()
+
+        return obj
+
+
+class PurchaseForm(ModelForm):
+    class Meta:
+        model = Purchase
+        fieldsets = (
+            "provider",
+            ("date", "invoice_number"),
+        )
+        widgets = {
+            "provider": Select2(
+                model="inventories.Provider",
+                search_fields=[
+                    "code__icontains",
+                    "bussiness_name__icontains",
+                    "contact_name__icontains",
+                ],
+            )
+        }
+
+
+class PurchaseLineForm(ModelForm):
+    subtotal = forms.FloatField(
+        widget=DisabledNumberInput, required=False, label=_("subtotal")
+    )
+
+    class Meta:
+        model = PurchaseLine
+        fields = ("product", "quantity", "unit_price", "subtotal")
+        widgets = {
+            "unit_price": PriceInput,
+            "product": Select2(
+                queryset=ProductQueryset.product_with_first_cost_price,
+                search_fields=["name__icontains"],
+                extra_data=("first_cost_price",),
+            ),
+        }
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        PurchaseService.calculate_line_totals(obj)
 
         if commit:
             obj.save()

@@ -58,6 +58,7 @@ class InlineMixin:
         return redirect(self.get_success_url())
 
     def form_invalid(self, form):
+        breakpoint()
         for inline in form.inlines:
             for error in inline.errors:
                 form.errors.update(error)

@@ -4,6 +4,7 @@
 
 {% block css %}
 {{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/pickers/pickadate/css/pickadate.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'assets/css/forms/validation.css' %}">
 {% endblock %}
 
@@ -44,6 +45,10 @@
 
   <script src="{% static 'vendors/spinner/jquery.bootstrap-touchspin.js' %}"></script>
   <script src="{% static 'vendors/spinner/touchspin.init.js' %}"></script>
+
+  <script src="{% static 'vendors/pickers/pickadate/js/picker.js' %}"></script>
+  <script src="{% static 'vendors/pickers/pickadate/js/picker.date.js' %}"></script>
+  <script src="{% static 'vendors/pickers/pickadate/js/picker.date.init.js' %}"></script>
 
   <script src="{% static 'assets/js/forms/validation.js' %}"></script>
 {% endblock %}

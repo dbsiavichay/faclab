@@ -79,6 +79,7 @@ class InvoiceLineForm(ModelForm):
     )
 
     class Meta:
+        model = InvoiceLine
         fields = ("product", "quantity", "unit_price", "subtotal")
         widgets = {
             "unit_price": PriceInput,

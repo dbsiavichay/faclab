@@ -27,6 +27,12 @@ submenu_items = [
         weight=13,
         icon="bx-right-arrow-alt",
     ),
+    MenuItem(
+        _("purchases").capitalize(),
+        reverse("packs:inventories_purchase_list"),
+        weight=14,
+        icon="bx-right-arrow-alt",
+    ),
 ]
 
 inventories_item = MenuItem(

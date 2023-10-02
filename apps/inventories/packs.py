@@ -2,9 +2,10 @@ from django.utils.translation import gettext_lazy as _
 
 from faclab.base import BasePack
 from viewpack.decorators import register
+from viewpack.enums import PackViews
 
-from .forms import ProductCategoryForm, ProductForm, ProviderForm
-from .formsets import ProductPriceFormset
+from .forms import ProductCategoryForm, ProductForm, ProviderForm, PurchaseForm
+from .formsets import ProductPriceFormset, PurchaseLineFormset
 
 
 @register("inventories.Provider")
@@ -44,3 +45,22 @@ class ProductPack(BasePack):
             "warehouse_location",
         ),
     }
+
+
+@register("inventories.Purchase")
+class PurchasePack(BasePack):
+    form_class = PurchaseForm
+    allowed_views = (PackViews.LIST, PackViews.CREATE, PackViews.DETAIL)
+    inlines = {"lines": PurchaseLineFormset}
+    list_fields = (
+        "provider",
+        "invoice_number",
+        "subtotal",
+        "tax",
+        "total",
+    )
+    detail_fields = ("provider", "invoice_number")
+    form_template_name = None
+    # detail_template_name = None
+
+    default_labels = {"number": _("number")}
