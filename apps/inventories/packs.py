@@ -50,7 +50,12 @@ class ProductPack(BasePack):
 @register("inventories.Purchase")
 class PurchasePack(BasePack):
     form_class = PurchaseForm
-    allowed_views = (PackViews.LIST, PackViews.CREATE, PackViews.DETAIL)
+    allowed_views = (
+        PackViews.LIST,
+        PackViews.CREATE,
+        PackViews.DELETE,
+        PackViews.DETAIL,
+    )
     inlines = {"lines": PurchaseLineFormset}
     list_fields = (
         "provider",
@@ -59,8 +64,6 @@ class PurchasePack(BasePack):
         "tax",
         "total",
     )
-    detail_fields = ("provider", "invoice_number")
+    detail_fields = ("provider", ("date", "invoice_number"))
     form_template_name = None
-    # detail_template_name = None
-
-    default_labels = {"number": _("number")}
+    detail_template_name = None
