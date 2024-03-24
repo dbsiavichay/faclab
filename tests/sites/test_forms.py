@@ -2,8 +2,8 @@ import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.forms.models import model_to_dict
 
-from apps.sites.enums import Emissions, Environments
-from apps.sites.forms import ConfigForm, SignatureForm
+from apps.sites.domain.enums import Emissions, Environments
+from apps.sites.infra.forms import ConfigForm, SignatureForm
 from apps.sites.models import Config, Signature
 
 

@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
 
-from apps.sites.services import SRIConfigService
+from apps.sites.application.services import SRIConfigService
 
 sri_config = SRIConfigService.get_sri_config()
 

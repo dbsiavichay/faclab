@@ -1,6 +1,6 @@
 import pytest
 
-from apps.sites.enums import Emissions, Environments
+from apps.sites.domain.enums import Emissions, Environments
 from apps.sites.models import Config
 
 

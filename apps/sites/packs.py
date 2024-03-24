@@ -2,8 +2,8 @@ from faclab.base import BasePack
 from viewpack.decorators import register
 from viewpack.enums import PackViews
 
-from .forms import ConfigForm, SignatureForm
-from .mixins import ConfigFormMixin
+from .infra.forms import ConfigForm, SignatureForm
+from .infra.mixins import ConfigFormMixin
 
 
 @register("sites.Signature")

@@ -5,13 +5,12 @@ from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
 from apps.sales.validators import customer_code_validator
+from apps.sites.application.services import SRIConfigService
+from apps.sites.domain import Config, Signature
+from apps.sites.domain.enums import Emissions, Environments
 from apps.sri.services import SRISigner
 from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm
-
-from .enums import Emissions, Environments
-from .models import Config, Signature
-from .services import SRIConfigService
 
 
 class SignatureForm(ModelForm):

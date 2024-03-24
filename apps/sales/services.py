@@ -7,7 +7,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.db.models import Sum
 
-from apps.sites.services import SRIConfigService
+from apps.sites.application.services import SRIConfigService
 from apps.sri.services import SRIClient, SRISigner
 
 from .enums import VoucherStatuses

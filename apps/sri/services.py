@@ -22,8 +22,8 @@ from lxml import etree
 from lxml.etree import Element, QName
 from zeep import Client
 
+from apps.sites.application.services import SRIConfigService
 from apps.sites.models import Signature
-from apps.sites.services import SRIConfigService
 from apps.sri.enums import Methods, Namespaces
 from apps.sri.exceptions import SignatureException
 

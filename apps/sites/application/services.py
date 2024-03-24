@@ -1,6 +1,5 @@
+from apps.sites.models import Config
 from faclab import cache
-
-from .models import Config
 
 SRI_CONFIG_CACHE_KEY = "sri_config"
 
@@ -25,7 +24,7 @@ class SRIConfig:
 
 class SRIConfigService:
     @classmethod
-    @cache.set_cache(SRI_CONFIG_CACHE_KEY, [])
+    # @cache.set_cache(SRI_CONFIG_CACHE_KEY, [])
     def get_sri_config(cls):
         config = Config.objects.first()
         data_config = {"id": config.id, **config.sri_config} if config else {}
