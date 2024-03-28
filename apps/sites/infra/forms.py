@@ -1,14 +1,16 @@
 from cryptography.hazmat.primitives.serialization import pkcs12
+from dependency_injector.wiring import Provide, inject
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
 from apps.sales.validators import customer_code_validator
-from apps.sites.application.services import SRIConfigService
+from apps.sites.application.services import ConfigService
 from apps.sites.domain import Config, Signature
 from apps.sites.domain.enums import Emissions, Environments
 from apps.sri.services import SRISigner
+from faclab.containers import ApplicationContainer
 from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm
 
@@ -63,6 +65,18 @@ class SignatureForm(ModelForm):
 
 
 class ConfigForm(ModelForm):
+    @inject
+    def __init__(
+        self,
+        config_service: ConfigService = Provide[
+            ApplicationContainer.sites_package.config_service
+        ],
+        *args,
+        **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.config_service = config_service
+
     code = forms.CharField(
         max_length=13,
         min_length=13,
@@ -128,6 +142,6 @@ class ConfigForm(ModelForm):
         if commit:
             obj.save()
 
-        SRIConfigService.delete_sri_cache_config()
+        self.config_service.delete_sri_cache_config()
 
         return obj

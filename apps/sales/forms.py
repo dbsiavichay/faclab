@@ -1,9 +1,11 @@
+from dependency_injector.wiring import Provide, inject
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from apps.inventories.querysets import ProductQueryset
-from apps.sites.application.services import SRIConfigService
+from apps.sites.application.services import ConfigService
+from faclab.containers import ApplicationContainer
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
@@ -44,6 +46,18 @@ class CustomerForm(ModelForm):
 
 
 class InvoiceForm(ModelForm):
+    @inject
+    def __init__(
+        self,
+        config_service: ConfigService = Provide[
+            ApplicationContainer.sites_package.config_service
+        ],
+        *args,
+        **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.config_service = config_service
+
     class Meta:
         model = Invoice
         fieldsets = ("customer",)
@@ -59,7 +73,7 @@ class InvoiceForm(ModelForm):
         }
 
     def save(self, commit=True):
-        config = SRIConfigService.get_sri_config()
+        config = self.config_service.get_sri_config()
         obj = super().save(commit=False)
         obj.company_code = config.company_code
         obj.company_point_sale_code = config.company_point_sale_code
