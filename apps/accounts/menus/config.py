@@ -2,9 +2,10 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
 
-from apps.sites.application.services import SRIConfigService
+from apps.sites.application.services import ConfigService
 
-sri_config = SRIConfigService.get_sri_config()
+service = ConfigService()
+sri_config = service.get_sri_config()
 
 submenu_items = [
     MenuItem(
