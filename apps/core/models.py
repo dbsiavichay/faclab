@@ -1,3 +1,3 @@
-from .domain import Signature, Site
+from .domain.entities import Signature, Site
 
 __all__ = ["Signature", "Site"]

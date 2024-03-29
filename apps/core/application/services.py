@@ -1,3 +1,10 @@
+from typing import List
+
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+from simple_menu import MenuItem
+
+from apps.core.domain.repositories import MenuRepository
 from faclab import cache
 
 SRI_CONFIG_CACHE_KEY = "sri_config"
@@ -37,3 +44,37 @@ class SiteService:
 
     def delete_sri_cache_config(self) -> None:
         cache.delete(SRI_CONFIG_CACHE_KEY)
+
+
+class MenuService(MenuRepository):
+    def retrieve_menu_item(self) -> MenuItem:
+        submenu_items = self.retrieve_menu_items()
+
+        return MenuItem(
+            _("configuration").capitalize(),
+            "#",
+            icon="bxs-cog",
+            children=submenu_items,
+        )
+
+    def retrieve_menu_items(self) -> List[MenuItem]:
+        return [
+            MenuItem(
+                _("vouchers").capitalize(),
+                reverse("packs:sales_vouchertype_list"),
+                weight=30,
+                icon="bx-right-arrow-alt",
+            ),
+            MenuItem(
+                _("signatures").capitalize(),
+                reverse("packs:core_signature_list"),
+                weight=31,
+                icon="bx-right-arrow-alt",
+            ),
+            MenuItem(
+                _("sri").upper(),
+                reverse("packs:core_site_update", args=[1]),
+                weight=32,
+                icon="bx-right-arrow-alt",
+            ),
+        ]

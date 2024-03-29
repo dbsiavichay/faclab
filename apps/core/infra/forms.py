@@ -6,7 +6,7 @@ from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.application.services import SiteService
-from apps.core.domain import Signature, Site
+from apps.core.domain.entities import Signature, Site
 from apps.core.domain.enums import Emissions, Environments
 from apps.sales.validators import customer_code_validator
 from apps.sri.services import SRISigner
