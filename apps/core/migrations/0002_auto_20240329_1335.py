@@ -4,14 +4,14 @@ from django.db import migrations
 
 
 def create_empty_config(apps, schema_editor):
-    Config = apps.get_model("sites", "Config")
-    Config.objects.create(sri_config=dict())
+    Site = apps.get_model("core", "Site")
+    Site.objects.create(sri_config=dict())
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("sites", "0001_initial"),
+        ("core", "0001_initial"),
     ]
 
     operations = [

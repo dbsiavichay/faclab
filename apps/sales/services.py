@@ -7,13 +7,13 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.db.models import Sum
 
-from apps.sites.application.services import ConfigService
+from apps.core.application.services import SiteService
 from apps.sri.services import SRIClient, SRISigner
 
 from .enums import VoucherStatuses
 from .models import VoucherType
 
-config_service = ConfigService()
+site_service = SiteService()
 
 
 class InvoiceService:
@@ -38,7 +38,7 @@ class InvoiceService:
 
     @classmethod
     def generate_access_code(cls, invoice, commit=True):
-        config = config_service.get_sri_config()
+        config = site_service.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
         invoice_date = invoice.issue_date.astimezone(timezone)
         date = invoice_date.strftime("%d%m%Y")
@@ -72,7 +72,7 @@ class InvoiceService:
 
     @classmethod
     def calculate_totals(cls, invoice, commit=True):
-        config = config_service.get_sri_config()
+        config = site_service.get_sri_config()
         subtotal = invoice.lines.aggregate(subtotal=Sum("subtotal")).get("subtotal")
         invoice.subtotal = subtotal
         invoice.tax = subtotal * config.iva_rate
@@ -83,7 +83,7 @@ class InvoiceService:
 
     @classmethod
     def calculate_line_totals(cls, invoice_line):
-        config = config_service.get_sri_config()
+        config = site_service.get_sri_config()
         invoice_line.subtotal = invoice_line.unit_price * invoice_line.quantity
         invoice_line.tax = invoice_line.subtotal * config.iva_rate
         invoice_line.total = invoice_line.subtotal * config.iva_factor
@@ -92,7 +92,7 @@ class InvoiceService:
 
     @classmethod
     def get_xml_data(cls, invoice):
-        config = config_service.get_sri_config()
+        config = site_service.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
         invoice_date = invoice.issue_date.astimezone(timezone)
 

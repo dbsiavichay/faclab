@@ -22,12 +22,12 @@ from lxml import etree
 from lxml.etree import Element, QName
 from zeep import Client
 
-from apps.sites.application.services import ConfigService
-from apps.sites.models import Signature
+from apps.core.application.services import SiteService
+from apps.core.domain import Signature
 from apps.sri.enums import Methods, Namespaces
 from apps.sri.exceptions import SignatureException
 
-config_service = ConfigService()
+site_service = SiteService()
 
 
 class SRISigner:
@@ -325,7 +325,7 @@ class SRISigner:
         return signature
 
     def sign(self, voucher_bytes):
-        config = config_service.get_sri_config()
+        config = site_service.get_sri_config()
         signature = Signature.objects.filter(id=config.signature).first()
 
         if not signature:

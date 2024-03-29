@@ -1,10 +1,8 @@
 from dependency_injector import containers, providers
 
-from apps.sites.application.containers import SitesContainer
+from apps.core.application.containers import CoreContainer
 
 
 class ApplicationContainer(containers.DeclarativeContainer):
-
     config = providers.Configuration()
-
-    sites_package = providers.Container(SitesContainer)
+    core_package = providers.Container(CoreContainer)

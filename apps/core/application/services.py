@@ -21,12 +21,12 @@ class SRIConfig:
         return (self.iva_percent / 100) + 1 if self.iva_percent else None
 
 
-class ConfigService:
+class SiteService:
     # @cache.set_cache(SRI_CONFIG_CACHE_KEY, [])
     def get_config_object(self):
-        from apps.sites.models import Config
+        from apps.core.models import Site
 
-        return Config.objects.first()
+        return Site.objects.first()
 
     def get_sri_config(self) -> SRIConfig:
         config = self.get_config_object()

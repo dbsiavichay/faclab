@@ -5,10 +5,10 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.application.services import SiteService
+from apps.core.domain import Signature, Site
+from apps.core.domain.enums import Emissions, Environments
 from apps.sales.validators import customer_code_validator
-from apps.sites.application.services import ConfigService
-from apps.sites.domain import Config, Signature
-from apps.sites.domain.enums import Emissions, Environments
 from apps.sri.services import SRISigner
 from faclab.containers import ApplicationContainer
 from faclab.widgets import PercentInput
@@ -64,18 +64,18 @@ class SignatureForm(ModelForm):
         return obj
 
 
-class ConfigForm(ModelForm):
+class SiteForm(ModelForm):
     @inject
     def __init__(
         self,
-        config_service: ConfigService = Provide[
-            ApplicationContainer.sites_package.config_service
+        site_service: SiteService = Provide[
+            ApplicationContainer.core_package.site_service
         ],
         *args,
         **kwargs
     ):
         super().__init__(*args, **kwargs)
-        self.config_service = config_service
+        self.site_service = site_service
 
     code = forms.CharField(
         max_length=13,
@@ -114,7 +114,7 @@ class ConfigForm(ModelForm):
     )
 
     class Meta:
-        model = Config
+        model = Site
         fieldsets = (
             "code",
             ("company_name", "trade_name"),
@@ -142,6 +142,6 @@ class ConfigForm(ModelForm):
         if commit:
             obj.save()
 
-        self.config_service.delete_sri_cache_config()
+        self.site_service.delete_sri_cache_config()
 
         return obj
