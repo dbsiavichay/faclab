@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("inventories", "0001_initial"),
-        ("sales", "0002_auto_20230419_2331"),
+        ("sale", "0002_auto_20230419_2331"),
     ]
 
     operations = [
@@ -77,7 +77,7 @@ class Migration(migrations.Migration):
                     "customer",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.PROTECT,
-                        to="sales.customer",
+                        to="sale.customer",
                         verbose_name="customer",
                     ),
                 ),
@@ -150,7 +150,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="payments",
-                        to="sales.invoice",
+                        to="sale.invoice",
                     ),
                 ),
             ],
@@ -177,7 +177,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="lines",
-                        to="sales.invoice",
+                        to="sale.invoice",
                     ),
                 ),
                 (

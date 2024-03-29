@@ -30,7 +30,7 @@ class Customer(models.Model):
     )
     email = models.EmailField(verbose_name=_("email"))
     code_type = models.ForeignKey(
-        "sales.CustomerCodeType", on_delete=models.PROTECT, verbose_name=_("code type")
+        "sale.CustomerCodeType", on_delete=models.PROTECT, verbose_name=_("code type")
     )
 
     def __str__(self):

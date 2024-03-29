@@ -34,7 +34,7 @@ class ProductCategoryForm(ModelForm):
         fields = "__all__"
         widgets = {
             "parent": Select2(
-                model="sales.ProductCategory",
+                model="sale.ProductCategory",
                 search_fields=["name__icontains"],
             )
         }

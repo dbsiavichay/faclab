@@ -57,7 +57,7 @@ class MenuService(MenuRepository):
         return [
             MenuItem(
                 _("vouchers").capitalize(),
-                reverse("packs:sales_vouchertype_list"),
+                reverse("packs:sale_vouchertype_list"),
                 weight=30,
                 icon="bx-right-arrow-alt",
             ),

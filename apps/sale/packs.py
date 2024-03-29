@@ -8,19 +8,19 @@ from .forms import CustomerForm, InvoiceForm, InvoiceLineFormset, InvoicePayment
 from .tasks import sign_and_send_invoice_task
 
 
-@register("sales.VoucherType")
+@register("sale.VoucherType")
 class VoucherTypePack(BasePack):
     list_fields = ("code", "name", "current", "ends")
 
 
-@register("sales.Customer")
+@register("sale.Customer")
 class CustomerPack(BasePack):
     form_class = CustomerForm
     list_fields = ("code_type", "code", "bussiness_name")
     detail_fields = CustomerForm.Meta.fieldsets
 
 
-@register("sales.Invoice")
+@register("sale.Invoice")
 class InvoicePack(BasePack):
     form_class = InvoiceForm
     allowed_views = (PackViews.LIST, PackViews.CREATE, PackViews.DETAIL)

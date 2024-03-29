@@ -1,7 +1,7 @@
 import pytest
 
 from apps.inventories.models import Product
-from apps.sales.models import Customer, CustomerCodeType
+from apps.sale.models import Customer, CustomerCodeType
 
 
 @pytest.fixture

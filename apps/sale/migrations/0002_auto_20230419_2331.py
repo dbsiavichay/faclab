@@ -4,7 +4,7 @@ from django.db import migrations
 
 
 def create_customer_code_types(apps, schema_editor):
-    CustomerCodeType = apps.get_model("sales", "CustomerCodeType")
+    CustomerCodeType = apps.get_model("sale", "CustomerCodeType")
     types = [
         ("04", "RUC", 13),
         ("05", "CÉDULA", 10),
@@ -20,8 +20,8 @@ def create_customer_code_types(apps, schema_editor):
 
 
 def create_final_consumer_customer(apps, schema_editor):
-    CustomerCodeType = apps.get_model("sales", "CustomerCodeType")
-    Customer = apps.get_model("sales", "Customer")
+    CustomerCodeType = apps.get_model("sale", "CustomerCodeType")
+    Customer = apps.get_model("sale", "Customer")
     Customer.objects.create(
         code_type=CustomerCodeType.objects.get(code="07"),
         code="9999999999999",
@@ -33,7 +33,7 @@ def create_final_consumer_customer(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("sales", "0001_initial"),
+        ("sale", "0001_initial"),
     ]
 
     operations = [

@@ -60,7 +60,7 @@ class InvoiceForm(ModelForm):
         fieldsets = ("customer",)
         widgets = {
             "customer": Select2(
-                model="sales.Customer",
+                model="sale.Customer",
                 search_fields=[
                     "code__icontains",
                     "first_name__icontains",

@@ -4,13 +4,13 @@ from django.core.exceptions import ValidationError
 from django.db.utils import DataError
 from django.forms.models import model_to_dict
 
-from apps.sales.models import Customer, CustomerCodeType, Invoice, InvoiceLine
-from apps.sales.validators import customer_code_validator
+from apps.sale.models import Customer, CustomerCodeType, Invoice, InvoiceLine
+from apps.sale.validators import customer_code_validator
 
 
 class TestCustomerCodeType:
     def test_settings(self):
-        assert "apps.sales" in settings.INSTALLED_APPS
+        assert "apps.sale" in settings.INSTALLED_APPS
 
     @pytest.mark.django_db
     def test_customer_code_type_create(self):

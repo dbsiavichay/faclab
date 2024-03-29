@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.sales.enums import PaymentTypes, VoucherStatuses
+from apps.sale.enums import PaymentTypes, VoucherStatuses
 
 
 class Invoice(models.Model):
@@ -29,7 +29,7 @@ class Invoice(models.Model):
     file = models.FileField(upload_to="vouchers/invoices", null=True)
     errors = models.JSONField(default=dict)
     customer = models.ForeignKey(
-        "sales.Customer", on_delete=models.PROTECT, verbose_name=_("customer")
+        "sale.Customer", on_delete=models.PROTECT, verbose_name=_("customer")
     )
 
     class Meta:
@@ -56,7 +56,7 @@ class InvoiceLine(models.Model):
         "inventories.Product", on_delete=models.PROTECT, verbose_name=_("product")
     )
     invoice = models.ForeignKey(
-        "sales.Invoice", on_delete=models.CASCADE, related_name="lines"
+        "sale.Invoice", on_delete=models.CASCADE, related_name="lines"
     )
 
 
@@ -69,5 +69,5 @@ class InvoicePayment(models.Model):
     )
     amount = models.FloatField(verbose_name=_("amount"))
     invoice = models.ForeignKey(
-        "sales.Invoice", on_delete=models.CASCADE, related_name="payments"
+        "sale.Invoice", on_delete=models.CASCADE, related_name="payments"
     )

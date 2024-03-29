@@ -5,13 +5,13 @@ from simple_menu import MenuItem
 submenu_items = [
     MenuItem(
         _("customers").capitalize(),
-        reverse("packs:sales_customer_list"),
+        reverse("packs:sale_customer_list"),
         weight=20,
         icon="bx-right-arrow-alt",
     ),
     MenuItem(
         _("invoices").capitalize(),
-        reverse("packs:sales_invoice_list"),
+        reverse("packs:sale_invoice_list"),
         weight=20,
         icon="bx-right-arrow-alt",
     ),
