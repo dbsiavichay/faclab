@@ -23,7 +23,7 @@ from lxml.etree import Element, QName
 from zeep import Client
 
 from apps.core.application.services import SiteService
-from apps.core.domain.entities import Signature
+from apps.core.domain.models import Signature
 from apps.sri.enums import Methods, Namespaces
 from apps.sri.exceptions import SignatureException
 

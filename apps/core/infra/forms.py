@@ -6,11 +6,10 @@ from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.application.services import SiteService
-from apps.core.domain.entities import Signature, Site
 from apps.core.domain.enums import Emissions, Environments
+from apps.core.domain.models import Signature, Site
 from apps.sales.validators import customer_code_validator
 from apps.sri.services import SRISigner
-from faclab.containers import ApplicationContainer
 from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm
 
@@ -68,9 +67,7 @@ class SiteForm(ModelForm):
     @inject
     def __init__(
         self,
-        site_service: SiteService = Provide[
-            ApplicationContainer.core_package.site_service
-        ],
+        site_service: SiteService = Provide["core_package.site_service"],
         *args,
         **kwargs
     ):

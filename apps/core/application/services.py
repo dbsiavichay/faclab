@@ -1,52 +1,48 @@
 from typing import List
 
+from dependency_injector.wiring import Provide, inject
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
 
-from apps.core.domain.repositories import MenuRepository
-from faclab import cache
+from apps.core.domain.entities import SRIConfig
+from apps.core.domain.repositories import MenuRepository, SiteRepository
+
+# from faclab import cache
 
 SRI_CONFIG_CACHE_KEY = "sri_config"
 
 
-class SRIConfig:
-    id = None
-    iva_percent = None
-    signature = None
-
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-
-    @property
-    def iva_rate(self):
-        return self.iva_percent / 100 if self.iva_percent else None
-
-    @property
-    def iva_factor(self):
-        return (self.iva_percent / 100) + 1 if self.iva_percent else None
-
-
-class SiteService:
+class SiteService(SiteRepository):
     # @cache.set_cache(SRI_CONFIG_CACHE_KEY, [])
-    def get_config_object(self):
+    def get_current_site(self):
         from apps.core.models import Site
 
         return Site.objects.first()
 
+    def get_site_id(self) -> int:
+        site = self.get_current_site()
+        return site.id
+
     def get_sri_config(self) -> SRIConfig:
-        config = self.get_config_object()
-        data_config = {"id": config.id, **config.sri_config} if config else {}
-        sri_config = SRIConfig(**data_config)
+        site = self.get_current_site()
+        sri_config = SRIConfig(**site.sri_config)
 
         return sri_config
 
     def delete_sri_cache_config(self) -> None:
-        cache.delete(SRI_CONFIG_CACHE_KEY)
+        pass
+        # cache.delete(SRI_CONFIG_CACHE_KEY)
 
 
 class MenuService(MenuRepository):
+    @inject
+    def __init__(
+        self,
+        site_service: SiteRepository = Provide["core_package.site_service"],
+    ) -> None:
+        self.site_service = site_service
+
     def retrieve_menu_item(self) -> MenuItem:
         submenu_items = self.retrieve_menu_items()
 
@@ -73,7 +69,9 @@ class MenuService(MenuRepository):
             ),
             MenuItem(
                 _("sri").upper(),
-                reverse("packs:core_site_update", args=[1]),
+                reverse(
+                    "packs:core_site_update", args=[self.site_service.get_site_id()]
+                ),
                 weight=32,
                 icon="bx-right-arrow-alt",
             ),

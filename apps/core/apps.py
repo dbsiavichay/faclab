@@ -8,4 +8,6 @@ class CoreAppConfig(AppConfig):
     name = "apps.core"
 
     def ready(self):
-        container.wire(modules=[".application.main_menu"])
+        container.wire(
+            modules=[".application.main_menu", ".application.services", ".infra.forms"]
+        )

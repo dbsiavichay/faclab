@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.core.application.services import SiteService
 from apps.inventories.querysets import ProductQueryset
-from faclab.containers import ApplicationContainer
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
@@ -49,9 +48,7 @@ class InvoiceForm(ModelForm):
     @inject
     def __init__(
         self,
-        site_service: SiteService = Provide[
-            ApplicationContainer.core_package.site_service
-        ],
+        site_service: SiteService = Provide["core_package.site_service"],
         *args,
         **kwargs
     ):

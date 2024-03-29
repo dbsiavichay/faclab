@@ -5,14 +5,11 @@ from simple_menu import Menu, MenuItem
 from apps.core.domain.repositories import MenuRepository
 from apps.core.menu.inventories import inventories_item
 from apps.core.menu.sales import sales_item
-from faclab.containers import ApplicationContainer
 
 
 @inject
 def build_main_menu(
-    menu_service: MenuRepository = Provide[
-        ApplicationContainer.core_package.menu_service
-    ],
+    menu_service: MenuRepository = Provide["core_package.menu_service"],
 ):
     submenu_items = [
         inventories_item,

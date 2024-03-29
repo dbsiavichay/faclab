@@ -1,20 +1,21 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
+from typing import Optional
+
+from pydantic import BaseModel, computed_field
 
 
-class Signature(models.Model):
-    subject_name = models.CharField(max_length=64, verbose_name=_("subject"))
-    serial_number = models.CharField(
-        max_length=64, unique=True, verbose_name=_("serial number")
-    )
-    issue_date = models.DateTimeField(verbose_name=_("issue date"))
-    expiry_date = models.DateTimeField(verbose_name=_("expiry date"))
-    cert = models.TextField()
-    key = models.TextField()
+class SRIConfig(BaseModel):
+    iva_percent: Optional[float]
+    signature: Optional[int]
 
-    def __str__(self) -> str:
-        return f"{self.subject_name} - {self.serial_number}"
+    @computed_field
+    def iva_rate(self) -> float:
+        return self.iva_percent / 100 if self.iva_percent else None
+
+    @computed_field
+    def iva_factor(self) -> float:
+        return (self.iva_percent / 100) + 1 if self.iva_percent else None
 
 
-class Site(models.Model):
-    sri_config = models.JSONField(default=dict)
+class SiteEntity(BaseModel):
+    id: int
+    sri_config: SRIConfig
