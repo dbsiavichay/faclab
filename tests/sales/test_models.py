@@ -4,8 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db.utils import DataError
 from django.forms.models import model_to_dict
 
+from apps.sale.application.validators import customer_code_validator
 from apps.sale.models import Customer, CustomerCodeType, Invoice, InvoiceLine
-from apps.sale.validators import customer_code_validator
 
 
 class TestCustomerCodeType:

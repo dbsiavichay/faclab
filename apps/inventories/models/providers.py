@@ -2,7 +2,7 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.sale.validators import customer_code_validator
+from apps.sale.application.validators import customer_code_validator
 
 
 class Provider(models.Model):

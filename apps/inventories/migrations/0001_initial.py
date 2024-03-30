@@ -4,7 +4,7 @@ import django.core.validators
 import django.db.models.deletion
 from django.db import migrations, models
 
-import apps.sale.validators
+import apps.sale.application.validators
 
 
 class Migration(migrations.Migration):
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
                         unique=True,
                         validators=[
                             django.core.validators.MinLengthValidator(limit_value=13),
-                            apps.sale.validators.customer_code_validator,
+                            apps.sale.application.validators.customer_code_validator,
                         ],
                         verbose_name="identification",
                     ),

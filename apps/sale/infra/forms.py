@@ -5,12 +5,11 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.core.application.services import SiteService
 from apps.inventories.querysets import ProductQueryset
+from apps.sale.application.services import InvoiceService
+from apps.sale.application.validators import customer_code_validator
+from apps.sale.domain.models import Customer, Invoice, InvoiceLine, InvoicePayment
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
-
-from .models import Customer, Invoice, InvoiceLine, InvoicePayment
-from .services import InvoiceService
-from .validators import customer_code_validator
 
 
 class CustomerForm(ModelForm):

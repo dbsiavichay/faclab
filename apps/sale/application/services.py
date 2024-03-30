@@ -10,8 +10,8 @@ from django.db.models import Sum
 from apps.core.application.services import SiteService
 from apps.sri.services import SRIClient, SRISigner
 
-from .enums import VoucherStatuses
-from .models import VoucherType
+from ..domain.enums import VoucherStatuses
+from ..models import VoucherType
 
 site_service = SiteService()
 

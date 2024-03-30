@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.sale.enums import PaymentTypes, VoucherStatuses
+from apps.sale.domain.enums import PaymentTypes, VoucherStatuses
 
 
 class Invoice(models.Model):

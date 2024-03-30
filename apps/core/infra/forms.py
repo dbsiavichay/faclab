@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.core.application.services import SiteService
 from apps.core.domain.enums import Emissions, Environments
 from apps.core.domain.models import Signature, Site
-from apps.sale.validators import customer_code_validator
+from apps.sale.application.validators import customer_code_validator
 from apps.sri.services import SRISigner
 from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm

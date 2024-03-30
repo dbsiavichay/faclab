@@ -8,4 +8,4 @@ class SaleAppConfig(AppConfig):
     name = "apps.sale"
 
     def ready(self):
-        container.wire(modules=[".forms"])
+        container.wire(modules=[".infra.forms"])

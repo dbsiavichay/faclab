@@ -1,7 +1,7 @@
 import pytest
 from django.forms.models import model_to_dict
 
-from apps.sale.forms import CustomerForm, InvoiceForm, InvoiceLineFormset
+from apps.sale.infra.forms import CustomerForm, InvoiceForm, InvoiceLineFormset
 from apps.sale.models import Customer, Invoice, InvoiceLine
 
 
