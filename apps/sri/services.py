@@ -22,12 +22,12 @@ from lxml import etree
 from lxml.etree import Element, QName
 from zeep import Client
 
-from apps.core.application.services import SiteService
 from apps.core.domain.models import Signature
+from apps.core.infra.adapters import SiteAdapter
 from apps.sri.enums import Methods, Namespaces
 from apps.sri.exceptions import SignatureException
 
-site_service = SiteService()
+site_service = SiteAdapter()
 
 
 class SRISigner:

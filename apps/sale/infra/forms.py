@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.application.services import SiteService
+from apps.core.infra.adapters import SiteAdapter
 from apps.inventories.querysets import ProductQueryset
 from apps.sale.application.services import InvoiceService
 from apps.sale.application.validators import customer_code_validator
@@ -47,7 +47,7 @@ class InvoiceForm(ModelForm):
     @inject
     def __init__(
         self,
-        site_service: SiteService = Provide["core_package.site_service"],
+        site_service: SiteAdapter = Provide["core_package.site_service"],
         *args,
         **kwargs
     ):

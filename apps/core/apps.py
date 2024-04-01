@@ -9,5 +9,5 @@ class CoreAppConfig(AppConfig):
 
     def ready(self):
         container.wire(
-            modules=[".application.main_menu", ".application.services", ".infra.forms"]
+            modules=[".application.main_menu", ".infra.adapters", ".infra.forms"]
         )

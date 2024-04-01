@@ -1,9 +1,10 @@
 from dependency_injector import containers, providers
 
-from .services import MenuService, SiteService
+from apps.core.infra.adapters import MenuAdapter, SiteAdapter
 
 
 class CoreContainer(containers.DeclarativeContainer):
+
     config = providers.Configuration()
-    site_service = providers.Singleton(SiteService)
-    menu_service = providers.Singleton(MenuService)
+    site_service = providers.Singleton(SiteAdapter)
+    menu_service = providers.Singleton(MenuAdapter)

@@ -1,6 +1,7 @@
 from typing import List
 
 from dependency_injector.wiring import Provide, inject
+from django.apps import apps
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
@@ -8,34 +9,25 @@ from simple_menu import MenuItem
 from apps.core.domain.entities import SRIConfig
 from apps.core.domain.repositories import MenuRepository, SiteRepository
 
-# from faclab import cache
-
 SRI_CONFIG_CACHE_KEY = "sri_config"
 
 
-class SiteService(SiteRepository):
-    # @cache.set_cache(SRI_CONFIG_CACHE_KEY, [])
-    def get_current_site(self):
-        from apps.core.models import Site
+class SiteAdapter(SiteRepository):
+    def __init__(self) -> None:
+        self.model = apps.get_model("core", "Site")
+        self.site = self.model.objects.first()
 
-        return Site.objects.first()
-
-    def get_site_id(self) -> int:
-        site = self.get_current_site()
-        return site.id
+        if not self.site:
+            raise self.model.DoesNotExist()
 
     def get_sri_config(self) -> SRIConfig:
-        site = self.get_current_site()
-        sri_config = SRIConfig(**site.sri_config)
+        return SRIConfig(**self.site.sri_config)
 
-        return sri_config
-
-    def delete_sri_cache_config(self) -> None:
-        pass
-        # cache.delete(SRI_CONFIG_CACHE_KEY)
+    def refresh_site(self) -> None:
+        self.site.refresh_from_db()
 
 
-class MenuService(MenuRepository):
+class MenuAdapter(MenuRepository):
     @inject
     def __init__(
         self,
@@ -69,9 +61,7 @@ class MenuService(MenuRepository):
             ),
             MenuItem(
                 _("sri").upper(),
-                reverse(
-                    "packs:core_site_update", args=[self.site_service.get_site_id()]
-                ),
+                reverse("packs:core_site_update", args=[self.site_service.site.id]),
                 weight=32,
                 icon="bx-right-arrow-alt",
             ),

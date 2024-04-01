@@ -18,17 +18,9 @@ class MenuRepository(ABC):
 
 class SiteRepository(ABC):
     @abstractmethod
-    def get_current_site(self):
-        pass
-
-    @abstractmethod
-    def get_site_id(self) -> int:
-        pass
-
-    @abstractmethod
     def get_sri_config(self) -> SRIConfig:
         pass
 
     @abstractmethod
-    def delete_sri_cache_config(self) -> None:
+    def refresh_site(self) -> None:
         pass

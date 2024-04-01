@@ -7,13 +7,12 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.db.models import Sum
 
-from apps.core.application.services import SiteService
+from apps.core.infra.adapters import SiteAdapter
+from apps.sale.domain.enums import VoucherStatuses
+from apps.sale.domain.models import VoucherType
 from apps.sri.services import SRIClient, SRISigner
 
-from ..domain.enums import VoucherStatuses
-from ..models import VoucherType
-
-site_service = SiteService()
+site_service = SiteAdapter()
 
 
 class InvoiceService:

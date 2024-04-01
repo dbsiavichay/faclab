@@ -5,9 +5,9 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.application.services import SiteService
 from apps.core.domain.enums import Emissions, Environments
 from apps.core.domain.models import Signature, Site
+from apps.core.infra.adapters import SiteAdapter
 from apps.sale.application.validators import customer_code_validator
 from apps.sri.services import SRISigner
 from faclab.widgets import PercentInput
@@ -67,7 +67,7 @@ class SiteForm(ModelForm):
     @inject
     def __init__(
         self,
-        site_service: SiteService = Provide["core_package.site_service"],
+        site_service: SiteAdapter = Provide["core_package.site_service"],
         *args,
         **kwargs
     ):
@@ -139,6 +139,6 @@ class SiteForm(ModelForm):
         if commit:
             obj.save()
 
-        self.site_service.delete_sri_cache_config()
+        self.site_service.refresh_site()
 
         return obj

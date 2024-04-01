@@ -1,8 +1,8 @@
 from django.db.models import Sum
 
-from apps.core.application.services import SiteService
+from apps.core.infra.adapters import SiteAdapter
 
-site_service = SiteService()
+site_service = SiteAdapter()
 
 
 class PurchaseService:
