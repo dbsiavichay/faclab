@@ -6,7 +6,7 @@ from apps.sale.models import VoucherType
 
 
 class VoucherTypeAdapter(VoucherTypeRepository):
-    def filter_by_code(self, code: str) -> Optional[VoucherTypeEntity]:
+    def find_by_code(self, code: str) -> Optional[VoucherTypeEntity]:
         voucher_type = VoucherType.objects.values().filter(code=code).first()
 
         if voucher_type:

@@ -1,19 +1,21 @@
-from typing import List
+from typing import List, Optional
 
 from apps.sale.domain.entities import VoucherTypeEntity
 from apps.sale.domain.repositories import VoucherTypeRepository
 
-from .ports import GenerateVoucherTypeSequencePort
+from .ports import GenerateVoucherSequencePort
 
 
-class GenerateVoucherTypeSequenceUseCase(GenerateVoucherTypeSequencePort):
+class GenerateVoucherSequenceUseCase(GenerateVoucherSequencePort):
     def __init__(self, voucher_type_repository: VoucherTypeRepository) -> None:
         self.sequence_length = 9
         self.voucher_type_repository = voucher_type_repository
 
-    def generate_sequence(self, voucher_code: str) -> str:
+    def generate_sequence(self, voucher_type_code: str) -> str:
         sequence = 1
-        voucher_type = self.filter_by_code(code=voucher_code)
+        voucher_type = self.find_voucher_type_by_code(
+            voucher_type_code=voucher_type_code
+        )
 
         if voucher_type:
             sequence = voucher_type.current + 1
@@ -22,10 +24,12 @@ class GenerateVoucherTypeSequenceUseCase(GenerateVoucherTypeSequencePort):
 
         return str(sequence).zfill(self.sequence_length)
 
-    def filter_by_code(self, voucher_code: str) -> VoucherTypeEntity:
-        return self.voucher_type_repository.filter_by_code(voucher_code)
+    def find_voucher_type_by_code(
+        self, voucher_type_code: str
+    ) -> Optional[VoucherTypeEntity]:
+        return self.voucher_type_repository.filter_by_code(voucher_type_code)
 
-    def save(
-        self, voucher_type: VoucherTypeEntity, update_fields: List[str] = None
+    def save_voucher_type(
+        self, voucher_type_entity: VoucherTypeEntity, update_fields: List[str] = None
     ) -> None:
-        self.save(voucher_type, update_fields)
+        self.voucher_type_repository.save(voucher_type_entity, update_fields)

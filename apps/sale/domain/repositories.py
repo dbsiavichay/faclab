@@ -6,7 +6,7 @@ from apps.sale.domain.entities import VoucherTypeEntity
 
 class VoucherTypeRepository(ABC):
     @abstractmethod
-    def filter_by_code(self, code: str) -> Optional[VoucherTypeEntity]:
+    def find_by_code(self, code: str) -> Optional[VoucherTypeEntity]:
         pass
 
     @abstractmethod
