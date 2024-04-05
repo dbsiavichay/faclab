@@ -31,9 +31,9 @@ class MenuAdapter(MenuRepository):
     @inject
     def __init__(
         self,
-        site_service: SiteRepository = Provide["core_package.site_service"],
+        site_adapter: SiteRepository = Provide["core_package.site_adapter"],
     ) -> None:
-        self.site_service = site_service
+        self.site_adapter = site_adapter
 
     def retrieve_menu_item(self) -> MenuItem:
         submenu_items = self.retrieve_menu_items()
@@ -61,7 +61,7 @@ class MenuAdapter(MenuRepository):
             ),
             MenuItem(
                 _("sri").upper(),
-                reverse("packs:core_site_update", args=[self.site_service.site.id]),
+                reverse("packs:core_site_update", args=[self.site_adapter.site.id]),
                 weight=32,
                 icon="bx-right-arrow-alt",
             ),

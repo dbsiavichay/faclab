@@ -67,12 +67,12 @@ class SiteForm(ModelForm):
     @inject
     def __init__(
         self,
-        site_service: SiteAdapter = Provide["core_package.site_service"],
+        site_adapter: SiteAdapter = Provide["core_package.site_adapter"],
         *args,
         **kwargs
     ):
         super().__init__(*args, **kwargs)
-        self.site_service = site_service
+        self.site_adapter = site_adapter
 
     code = forms.CharField(
         max_length=13,
@@ -139,6 +139,6 @@ class SiteForm(ModelForm):
         if commit:
             obj.save()
 
-        self.site_service.refresh_site()
+        self.site_adapter.refresh_site()
 
         return obj

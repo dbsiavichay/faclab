@@ -47,12 +47,12 @@ class InvoiceForm(ModelForm):
     @inject
     def __init__(
         self,
-        site_service: SiteAdapter = Provide["core_package.site_service"],
+        site_adapter: SiteAdapter = Provide["core_package.site_adapter"],
         *args,
         **kwargs
     ):
         super().__init__(*args, **kwargs)
-        self.site_service = site_service
+        self.site_adapter = site_adapter
 
     class Meta:
         model = Invoice
@@ -69,7 +69,7 @@ class InvoiceForm(ModelForm):
         }
 
     def save(self, commit=True):
-        config = self.site_service.get_sri_config()
+        config = self.site_adapter.get_sri_config()
         obj = super().save(commit=False)
         obj.company_code = config.company_code
         obj.company_point_sale_code = config.company_point_sale_code

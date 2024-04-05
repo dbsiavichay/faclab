@@ -27,7 +27,7 @@ from apps.core.infra.adapters import SiteAdapter
 from apps.sri.enums import Methods, Namespaces
 from apps.sri.exceptions import SignatureException
 
-site_service = SiteAdapter()
+site_adapter = SiteAdapter()
 
 
 class SRISigner:
@@ -325,7 +325,7 @@ class SRISigner:
         return signature
 
     def sign(self, voucher_bytes):
-        config = site_service.get_sri_config()
+        config = site_adapter.get_sri_config()
         signature = Signature.objects.filter(id=config.signature).first()
 
         if not signature:

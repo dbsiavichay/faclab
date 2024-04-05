@@ -12,7 +12,7 @@ from apps.sale.domain.enums import VoucherStatuses
 from apps.sale.domain.models import VoucherType
 from apps.sri.services import SRIClient, SRISigner
 
-site_service = SiteAdapter()
+site_adapter = SiteAdapter()
 
 
 class InvoiceService:
@@ -37,7 +37,7 @@ class InvoiceService:
 
     @classmethod
     def generate_access_code(cls, invoice, commit=True):
-        config = site_service.get_sri_config()
+        config = site_adapter.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
         invoice_date = invoice.issue_date.astimezone(timezone)
         date = invoice_date.strftime("%d%m%Y")
@@ -71,7 +71,7 @@ class InvoiceService:
 
     @classmethod
     def calculate_totals(cls, invoice, commit=True):
-        config = site_service.get_sri_config()
+        config = site_adapter.get_sri_config()
         subtotal = invoice.lines.aggregate(subtotal=Sum("subtotal")).get("subtotal")
         invoice.subtotal = subtotal
         invoice.tax = subtotal * config.iva_rate
@@ -82,7 +82,7 @@ class InvoiceService:
 
     @classmethod
     def calculate_line_totals(cls, invoice_line):
-        config = site_service.get_sri_config()
+        config = site_adapter.get_sri_config()
         invoice_line.subtotal = invoice_line.unit_price * invoice_line.quantity
         invoice_line.tax = invoice_line.subtotal * config.iva_rate
         invoice_line.total = invoice_line.subtotal * config.iva_factor
@@ -91,7 +91,7 @@ class InvoiceService:
 
     @classmethod
     def get_xml_data(cls, invoice):
-        config = site_service.get_sri_config()
+        config = site_adapter.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
         invoice_date = invoice.issue_date.astimezone(timezone)
 

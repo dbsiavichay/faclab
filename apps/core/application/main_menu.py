@@ -9,12 +9,12 @@ from apps.core.menu.sales import sales_item
 
 @inject
 def build_main_menu(
-    menu_service: MenuRepository = Provide["core_package.menu_service"],
+    menu_adapter: MenuRepository = Provide["core_package.menu_adapter"],
 ):
     submenu_items = [
         inventories_item,
         sales_item,
-        menu_service.retrieve_menu_item(),
+        menu_adapter.retrieve_menu_item(),
     ]
     Menu.add_item(
         "main",

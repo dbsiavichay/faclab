@@ -6,5 +6,5 @@ from apps.core.infra.adapters import MenuAdapter, SiteAdapter
 class CoreContainer(containers.DeclarativeContainer):
 
     config = providers.Configuration()
-    site_service = providers.Singleton(SiteAdapter)
-    menu_service = providers.Singleton(MenuAdapter)
+    site_adapter = providers.Singleton(SiteAdapter)
+    menu_adapter = providers.Singleton(MenuAdapter)
