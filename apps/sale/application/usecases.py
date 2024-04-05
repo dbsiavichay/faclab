@@ -20,14 +20,14 @@ class GenerateVoucherSequenceUseCase(GenerateVoucherSequencePort):
         if voucher_type:
             sequence = voucher_type.current + 1
             voucher_type.current = sequence
-            self.save(voucher_type, update_fields=["current"])
+            self.save_voucher_type(voucher_type, update_fields=["current"])
 
         return str(sequence).zfill(self.sequence_length)
 
     def find_voucher_type_by_code(
         self, voucher_type_code: str
     ) -> Optional[VoucherTypeEntity]:
-        return self.voucher_type_repository.filter_by_code(voucher_type_code)
+        return self.voucher_type_repository.find_by_code(voucher_type_code)
 
     def save_voucher_type(
         self, voucher_type_entity: VoucherTypeEntity, update_fields: List[str] = None

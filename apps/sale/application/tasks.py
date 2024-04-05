@@ -3,14 +3,14 @@ from celery import chain
 from apps.sale.models import Invoice
 from faclab.celery import app
 
-from .services import InvoiceService
+from .services import InvoiceServiceLegacy
 
 
 @app.task
 def sign_invoice_task(invoice_id):
     invoice = Invoice.objects.filter(id=invoice_id).first()
-    InvoiceService.generate_xml(invoice)
-    InvoiceService.sign_xml(invoice)
+    InvoiceServiceLegacy.generate_xml(invoice)
+    InvoiceServiceLegacy.sign_xml(invoice)
 
     return invoice_id
 
@@ -18,7 +18,7 @@ def sign_invoice_task(invoice_id):
 @app.task
 def send_invoice_task(invoice_id):
     invoice = Invoice.objects.filter(id=invoice_id).first()
-    InvoiceService.send_xml(invoice)
+    InvoiceServiceLegacy.send_xml(invoice)
 
     return invoice_id
 

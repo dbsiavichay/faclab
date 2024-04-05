@@ -8,32 +8,40 @@ from django.core.files.base import ContentFile
 from django.db.models import Sum
 
 from apps.core.infra.adapters import SiteAdapter
+from apps.sale.application.ports import GenerateVoucherSequencePort
+from apps.sale.domain.entities import InvoiceEntity
 from apps.sale.domain.enums import VoucherStatuses
-from apps.sale.models import VoucherType
+from apps.sale.domain.repositories import InvoiceRepository
 from apps.sri.services import SRIClient, SRISigner
 
 site_adapter = SiteAdapter()
 
 
 class InvoiceService:
-    INVOICE_CODE = "01"
+    def __init__(
+        self,
+        generate_voucher_sequence_port: GenerateVoucherSequencePort,
+        invoice_repository: InvoiceRepository,
+    ) -> None:
+        self.invoice_voucher_type_code = "01"
+        self.generate_voucher_sequence_port = generate_voucher_sequence_port
+        self.invoice_repository = invoice_repository
 
-    @classmethod
-    def generate_sequence(cls, invoice, commit=True):
-        sequence = 1
-        voucher_type = VoucherType.objects.filter(code=cls.INVOICE_CODE).first()
+    def update_invoice_sequence(
+        self, invoice: InvoiceEntity, update_on_db: bool = True
+    ) -> str:
+        sequence = self.generate_voucher_sequence_port.generate_sequence(
+            self.invoice_voucher_type_code
+        )
 
-        if voucher_type:
-            voucher_type.current = voucher_type.current + 1
-            voucher_type.save(update_fields=["current"])
-            sequence = voucher_type.current
-
-        invoice.sequence = str(sequence).zfill(9)
-
-        if commit:
-            invoice.save(update_fields=["sequence"])
+        if update_on_db:
+            self.invoice_repository.save(invoice, update_fields=["sequence"])
 
         return sequence
+
+
+class InvoiceServiceLegacy:
+    INVOICE_CODE = "01"
 
     @classmethod
     def generate_access_code(cls, invoice, commit=True):

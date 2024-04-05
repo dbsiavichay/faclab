@@ -5,8 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.core.infra.adapters import SiteAdapter
 from apps.inventories.querysets import ProductQueryset
-from apps.sale.application.services import InvoiceService
+from apps.sale.application.services import InvoiceService, InvoiceServiceLegacy
 from apps.sale.application.validators import customer_code_validator
+from apps.sale.domain.entities import InvoiceEntity
 from apps.sale.models import Customer, Invoice, InvoiceLine, InvoicePayment
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
@@ -48,11 +49,13 @@ class InvoiceForm(ModelForm):
     def __init__(
         self,
         site_adapter: SiteAdapter = Provide["core_package.site_adapter"],
+        invoice_service: InvoiceService = Provide["sale_package.invoice_service"],
         *args,
         **kwargs
     ):
         super().__init__(*args, **kwargs)
         self.site_adapter = site_adapter
+        self.invoice_service = invoice_service
 
     class Meta:
         model = Invoice
@@ -68,6 +71,9 @@ class InvoiceForm(ModelForm):
             )
         }
 
+    def get_entity_from_model(self, invoice: Invoice) -> InvoiceEntity:
+        return InvoiceEntity(**invoice.__dict__)
+
     def save(self, commit=True):
         config = self.site_adapter.get_sri_config()
         obj = super().save(commit=False)
@@ -75,7 +81,10 @@ class InvoiceForm(ModelForm):
         obj.company_point_sale_code = config.company_point_sale_code
 
         if not obj.sequence:
-            InvoiceService.generate_sequence(obj, commit=False)
+            invoice_entity = self.get_entity_from_model(obj)
+            obj.sequence = self.invoice_service.update_invoice_sequence(
+                invoice_entity, update_on_db=False
+            )
 
         if commit:
             obj.save()
@@ -102,7 +111,7 @@ class InvoiceLineForm(ModelForm):
 
     def save(self, commit=True):
         obj = super().save(commit=False)
-        InvoiceService.calculate_line_totals(obj)
+        InvoiceServiceLegacy.calculate_line_totals(obj)
 
         if commit:
             obj.save()
@@ -113,8 +122,8 @@ class InvoiceLineForm(ModelForm):
 class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
     def save(self, commit=True):
         object_list = super().save(commit=commit)
-        InvoiceService.generate_access_code(self.instance, commit=False)
-        InvoiceService.calculate_totals(self.instance, commit=False)
+        InvoiceServiceLegacy.generate_access_code(self.instance, commit=False)
+        InvoiceServiceLegacy.calculate_totals(self.instance, commit=False)
         self.instance.save()
 
         return object_list
