@@ -1,6 +1,6 @@
 from celery import chain
 
-from apps.sale.domain.models import Invoice
+from apps.sale.models import Invoice
 from faclab.celery import app
 
 from .services import InvoiceService

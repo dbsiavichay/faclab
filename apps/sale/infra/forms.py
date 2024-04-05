@@ -7,7 +7,7 @@ from apps.core.infra.adapters import SiteAdapter
 from apps.inventories.querysets import ProductQueryset
 from apps.sale.application.services import InvoiceService
 from apps.sale.application.validators import customer_code_validator
-from apps.sale.domain.models import Customer, Invoice, InvoiceLine, InvoicePayment
+from apps.sale.models import Customer, Invoice, InvoiceLine, InvoicePayment
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 

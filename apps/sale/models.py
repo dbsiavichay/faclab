@@ -1,4 +1,4 @@
-from .domain.models import (
+from .infra.models import (
     Customer,
     CustomerCodeType,
     Invoice,

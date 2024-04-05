@@ -9,7 +9,7 @@ from django.db.models import Sum
 
 from apps.core.infra.adapters import SiteAdapter
 from apps.sale.domain.enums import VoucherStatuses
-from apps.sale.domain.models import VoucherType
+from apps.sale.models import VoucherType
 from apps.sri.services import SRIClient, SRISigner
 
 site_adapter = SiteAdapter()
