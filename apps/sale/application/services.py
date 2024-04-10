@@ -12,7 +12,7 @@ from apps.sale.application.ports import GenerateVoucherSequencePort
 from apps.sale.domain.entities import InvoiceEntity
 from apps.sale.domain.enums import VoucherStatuses
 from apps.sale.domain.repositories import InvoiceRepository
-from apps.sri.services import SRIClient, SRISigner
+from apps.sri.application.services import SRIClient, SRISigner, SRIVoucherService
 
 site_adapter = SiteAdapter()
 
@@ -22,22 +22,41 @@ class InvoiceService:
         self,
         generate_voucher_sequence_port: GenerateVoucherSequencePort,
         invoice_repository: InvoiceRepository,
+        sri_voucher_service: SRIVoucherService,
     ) -> None:
         self.invoice_voucher_type_code = "01"
         self.generate_voucher_sequence_port = generate_voucher_sequence_port
         self.invoice_repository = invoice_repository
+        self.sri_voucher_service = sri_voucher_service
 
     def update_invoice_sequence(
-        self, invoice: InvoiceEntity, update_on_db: bool = True
+        self, invoice_entity: InvoiceEntity, update_on_db: bool = True
     ) -> str:
         sequence = self.generate_voucher_sequence_port.generate_sequence(
             self.invoice_voucher_type_code
         )
+        invoice_entity.sequence = sequence
 
         if update_on_db:
-            self.invoice_repository.save(invoice, update_fields=["sequence"])
+            self.invoice_repository.save(invoice_entity, update_fields=["sequence"])
 
         return sequence
+
+    def update_invoice_access_code(
+        self, invoice_entity: InvoiceEntity, update_on_db: bool = True
+    ) -> str:
+        access_code = self.sri_voucher_service.generate_access_code(
+            self.invoice_voucher_type_code,
+            invoice_entity.id,
+            invoice_entity.issue_date,
+            invoice_entity.sequence,
+        )
+        invoice_entity.code = access_code
+
+        if update_on_db:
+            self.invoice_repository.save(invoice_entity, update_fields=["code"])
+
+        return access_code
 
 
 class InvoiceServiceLegacy:
@@ -136,7 +155,7 @@ class InvoiceServiceLegacy:
                         "totalImpuesto": [
                             {
                                 "codigo": 2,
-                                "codigoPorcentaje": 2,
+                                "codigoPorcentaje": 4,
                                 "baseImponible": invoice.subtotal,
                                 "valor": invoice.tax,
                             }
@@ -192,7 +211,7 @@ class InvoiceServiceLegacy:
                         "impuesto": [
                             {
                                 "codigo": 2,
-                                "codigoPorcentaje": 2,
+                                "codigoPorcentaje": 4,
                                 "tarifa": int(config.iva_percent),
                                 "baseImponible": line.subtotal,
                                 "valor": line.tax,

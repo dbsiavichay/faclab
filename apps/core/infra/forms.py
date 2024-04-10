@@ -9,7 +9,7 @@ from apps.core.domain.enums import Emissions, Environments
 from apps.core.domain.models import Signature, Site
 from apps.core.infra.adapters import SiteAdapter
 from apps.sale.application.validators import customer_code_validator
-from apps.sri.services import SRISigner
+from apps.sri.application.services import SRISigner
 from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm
 

@@ -25,5 +25,5 @@ class InvoiceEntity(BaseModel):
     tax: float
     total: Decimal = Field(max_digits=10, decimal_places=2)
     status: str = Field(max_length=4)  # TODO: agregar choices
-    file: Optional[FileUrl]
+    file_url: Optional[FileUrl] = None
     errors: dict

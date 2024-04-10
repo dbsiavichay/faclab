@@ -12,12 +12,14 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 from .containers import ApplicationContainer
+from .settings import local
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "faclab.settings")
 
 application = get_wsgi_application()
 
 container = ApplicationContainer()
+container.config.from_dict(local.__dict__)
 
 container.wire(
     modules=[
@@ -25,5 +27,6 @@ container.wire(
         "apps.core.infra.adapters",
         "apps.core.infra.forms",
         "apps.sale.infra.forms",
+        "apps.sri.application.services",
     ]
 )

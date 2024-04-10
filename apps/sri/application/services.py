@@ -16,6 +16,7 @@ from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 from cryptography.hazmat.primitives.serialization import load_der_private_key
 from cryptography.x509 import load_der_x509_certificate
 from cryptography.x509.oid import NameOID
+from dependency_injector.wiring import Provide, inject
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from lxml import etree
@@ -23,9 +24,14 @@ from lxml.etree import Element, QName
 from zeep import Client
 
 from apps.core.domain.models import Signature
+from apps.core.domain.repositories import SiteRepository
 from apps.core.infra.adapters import SiteAdapter
-from apps.sri.enums import Methods, Namespaces
-from apps.sri.exceptions import SignatureException
+from apps.sri.application.usecases import (
+    GenerateVoucherAccessCodeUseCase,
+    RetrieveVoucherUseCase,
+)
+from apps.sri.domain.enums import Methods, Namespaces
+from apps.sri.domain.exceptions import SignatureException
 
 site_adapter = SiteAdapter()
 
@@ -479,3 +485,28 @@ class SRIClient:
             "type": data.get("tipoPersona"),
         }
         return taxpayer
+
+
+class SRIVoucherService:
+    @inject
+    def __init__(
+        self,
+        generate_access_code_usecase: GenerateVoucherAccessCodeUseCase,
+        retrieve_voucher_usecase: RetrieveVoucherUseCase,
+        site_repository: SiteRepository = Provide["core_package.site_adapter"],
+    ) -> None:
+        self.generate_access_code_usecase = generate_access_code_usecase
+        self.retrieve_voucher_usecase = retrieve_voucher_usecase
+        self.site_repository = site_repository
+
+    def generate_access_code(
+        self,
+        voucher_type_code: str,
+        voucher_id: int,
+        voucher_date: datetime,
+        voucher_sequence: str,
+    ) -> str:
+        sri_config = self.site_repository.get_sri_config()
+        return self.generate_access_code_usecase.execute(
+            voucher_type_code, voucher_id, voucher_date, voucher_sequence, sri_config
+        )

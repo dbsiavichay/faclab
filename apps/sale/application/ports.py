@@ -20,9 +20,3 @@ class GenerateVoucherSequencePort(ABC):
         self, voucher_type_entity: VoucherTypeEntity, update_fields: List[str] = None
     ) -> None:
         pass
-
-
-class GenerateInvoiceAccessCodePort(ABC):
-    @abstractmethod
-    def generate_access_code(self, voucher_type_code: str) -> str:
-        pass

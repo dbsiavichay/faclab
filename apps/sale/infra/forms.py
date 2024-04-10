@@ -120,9 +120,22 @@ class InvoiceLineForm(ModelForm):
 
 
 class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
+    @inject
+    def __init__(
+        self,
+        invoice_service: InvoiceService = Provide["sale_package.invoice_service"],
+        *args,
+        **kwargs
+    ) -> None:
+        self.invoice_service = invoice_service
+        super().__init__(*args, **kwargs)
+
     def save(self, commit=True):
         object_list = super().save(commit=commit)
-        InvoiceServiceLegacy.generate_access_code(self.instance, commit=False)
+        invoice_entity = InvoiceEntity(**self.instance.__dict__)
+        self.instance.code = self.invoice_service.update_invoice_access_code(
+            invoice_entity, update_on_db=False
+        )
         InvoiceServiceLegacy.calculate_totals(self.instance, commit=False)
         self.instance.save()
 

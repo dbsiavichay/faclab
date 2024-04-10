@@ -8,6 +8,9 @@ from apps.sale.infra.adapters import InvoiceAdapter, VoucherTypeAdapter
 class SaleContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
 
+    # Packages
+    sri_voucher_service = providers.Dependency()
+
     # Repositories
     voucher_type_adapter = providers.Singleton(VoucherTypeAdapter)
     invoice_adapter = providers.Singleton(InvoiceAdapter)
@@ -22,4 +25,5 @@ class SaleContainer(containers.DeclarativeContainer):
         InvoiceService,
         generate_voucher_sequence_port=generate_voucher_sequence_usecase,
         invoice_repository=invoice_adapter,
+        sri_voucher_service=sri_voucher_service,
     )
