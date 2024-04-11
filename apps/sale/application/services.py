@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 from django.db.models import Sum
 
 from apps.core.infra.repositories import SiteRepositoryImpl
-from apps.sale.application.ports import GenerateVoucherSequencePort
+from apps.sale.application.usecases import GenerateVoucherSequenceUseCase
 from apps.sale.domain.entities import InvoiceEntity
 from apps.sale.domain.enums import VoucherStatuses
 from apps.sale.domain.repositories import InvoiceRepository
@@ -20,19 +20,19 @@ site_repository = SiteRepositoryImpl()
 class InvoiceService:
     def __init__(
         self,
-        generate_voucher_sequence_port: GenerateVoucherSequencePort,
         invoice_repository: InvoiceRepository,
+        generate_voucher_sequence_usecase: GenerateVoucherSequenceUseCase,
         sri_voucher_service: SRIVoucherService,
     ) -> None:
         self.invoice_voucher_type_code = "01"
-        self.generate_voucher_sequence_port = generate_voucher_sequence_port
         self.invoice_repository = invoice_repository
+        self.generate_voucher_sequence_usecase = generate_voucher_sequence_usecase
         self.sri_voucher_service = sri_voucher_service
 
     def update_invoice_sequence(
         self, invoice_entity: InvoiceEntity, update_on_db: bool = True
     ) -> str:
-        sequence = self.generate_voucher_sequence_port.generate_sequence(
+        sequence = self.generate_voucher_sequence_usecase.execute(
             self.invoice_voucher_type_code
         )
         invoice_entity.sequence = sequence

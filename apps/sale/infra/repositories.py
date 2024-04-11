@@ -5,7 +5,7 @@ from apps.sale.domain.repositories import InvoiceRepository, VoucherTypeReposito
 from apps.sale.models import Invoice, VoucherType
 
 
-class VoucherTypeAdapter(VoucherTypeRepository):
+class VoucherTypeRepositoryImpl(VoucherTypeRepository):
     def find_by_code(self, code: str) -> Optional[VoucherTypeEntity]:
         voucher_type = VoucherType.objects.values().filter(code=code).first()
 
@@ -21,7 +21,7 @@ class VoucherTypeAdapter(VoucherTypeRepository):
         voucher_type.save(update_fields=update_fields)
 
 
-class InvoiceAdapter(InvoiceRepository):
+class InvoiceRepositoryImpl(InvoiceRepository):
     def save(
         self, invoice_entity: InvoiceEntity, update_fields: List[str] = None
     ) -> None:
