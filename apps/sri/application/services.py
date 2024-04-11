@@ -25,7 +25,7 @@ from zeep import Client
 
 from apps.core.domain.models import Signature
 from apps.core.domain.repositories import SiteRepository
-from apps.core.infra.adapters import SiteAdapter
+from apps.core.infra.repositories import SiteRepositoryImpl
 from apps.sri.application.usecases import (
     GenerateVoucherAccessCodeUseCase,
     RetrieveVoucherUseCase,
@@ -33,7 +33,7 @@ from apps.sri.application.usecases import (
 from apps.sri.domain.enums import Methods, Namespaces
 from apps.sri.domain.exceptions import SignatureException
 
-site_adapter = SiteAdapter()
+site_repository = SiteRepositoryImpl()
 
 
 class SRISigner:
@@ -331,7 +331,7 @@ class SRISigner:
         return signature
 
     def sign(self, voucher_bytes):
-        config = site_adapter.get_sri_config()
+        config = site_repository.get_sri_config()
         signature = Signature.objects.filter(id=config.signature).first()
 
         if not signature:
@@ -493,7 +493,7 @@ class SRIVoucherService:
         self,
         generate_access_code_usecase: GenerateVoucherAccessCodeUseCase,
         retrieve_voucher_usecase: RetrieveVoucherUseCase,
-        site_repository: SiteRepository = Provide["core_package.site_adapter"],
+        site_repository: SiteRepository = Provide["core_package.site_repository"],
     ) -> None:
         self.generate_access_code_usecase = generate_access_code_usecase
         self.retrieve_voucher_usecase = retrieve_voucher_usecase

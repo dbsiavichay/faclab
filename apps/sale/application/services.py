@@ -7,14 +7,14 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.db.models import Sum
 
-from apps.core.infra.adapters import SiteAdapter
+from apps.core.infra.repositories import SiteRepositoryImpl
 from apps.sale.application.ports import GenerateVoucherSequencePort
 from apps.sale.domain.entities import InvoiceEntity
 from apps.sale.domain.enums import VoucherStatuses
 from apps.sale.domain.repositories import InvoiceRepository
 from apps.sri.application.services import SRIClient, SRISigner, SRIVoucherService
 
-site_adapter = SiteAdapter()
+site_repository = SiteRepositoryImpl()
 
 
 class InvoiceService:
@@ -64,7 +64,7 @@ class InvoiceServiceLegacy:
 
     @classmethod
     def generate_access_code(cls, invoice, commit=True):
-        config = site_adapter.get_sri_config()
+        config = site_repository.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
         invoice_date = invoice.issue_date.astimezone(timezone)
         date = invoice_date.strftime("%d%m%Y")
@@ -98,7 +98,7 @@ class InvoiceServiceLegacy:
 
     @classmethod
     def calculate_totals(cls, invoice, commit=True):
-        config = site_adapter.get_sri_config()
+        config = site_repository.get_sri_config()
         subtotal = invoice.lines.aggregate(subtotal=Sum("subtotal")).get("subtotal")
         invoice.subtotal = subtotal
         invoice.tax = subtotal * config.iva_rate
@@ -109,7 +109,7 @@ class InvoiceServiceLegacy:
 
     @classmethod
     def calculate_line_totals(cls, invoice_line):
-        config = site_adapter.get_sri_config()
+        config = site_repository.get_sri_config()
         invoice_line.subtotal = invoice_line.unit_price * invoice_line.quantity
         invoice_line.tax = invoice_line.subtotal * config.iva_rate
         invoice_line.total = invoice_line.subtotal * config.iva_factor
@@ -118,7 +118,7 @@ class InvoiceServiceLegacy:
 
     @classmethod
     def get_xml_data(cls, invoice):
-        config = site_adapter.get_sri_config()
+        config = site_repository.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
         invoice_date = invoice.issue_date.astimezone(timezone)
 

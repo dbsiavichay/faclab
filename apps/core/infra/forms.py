@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.core.domain.enums import Emissions, Environments
 from apps.core.domain.models import Signature, Site
-from apps.core.infra.adapters import SiteAdapter
+from apps.core.domain.repositories import SiteRepository
 from apps.sale.application.validators import customer_code_validator
 from apps.sri.application.services import SRISigner
 from faclab.widgets import PercentInput
@@ -67,12 +67,12 @@ class SiteForm(ModelForm):
     @inject
     def __init__(
         self,
-        site_adapter: SiteAdapter = Provide["core_package.site_adapter"],
+        site_repository: SiteRepository = Provide["core_package.site_repository"],
         *args,
         **kwargs
     ):
         super().__init__(*args, **kwargs)
-        self.site_adapter = site_adapter
+        self.site_repository = site_repository
 
     code = forms.CharField(
         max_length=13,
@@ -139,6 +139,6 @@ class SiteForm(ModelForm):
         if commit:
             obj.save()
 
-        self.site_adapter.refresh_site()
+        self.site_repository.refresh_site()
 
         return obj

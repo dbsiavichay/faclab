@@ -24,8 +24,8 @@ container.config.from_dict(settings.__dict__)
 container.wire(
     modules=[
         "apps.core.application.main_menu",
-        "apps.core.infra.adapters",
         "apps.core.infra.forms",
+        "apps.core.infra.repositories",
         "apps.sale.infra.forms",
         "apps.sri.application.services",
     ]

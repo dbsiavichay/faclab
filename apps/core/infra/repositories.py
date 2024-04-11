@@ -12,7 +12,7 @@ from apps.core.domain.repositories import MenuRepository, SiteRepository
 SRI_CONFIG_CACHE_KEY = "sri_config"
 
 
-class SiteAdapter(SiteRepository):
+class SiteRepositoryImpl(SiteRepository):
     def __init__(self) -> None:
         self.model = apps.get_model("core", "Site")
         self.site = self.model.objects.first()
@@ -27,13 +27,13 @@ class SiteAdapter(SiteRepository):
         self.site.refresh_from_db()
 
 
-class MenuAdapter(MenuRepository):
+class MenuRepositoryImpl(MenuRepository):
     @inject
     def __init__(
         self,
-        site_adapter: SiteRepository = Provide["core_package.site_adapter"],
+        site_repository: SiteRepository = Provide["core_package.site_repository"],
     ) -> None:
-        self.site_adapter = site_adapter
+        self.site_repository = site_repository
 
     def retrieve_menu_item(self) -> MenuItem:
         submenu_items = self.retrieve_menu_items()
@@ -61,7 +61,7 @@ class MenuAdapter(MenuRepository):
             ),
             MenuItem(
                 _("sri").upper(),
-                reverse("packs:core_site_update", args=[self.site_adapter.site.id]),
+                reverse("packs:core_site_update", args=[self.site_repository.site.id]),
                 weight=32,
                 icon="bx-right-arrow-alt",
             ),

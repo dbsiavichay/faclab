@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.infra.adapters import SiteAdapter
+from apps.core.domain.repositories import SiteRepository
 from apps.inventories.querysets import ProductQueryset
 from apps.sale.application.services import InvoiceService, InvoiceServiceLegacy
 from apps.sale.application.validators import customer_code_validator
@@ -48,13 +48,13 @@ class InvoiceForm(ModelForm):
     @inject
     def __init__(
         self,
-        site_adapter: SiteAdapter = Provide["core_package.site_adapter"],
+        site_repository: SiteRepository = Provide["core_package.site_repository"],
         invoice_service: InvoiceService = Provide["sale_package.invoice_service"],
         *args,
         **kwargs
     ):
         super().__init__(*args, **kwargs)
-        self.site_adapter = site_adapter
+        self.site_repository = site_repository
         self.invoice_service = invoice_service
 
     class Meta:
@@ -75,7 +75,7 @@ class InvoiceForm(ModelForm):
         return InvoiceEntity(**invoice.__dict__)
 
     def save(self, commit=True):
-        config = self.site_adapter.get_sri_config()
+        config = self.site_repository.get_sri_config()
         obj = super().save(commit=False)
         obj.company_code = config.company_code
         obj.company_point_sale_code = config.company_point_sale_code
