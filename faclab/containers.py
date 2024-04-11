@@ -1,7 +1,7 @@
 from dependency_injector import containers, providers
 
-from apps.core.application.containers import CoreContainer
-from apps.sale.application.containers import SaleContainer
+from apps.core.infra.containers import CoreContainer
+from apps.sale.infra.containers import SaleContainer
 from apps.sri.infra.containers import SRIContainer
 
 
