@@ -4,6 +4,7 @@ from apps.sale.application.services import InvoiceService
 from apps.sale.application.usecases import GenerateVoucherSequenceUseCase
 from apps.sale.infra.repositories import (
     InvoiceRepositoryImpl,
+    MenuRepositoryImpl,
     VoucherTypeRepositoryImpl,
 )
 
@@ -15,8 +16,9 @@ class SaleContainer(containers.DeclarativeContainer):
     sri_voucher_service = providers.Dependency()
 
     # Repositories
-    voucher_type_repository = providers.Singleton(VoucherTypeRepositoryImpl)
     invoice_repository = providers.Singleton(InvoiceRepositoryImpl)
+    menu_repository = providers.Singleton(MenuRepositoryImpl)
+    voucher_type_repository = providers.Singleton(VoucherTypeRepositoryImpl)
 
     # Usecases
     generate_voucher_sequence_usecase = providers.Singleton(
