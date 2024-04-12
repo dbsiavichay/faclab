@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
-from apps.sale.domain.entities import InvoiceEntity, VoucherTypeEntity
+from apps.sale.domain.entities import (
+    InvoiceEntity,
+    InvoiceLineEntity,
+    VoucherTypeEntity,
+)
 
 
 class VoucherTypeRepository(ABC):
@@ -12,6 +16,18 @@ class VoucherTypeRepository(ABC):
     @abstractmethod
     def save(
         self, voucher_type: VoucherTypeEntity, update_fields: List[str] = None
+    ) -> None:
+        pass
+
+
+class InvoiceLineRepository(ABC):
+    @abstractmethod
+    def get_consolidated_lines_subtotal(self, invoice_id: int) -> float:
+        pass
+
+    @abstractmethod
+    def save(
+        self, invoiceline_entity: InvoiceLineEntity, update_fields: List[str] = None
     ) -> None:
         pass
 

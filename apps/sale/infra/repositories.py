@@ -1,13 +1,22 @@
 from typing import List, Optional
 
+from django.db.models import Sum
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
 
 from apps.core.domain.repositories import MenuRepository
-from apps.sale.domain.entities import InvoiceEntity, VoucherTypeEntity
-from apps.sale.domain.repositories import InvoiceRepository, VoucherTypeRepository
-from apps.sale.models import Invoice, VoucherType
+from apps.sale.domain.entities import (
+    InvoiceEntity,
+    InvoiceLineEntity,
+    VoucherTypeEntity,
+)
+from apps.sale.domain.repositories import (
+    InvoiceLineRepository,
+    InvoiceRepository,
+    VoucherTypeRepository,
+)
+from apps.sale.models import Invoice, InvoiceLine, VoucherType
 
 
 class VoucherTypeRepositoryImpl(VoucherTypeRepository):
@@ -26,7 +35,28 @@ class VoucherTypeRepositoryImpl(VoucherTypeRepository):
         voucher_type.save(update_fields=update_fields)
 
 
+class InvoiceLineRepositoryImpl(InvoiceLineRepository):
+    def get_consolidated_lines_subtotal(self, invoice_id: int) -> float:
+        subtotal = (
+            InvoiceLine.objects.filter(invoice_id=invoice_id)
+            .aggregate(subtotal=Sum("subtotal"))
+            .get("subtotal")
+        )
+        return subtotal
+
+    def save(
+        self, invoiceline_entity: InvoiceLineEntity, update_fields: List[str] = None
+    ) -> None:
+        invoiceline = InvoiceLine(**invoiceline_entity.model_dump())
+        invoiceline.save(update_fields=update_fields)
+
+
 class InvoiceRepositoryImpl(InvoiceRepository):
+    def get_invoice_subtotal(invoice_entity: InvoiceEntity) -> float:
+        invoice = Invoice(**invoice_entity.model_dump())
+        subtotal = invoice.lines.aggregate(subtotal=Sum("subtotal")).get("subtotal")
+        return subtotal
+
     def save(
         self, invoice_entity: InvoiceEntity, update_fields: List[str] = None
     ) -> None:

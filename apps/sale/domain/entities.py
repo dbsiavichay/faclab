@@ -13,6 +13,16 @@ class VoucherTypeEntity(BaseModel):
     ends: int = Field(ge=0)
 
 
+class InvoiceLineEntity(BaseModel):
+    quantity: float
+    unit_price: float
+    subtotal: Optional[float] = 0
+    tax: Optional[float] = 0
+    total: Optional[float] = 0
+    product_id: int
+    invoice_id: int
+
+
 class InvoiceEntity(BaseModel):
     id: Optional[int] = Field(gt=0)
     issue_date: Optional[datetime]

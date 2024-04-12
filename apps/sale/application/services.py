@@ -2,119 +2,106 @@ from tempfile import NamedTemporaryFile
 
 import pytz
 import xmltodict
+from dependency_injector.wiring import Provide, inject
 from django.conf import settings
 from django.core.files import File
 from django.core.files.base import ContentFile
-from django.db.models import Sum
 
+from apps.core.domain.repositories import SiteRepository
 from apps.core.infra.repositories import SiteRepositoryImpl
-from apps.sale.application.usecases import GenerateVoucherSequenceUseCase
-from apps.sale.domain.entities import InvoiceEntity
+from apps.sale.application.usecases import (
+    CalculateInvoiceTotalUseCase,
+    GenerateVoucherSequenceUseCase,
+)
+from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
 from apps.sale.domain.enums import VoucherStatuses
-from apps.sale.domain.repositories import InvoiceRepository
+from apps.sale.domain.repositories import InvoiceLineRepository, InvoiceRepository
 from apps.sri.application.services import SRIClient, SRISigner, SRIVoucherService
 
 site_repository = SiteRepositoryImpl()
 
 
 class InvoiceService:
+    @inject
     def __init__(
         self,
         invoice_repository: InvoiceRepository,
+        invoiceline_repository: InvoiceLineRepository,
         generate_voucher_sequence_usecase: GenerateVoucherSequenceUseCase,
+        calculate_invoice_total_usecase: CalculateInvoiceTotalUseCase,
         sri_voucher_service: SRIVoucherService,
+        site_repository: SiteRepository = Provide["core_package.site_repository"],
     ) -> None:
         self.invoice_voucher_type_code = "01"
         self.invoice_repository = invoice_repository
+        self.invoiceline_repository = invoiceline_repository
         self.generate_voucher_sequence_usecase = generate_voucher_sequence_usecase
+        self.calculate_invoice_total_usecase = calculate_invoice_total_usecase
         self.sri_voucher_service = sri_voucher_service
+        self.site_repository = site_repository
 
     def update_invoice_sequence(
-        self, invoice_entity: InvoiceEntity, update_on_db: bool = True
+        self, invoice_entity: InvoiceEntity, update_on_db: bool = False
     ) -> str:
-        sequence = self.generate_voucher_sequence_usecase.execute(
+        invoice_entity.sequence = self.generate_voucher_sequence_usecase.execute(
             self.invoice_voucher_type_code
         )
-        invoice_entity.sequence = sequence
 
         if update_on_db:
             self.invoice_repository.save(invoice_entity, update_fields=["sequence"])
 
-        return sequence
+        return invoice_entity
 
     def update_invoice_access_code(
-        self, invoice_entity: InvoiceEntity, update_on_db: bool = True
-    ) -> str:
-        access_code = self.sri_voucher_service.generate_access_code(
+        self, invoice_entity: InvoiceEntity, update_on_db: bool = False
+    ) -> InvoiceEntity:
+        invoice_entity.code = self.sri_voucher_service.generate_access_code(
             self.invoice_voucher_type_code,
             invoice_entity.id,
             invoice_entity.issue_date,
             invoice_entity.sequence,
         )
-        invoice_entity.code = access_code
 
         if update_on_db:
             self.invoice_repository.save(invoice_entity, update_fields=["code"])
 
-        return access_code
+        return invoice_entity
+
+    def update_invoice_line_total(
+        self, invoiceline_entity: InvoiceLineEntity, update_on_db: bool = False
+    ) -> InvoiceLineEntity:
+        sri_config = self.site_repository.get_sri_config()
+        invoiceline_entity = (
+            self.calculate_invoice_total_usecase.execute_by_invoiceline(
+                invoiceline_entity, sri_config
+            )
+        )
+
+        if update_on_db:
+            self.invoiceline_repository.save(
+                invoiceline_entity, update_fields=["subtotal", "tax", "total"]
+            )
+
+        return invoiceline_entity
+
+    def update_invoice_total(
+        self, invoice_entity: InvoiceEntity, update_on_db: bool = False
+    ) -> InvoiceEntity:
+        sri_config = self.site_repository.get_sri_config()
+        invoice_entity = self.calculate_invoice_total_usecase.execute_by_invoice(
+            invoice_entity, sri_config
+        )
+
+        if update_on_db:
+            self.invoice_repository.save(
+                invoice_entity, update_fields=["subtotal", "tax", "total"]
+            )
+
+        return invoice_entity
 
 
 class InvoiceServiceLegacy:
     INVOICE_CODE = "01"
-
-    @classmethod
-    def generate_access_code(cls, invoice, commit=True):
-        config = site_repository.get_sri_config()
-        timezone = pytz.timezone(settings.TIME_ZONE)
-        invoice_date = invoice.issue_date.astimezone(timezone)
-        date = invoice_date.strftime("%d%m%Y")
-        doc = cls.INVOICE_CODE
-        env = config.environment
-        serie = f"{config.company_code}{config.company_point_sale_code}"
-        seq = invoice.sequence
-        number = str(invoice.id)[:8].zfill(8)
-        emission = config.emission
-        code = f"{date}{doc}{config.code}{env}{serie}{seq}{number}{emission}"
-
-        factor = 2
-        sum = 0
-
-        reversed_code = code[::-1]
-
-        for char in reversed_code:
-            number = int(char)
-            number = number * factor
-            sum = sum + number
-            factor = factor + 1
-            factor = 2 if factor > 7 else factor
-
-        verifier = 11 - (sum % 11)
-        verifier = 0 if verifier == 11 else 1 if verifier == 10 else verifier
-        code = f"{code}{verifier}"
-        invoice.code = code
-
-        if commit:
-            invoice.save(update_fields=["code"])
-
-    @classmethod
-    def calculate_totals(cls, invoice, commit=True):
-        config = site_repository.get_sri_config()
-        subtotal = invoice.lines.aggregate(subtotal=Sum("subtotal")).get("subtotal")
-        invoice.subtotal = subtotal
-        invoice.tax = subtotal * config.iva_rate
-        invoice.total = subtotal * config.iva_factor
-
-        if commit:
-            invoice.save(update_fields=["subtotal", "tax", "total"])
-
-    @classmethod
-    def calculate_line_totals(cls, invoice_line):
-        config = site_repository.get_sri_config()
-        invoice_line.subtotal = invoice_line.unit_price * invoice_line.quantity
-        invoice_line.tax = invoice_line.subtotal * config.iva_rate
-        invoice_line.total = invoice_line.subtotal * config.iva_factor
-
-        return invoice_line
 
     @classmethod
     def get_xml_data(cls, invoice):

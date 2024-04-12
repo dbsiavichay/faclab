@@ -5,9 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.core.domain.repositories import SiteRepository
 from apps.inventories.querysets import ProductQueryset
-from apps.sale.application.services import InvoiceService, InvoiceServiceLegacy
+from apps.sale.application.services import InvoiceService
 from apps.sale.application.validators import customer_code_validator
-from apps.sale.domain.entities import InvoiceEntity
+from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
 from apps.sale.models import Customer, Invoice, InvoiceLine, InvoicePayment
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
@@ -82,9 +82,8 @@ class InvoiceForm(ModelForm):
 
         if not obj.sequence:
             invoice_entity = self.get_entity_from_model(obj)
-            obj.sequence = self.invoice_service.update_invoice_sequence(
-                invoice_entity, update_on_db=False
-            )
+            self.invoice_service.update_invoice_sequence(invoice_entity)
+            obj.sequence = invoice_entity.sequence
 
         if commit:
             obj.save()
@@ -109,9 +108,24 @@ class InvoiceLineForm(ModelForm):
             ),
         }
 
+    @inject
+    def __init__(
+        self,
+        invoice_service: InvoiceService = Provide["sale_package.invoice_service"],
+        *args,
+        **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.invoice_service = invoice_service
+
     def save(self, commit=True):
         obj = super().save(commit=False)
-        InvoiceServiceLegacy.calculate_line_totals(obj)
+
+        invoiceline_entity = InvoiceLineEntity(**obj.__dict__)
+        self.invoice_service.update_invoice_line_total(invoiceline_entity)
+        obj.__dict__.update(
+            invoiceline_entity.model_dump(include=["subtotal", "tax", "total"])
+        )
 
         if commit:
             obj.save()
@@ -133,11 +147,11 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
     def save(self, commit=True):
         object_list = super().save(commit=commit)
         invoice_entity = InvoiceEntity(**self.instance.__dict__)
-        self.instance.code = self.invoice_service.update_invoice_access_code(
-            invoice_entity, update_on_db=False
-        )
-        InvoiceServiceLegacy.calculate_totals(self.instance, commit=False)
-        self.instance.save()
+        self.invoice_service.update_invoice_access_code(invoice_entity)
+        self.invoice_service.update_invoice_total(invoice_entity)
+        update_fields = ["code", "subtotal", "tax", "total"]
+        self.instance.__dict__.update(invoice_entity.model_dump(include=update_fields))
+        self.instance.save(update_fields=update_fields)
 
         return object_list
 

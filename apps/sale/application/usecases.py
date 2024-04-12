@@ -1,7 +1,12 @@
 from typing import List, Optional
 
-from apps.sale.domain.entities import VoucherTypeEntity
-from apps.sale.domain.repositories import VoucherTypeRepository
+from apps.core.domain.entities import SRIConfig
+from apps.sale.domain.entities import (
+    InvoiceEntity,
+    InvoiceLineEntity,
+    VoucherTypeEntity,
+)
+from apps.sale.domain.repositories import InvoiceLineRepository, VoucherTypeRepository
 
 
 class GenerateVoucherSequenceUseCase:
@@ -31,3 +36,31 @@ class GenerateVoucherSequenceUseCase:
             self.save_voucher_type(voucher_type, update_fields=["current"])
 
         return str(sequence).zfill(self.sequence_length)
+
+
+class CalculateInvoiceTotalUseCase:
+    def __init__(self, invoiceline_repository: InvoiceLineRepository) -> None:
+        self.invoiceline_repository = invoiceline_repository
+
+    def execute_by_invoiceline(
+        self, invoiceline_entity: InvoiceLineEntity, sri_config: SRIConfig
+    ) -> InvoiceLineEntity:
+        invoiceline_entity.subtotal = (
+            invoiceline_entity.unit_price * invoiceline_entity.quantity
+        )
+        invoiceline_entity.tax = invoiceline_entity.subtotal * sri_config.iva_rate
+        invoiceline_entity.total = invoiceline_entity.subtotal * sri_config.iva_factor
+
+        return invoiceline_entity
+
+    def execute_by_invoice(
+        self, invoice_entity: InvoiceEntity, sri_config: SRIConfig
+    ) -> InvoiceEntity:
+        subtotal = self.invoiceline_repository.get_consolidated_lines_subtotal(
+            invoice_entity.id
+        )
+        invoice_entity.subtotal = subtotal
+        invoice_entity.tax = subtotal * sri_config.iva_rate
+        invoice_entity.total = subtotal * sri_config.iva_factor
+
+        return invoice_entity
