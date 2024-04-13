@@ -6,6 +6,7 @@ import subprocess
 import textwrap
 from datetime import datetime
 from tempfile import NamedTemporaryFile
+from typing import List
 from uuid import uuid4
 
 import jks
@@ -26,9 +27,18 @@ from zeep import Client
 from apps.core.domain.models import Signature
 from apps.core.domain.repositories import SiteRepository
 from apps.core.infra.repositories import SiteRepositoryImpl
+from apps.sale.domain.entities import CustomerEntity
 from apps.sri.application.usecases import (
     GenerateVoucherAccessCodeUseCase,
+    GenerateVoucherXmlUseCase,
     RetrieveVoucherUseCase,
+)
+from apps.sri.domain.entities import (
+    InvoiceDetailInfo,
+    InvoiceInfo,
+    PaymentInfo,
+    TaxInfo,
+    VoucherAPI,
 )
 from apps.sri.domain.enums import Methods, Namespaces
 from apps.sri.domain.exceptions import SignatureException
@@ -492,10 +502,12 @@ class SRIVoucherService:
     def __init__(
         self,
         generate_access_code_usecase: GenerateVoucherAccessCodeUseCase,
+        generate_voucher_xml_usecase: GenerateVoucherXmlUseCase,
         retrieve_voucher_usecase: RetrieveVoucherUseCase,
         site_repository: SiteRepository = Provide["core_package.site_repository"],
     ) -> None:
         self.generate_access_code_usecase = generate_access_code_usecase
+        self.generate_voucher_xml_usecase = generate_voucher_xml_usecase
         self.retrieve_voucher_usecase = retrieve_voucher_usecase
         self.site_repository = site_repository
 
@@ -510,3 +522,18 @@ class SRIVoucherService:
         return self.generate_access_code_usecase.execute(
             voucher_type_code, voucher_id, voucher_date, voucher_sequence, sri_config
         )
+
+    def generate_voucher_xml(
+        self,
+        customer: CustomerEntity,
+        tax_info: TaxInfo,
+        invoice_info: InvoiceInfo,
+        details: List[InvoiceDetailInfo],
+        payments: List[PaymentInfo],
+    ) -> str:
+        return self.generate_voucher_xml_usecase.execute(
+            customer, tax_info, invoice_info, details, payments
+        )
+
+    def retrieve_voucher_api(self, access_code: str) -> VoucherAPI:
+        return self.retrieve_voucher_usecase.execute(access_code)

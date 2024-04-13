@@ -81,7 +81,7 @@ class SiteForm(ModelForm):
         label=_("ruc"),
     )
     company_name = forms.CharField(max_length=64, label=_("company name"))
-    trade_name = forms.CharField(max_length=64, label=_("trade name"))
+    company_trade_name = forms.CharField(max_length=64, label=_("company trade name"))
     main_address = forms.CharField(label=_("main address"))
     company_address = forms.CharField(label=_("company address"))
     company_code = forms.CharField(max_length=4, label=_("company code"))
@@ -114,7 +114,7 @@ class SiteForm(ModelForm):
         model = Site
         fieldsets = (
             "code",
-            ("company_name", "trade_name"),
+            ("company_name", "company_trade_name"),
             "main_address",
             "company_address",
             ("company_code", "company_point_sale_code"),

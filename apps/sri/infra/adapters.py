@@ -30,11 +30,11 @@ class SRIVoucherAdapter(SRIVoucherPort):
             message = _("SRI Voucher not received") + " * ".join(messages)
             raise Exception(message)
 
-    def retrieve_voucher_by_code(self, code: str) -> VoucherEntity:
+    def retrieve_voucher_by_access_code(self, access_code: str) -> VoucherEntity:
         response = None
 
         try:
-            res = self.query_client.service.autorizacionComprobante(code)
+            res = self.query_client.service.autorizacionComprobante(access_code)
             response = VoucherAPIResponse(**res.__dict__["__values__"])
         except Exception as e:
             error = _("SRI ERROR on fetch voucher")

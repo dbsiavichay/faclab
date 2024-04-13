@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, computed_field
 class SRIConfig(BaseModel):
     code: str = Field(max_length=13)
     company_name: str
-    trade_name: str
+    company_trade_name: str
     main_address: str
     company_address: str
     company_code: str = Field(max_length=4)

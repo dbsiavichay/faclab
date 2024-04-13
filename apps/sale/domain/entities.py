@@ -1,8 +1,20 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, Field, FileUrl
+
+
+class CustomerEntity(BaseModel):
+    id: int
+    code: str
+    first_name: Optional[str]
+    last_name: Optional[str]
+    bussiness_name: str
+    address: Optional[str]
+    phone: Optional[str]
+    email: Optional[str]
+    code_type_code: str
 
 
 class VoucherTypeEntity(BaseModel):
@@ -37,3 +49,5 @@ class InvoiceEntity(BaseModel):
     status: str = Field(max_length=4)  # TODO: agregar choices
     file_url: Optional[FileUrl] = None
     errors: dict
+    customer: CustomerEntity = None
+    lines: List[InvoiceLineEntity] = []

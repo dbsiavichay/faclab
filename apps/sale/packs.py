@@ -4,7 +4,11 @@ from faclab.base import BasePack
 from viewpack.decorators import register
 from viewpack.enums import PackViews
 
-from .application.tasks import sign_and_send_invoice_task
+from .application.tasks import (
+    send_invoice_task,
+    sign_and_send_invoice_task,
+    sign_invoice_task,
+)
 from .infra.forms import (
     CustomerForm,
     InvoiceForm,
@@ -46,4 +50,7 @@ class InvoicePack(BasePack):
     default_labels = {"number": _("number")}
 
     def post_save_inlines(self, instance):
-        sign_and_send_invoice_task.apply_async(args=[instance.id])
+        pass
+        # sign_invoice_task(instance.id)
+        # send_invoice_task(instance.id)
+        # sign_and_send_invoice_task.apply_async(args=[instance.id])

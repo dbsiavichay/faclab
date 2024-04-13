@@ -34,6 +34,10 @@ class InvoiceLineRepository(ABC):
 
 class InvoiceRepository(ABC):
     @abstractmethod
+    def upload_xml(self, invoice_entity: InvoiceEntity, xml: str):
+        pass
+
+    @abstractmethod
     def save(
         self, invoice_entity: InvoiceEntity, update_fields: List[str] = None
     ) -> None:

@@ -17,6 +17,13 @@ from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
 from apps.sale.domain.enums import VoucherStatuses
 from apps.sale.domain.repositories import InvoiceLineRepository, InvoiceRepository
 from apps.sri.application.services import SRIClient, SRISigner, SRIVoucherService
+from apps.sri.domain.entities import (
+    InvoiceDetailInfo,
+    InvoiceInfo,
+    PaymentInfo,
+    TaxInfo,
+    TaxValueInfo,
+)
 
 site_repository = SiteRepositoryImpl()
 
@@ -99,6 +106,77 @@ class InvoiceService:
 
         return invoice_entity
 
+    def update_invoice_xml(
+        self, invoice_entity: InvoiceEntity, update_on_db: bool = False
+    ):
+        sri_config = self.site_repository.get_sri_config()
+        tax_info = TaxInfo(
+            environment=sri_config.environment,
+            type_emission=sri_config.emission,
+            company_name=sri_config.company_name,
+            company_trade_name=sri_config.company_trade_name,
+            company_code=sri_config.code,
+            voucher_access_code=invoice_entity.code,
+            voucher_type_code="01",
+            company_branch_code=invoice_entity.company_code,
+            company_sale_point_code=invoice_entity.company_point_sale_code,
+            voucher_sequence=invoice_entity.sequence,
+            company_main_address=sri_config.main_address,
+        )
+
+        invoice_taxes = [
+            TaxValueInfo(
+                code=2,
+                percentage_code=4,
+                base=invoice_entity.subtotal,
+                value=invoice_entity.tax,
+            )
+        ]
+
+        invoice_info = InvoiceInfo(
+            voucher_date=invoice_entity.issue_date,
+            company_address=sri_config.company_address,
+            company_accounting_required=sri_config.accounting_required,
+            customer_code_type=invoice_entity.customer.code_type_code,
+            customer_bussiness_name=invoice_entity.customer.bussiness_name,
+            customer_code=invoice_entity.customer.code,
+            voucher_subtotal=invoice_entity.subtotal,
+            voucher_total=invoice_entity.total,
+            voucher_taxes=invoice_taxes,
+        )
+
+        details_invoice = [
+            InvoiceDetailInfo(
+                main_code="prod",
+                aux_code="prod",
+                description="producto",
+                quantity=line.quantity,
+                unit_price=line.unit_price,
+                subtotal=line.subtotal,
+                taxes=[
+                    TaxValueInfo(
+                        code=2,
+                        percentage_code=4,
+                        fee=15,
+                        base=line.subtotal,
+                        value=line.tax,
+                    )
+                ],
+            )
+            for line in invoice_entity.lines
+        ]
+
+        payments = [PaymentInfo(type="01", value=invoice_entity.total)]
+
+        xml = self.sri_voucher_service.generate_voucher_xml(
+            invoice_entity.customer, tax_info, invoice_info, details_invoice, payments
+        )
+
+        if update_on_db:
+            self.invoice_repository.upload_xml(invoice_entity, xml)
+
+        return invoice_entity
+
 
 class InvoiceServiceLegacy:
     INVOICE_CODE = "01"
@@ -117,7 +195,7 @@ class InvoiceServiceLegacy:
                     "ambiente": config.environment,
                     "tipoEmision": config.emission,
                     "razonSocial": config.company_name,
-                    "nombreComercial": config.trade_name,
+                    "nombreComercial": config.company_trade_name,
                     "ruc": config.code,
                     "claveAcceso": invoice.code,
                     "codDoc": cls.INVOICE_CODE,

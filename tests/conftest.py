@@ -9,7 +9,7 @@ def sri_config(db):
     config = {
         "code": "1460000290001",
         "company_name": "test",
-        "trade_name": "test",
+        "company_trade_name": "test",
         "main_address": "test",
         "company_address": "test",
         "company_code": "001",

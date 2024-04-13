@@ -9,5 +9,5 @@ class SRIVoucherPort(ABC):
         pass
 
     @abstractmethod
-    def retrieve_voucher_by_code(self, code: str) -> VoucherEntity:
+    def retrieve_voucher_by_access_code(self, access_code: str) -> VoucherEntity:
         pass

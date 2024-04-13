@@ -7,7 +7,7 @@ from apps.core.domain.repositories import SiteRepository
 from apps.inventories.querysets import ProductQueryset
 from apps.sale.application.services import InvoiceService
 from apps.sale.application.validators import customer_code_validator
-from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
+from apps.sale.domain.entities import CustomerEntity, InvoiceEntity, InvoiceLineEntity
 from apps.sale.models import Customer, Invoice, InvoiceLine, InvoicePayment
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
@@ -71,9 +71,6 @@ class InvoiceForm(ModelForm):
             )
         }
 
-    def get_entity_from_model(self, invoice: Invoice) -> InvoiceEntity:
-        return InvoiceEntity(**invoice.__dict__)
-
     def save(self, commit=True):
         config = self.site_repository.get_sri_config()
         obj = super().save(commit=False)
@@ -81,7 +78,7 @@ class InvoiceForm(ModelForm):
         obj.company_point_sale_code = config.company_point_sale_code
 
         if not obj.sequence:
-            invoice_entity = self.get_entity_from_model(obj)
+            invoice_entity = InvoiceEntity(**obj.__dict__)
             self.invoice_service.update_invoice_sequence(invoice_entity)
             obj.sequence = invoice_entity.sequence
 
@@ -146,12 +143,20 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
 
     def save(self, commit=True):
         object_list = super().save(commit=commit)
-        invoice_entity = InvoiceEntity(**self.instance.__dict__)
+        customer = self.instance.customer
+        customer_entity = CustomerEntity(
+            code_type_code=customer.code_type.code, **self.instance.customer.__dict__
+        )
+        invoice_lines = [line.__dict__ for line in object_list]
+        invoice_entity = InvoiceEntity(
+            customer=customer_entity, lines=invoice_lines, **self.instance.__dict__
+        )
         self.invoice_service.update_invoice_access_code(invoice_entity)
         self.invoice_service.update_invoice_total(invoice_entity)
         update_fields = ["code", "subtotal", "tax", "total"]
         self.instance.__dict__.update(invoice_entity.model_dump(include=update_fields))
         self.instance.save(update_fields=update_fields)
+        self.invoice_service.update_invoice_xml(invoice_entity, update_on_db=True)
 
         return object_list
 

@@ -1,5 +1,8 @@
+from tempfile import NamedTemporaryFile
 from typing import List, Optional
 
+from django.core.files import File
+from django.core.files.base import ContentFile
 from django.db.models import Sum
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -52,10 +55,22 @@ class InvoiceLineRepositoryImpl(InvoiceLineRepository):
 
 
 class InvoiceRepositoryImpl(InvoiceRepository):
-    def get_invoice_subtotal(invoice_entity: InvoiceEntity) -> float:
-        invoice = Invoice(**invoice_entity.model_dump())
-        subtotal = invoice.lines.aggregate(subtotal=Sum("subtotal")).get("subtotal")
-        return subtotal
+    def upload_xml(self, invoice_entity: InvoiceEntity, xml: str):
+        invoice = Invoice(id=invoice_entity.id)
+        invoice.refresh_from_db()
+        xml_file = NamedTemporaryFile(suffix=".xml")
+
+        with open(xml_file.name, "w") as file:
+            file.write(xml)
+
+        file.close()
+
+        invoice.file.delete()
+        file_name = f"{invoice_entity.code}.xml"
+        content_file = ContentFile(xml_file.read())
+        file = File(file=content_file, name=file_name)
+        invoice.file = file
+        invoice.save(update_fields=["file"])
 
     def save(
         self, invoice_entity: InvoiceEntity, update_fields: List[str] = None
