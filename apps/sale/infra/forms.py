@@ -74,8 +74,8 @@ class InvoiceForm(ModelForm):
     def save(self, commit=True):
         config = self.site_repository.get_sri_config()
         obj = super().save(commit=False)
-        obj.company_code = config.company_code
-        obj.company_point_sale_code = config.company_point_sale_code
+        obj.company_branch_code = config.company_branch_code
+        obj.company_sale_point_code = config.company_sale_point_code
 
         if not obj.sequence:
             invoice_entity = InvoiceEntity(**obj.__dict__)

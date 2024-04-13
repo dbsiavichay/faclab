@@ -40,8 +40,8 @@ class InvoiceEntity(BaseModel):
     issue_date: Optional[datetime]
     authorization_date: Optional[datetime]
     code: Optional[str]
-    company_code: str = Field(max_length=3)
-    company_point_sale_code: str = Field(max_length=3)
+    company_branch_code: str = Field(max_length=3)
+    company_sale_point_code: str = Field(max_length=3)
     sequence: str = Field(max_length=9)
     subtotal: float
     tax: float

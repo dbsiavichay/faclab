@@ -74,7 +74,7 @@ class SiteForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.site_repository = site_repository
 
-    code = forms.CharField(
+    company_code = forms.CharField(
         max_length=13,
         min_length=13,
         validators=[customer_code_validator],
@@ -82,10 +82,10 @@ class SiteForm(ModelForm):
     )
     company_name = forms.CharField(max_length=64, label=_("company name"))
     company_trade_name = forms.CharField(max_length=64, label=_("company trade name"))
-    main_address = forms.CharField(label=_("main address"))
-    company_address = forms.CharField(label=_("company address"))
-    company_code = forms.CharField(max_length=4, label=_("company code"))
-    company_point_sale_code = forms.CharField(
+    company_main_address = forms.CharField(label=_("company main address"))
+    company_branch_address = forms.CharField(label=_("company branch address"))
+    company_branch_code = forms.CharField(max_length=4, label=_("company branch code"))
+    company_sale_point_code = forms.CharField(
         max_length=4, label=_("company point sale code")
     )
     special_taxpayer_resolution = forms.CharField(
@@ -94,8 +94,8 @@ class SiteForm(ModelForm):
     withholding_agent_resolution = forms.CharField(
         max_length=32, required=False, label=_("withholding agent resolution")
     )
-    accounting_required = forms.BooleanField(
-        required=False, label=_("accounting required")
+    company_accounting_required = forms.BooleanField(
+        required=False, label=_("company accounting required")
     )
     environment = forms.ChoiceField(
         choices=Environments.choices,
@@ -113,14 +113,14 @@ class SiteForm(ModelForm):
     class Meta:
         model = Site
         fieldsets = (
-            "code",
+            "company_code",
             ("company_name", "company_trade_name"),
-            "main_address",
-            "company_address",
-            ("company_code", "company_point_sale_code"),
+            "company_main_address",
+            "company_branch_address",
+            ("company_branch_code", "company_sale_point_code"),
             "special_taxpayer_resolution",
             "withholding_agent_resolution",
-            "accounting_required",
+            "company_accounting_required",
             ("environment", "emission"),
             "iva_percent",
             "signature",

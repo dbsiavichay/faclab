@@ -33,14 +33,16 @@ class GenerateVoucherAccessCodeUseCase:
         timezone = pytz.timezone(settings.TIME_ZONE)
         voucher_date = voucher_date.astimezone(timezone)
         voucher_date_str = voucher_date.strftime(self.date_format_code)
-        voucher_serie = f"{sri_config.company_code}{sri_config.company_point_sale_code}"
+        voucher_serie = (
+            f"{sri_config.company_branch_code}{sri_config.company_sale_point_code}"
+        )
         voucher_number = str(voucher_id)[: self.voucher_number_length].zfill(
             self.voucher_number_length
         )
         code = "{0}{1}{2}{3}{4}{5}{6}{7}".format(
             voucher_date_str,
             voucher_type_code,
-            sri_config.code,
+            sri_config.company_code,
             sri_config.environment,
             voucher_serie,
             voucher_sequence,

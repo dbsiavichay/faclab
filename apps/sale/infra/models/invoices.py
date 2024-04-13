@@ -10,8 +10,10 @@ class Invoice(models.Model):
         null=True, verbose_name=_("authorization date")
     )
     code = models.CharField(max_length=64, null=True, verbose_name=_("access code"))
-    company_code = models.CharField(max_length=3, verbose_name=_("company code"))
-    company_point_sale_code = models.CharField(
+    company_branch_code = models.CharField(
+        max_length=3, verbose_name=_("company branch code")
+    )
+    company_sale_point_code = models.CharField(
         max_length=3, verbose_name=_("company point sale code")
     )
     sequence = models.CharField(max_length=9, verbose_name=_("sequence"))
@@ -33,7 +35,7 @@ class Invoice(models.Model):
     )
 
     class Meta:
-        unique_together = ("company_code", "company_point_sale_code", "sequence")
+        unique_together = ("company_branch_code", "company_sale_point_code", "sequence")
         verbose_name = _("invoice")
 
     def __str__(self):
@@ -42,7 +44,7 @@ class Invoice(models.Model):
     @property
     def number(self):
         return "-".join(
-            (self.company_code, self.company_point_sale_code, self.sequence)
+            (self.company_branch_code, self.company_sale_point_code, self.sequence)
         )
 
 

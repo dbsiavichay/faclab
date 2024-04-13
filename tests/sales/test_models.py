@@ -72,8 +72,8 @@ class TestInvoice:
     @pytest.mark.django_db
     def test_invoice_create(self, customer, product, sri_config):
         data = {
-            "company_code": "tst",
-            "company_point_sale_code": "tst",
+            "company_branch_code": "tst",
+            "company_sale_point_code": "tst",
             "sequence": "tst",
             "customer": customer,
         }
@@ -104,8 +104,8 @@ class TestInvoice:
     @pytest.mark.django_db
     def test_invoice_create_fail(self, customer):
         data = {
-            "company_code": "test",
-            "company_point_sale_code": "test",
+            "company_branch_code": "test",
+            "company_sale_point_code": "test",
             "sequence": "test",
             "customer": customer,
         }

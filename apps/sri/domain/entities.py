@@ -40,7 +40,7 @@ class TaxValueInfo(BaseModel):
 
 class InvoiceInfo(BaseModel):
     voucher_date: datetime = Field(serialization_alias="fechaEmision")
-    company_address: str = Field(serialization_alias="dirEstablecimiento")
+    company_branch_address: str = Field(serialization_alias="dirEstablecimiento")
     # specialContributorCode: str = Field(serialization_alias="contribuyenteEspecial")
     company_accounting_required: bool = (
         Field(serialization_alias="obligadoContabilidad"),

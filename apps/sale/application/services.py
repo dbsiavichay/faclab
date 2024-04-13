@@ -115,13 +115,13 @@ class InvoiceService:
             type_emission=sri_config.emission,
             company_name=sri_config.company_name,
             company_trade_name=sri_config.company_trade_name,
-            company_code=sri_config.code,
+            company_code=sri_config.company_code,
             voucher_access_code=invoice_entity.code,
             voucher_type_code="01",
-            company_branch_code=invoice_entity.company_code,
-            company_sale_point_code=invoice_entity.company_point_sale_code,
+            company_branch_code=invoice_entity.company_branch_code,
+            company_sale_point_code=invoice_entity.company_sale_point_code,
             voucher_sequence=invoice_entity.sequence,
-            company_main_address=sri_config.main_address,
+            company_main_address=sri_config.company_main_address,
         )
 
         invoice_taxes = [
@@ -135,8 +135,8 @@ class InvoiceService:
 
         invoice_info = InvoiceInfo(
             voucher_date=invoice_entity.issue_date,
-            company_address=sri_config.company_address,
-            company_accounting_required=sri_config.accounting_required,
+            company_branch_address=sri_config.company_branch_address,
+            company_accounting_required=sri_config.company_accounting_required,
             customer_code_type=invoice_entity.customer.code_type_code,
             customer_bussiness_name=invoice_entity.customer.bussiness_name,
             customer_code=invoice_entity.customer.code,
@@ -196,20 +196,20 @@ class InvoiceServiceLegacy:
                     "tipoEmision": config.emission,
                     "razonSocial": config.company_name,
                     "nombreComercial": config.company_trade_name,
-                    "ruc": config.code,
+                    "ruc": config.company_code,
                     "claveAcceso": invoice.code,
                     "codDoc": cls.INVOICE_CODE,
-                    "estab": invoice.company_code,
-                    "ptoEmi": invoice.company_point_sale_code,
+                    "estab": invoice.company_branch_code,
+                    "ptoEmi": invoice.company_sale_point_code,
                     "secuencial": invoice.sequence,
-                    "dirMatriz": config.main_address,
+                    "dirMatriz": config.company_main_address,
                 },
                 "infoFactura": {
                     "fechaEmision": invoice_date.strftime("%d/%m/%Y"),
-                    "dirEstablecimiento": config.company_address,
+                    "dirEstablecimiento": config.company_branch_address,
                     # "contribuyenteEspecial": "1234",
                     "obligadoContabilidad": "SI"
-                    if config.accounting_required
+                    if config.company_accounting_required
                     else "NO",
                     "tipoIdentificacionComprador": invoice.customer.code_type.code,
                     "razonSocialComprador": invoice.customer.bussiness_name,
