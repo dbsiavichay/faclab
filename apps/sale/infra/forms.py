@@ -74,6 +74,7 @@ class InvoiceForm(ModelForm):
     def save(self, commit=True):
         config = self.site_repository.get_sri_config()
         obj = super().save(commit=False)
+        obj.voucher_type_code = "01"
         obj.company_branch_code = config.company_branch_code
         obj.company_sale_point_code = config.company_sale_point_code
 
@@ -153,7 +154,7 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
         )
         self.invoice_service.update_invoice_access_code(invoice_entity)
         self.invoice_service.update_invoice_total(invoice_entity)
-        update_fields = ["code", "subtotal", "tax", "total"]
+        update_fields = ["access_code", "subtotal", "tax", "total"]
         self.instance.__dict__.update(invoice_entity.model_dump(include=update_fields))
         self.instance.save(update_fields=update_fields)
         self.invoice_service.update_invoice_xml(invoice_entity, update_on_db=True)

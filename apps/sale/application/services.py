@@ -62,15 +62,15 @@ class InvoiceService:
     def update_invoice_access_code(
         self, invoice_entity: InvoiceEntity, update_on_db: bool = False
     ) -> InvoiceEntity:
-        invoice_entity.code = self.sri_voucher_service.generate_access_code(
+        invoice_entity.access_code = self.sri_voucher_service.generate_access_code(
             self.invoice_voucher_type_code,
             invoice_entity.id,
-            invoice_entity.issue_date,
+            invoice_entity.date,
             invoice_entity.sequence,
         )
 
         if update_on_db:
-            self.invoice_repository.save(invoice_entity, update_fields=["code"])
+            self.invoice_repository.save(invoice_entity, update_fields=["access_code"])
 
         return invoice_entity
 
@@ -111,17 +111,10 @@ class InvoiceService:
     ):
         sri_config = self.site_repository.get_sri_config()
         tax_info = TaxInfo(
-            environment=sri_config.environment,
-            type_emission=sri_config.emission,
-            company_name=sri_config.company_name,
-            company_trade_name=sri_config.company_trade_name,
-            company_code=sri_config.company_code,
-            voucher_access_code=invoice_entity.code,
-            voucher_type_code="01",
-            company_branch_code=invoice_entity.company_branch_code,
-            company_sale_point_code=invoice_entity.company_sale_point_code,
-            voucher_sequence=invoice_entity.sequence,
-            company_main_address=sri_config.company_main_address,
+            **sri_config.model_dump(
+                exclude=["company_branch_code", "company_sale_point_code"]
+            ),
+            **invoice_entity.model_dump(),
         )
 
         invoice_taxes = [
@@ -134,7 +127,7 @@ class InvoiceService:
         ]
 
         invoice_info = InvoiceInfo(
-            voucher_date=invoice_entity.issue_date,
+            voucher_date=invoice_entity.date,
             company_branch_address=sri_config.company_branch_address,
             company_accounting_required=sri_config.company_accounting_required,
             customer_code_type=invoice_entity.customer.code_type_code,
@@ -185,7 +178,7 @@ class InvoiceServiceLegacy:
     def get_xml_data(cls, invoice):
         config = site_repository.get_sri_config()
         timezone = pytz.timezone(settings.TIME_ZONE)
-        invoice_date = invoice.issue_date.astimezone(timezone)
+        invoice_date = invoice.date.astimezone(timezone)
 
         data = {
             "factura": {
@@ -193,7 +186,7 @@ class InvoiceServiceLegacy:
                 "@version": "1.0.0",
                 "infoTributaria": {
                     "ambiente": config.environment,
-                    "tipoEmision": config.emission,
+                    "tipoEmision": config.emission_type,
                     "razonSocial": config.company_name,
                     "nombreComercial": config.company_trade_name,
                     "ruc": config.company_code,

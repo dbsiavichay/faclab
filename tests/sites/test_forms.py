@@ -51,7 +51,7 @@ class TestConfigForm:
             "withholding_agent_resolution": "test",
             "company_accounting_required": False,
             "environment": str(Environments.TESTING),
-            "emission": str(Emissions.NORMAL),
+            "emission_type": str(Emissions.NORMAL),
             "iva_percent": 12,
             "signature": None,
         }

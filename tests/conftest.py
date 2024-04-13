@@ -18,7 +18,7 @@ def sri_config(db):
         "withholding_agent_resolution": "test",
         "company_accounting_required": False,
         "environment": str(Environments.TESTING),
-        "emission": str(Emissions.NORMAL),
+        "emission_type": str(Emissions.NORMAL),
         "iva_percent": 12,
     }
     data = {"sri_config": config}

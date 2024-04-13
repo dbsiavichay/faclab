@@ -37,9 +37,10 @@ class InvoiceLineEntity(BaseModel):
 
 class InvoiceEntity(BaseModel):
     id: Optional[int] = Field(gt=0)
-    issue_date: Optional[datetime]
+    date: Optional[datetime]
     authorization_date: Optional[datetime]
-    code: Optional[str]
+    voucher_type_code: str
+    access_code: Optional[str]
     company_branch_code: str = Field(max_length=3)
     company_sale_point_code: str = Field(max_length=3)
     sequence: str = Field(max_length=9)

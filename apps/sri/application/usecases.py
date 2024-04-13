@@ -47,7 +47,7 @@ class GenerateVoucherAccessCodeUseCase:
             voucher_serie,
             voucher_sequence,
             voucher_number,
-            sri_config.emission,
+            sri_config.emission_type,
         )
         factor = 2
         sum = 0

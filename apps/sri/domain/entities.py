@@ -2,7 +2,14 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 import pytz
-from pydantic import AliasPath, BaseModel, Field, field_serializer, field_validator
+from pydantic import (
+    AliasChoices,
+    AliasPath,
+    BaseModel,
+    Field,
+    field_serializer,
+    field_validator,
+)
 
 
 class VoucherEntity(BaseModel):
@@ -13,15 +20,21 @@ class VoucherEntity(BaseModel):
 
 class TaxInfo(BaseModel):
     environment: str = Field(serialization_alias="ambiente")
-    type_emission: str = Field(serialization_alias="tipoEmision")
+    emission_type: str = Field(serialization_alias="tipoEmision")
     company_name: str = Field(serialization_alias="razonSocial")
     company_trade_name: str = Field(serialization_alias="nombreComercial")
     company_code: str = Field(serialization_alias="ruc")
-    voucher_access_code: str = Field(serialization_alias="claveAcceso")
+    voucher_access_code: str = Field(
+        validation_alias=AliasChoices("voucher_access_code", "access_code", "code"),
+        serialization_alias="claveAcceso",
+    )
     voucher_type_code: str = Field(serialization_alias="codDoc")
     company_branch_code: str = Field(serialization_alias="estab")
     company_sale_point_code: str = Field(serialization_alias="ptoEmi")
-    voucher_sequence: str = Field(serialization_alias="secuencial")
+    voucher_sequence: str = Field(
+        validation_alias=AliasChoices("voucher_sequence", "sequence"),
+        serialization_alias="secuencial",
+    )
     company_main_address: str = Field(serialization_alias="dirMatriz")
 
 
@@ -39,7 +52,10 @@ class TaxValueInfo(BaseModel):
 
 
 class InvoiceInfo(BaseModel):
-    voucher_date: datetime = Field(serialization_alias="fechaEmision")
+    voucher_date: datetime = Field(
+        validation_alias=AliasChoices("voucher_date", "date"),
+        serialization_alias="fechaEmision",
+    )
     company_branch_address: str = Field(serialization_alias="dirEstablecimiento")
     # specialContributorCode: str = Field(serialization_alias="contribuyenteEspecial")
     company_accounting_required: bool = (

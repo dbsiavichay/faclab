@@ -66,7 +66,7 @@ class InvoiceRepositoryImpl(InvoiceRepository):
         file.close()
 
         invoice.file.delete()
-        file_name = f"{invoice_entity.code}.xml"
+        file_name = f"{invoice_entity.access_code}.xml"
         content_file = ContentFile(xml_file.read())
         file = File(file=content_file, name=file_name)
         invoice.file = file

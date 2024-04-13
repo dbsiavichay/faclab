@@ -37,13 +37,13 @@ class InvoicePack(BasePack):
     list_fields = (
         "customer",
         "number",
-        "issue_date",
+        "date",
         "subtotal",
         "tax",
         "total",
         "status",
     )
-    detail_fields = (("customer", "issue_date"), ("code", "authorization_date"))
+    detail_fields = (("customer", "date"), ("access_code", "authorization_date"))
     form_template_name = None
     detail_template_name = None
 

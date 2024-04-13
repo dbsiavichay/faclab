@@ -15,7 +15,7 @@ class SRIConfig(BaseModel):
     withholding_agent_resolution: Optional[str]
     company_accounting_required: Optional[bool]
     environment: str  # TODO: add choices
-    emission: str  # TODO: add choices
+    emission_type: str  # TODO: add choices
     iva_percent: Optional[float]
     signature: Optional[int]
 

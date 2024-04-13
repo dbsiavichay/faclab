@@ -5,11 +5,16 @@ from apps.sale.domain.enums import PaymentTypes, VoucherStatuses
 
 
 class Invoice(models.Model):
-    issue_date = models.DateTimeField(auto_now_add=True, verbose_name=_("issue date"))
+    date = models.DateTimeField(auto_now_add=True, verbose_name=_("issue date"))
     authorization_date = models.DateTimeField(
         null=True, verbose_name=_("authorization date")
     )
-    code = models.CharField(max_length=64, null=True, verbose_name=_("access code"))
+    voucher_type_code = models.CharField(
+        max_length=2, verbose_name=_("voucher type code")
+    )
+    access_code = models.CharField(
+        max_length=64, null=True, verbose_name=_("access code")
+    )
     company_branch_code = models.CharField(
         max_length=3, verbose_name=_("company branch code")
     )

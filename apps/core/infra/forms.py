@@ -102,7 +102,7 @@ class SiteForm(ModelForm):
         initial=Environments.TESTING,
         label=_("type of environment"),
     )
-    emission = forms.ChoiceField(
+    emission_type = forms.ChoiceField(
         choices=Emissions.choices, initial=Emissions.NORMAL, label=_("type of emission")
     )
     iva_percent = forms.FloatField(widget=PercentInput, label=_("iva percent"))
@@ -121,7 +121,7 @@ class SiteForm(ModelForm):
             "special_taxpayer_resolution",
             "withholding_agent_resolution",
             "company_accounting_required",
-            ("environment", "emission"),
+            ("environment", "emission_type"),
             "iva_percent",
             "signature",
         )
