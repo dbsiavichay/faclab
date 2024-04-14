@@ -25,7 +25,7 @@ class TaxInfo(BaseModel):
     company_trade_name: str = Field(serialization_alias="nombreComercial")
     company_code: str = Field(serialization_alias="ruc")
     voucher_access_code: str = Field(
-        validation_alias=AliasChoices("voucher_access_code", "access_code", "code"),
+        validation_alias=AliasChoices("voucher_access_code", "access_code"),
         serialization_alias="claveAcceso",
     )
     voucher_type_code: str = Field(serialization_alias="codDoc")
@@ -58,17 +58,32 @@ class InvoiceInfo(BaseModel):
     )
     company_branch_address: str = Field(serialization_alias="dirEstablecimiento")
     # specialContributorCode: str = Field(serialization_alias="contribuyenteEspecial")
-    company_accounting_required: bool = (
-        Field(serialization_alias="obligadoContabilidad"),
+    company_accounting_required: bool = Field(
+        serialization_alias="obligadoContabilidad"
     )
-    customer_code_type: str = Field(serialization_alias="tipoIdentificacionComprador")
-    customer_bussiness_name: str = Field(serialization_alias="razonSocialComprador")
-    customer_code: str = Field(serialization_alias="identificacionComprador")
-    voucher_subtotal: float = Field(serialization_alias="totalSinImpuestos")
+    customer_code_type: str = Field(
+        validation_alias=AliasChoices("customer_code_type", "code_type_code"),
+        serialization_alias="tipoIdentificacionComprador",
+    )
+    customer_bussiness_name: str = Field(
+        validation_alias=AliasChoices("customer_bussiness_name", "bussiness_name"),
+        serialization_alias="razonSocialComprador",
+    )
+    customer_code: str = Field(
+        validation_alias=AliasChoices("customer_code", "code"),
+        serialization_alias="identificacionComprador",
+    )
+    voucher_subtotal: float = Field(
+        validation_alias=AliasChoices("voucher_subtotal", "subtotal"),
+        serialization_alias="totalSinImpuestos",
+    )
     voucher_discount: float = Field(default=0, serialization_alias="totalDescuento")
     voucher_taxes: List[TaxValueInfo] = Field(serialization_alias="totalConImpuestos")
     voucher_tip: float = Field(default=0, serialization_alias="propina")
-    voucher_total: float = Field(serialization_alias="importeTotal")
+    voucher_total: float = Field(
+        validation_alias=AliasChoices("voucher_total", "total"),
+        serialization_alias="importeTotal",
+    )
     currency: str = Field(default="DOLAR", serialization_alias="moneda")
 
     @field_validator(

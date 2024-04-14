@@ -110,13 +110,8 @@ class InvoiceService:
         self, invoice_entity: InvoiceEntity, update_on_db: bool = False
     ):
         sri_config = self.site_repository.get_sri_config()
-        tax_info = TaxInfo(
-            **sri_config.model_dump(
-                exclude=["company_branch_code", "company_sale_point_code"]
-            ),
-            **invoice_entity.model_dump(),
-        )
-
+        tax_info_dict = {**sri_config.model_dump(), **invoice_entity.model_dump()}
+        tax_info = TaxInfo(**tax_info_dict)
         invoice_taxes = [
             TaxValueInfo(
                 code=2,
@@ -125,19 +120,15 @@ class InvoiceService:
                 value=invoice_entity.tax,
             )
         ]
-
+        invoice_info_dict = {
+            **invoice_entity.customer.model_dump(),
+            **invoice_entity.model_dump(),
+            **sri_config.model_dump(),
+        }
         invoice_info = InvoiceInfo(
-            voucher_date=invoice_entity.date,
-            company_branch_address=sri_config.company_branch_address,
-            company_accounting_required=sri_config.company_accounting_required,
-            customer_code_type=invoice_entity.customer.code_type_code,
-            customer_bussiness_name=invoice_entity.customer.bussiness_name,
-            customer_code=invoice_entity.customer.code,
-            voucher_subtotal=invoice_entity.subtotal,
-            voucher_total=invoice_entity.total,
+            **invoice_info_dict,
             voucher_taxes=invoice_taxes,
         )
-
         details_invoice = [
             InvoiceDetailInfo(
                 main_code="prod",
