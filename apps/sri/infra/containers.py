@@ -6,6 +6,7 @@ from apps.sri.application.usecases import (
     GenerateVoucherAccessCodeUseCase,
     GenerateVoucherXmlUseCase,
     RetrieveVoucherUseCase,
+    SignVoucherXmlUseCase,
 )
 
 from .adapters import SRIVoucherAdapter
@@ -30,6 +31,7 @@ class SRIContainer(containers.DeclarativeContainer):
         GenerateVoucherAccessCodeUseCase
     )
     generate_voucher_xml_usecase = providers.Singleton(GenerateVoucherXmlUseCase)
+    sign_voucher_xml_usecase = providers.Singleton(SignVoucherXmlUseCase)
     retrieve_voucher_usecase = providers.Singleton(
         RetrieveVoucherUseCase, sri_voucher_port=sri_voucher_adapter
     )
@@ -39,5 +41,6 @@ class SRIContainer(containers.DeclarativeContainer):
         SRIVoucherService,
         generate_access_code_usecase=generate_voucher_access_code_usecase,
         generate_voucher_xml_usecase=generate_voucher_xml_usecase,
+        sign_voucher_xml_usecase=sign_voucher_xml_usecase,
         retrieve_voucher_usecase=retrieve_voucher_usecase,
     )

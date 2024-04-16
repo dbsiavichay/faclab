@@ -158,6 +158,7 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
         self.instance.__dict__.update(invoice_entity.model_dump(include=update_fields))
         self.instance.save(update_fields=update_fields)
         self.invoice_service.update_invoice_xml(invoice_entity, update_on_db=True)
+        self.invoice_service.sign_invoice_xml(invoice_entity, update_on_db=True)
 
         return object_list
 

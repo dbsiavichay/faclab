@@ -3,7 +3,7 @@ from typing import List
 
 from simple_menu import MenuItem
 
-from .entities import SRIConfig
+from .entities import SignatureEntity, SRIConfig
 
 
 class MenuRepository(ABC):
@@ -23,4 +23,10 @@ class SiteRepository(ABC):
 
     @abstractmethod
     def refresh_site(self) -> None:
+        pass
+
+
+class SignatureRepository(ABC):
+    @abstractmethod
+    def find_by_id(self, id: int) -> SignatureEntity:
         pass

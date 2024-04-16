@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field, computed_field
@@ -31,3 +32,12 @@ class SRIConfig(BaseModel):
 class SiteEntity(BaseModel):
     id: int
     sri_config: SRIConfig
+
+
+class SignatureEntity(BaseModel):
+    subject_name: str
+    serial_number: str
+    issue_date: datetime
+    expiry_date: datetime
+    cert: str
+    key: str

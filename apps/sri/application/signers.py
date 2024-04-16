@@ -1,55 +1,31 @@
 import base64
 import hashlib
-import os
 import random
-import subprocess
 import textwrap
 from datetime import datetime
-from tempfile import NamedTemporaryFile
-from typing import List
-from uuid import uuid4
 
-import jks
 import pytz
-import requests
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 from cryptography.hazmat.primitives.serialization import load_der_private_key
 from cryptography.x509 import load_der_x509_certificate
-from cryptography.x509.oid import NameOID
-from dependency_injector.wiring import Provide, inject
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
 from lxml import etree
 from lxml.etree import Element, QName
-from zeep import Client
 
-from apps.core.domain.models import Signature
-from apps.core.domain.repositories import SignatureRepository, SiteRepository
-from apps.core.infra.repositories import SiteRepositoryImpl
-from apps.sale.domain.entities import CustomerEntity
-from apps.sri.application.usecases import (
-    GenerateVoucherAccessCodeUseCase,
-    GenerateVoucherXmlUseCase,
-    RetrieveVoucherUseCase,
-    SignVoucherXmlUseCase,
-)
-from apps.sri.domain.entities import (
-    InvoiceDetailInfo,
-    InvoiceInfo,
-    PaymentInfo,
-    TaxInfo,
-    VoucherAPI,
-)
 from apps.sri.domain.enums import Methods, Namespaces
-from apps.sri.domain.exceptions import SignatureException
-
-site_repository = SiteRepositoryImpl()
 
 
-class SRISigner:
-    def __init__(self):
+class XmlSigner:
+    def __init__(self, cert, key):
+        self.cert = cert
+        self.key = key
         self.namespaces = {ns.name: ns.value for ns in Namespaces}
+
+    def _get_token(self):
+        return random.randint(1, 100000)
+
+    def _build_identifiers(self):
         self.certificate_id = f"Certificate{self._get_token()}"
         self.signature_id = f"Signature{self._get_token()}"
         self.signed_properties_id = f"SignedProperties{self._get_token()}"
@@ -58,9 +34,6 @@ class SRISigner:
         self.signed_propertiesID_id = f"SignedPropertiesID{self._get_token()}"
         self.referenceID_id = f"Reference-ID-{self._get_token()}"
         self.signature_value_id = f"SignatureValue{self._get_token()}"
-
-    def _get_token(self):
-        return random.randint(1, 100000)
 
     def _create_node(
         self, name, parent=None, ns="", tail=False, text=False, **node_attrs
@@ -341,22 +314,10 @@ class SRISigner:
 
         return signature
 
-    def sign(self, voucher_bytes):
-        config = site_repository.get_sri_config()
-        signature = Signature.objects.filter(id=config.signature).first()
-
-        if not signature:
-            raise SignatureException(
-                _("no electronic signature has been configured").capitalize()
-            )
-
-        if datetime.now() > signature.expiry_date.replace(tzinfo=None):
-            raise SignatureException(
-                _("the electronic signature has expired").capitalize()
-            )
-
-        cert_digest = base64.b64decode(signature.cert)
-        key_digest = base64.b64decode(signature.key)
+    def sign(self, voucher_bytes) -> str:
+        self._build_identifiers()
+        cert_digest = base64.b64decode(self.cert)
+        key_digest = base64.b64decode(self.key)
 
         voucher_root = etree.fromstring(voucher_bytes)
         voucher_c14n = etree.tostring(voucher_root, method="c14n")
@@ -370,187 +331,3 @@ class SRISigner:
         signed_voucher = '<?xml version="1.0" encoding="UTF-8"?>\n' + signed_voucher
 
         return signed_voucher
-
-    @classmethod
-    def get_signature_metadata(cls, p12_bytes, password):
-        p12_file = NamedTemporaryFile(suffix=".p12")
-
-        with open(p12_file.name, "wb") as file:
-            file.write(p12_bytes)
-
-        try:
-            keystore_name = f"{uuid4()}.jks"
-            command = settings.KEYTOOL_COMMAND.format(
-                p12_file.name, keystore_name, password, password
-            )
-            _ = subprocess.check_output(
-                command, shell=True, stderr=subprocess.STDOUT, universal_newlines=True
-            )
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing command: {command}")
-            print(f"Return code: {e.returncode}")
-            print(f"Output: {e.output}")
-            raise SignatureException(
-                _("an error has occurred while call keytool command").capitalize()
-            )
-
-        ks = jks.KeyStore.load(keystore_name, password)
-        keys = [k for k in ks.private_keys.values() if "signing key" in k.alias]
-        os.remove(keystore_name)
-
-        if not keys:
-            raise SignatureException(
-                _("signature file has not valid keys").capitalize()
-            )
-
-        key = keys.pop()
-
-        if not key.is_decrypted():
-            key.decrypt(password)
-
-        cert_digest = key.cert_chain[0][1]
-        cert = base64.b64encode(cert_digest).decode()
-        key = base64.b64encode(key.pkey).decode()
-        certificate = load_der_x509_certificate(cert_digest)
-        subject = certificate.subject.get_attributes_for_oid(NameOID.COMMON_NAME)
-        metadata = {
-            "subject_name": subject[0].value,
-            "serial_number": certificate.serial_number,
-            "issue_date": certificate.not_valid_before.astimezone(pytz.utc),
-            "expiry_date": certificate.not_valid_after.astimezone(pytz.utc),
-            "cert": cert,
-            "key": key,
-        }
-
-        return metadata
-
-
-class SRIClient:
-    def __init__(self):
-        try:
-            self.client = Client(settings.SRI_SEND_VOUCHERS_WS)
-            self.fetch_client = Client(settings.SRI_GET_VOUCHERS_WS)
-        except Exception as e:
-            message = _("SRI Error connecting to server")
-            raise Exception(f"{message}: {e}")
-
-    def send_voucher(self, voucher_bytes):
-        FAIL_STATUS = "DEVUELTA"
-
-        try:
-            data = base64.encodebytes(voucher_bytes).decode("utf-8")
-            result = self.client.service.validarComprobante(data)
-        except Exception as e:
-            message = _("SRI Error to send voucher")
-            raise Exception(f"{message}: {e}")
-
-        if result.estado == FAIL_STATUS:
-            messages = [
-                mensaje.mensaje.capitalize()
-                for mensaje in result.comprobantes.comprobante[0].mensajes.mensaje
-            ]
-            message = _("SRI Voucher not received") + " * ".join(messages)
-            raise Exception(message)
-
-    def fetch_voucher(self, code):
-        UNAUTHORIZED_STATUS = "NO AUTORIZADO"
-
-        try:
-            result = self.fetch_client.service.autorizacionComprobante(code)
-        except Exception as e:
-            message = _("SRI Error to fetch voucher")
-            raise Exception(f"{message}: {e}")
-
-        if hasattr(result, "numeroComprobantes"):
-            number_of_vouchers = int(result.numeroComprobantes)
-
-            if not number_of_vouchers:
-                raise Exception(_("Invalid code"))
-
-        voucher = result.autorizaciones.autorizacion[0]
-
-        if voucher.estado == UNAUTHORIZED_STATUS:
-            messages = [
-                mensaje.mensaje.capitalize() for mensaje in voucher.mensajes.mensaje
-            ]
-            message = _("SRI Voucher not received") + " * ".join(messages)
-            raise Exception(message)
-
-        authorization_date = voucher.fechaAutorizacion.astimezone(pytz.utc)
-
-        return voucher.comprobante, authorization_date
-
-    @classmethod
-    def fetch_taxpayer(cls, code):
-        ws_url = settings.SRI_GET_TAXPAYERS_WS % code
-        response = requests.get(ws_url)
-        data = response.json()
-        names = data.get("nombreCompleto").split()
-        first_name = " ".join(names[-2:])
-        last_name = names[0] if len(names) == 3 else " ".join(names[:2])
-        taxpayer = {
-            "code": data.get("identificacion"),
-            "fullname": data.get("nombreCompleto"),
-            "first_name": first_name,
-            "last_name": last_name,
-            "type": data.get("tipoPersona"),
-        }
-        return taxpayer
-
-
-class SRIVoucherService:
-    @inject
-    def __init__(
-        self,
-        generate_access_code_usecase: GenerateVoucherAccessCodeUseCase,
-        generate_voucher_xml_usecase: GenerateVoucherXmlUseCase,
-        sign_voucher_xml_usecase: SignVoucherXmlUseCase,
-        retrieve_voucher_usecase: RetrieveVoucherUseCase,
-        site_repository: SiteRepository = Provide["core_package.site_repository"],
-        signature_repository: SignatureRepository = Provide[
-            "core_package.signature_repository"
-        ],
-    ) -> None:
-        self.signature_repository = signature_repository
-        self.generate_access_code_usecase = generate_access_code_usecase
-        self.generate_voucher_xml_usecase = generate_voucher_xml_usecase
-        self.sign_voucher_xml_usecase = sign_voucher_xml_usecase
-        self.retrieve_voucher_usecase = retrieve_voucher_usecase
-        self.site_repository = site_repository
-
-    def generate_access_code(
-        self,
-        voucher_type_code: str,
-        voucher_id: int,
-        voucher_date: datetime,
-        voucher_sequence: str,
-    ) -> str:
-        sri_config = self.site_repository.get_sri_config()
-        return self.generate_access_code_usecase.execute(
-            voucher_type_code, voucher_id, voucher_date, voucher_sequence, sri_config
-        )
-
-    def generate_voucher_xml(
-        self,
-        customer: CustomerEntity,
-        tax_info: TaxInfo,
-        invoice_info: InvoiceInfo,
-        details: List[InvoiceDetailInfo],
-        payments: List[PaymentInfo],
-    ) -> str:
-        return self.generate_voucher_xml_usecase.execute(
-            customer, tax_info, invoice_info, details, payments
-        )
-
-    def sign_voucher_xml(self, voucher: bytes):
-        config = self.site_repository.get_sri_config()
-        # TODO: Validar que exista la configuracion y modelo
-        signature_id = config.signature
-        signature = self.signature_repository.find_by_id(signature_id)
-
-        return self.sign_voucher_xml_usecase.execute(
-            voucher, signature.cert, signature.key
-        )
-
-    def retrieve_voucher_api(self, access_code: str) -> VoucherAPI:
-        return self.retrieve_voucher_usecase.execute(access_code)

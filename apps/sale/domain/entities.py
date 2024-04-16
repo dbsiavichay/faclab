@@ -2,7 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import List, Optional
 
-from pydantic import BaseModel, Field, FileUrl
+from pydantic import BaseModel, Field
 
 
 class CustomerEntity(BaseModel):
@@ -48,7 +48,8 @@ class InvoiceEntity(BaseModel):
     tax: float
     total: Decimal = Field(max_digits=10, decimal_places=2)
     status: str = Field(max_length=4)  # TODO: agregar choices
-    file_url: Optional[FileUrl] = None
+    xml_bytes: Optional[bytes] = None
+    xml_str: Optional[str] = None
     errors: dict
     customer: CustomerEntity = None
     lines: List[InvoiceLineEntity] = []

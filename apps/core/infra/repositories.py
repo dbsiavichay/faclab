@@ -1,30 +1,44 @@
 from typing import List
 
 from dependency_injector.wiring import Provide, inject
-from django.apps import apps
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
 
-from apps.core.domain.entities import SRIConfig
-from apps.core.domain.repositories import MenuRepository, SiteRepository
+from apps.core.domain.entities import SignatureEntity, SRIConfig
+from apps.core.domain.repositories import (
+    MenuRepository,
+    SignatureRepository,
+    SiteRepository,
+)
+from apps.core.models import Signature, Site
 
 SRI_CONFIG_CACHE_KEY = "sri_config"
 
 
 class SiteRepositoryImpl(SiteRepository):
     def __init__(self) -> None:
-        self.model = apps.get_model("core", "Site")
-        self.site = self.model.objects.first()
+        self.site = Site.objects.first()
 
         if not self.site:
-            raise self.model.DoesNotExist()
+            raise Site.DoesNotExist()
 
     def get_sri_config(self) -> SRIConfig:
         return SRIConfig(**self.site.sri_config)
 
     def refresh_site(self) -> None:
         self.site.refresh_from_db()
+
+
+class SignatureRepositoryImpl(SignatureRepository):
+    def find_by_id(self, id: int) -> SignatureEntity:
+        signature = Signature.objects.filter(id=id).first()
+
+        if signature:
+            signature_entity = SignatureEntity(**signature.__dict__)
+            return signature_entity
+
+        return None
 
 
 class MenuRepositoryImpl(MenuRepository):

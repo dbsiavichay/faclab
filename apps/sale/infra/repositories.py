@@ -1,4 +1,3 @@
-from tempfile import NamedTemporaryFile
 from typing import List, Optional
 
 from django.core.files import File
@@ -55,19 +54,12 @@ class InvoiceLineRepositoryImpl(InvoiceLineRepository):
 
 
 class InvoiceRepositoryImpl(InvoiceRepository):
-    def upload_xml(self, invoice_entity: InvoiceEntity, xml: str):
+    def upload_xml(self, invoice_entity: InvoiceEntity):
         invoice = Invoice(id=invoice_entity.id)
         invoice.refresh_from_db()
-        xml_file = NamedTemporaryFile(suffix=".xml")
-
-        with open(xml_file.name, "w") as file:
-            file.write(xml)
-
-        file.close()
-
         invoice.file.delete()
         file_name = f"{invoice_entity.access_code}.xml"
-        content_file = ContentFile(xml_file.read())
+        content_file = ContentFile(invoice_entity.xml_bytes)
         file = File(file=content_file, name=file_name)
         invoice.file = file
         invoice.save(update_fields=["file"])

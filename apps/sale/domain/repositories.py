@@ -34,7 +34,7 @@ class InvoiceLineRepository(ABC):
 
 class InvoiceRepository(ABC):
     @abstractmethod
-    def upload_xml(self, invoice_entity: InvoiceEntity, xml: str):
+    def upload_xml(self, invoice_entity: InvoiceEntity):
         pass
 
     @abstractmethod
