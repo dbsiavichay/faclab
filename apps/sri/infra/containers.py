@@ -5,7 +5,8 @@ from apps.sri.application.services import SRIVoucherService
 from apps.sri.application.usecases import (
     GenerateVoucherAccessCodeUseCase,
     GenerateVoucherXmlUseCase,
-    RetrieveVoucherUseCase,
+    RetrieveVoucherXmlUseCase,
+    SendVoucherXmlUseCase,
     SignVoucherXmlUseCase,
 )
 
@@ -16,14 +17,14 @@ class SRIContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
 
     # WSDL Clients
-    sending_voucher_client = providers.Singleton(Client, wsdl=config.SENDING_VOUCHER_WS)
-    query_voucher_client = providers.Singleton(Client, wsdl=config.QUERY_VOUCHER_WS)
+    sri_voucher_client = providers.Singleton(Client, wsdl=config.SENDING_VOUCHER_WS)
+    sri_authorization_client = providers.Singleton(Client, wsdl=config.QUERY_VOUCHER_WS)
 
     # Adapters
     sri_voucher_adapter = providers.Singleton(
         SRIVoucherAdapter,
-        sending_client=sending_voucher_client,
-        query_client=query_voucher_client,
+        voucher_client=sri_voucher_client,
+        authorization_client=sri_authorization_client,
     )
 
     # Usecases
@@ -32,8 +33,11 @@ class SRIContainer(containers.DeclarativeContainer):
     )
     generate_voucher_xml_usecase = providers.Singleton(GenerateVoucherXmlUseCase)
     sign_voucher_xml_usecase = providers.Singleton(SignVoucherXmlUseCase)
-    retrieve_voucher_usecase = providers.Singleton(
-        RetrieveVoucherUseCase, sri_voucher_port=sri_voucher_adapter
+    send_voucher_xml_usecase = providers.Singleton(
+        SendVoucherXmlUseCase, sri_voucher_port=sri_voucher_adapter
+    )
+    retrieve_voucher_xml_usecase = providers.Singleton(
+        RetrieveVoucherXmlUseCase, sri_voucher_port=sri_voucher_adapter
     )
 
     # Services
@@ -42,5 +46,6 @@ class SRIContainer(containers.DeclarativeContainer):
         generate_access_code_usecase=generate_voucher_access_code_usecase,
         generate_voucher_xml_usecase=generate_voucher_xml_usecase,
         sign_voucher_xml_usecase=sign_voucher_xml_usecase,
-        retrieve_voucher_usecase=retrieve_voucher_usecase,
+        send_voucher_xml_usecase=send_voucher_xml_usecase,
+        retrieve_voucher_xml_usecase=retrieve_voucher_xml_usecase,
     )

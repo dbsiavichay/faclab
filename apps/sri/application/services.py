@@ -31,15 +31,16 @@ from apps.sale.domain.entities import CustomerEntity
 from apps.sri.application.usecases import (
     GenerateVoucherAccessCodeUseCase,
     GenerateVoucherXmlUseCase,
-    RetrieveVoucherUseCase,
+    RetrieveVoucherXmlUseCase,
+    SendVoucherXmlUseCase,
     SignVoucherXmlUseCase,
 )
 from apps.sri.domain.entities import (
+    AuthorizationResult,
     InvoiceDetailInfo,
     InvoiceInfo,
     PaymentInfo,
     TaxInfo,
-    VoucherAPI,
 )
 from apps.sri.domain.enums import Methods, Namespaces
 from apps.sri.domain.exceptions import SignatureException
@@ -505,7 +506,8 @@ class SRIVoucherService:
         generate_access_code_usecase: GenerateVoucherAccessCodeUseCase,
         generate_voucher_xml_usecase: GenerateVoucherXmlUseCase,
         sign_voucher_xml_usecase: SignVoucherXmlUseCase,
-        retrieve_voucher_usecase: RetrieveVoucherUseCase,
+        send_voucher_xml_usecase: SendVoucherXmlUseCase,
+        retrieve_voucher_xml_usecase: RetrieveVoucherXmlUseCase,
         site_repository: SiteRepository = Provide["core_package.site_repository"],
         signature_repository: SignatureRepository = Provide[
             "core_package.signature_repository"
@@ -515,7 +517,8 @@ class SRIVoucherService:
         self.generate_access_code_usecase = generate_access_code_usecase
         self.generate_voucher_xml_usecase = generate_voucher_xml_usecase
         self.sign_voucher_xml_usecase = sign_voucher_xml_usecase
-        self.retrieve_voucher_usecase = retrieve_voucher_usecase
+        self.send_voucher_xml_usecase = send_voucher_xml_usecase
+        self.retrieve_voucher_xml_usecase = retrieve_voucher_xml_usecase
         self.site_repository = site_repository
 
     def generate_access_code(
@@ -552,5 +555,8 @@ class SRIVoucherService:
             voucher, signature.cert, signature.key
         )
 
-    def retrieve_voucher_api(self, access_code: str) -> VoucherAPI:
-        return self.retrieve_voucher_usecase.execute(access_code)
+    def send_voucher_xml(self, voucher: bytes) -> bool:
+        return self.send_voucher_xml_usecase.execute(voucher)
+
+    def retrieve_voucher_xml(self, access_code: str) -> AuthorizationResult:
+        return self.retrieve_voucher_xml_usecase.execute(access_code)

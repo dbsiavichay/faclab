@@ -190,6 +190,21 @@ class InvoiceService:
 
         return invoice_entity
 
+    def send_invoice_xml(
+        self, invoice_entity: InvoiceEntity, update_on_db: bool = False
+    ):
+        # TODO: Actualizar status a authorizado
+        self.sri_voucher_service.send_voucher_xml(invoice_entity.xml_bytes)
+        result = self.sri_voucher_service.retrieve_voucher_xml(
+            invoice_entity.access_code
+        )
+        invoice_entity.authorization_date = result.authorization_date
+
+        if update_on_db:
+            self.invoice_repository.save(
+                invoice_entity, update_fields=["authorization_date"]
+            )
+
 
 class InvoiceServiceLegacy:
     INVOICE_CODE = "01"

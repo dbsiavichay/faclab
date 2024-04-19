@@ -8,11 +8,11 @@ from django.conf import settings
 from apps.core.domain.entities import SRIConfig
 from apps.sale.domain.entities import CustomerEntity
 from apps.sri.domain.entities import (
+    AuthorizationResult,
     InvoiceDetailInfo,
     InvoiceInfo,
     PaymentInfo,
     TaxInfo,
-    VoucherEntity,
 )
 from apps.sri.domain.ports import SRIVoucherPort
 
@@ -67,14 +67,6 @@ class GenerateVoucherAccessCodeUseCase:
         code = f"{code}{verifier}"
 
         return code
-
-
-class RetrieveVoucherUseCase:
-    def __init__(self, sri_voucher_port: SRIVoucherPort) -> None:
-        self.sri_voucher_port = sri_voucher_port
-
-    def execute(self, access_code: str) -> VoucherEntity:
-        return self.sri_voucher_port.retrieve_voucher_by_access_code(access_code)
 
 
 class GenerateVoucherXmlUseCase:
@@ -143,41 +135,22 @@ class GenerateVoucherXmlUseCase:
 
 
 class SignVoucherXmlUseCase:
-    def execute(self, voucher_bytes: bytes, cert, key) -> str:
+    def execute(self, voucher: bytes, cert, key) -> str:
         signer = XmlSigner(cert, key)
-        return signer.sign(voucher_bytes)
+        return signer.sign(voucher)
 
 
-"""
-class InvoiceServiceLegacy:
-    INVOICE_CODE = "01"
+class SendVoucherXmlUseCase:
+    def __init__(self, sri_voucher_port: SRIVoucherPort) -> None:
+        self.sri_voucher_port = sri_voucher_port
 
-    @classmethod
-    def sign_xml(cls, invoice):
-        signer = SRISigner()
-        str_signed_invoice = signer.sign(invoice.file.read())
-        xml_file = NamedTemporaryFile(suffix=".xml")
+    def execute(self, voucher: bytes) -> bool:
+        return self.sri_voucher_port.send_voucher(voucher)
 
-        with open(xml_file.name, "w") as file:
-            file.write(str_signed_invoice)
 
-        file.close()
-        file_name = f"{invoice.code}.xml"
-        content_file = ContentFile(xml_file.read())
-        file = File(file=content_file, name=file_name)
-        invoice.file.delete()
-        invoice.file = file
-        invoice.status = VoucherStatuses.SIGNED
-        invoice.save(update_fields=["status", "file"])
+class RetrieveVoucherXmlUseCase:
+    def __init__(self, sri_voucher_port: SRIVoucherPort) -> None:
+        self.sri_voucher_port = sri_voucher_port
 
-        return file
-
-    @classmethod
-    def send_xml(cls, invoice):
-        client = SRIClient()
-        client.send_voucher(invoice.file.read())
-        _, authotization_date = client.fetch_voucher(invoice.code)
-        invoice.authorization_date = authotization_date
-        invoice.status = VoucherStatuses.AUTHORIZED
-        invoice.save(update_fields=["authorization_date", "status"])
-"""
+    def execute(self, access_code: str) -> AuthorizationResult:
+        return self.sri_voucher_port.retrieve_voucher_by_access_code(access_code)

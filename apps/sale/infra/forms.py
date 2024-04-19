@@ -1,5 +1,7 @@
+import pytz
 from dependency_injector.wiring import Provide, inject
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -144,13 +146,18 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
 
     def save(self, commit=True):
         object_list = super().save(commit=commit)
+        timezone = pytz.timezone(settings.TIME_ZONE)
         customer = self.instance.customer
         customer_entity = CustomerEntity(
             code_type_code=customer.code_type.code, **self.instance.customer.__dict__
         )
         invoice_lines = [line.__dict__ for line in object_list]
+        invoice_dict = {
+            **self.instance.__dict__,
+            "date": self.instance.date.astimezone(timezone),
+        }
         invoice_entity = InvoiceEntity(
-            customer=customer_entity, lines=invoice_lines, **self.instance.__dict__
+            customer=customer_entity, lines=invoice_lines, **invoice_dict
         )
         self.invoice_service.update_invoice_access_code(invoice_entity)
         self.invoice_service.update_invoice_total(invoice_entity)
@@ -159,6 +166,7 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
         self.instance.save(update_fields=update_fields)
         self.invoice_service.update_invoice_xml(invoice_entity, update_on_db=True)
         self.invoice_service.sign_invoice_xml(invoice_entity, update_on_db=True)
+        self.invoice_service.send_invoice_xml(invoice_entity, update_on_db=True)
 
         return object_list
 

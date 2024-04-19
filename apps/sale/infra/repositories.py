@@ -67,7 +67,11 @@ class InvoiceRepositoryImpl(InvoiceRepository):
     def save(
         self, invoice_entity: InvoiceEntity, update_fields: List[str] = None
     ) -> None:
-        invoice = Invoice(**invoice_entity.model_dump())
+        exclude_fields = ["customer", "lines", "xml_str", "xml_bytes"]
+        invoice = Invoice(
+            customer_id=invoice_entity.customer.id,
+            **invoice_entity.model_dump(exclude=exclude_fields),
+        )
         invoice.save(update_fields=update_fields)
 
 
