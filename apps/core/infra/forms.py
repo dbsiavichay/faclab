@@ -6,7 +6,7 @@ from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.application.services import SignatureService
-from apps.core.domain.enums import Emissions, Environments
+from apps.core.domain.choices import EmissionType, Environment
 from apps.core.domain.repositories import SiteRepository
 from apps.core.infra.models import Signature, Site
 from apps.sale.application.validators import customer_code_validator
@@ -109,12 +109,14 @@ class SiteForm(ModelForm):
         required=False, label=_("company accounting required")
     )
     environment = forms.ChoiceField(
-        choices=Environments.choices,
-        initial=Environments.TESTING,
+        choices=Environment.choices,
+        initial=Environment.TESTING,
         label=_("type of environment"),
     )
     emission_type = forms.ChoiceField(
-        choices=Emissions.choices, initial=Emissions.NORMAL, label=_("type of emission")
+        choices=EmissionType.choices,
+        initial=EmissionType.NORMAL,
+        label=_("type of emission"),
     )
     iva_percent = forms.FloatField(widget=PercentInput, label=_("iva percent"))
     signature = forms.ModelChoiceField(

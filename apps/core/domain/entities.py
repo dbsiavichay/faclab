@@ -3,6 +3,8 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, computed_field
 
+from .enums import EmissionTypeEnum, EnvironmentEnum
+
 
 class SRIConfig(BaseModel):
     company_code: str = Field(max_length=13)
@@ -15,8 +17,8 @@ class SRIConfig(BaseModel):
     special_taxpayer_resolution: Optional[str]
     withholding_agent_resolution: Optional[str]
     company_accounting_required: Optional[bool]
-    environment: str  # TODO: add choices
-    emission_type: str  # TODO: add choices
+    environment: EnvironmentEnum
+    emission_type: EmissionTypeEnum
     iva_percent: Optional[float]
     signature: Optional[int]
 

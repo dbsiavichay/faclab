@@ -1,11 +1,10 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
+from enum import IntEnum
 
 
-class Environments(models.IntegerChoices):
-    TESTING = 1, _("testing").capitalize()
-    PRODUCTION = 2, _("production").capitalize()
+class EnvironmentEnum(IntEnum):
+    TESTING = 1
+    PRODUCTION = 2
 
 
-class Emissions(models.IntegerChoices):
-    NORMAL = 1, _("normal").capitalize()
+class EmissionTypeEnum(IntEnum):
+    NORMAL = 1
