@@ -40,6 +40,9 @@ class SignatureRepositoryImpl(SignatureRepository):
 
         return None
 
+    def exists_serial_number(self, serial_number: str) -> bool:
+        return Signature.objects.filter(serial_number=serial_number).exists()
+
 
 class MenuRepositoryImpl(MenuRepository):
     @inject

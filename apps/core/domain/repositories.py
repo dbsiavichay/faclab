@@ -30,3 +30,7 @@ class SignatureRepository(ABC):
     @abstractmethod
     def find_by_id(self, id: int) -> SignatureEntity:
         pass
+
+    @abstractmethod
+    def exists_serial_number(self, serial_number: str) -> bool:
+        pass

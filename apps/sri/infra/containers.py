@@ -17,8 +17,8 @@ class SRIContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
 
     # WSDL Clients
-    sri_voucher_client = providers.Singleton(Client, wsdl=config.SENDING_VOUCHER_WS)
-    sri_authorization_client = providers.Singleton(Client, wsdl=config.QUERY_VOUCHER_WS)
+    sri_voucher_client = providers.Singleton(Client, wsdl=config.VOUCHER_WS)
+    sri_authorization_client = providers.Singleton(Client, wsdl=config.AUTHORIZATION_WS)
 
     # Adapters
     sri_voucher_adapter = providers.Singleton(

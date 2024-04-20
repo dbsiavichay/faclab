@@ -170,11 +170,9 @@ CELERY_BROKER_URL = env("CELERY_REDIS_URL")
 
 # SRI
 KEYTOOL_COMMAND = env("KEYTOOL_COMMAND")
-SRI_SEND_VOUCHERS_WS = env("SRI_SEND_VOUCHERS_WS")
-SRI_GET_VOUCHERS_WS = env("SRI_GET_VOUCHERS_WS")
 SRI_GET_TAXPAYERS_WS = env("SRI_GET_TAXPAYERS_WS")
 
 SRI_SERVICES = {
-    "SENDING_VOUCHER_WS": "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl",  # NOQA : E501
-    "QUERY_VOUCHER_WS": "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl",  # NOQA : E501
+    "VOUCHER_WS": "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl",  # NOQA : E501
+    "AUTHORIZATION_WS": "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl",  # NOQA : E501
 }

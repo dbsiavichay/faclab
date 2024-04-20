@@ -5,11 +5,11 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.application.services import SignatureService
 from apps.core.domain.enums import Emissions, Environments
-from apps.core.domain.models import Signature, Site
 from apps.core.domain.repositories import SiteRepository
+from apps.core.infra.models import Signature, Site
 from apps.sale.application.validators import customer_code_validator
-from apps.sri.application.services import SRISigner
 from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm
 
@@ -21,6 +21,16 @@ class SignatureForm(ModelForm):
     signature_password = forms.CharField(
         max_length=256, widget=forms.PasswordInput, label=_("signature password")
     )
+
+    @inject
+    def __init__(
+        self,
+        signature_service: SignatureService = Provide["core_package.signature_service"],
+        *args,
+        **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.signature_service = signature_service
 
     class Meta:
         model = Signature
@@ -38,24 +48,25 @@ class SignatureForm(ModelForm):
             except ValueError:
                 raise ValidationError(_("signature file or password are invalid"))
 
-            data = SRISigner.get_signature_metadata(p12_data, password)
-            exists = Signature.objects.filter(
-                serial_number=data.get("serial_number")
-            ).exists()
+            signature_entity = self.signature_service.retrieve_signature(
+                p12_data, password
+            )
+            signature_exists = (
+                self.signature_service.signature_repository.exists_serial_number(
+                    signature_entity.serial_number
+                )
+            )
 
-            if exists:
+            if signature_exists:
                 raise ValidationError(_("signature file has already been registered"))
 
-            cleaned_data["metadata"] = data
+            self.signature_entity = signature_entity
 
         return cleaned_data
 
     def save(self, commit=True):
         obj = super().save(commit=False)
-        data = self.cleaned_data.get("metadata")
-
-        for key, value in data.items():
-            setattr(obj, key, value)
+        obj.__dict__.update({**self.signature_entity.model_dump()})
 
         if commit:
             obj.save()

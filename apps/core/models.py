@@ -1,3 +1,3 @@
-from .domain.models import Signature, Site
+from .infra.models import Signature, Site
 
 __all__ = ["Signature", "Site"]
