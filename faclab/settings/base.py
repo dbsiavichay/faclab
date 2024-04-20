@@ -92,6 +92,12 @@ WSGI_APPLICATION = "faclab.wsgi.application"
 
 DATABASES = {"default": env.db()}
 
+MIGRATION_MODULES = {
+    "account": "apps.account.infra.migrations",
+    "core": "apps.core.infra.migrations",
+    "sale": "apps.sale.infra.migrations",
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
