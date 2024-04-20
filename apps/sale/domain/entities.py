@@ -1,8 +1,7 @@
 from datetime import datetime
-from decimal import Decimal
 from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from .enums import VoucherStatusEnum
 
@@ -48,7 +47,7 @@ class InvoiceEntity(BaseModel):
     sequence: str = Field(max_length=9)
     subtotal: float
     tax: float
-    total: Decimal = Field(max_digits=10, decimal_places=2)
+    total: float
     status: VoucherStatusEnum = Field(default=VoucherStatusEnum.GENERATED)
     xml_bytes: Optional[bytes] = None
     xml_str: Optional[str] = None
@@ -56,3 +55,8 @@ class InvoiceEntity(BaseModel):
     customer_id: int = None
     customer: CustomerEntity = None
     lines: List[InvoiceLineEntity] = []
+
+    @field_validator("total", mode="before")
+    @classmethod
+    def round_two_decimals(cls, value: float) -> float:
+        return round(value, 2)

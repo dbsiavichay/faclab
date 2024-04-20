@@ -1,7 +1,5 @@
-import pytz
 from dependency_injector.wiring import Provide, inject
 from django import forms
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -9,8 +7,7 @@ from apps.core.domain.repositories import SiteRepository
 from apps.inventories.querysets import ProductQueryset
 from apps.sale.application.services import InvoiceService
 from apps.sale.application.validators import customer_code_validator
-from apps.sale.domain.entities import CustomerEntity, InvoiceEntity, InvoiceLineEntity
-from apps.sale.infra.tasks import send_invoice_task
+from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
@@ -148,27 +145,12 @@ class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
 
     def save(self, commit=True):
         object_list = super().save(commit=commit)
-        timezone = pytz.timezone(settings.TIME_ZONE)
-        customer = self.instance.customer
-        customer_entity = CustomerEntity(
-            code_type_code=customer.code_type.code, **self.instance.customer.__dict__
-        )
-        invoice_lines = [line.__dict__ for line in object_list]
-        invoice_dict = {
-            **self.instance.__dict__,
-            "date": self.instance.date.astimezone(timezone),
-        }
-        invoice_entity = InvoiceEntity(
-            customer=customer_entity, lines=invoice_lines, **invoice_dict
-        )
+        invoice_entity = InvoiceEntity(**self.instance.__dict__)
         self.invoice_service.update_invoice_access_code(invoice_entity)
         self.invoice_service.update_invoice_total(invoice_entity)
         update_fields = ["access_code", "subtotal", "tax", "total"]
         self.instance.__dict__.update(invoice_entity.model_dump(include=update_fields))
         self.instance.save(update_fields=update_fields)
-        self.invoice_service.update_invoice_xml(invoice_entity)
-        self.invoice_service.sign_invoice_xml(invoice_entity, update_on_db=True)
-        send_invoice_task.apply_async(args=[self.instance.id])
 
         return object_list
 

@@ -47,6 +47,12 @@ class InvoiceLineRepositoryImpl(InvoiceLineRepository):
         )
         return subtotal
 
+    def find_by_invoice(self, invoice_id: int) -> List[InvoiceLineEntity]:
+        lines = InvoiceLine.objects.filter(invoice_id=invoice_id)
+        invoice_lines = [InvoiceLineEntity(**line.__dict__) for line in lines]
+
+        return invoice_lines
+
     def save(
         self, invoiceline_entity: InvoiceLineEntity, update_fields: List[str] = None
     ) -> None:

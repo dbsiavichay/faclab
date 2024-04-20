@@ -27,6 +27,7 @@ def build_container():
             "apps.core.infra.repositories",
             "apps.sale.application.services",
             "apps.sale.infra.forms",
+            "apps.sale.packs",
             "apps.sri.application.services",
         ]
     )

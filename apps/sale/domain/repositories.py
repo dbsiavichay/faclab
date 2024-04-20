@@ -26,6 +26,10 @@ class InvoiceLineRepository(ABC):
         pass
 
     @abstractmethod
+    def find_by_invoice(self, invoice_id: int) -> List[InvoiceLineEntity]:
+        pass
+
+    @abstractmethod
     def save(
         self, invoiceline_entity: InvoiceLineEntity, update_fields: List[str] = None
     ) -> None:
