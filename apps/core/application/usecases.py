@@ -12,7 +12,8 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.domain.entities import SignatureEntity
-from apps.core.domain.exceptions import SignatureException
+
+from .exceptions import SignatureException
 
 
 class RetrieveSignatureUseCase:

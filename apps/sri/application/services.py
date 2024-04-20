@@ -69,7 +69,6 @@ class SRIVoucherService:
 
     def sign_voucher_xml(self, voucher: bytes):
         config = self.site_repository.get_sri_config()
-        # TODO: Validar que exista la configuracion y modelo
         signature_id = config.signature
         signature = self.signature_repository.find_by_id(signature_id)
 

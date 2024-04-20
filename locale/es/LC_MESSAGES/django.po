@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-20 04:29+0000\n"
+"POT-Creation-Date: 2024-04-20 19:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,23 +22,23 @@ msgstr ""
 msgid "modules"
 msgstr "módulos"
 
-#: apps/core/application/usecases.py:38
+#: apps/core/application/usecases.py:39
 msgid "error while call keytool command"
 msgstr "error durante la llamada al comando de keytool"
 
-#: apps/core/application/usecases.py:46
+#: apps/core/application/usecases.py:47
 msgid "signature file has not valid keys"
 msgstr "el archivo de firma no tiene claves válidas"
 
-#: apps/core/domain/enums.py:6
+#: apps/core/domain/choices.py:6
 msgid "testing"
 msgstr "pruebas"
 
-#: apps/core/domain/enums.py:7
+#: apps/core/domain/choices.py:7
 msgid "production"
 msgstr "producción"
 
-#: apps/core/domain/enums.py:11
+#: apps/core/domain/choices.py:11
 msgid "normal"
 msgstr "normal"
 
@@ -102,15 +102,15 @@ msgstr "obligado a llevar contabilidad"
 msgid "type of environment"
 msgstr "tipo de ambiente"
 
-#: apps/core/infra/forms.py:117
+#: apps/core/infra/forms.py:119
 msgid "type of emission"
 msgstr "tipo de emisión"
 
-#: apps/core/infra/forms.py:119
+#: apps/core/infra/forms.py:121
 msgid "iva percent"
 msgstr "porcentaje de IVA"
 
-#: apps/core/infra/forms.py:121
+#: apps/core/infra/forms.py:123
 msgid "electronic signature"
 msgstr "firma electrónica"
 
@@ -130,19 +130,27 @@ msgstr "fecha de emisión"
 msgid "expiry date"
 msgstr "fecha de expiración"
 
-#: apps/core/infra/repositories.py:59
+#: apps/core/infra/repositories.py:27
+msgid "site config does not exist"
+msgstr "configuración del sitio no existe"
+
+#: apps/core/infra/repositories.py:34
+msgid "sri config does not exist or is incorrect"
+msgstr "configuración sri no existe o es incorrecta"
+
+#: apps/core/infra/repositories.py:67
 msgid "configuration"
 msgstr "configuración"
 
-#: apps/core/infra/repositories.py:68
+#: apps/core/infra/repositories.py:76
 msgid "vouchers"
 msgstr "comprobantes"
 
-#: apps/core/infra/repositories.py:74
+#: apps/core/infra/repositories.py:82
 msgid "signatures"
 msgstr "firmas electrónicas"
 
-#: apps/core/infra/repositories.py:80
+#: apps/core/infra/repositories.py:88
 msgid "sri"
 msgstr ""
 
@@ -200,7 +208,7 @@ msgid "percent revenue"
 msgstr "porcentaje de utilidad"
 
 #: apps/inventories/forms.py:146 apps/inventories/models/purchases.py:8
-#: apps/inventories/models/purchases.py:27 apps/sale/infra/forms.py:97
+#: apps/inventories/models/purchases.py:27 apps/sale/infra/forms.py:98
 #: apps/sale/infra/models/invoices.py:25 apps/sale/infra/models/invoices.py:59
 msgid "subtotal"
 msgstr "subtotal"
@@ -357,31 +365,35 @@ msgstr "información adicional"
 msgid "%(value)s is not a valid value"
 msgstr "%(value)s no es un valor válido"
 
-#: apps/sale/domain/enums.py:6
+#: apps/sale/domain/choices.py:6
 msgid "generated"
 msgstr "generado"
 
-#: apps/sale/domain/enums.py:7
+#: apps/sale/domain/choices.py:7
 msgid "signed"
 msgstr "firmado"
 
-#: apps/sale/domain/enums.py:8
+#: apps/sale/domain/choices.py:8
 msgid "validated"
 msgstr "validado"
 
-#: apps/sale/domain/enums.py:9
+#: apps/sale/domain/choices.py:9
 msgid "authorized"
 msgstr "autorizado"
 
-#: apps/sale/domain/enums.py:13
+#: apps/sale/domain/choices.py:13
 msgid "cash"
 msgstr "efectivo"
 
-#: apps/sale/domain/enums.py:15
+#: apps/sale/domain/choices.py:14
+msgid "credit card"
+msgstr "tarjeta de crédito"
+
+#: apps/sale/domain/choices.py:15
 msgid "deposit/transfer"
 msgstr "depósito/transferencia"
 
-#: apps/sale/infra/forms.py:40
+#: apps/sale/infra/forms.py:41
 #, python-format
 msgid "The code entered does not correspond to a %(code_type)s"
 msgstr "La identificación ingresada no corresponde a %(code_type)s"
@@ -443,15 +455,15 @@ msgstr "termina"
 msgid "voucher"
 msgstr "comprobante"
 
-#: apps/sale/infra/repositories.py:90
+#: apps/sale/infra/repositories.py:91
 msgid "sales"
 msgstr "ventas"
 
-#: apps/sale/infra/repositories.py:99
+#: apps/sale/infra/repositories.py:100
 msgid "customers"
 msgstr "clientes"
 
-#: apps/sale/infra/repositories.py:105
+#: apps/sale/infra/repositories.py:106
 msgid "invoices"
 msgstr "facturas"
 

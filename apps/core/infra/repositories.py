@@ -3,8 +3,10 @@ from typing import List
 from dependency_injector.wiring import Provide, inject
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from pydantic import ValidationError
 from simple_menu import MenuItem
 
+from apps.core.application.exceptions import ImproperlyConfigException
 from apps.core.domain.entities import SignatureEntity, SRIConfig
 from apps.core.domain.repositories import (
     MenuRepository,
@@ -22,10 +24,15 @@ class SiteRepositoryImpl(SiteRepository):
         self.site = Site.objects.first()
 
         if not self.site:
-            raise Site.DoesNotExist()
+            raise ImproperlyConfigException(_("site config does not exist"))
 
     def get_sri_config(self) -> SRIConfig:
-        return SRIConfig(**self.site.sri_config)
+        try:
+            return SRIConfig(**self.site.sri_config)
+        except ValidationError:
+            raise ImproperlyConfigException(
+                _("sri config does not exist or is incorrect")
+            )
 
     def refresh_site(self) -> None:
         self.site.refresh_from_db()
