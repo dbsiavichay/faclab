@@ -38,6 +38,10 @@ class InvoiceRepository(ABC):
         pass
 
     @abstractmethod
+    def find_by_id(self, id: int) -> Optional[InvoiceEntity]:
+        pass
+
+    @abstractmethod
     def save(
         self, invoice_entity: InvoiceEntity, update_fields: List[str] = None
     ) -> None:

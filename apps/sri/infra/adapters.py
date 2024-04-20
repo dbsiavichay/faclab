@@ -62,3 +62,23 @@ class SRIVoucherAdapter(SRIVoucherPort):
             raise Exception(error)
 
         return authorized_vouchers[0]
+
+
+"""
+TODO: Servicio para obtener un contribuyente del sri
+def fetch_taxpayer(cls, code):
+    ws_url = settings.SRI_GET_TAXPAYERS_WS % code
+    response = requests.get(ws_url)
+    data = response.json()
+    names = data.get("nombreCompleto").split()
+    first_name = " ".join(names[-2:])
+    last_name = names[0] if len(names) == 3 else " ".join(names[:2])
+    taxpayer = {
+        "code": data.get("identificacion"),
+        "fullname": data.get("nombreCompleto"),
+        "first_name": first_name,
+        "last_name": last_name,
+        "type": data.get("tipoPersona"),
+    }
+    return taxpayer
+"""

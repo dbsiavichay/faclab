@@ -11,7 +11,6 @@ from uuid import uuid4
 
 import jks
 import pytz
-import requests
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 from cryptography.hazmat.primitives.serialization import load_der_private_key
@@ -22,7 +21,6 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from lxml import etree
 from lxml.etree import Element, QName
-from zeep import Client
 
 from apps.core.domain.models import Signature
 from apps.core.domain.repositories import SignatureRepository, SiteRepository
@@ -424,79 +422,6 @@ class SRISigner:
         }
 
         return metadata
-
-
-class SRIClient:
-    def __init__(self):
-        try:
-            self.client = Client(settings.SRI_SEND_VOUCHERS_WS)
-            self.fetch_client = Client(settings.SRI_GET_VOUCHERS_WS)
-        except Exception as e:
-            message = _("SRI Error connecting to server")
-            raise Exception(f"{message}: {e}")
-
-    def send_voucher(self, voucher_bytes):
-        FAIL_STATUS = "DEVUELTA"
-
-        try:
-            data = base64.encodebytes(voucher_bytes).decode("utf-8")
-            result = self.client.service.validarComprobante(data)
-        except Exception as e:
-            message = _("SRI Error to send voucher")
-            raise Exception(f"{message}: {e}")
-
-        if result.estado == FAIL_STATUS:
-            messages = [
-                mensaje.mensaje.capitalize()
-                for mensaje in result.comprobantes.comprobante[0].mensajes.mensaje
-            ]
-            message = _("SRI Voucher not received") + " * ".join(messages)
-            raise Exception(message)
-
-    def fetch_voucher(self, code):
-        UNAUTHORIZED_STATUS = "NO AUTORIZADO"
-
-        try:
-            result = self.fetch_client.service.autorizacionComprobante(code)
-        except Exception as e:
-            message = _("SRI Error to fetch voucher")
-            raise Exception(f"{message}: {e}")
-
-        if hasattr(result, "numeroComprobantes"):
-            number_of_vouchers = int(result.numeroComprobantes)
-
-            if not number_of_vouchers:
-                raise Exception(_("Invalid code"))
-
-        voucher = result.autorizaciones.autorizacion[0]
-
-        if voucher.estado == UNAUTHORIZED_STATUS:
-            messages = [
-                mensaje.mensaje.capitalize() for mensaje in voucher.mensajes.mensaje
-            ]
-            message = _("SRI Voucher not received") + " * ".join(messages)
-            raise Exception(message)
-
-        authorization_date = voucher.fechaAutorizacion.astimezone(pytz.utc)
-
-        return voucher.comprobante, authorization_date
-
-    @classmethod
-    def fetch_taxpayer(cls, code):
-        ws_url = settings.SRI_GET_TAXPAYERS_WS % code
-        response = requests.get(ws_url)
-        data = response.json()
-        names = data.get("nombreCompleto").split()
-        first_name = " ".join(names[-2:])
-        last_name = names[0] if len(names) == 3 else " ".join(names[:2])
-        taxpayer = {
-            "code": data.get("identificacion"),
-            "fullname": data.get("nombreCompleto"),
-            "first_name": first_name,
-            "last_name": last_name,
-            "type": data.get("tipoPersona"),
-        }
-        return taxpayer
 
 
 class SRIVoucherService:

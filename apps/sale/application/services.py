@@ -1,22 +1,15 @@
 from tempfile import NamedTemporaryFile
 
-import pytz
-import xmltodict
 from dependency_injector.wiring import Provide, inject
-from django.conf import settings
-from django.core.files import File
-from django.core.files.base import ContentFile
 
 from apps.core.domain.repositories import SiteRepository
-from apps.core.infra.repositories import SiteRepositoryImpl
 from apps.sale.application.usecases import (
     CalculateInvoiceTotalUseCase,
     GenerateVoucherSequenceUseCase,
 )
 from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
-from apps.sale.domain.enums import VoucherStatuses
 from apps.sale.domain.repositories import InvoiceLineRepository, InvoiceRepository
-from apps.sri.application.services import SRIClient, SRISigner, SRIVoucherService
+from apps.sri.application.services import SRIVoucherService
 from apps.sri.domain.entities import (
     InvoiceDetailInfo,
     InvoiceInfo,
@@ -24,8 +17,6 @@ from apps.sri.domain.entities import (
     TaxInfo,
     TaxValueInfo,
 )
-
-site_repository = SiteRepositoryImpl()
 
 
 class InvoiceService:
@@ -204,164 +195,3 @@ class InvoiceService:
             self.invoice_repository.save(
                 invoice_entity, update_fields=["authorization_date"]
             )
-
-
-class InvoiceServiceLegacy:
-    INVOICE_CODE = "01"
-
-    @classmethod
-    def get_xml_data(cls, invoice):
-        config = site_repository.get_sri_config()
-        timezone = pytz.timezone(settings.TIME_ZONE)
-        invoice_date = invoice.date.astimezone(timezone)
-
-        data = {
-            "factura": {
-                "@id": "comprobante",
-                "@version": "1.0.0",
-                "infoTributaria": {
-                    "ambiente": config.environment,
-                    "tipoEmision": config.emission_type,
-                    "razonSocial": config.company_name,
-                    "nombreComercial": config.company_trade_name,
-                    "ruc": config.company_code,
-                    "claveAcceso": invoice.code,
-                    "codDoc": cls.INVOICE_CODE,
-                    "estab": invoice.company_branch_code,
-                    "ptoEmi": invoice.company_sale_point_code,
-                    "secuencial": invoice.sequence,
-                    "dirMatriz": config.company_main_address,
-                },
-                "infoFactura": {
-                    "fechaEmision": invoice_date.strftime("%d/%m/%Y"),
-                    "dirEstablecimiento": config.company_branch_address,
-                    # "contribuyenteEspecial": "1234",
-                    "obligadoContabilidad": "SI"
-                    if config.company_accounting_required
-                    else "NO",
-                    "tipoIdentificacionComprador": invoice.customer.code_type.code,
-                    "razonSocialComprador": invoice.customer.bussiness_name,
-                    "identificacionComprador": invoice.customer.code,
-                    "totalSinImpuestos": invoice.subtotal,
-                    "totalDescuento": 0,
-                    "totalConImpuestos": {
-                        "totalImpuesto": [
-                            {
-                                "codigo": 2,
-                                "codigoPorcentaje": 4,
-                                "baseImponible": invoice.subtotal,
-                                "valor": invoice.tax,
-                            }
-                        ]
-                    },
-                    "propina": 0,
-                    "importeTotal": round(invoice.total, 2),
-                    "moneda": "DOLAR",
-                    "pagos": {"pago": []},
-                },
-                "detalles": {"detalle": []},
-                "infoAdicional": {"campoAdicional": []},
-            }
-        }
-
-        customer = invoice.customer
-
-        if customer.address:
-            data["factura"]["infoAdicional"]["campoAdicional"].append(
-                {"@nombre": "Dirección", "#text": customer.address}
-            )
-
-        if customer.phone:
-            data["factura"]["infoAdicional"]["campoAdicional"].append(
-                {"@nombre": "Telefono", "#text": customer.phone}
-            )
-
-        data["factura"]["infoAdicional"]["campoAdicional"].append(
-            {"@nombre": "Email", "#text": customer.email}
-        )
-
-        for payment in invoice.payments.all():
-            data["factura"]["infoFactura"]["pagos"]["pago"].append(
-                {
-                    "formaPago": payment.type,
-                    "total": round(payment.amount, 2),
-                    "plazo": 0,
-                    "unidadTiempo": "dias",
-                }
-            )
-
-        for line in invoice.lines.select_related("product").all():
-            data["factura"]["detalles"]["detalle"].append(
-                {
-                    "codigoPrincipal": line.product.code,
-                    "codigoAuxiliar": line.product.code,
-                    "descripcion": line.product.name,
-                    "cantidad": line.quantity,
-                    "precioUnitario": line.unit_price,
-                    "descuento": 0,
-                    "precioTotalSinImpuesto": line.subtotal,
-                    "impuestos": {
-                        "impuesto": [
-                            {
-                                "codigo": 2,
-                                "codigoPorcentaje": 4,
-                                "tarifa": int(config.iva_percent),
-                                "baseImponible": line.subtotal,
-                                "valor": line.tax,
-                            }
-                        ]
-                    },
-                }
-            )
-
-        return data
-
-    @classmethod
-    def generate_xml(cls, invoice, commit=True):
-        data = cls.get_xml_data(invoice)
-        xml = xmltodict.unparse(data, pretty=True)
-        xml_file = NamedTemporaryFile(suffix=".xml")
-
-        with open(xml_file.name, "w") as file:
-            file.write(xml)
-
-        file.close()
-
-        file_name = f"{invoice.code}.xml"
-        content_file = ContentFile(xml_file.read())
-        file = File(file=content_file, name=file_name)
-        invoice.file = file
-
-        if commit:
-            invoice.save(update_fields=["file"])
-
-        return file
-
-    @classmethod
-    def sign_xml(cls, invoice):
-        signer = SRISigner()
-        str_signed_invoice = signer.sign(invoice.file.read())
-        xml_file = NamedTemporaryFile(suffix=".xml")
-
-        with open(xml_file.name, "w") as file:
-            file.write(str_signed_invoice)
-
-        file.close()
-        file_name = f"{invoice.code}.xml"
-        content_file = ContentFile(xml_file.read())
-        file = File(file=content_file, name=file_name)
-        invoice.file.delete()
-        invoice.file = file
-        invoice.status = VoucherStatuses.SIGNED
-        invoice.save(update_fields=["status", "file"])
-
-        return file
-
-    @classmethod
-    def send_xml(cls, invoice):
-        client = SRIClient()
-        client.send_voucher(invoice.file.read())
-        _, authotization_date = client.fetch_voucher(invoice.code)
-        invoice.authorization_date = authotization_date
-        invoice.status = VoucherStatuses.AUTHORIZED
-        invoice.save(update_fields=["authorization_date", "status"])

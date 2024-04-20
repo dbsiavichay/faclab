@@ -51,5 +51,6 @@ class InvoiceEntity(BaseModel):
     xml_bytes: Optional[bytes] = None
     xml_str: Optional[str] = None
     errors: dict
+    customer_id: int = None
     customer: CustomerEntity = None
     lines: List[InvoiceLineEntity] = []

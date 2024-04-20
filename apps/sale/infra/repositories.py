@@ -64,12 +64,19 @@ class InvoiceRepositoryImpl(InvoiceRepository):
         invoice.file = file
         invoice.save(update_fields=["file"])
 
+    def find_by_id(self, id: int) -> Optional[InvoiceEntity]:
+        invoice = Invoice.objects.filter(id=id).first()
+
+        if invoice:
+            return InvoiceEntity(xml_bytes=invoice.file.read(), **invoice.__dict__)
+
+        return None
+
     def save(
         self, invoice_entity: InvoiceEntity, update_fields: List[str] = None
     ) -> None:
         exclude_fields = ["customer", "lines", "xml_str", "xml_bytes"]
         invoice = Invoice(
-            customer_id=invoice_entity.customer.id,
             **invoice_entity.model_dump(exclude=exclude_fields),
         )
         invoice.save(update_fields=update_fields)
