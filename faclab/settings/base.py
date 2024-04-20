@@ -49,7 +49,7 @@ LIBRARY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "apps.accounts",
+    "apps.account",
     "apps.core",
     "apps.inventories",
     "apps.sale",
@@ -143,7 +143,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Custom user model
 # https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#substituting-a-custom-user-model
 
-AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "account.User"
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"

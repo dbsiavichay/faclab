@@ -7,8 +7,8 @@ User = get_user_model()
 
 class TestUser:
     def test_settings(self):
-        assert "apps.accounts" in settings.INSTALLED_APPS
-        assert "accounts.User" == settings.AUTH_USER_MODEL
+        assert "apps.account" in settings.INSTALLED_APPS
+        assert "account.User" == settings.AUTH_USER_MODEL
 
     @pytest.mark.django_db
     def test_create_user(self):
