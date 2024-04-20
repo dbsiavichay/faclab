@@ -8,6 +8,7 @@ from apps.sale.application.usecases import (
     GenerateVoucherSequenceUseCase,
 )
 from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
+from apps.sale.domain.enums import VoucherStatusEnum
 from apps.sale.domain.repositories import InvoiceLineRepository, InvoiceRepository
 from apps.sri.application.services import SRIVoucherService
 from apps.sri.domain.entities import (
@@ -164,7 +165,6 @@ class InvoiceService:
     def sign_invoice_xml(
         self, invoice_entity: InvoiceEntity, update_on_db: bool = False
     ):
-        # TODO: Actualizar status a firmado
         xml = self.sri_voucher_service.sign_voucher_xml(invoice_entity.xml_bytes)
         xml_file = NamedTemporaryFile(suffix=".xml")
 
@@ -175,23 +175,25 @@ class InvoiceService:
 
         invoice_entity.xml_str = xml
         invoice_entity.xml_bytes = xml_file.read()
+        invoice_entity.status = VoucherStatusEnum.SIGNED
 
         if update_on_db:
             self.invoice_repository.upload_xml(invoice_entity)
+            self.invoice_repository.save(invoice_entity, update_fields=["status"])
 
         return invoice_entity
 
     def send_invoice_xml(
         self, invoice_entity: InvoiceEntity, update_on_db: bool = False
     ):
-        # TODO: Actualizar status a authorizado
         self.sri_voucher_service.send_voucher_xml(invoice_entity.xml_bytes)
         result = self.sri_voucher_service.retrieve_voucher_xml(
             invoice_entity.access_code
         )
         invoice_entity.authorization_date = result.authorization_date
+        invoice_entity.status = VoucherStatusEnum.AUTHORIZED
 
         if update_on_db:
             self.invoice_repository.save(
-                invoice_entity, update_fields=["authorization_date"]
+                invoice_entity, update_fields=["authorization_date", "status"]
             )

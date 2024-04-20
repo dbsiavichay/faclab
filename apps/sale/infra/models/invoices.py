@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.sale.domain.enums import PaymentTypes, VoucherStatuses
+from apps.sale.domain.choices import PaymentType, VoucherStatus
 
 
 class Invoice(models.Model):
@@ -29,8 +29,8 @@ class Invoice(models.Model):
     )
     status = models.CharField(
         max_length=4,
-        choices=VoucherStatuses.choices,
-        default=VoucherStatuses.GENERATED,
+        choices=VoucherStatus.choices,
+        default=VoucherStatus.GENERATED,
         verbose_name=_("status"),
     )
     file = models.FileField(upload_to="vouchers/invoices", null=True)
@@ -70,8 +70,8 @@ class InvoiceLine(models.Model):
 class InvoicePayment(models.Model):
     type = models.CharField(
         max_length=2,
-        choices=PaymentTypes.choices,
-        default=PaymentTypes.CASH,
+        choices=PaymentType.choices,
+        default=PaymentType.CASH,
         verbose_name=_("type"),
     )
     amount = models.FloatField(verbose_name=_("amount"))

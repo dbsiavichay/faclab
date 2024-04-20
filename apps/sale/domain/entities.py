@@ -4,6 +4,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
+from .enums import VoucherStatusEnum
+
 
 class CustomerEntity(BaseModel):
     id: int
@@ -47,7 +49,7 @@ class InvoiceEntity(BaseModel):
     subtotal: float
     tax: float
     total: Decimal = Field(max_digits=10, decimal_places=2)
-    status: str = Field(max_length=4)  # TODO: agregar choices
+    status: VoucherStatusEnum = Field(default=VoucherStatusEnum.GENERATED)
     xml_bytes: Optional[bytes] = None
     xml_str: Optional[str] = None
     errors: dict
