@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-29 22:57+0000\n"
+"POT-Creation-Date: 2024-04-20 04:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,21 +22,13 @@ msgstr ""
 msgid "modules"
 msgstr "módulos"
 
-#: apps/core/application/services.py:50
-msgid "configuration"
-msgstr "configuración"
+#: apps/core/application/usecases.py:38
+msgid "error while call keytool command"
+msgstr "error durante la llamada al comando de keytool"
 
-#: apps/core/application/services.py:59
-msgid "vouchers"
-msgstr "comprobantes"
-
-#: apps/core/application/services.py:65
-msgid "signatures"
-msgstr "firmas electrónicas"
-
-#: apps/core/application/services.py:71
-msgid "sri"
-msgstr ""
+#: apps/core/application/usecases.py:46
+msgid "signature file has not valid keys"
+msgstr "el archivo de firma no tiene claves válidas"
 
 #: apps/core/domain/enums.py:6
 msgid "testing"
@@ -50,22 +42,6 @@ msgstr "producción"
 msgid "normal"
 msgstr "normal"
 
-#: apps/core/domain/models.py:6
-msgid "subject"
-msgstr "sujeto"
-
-#: apps/core/domain/models.py:8
-msgid "serial number"
-msgstr "número de serie"
-
-#: apps/core/domain/models.py:10 apps/sale/models/invoices.py:8
-msgid "issue date"
-msgstr "fecha de emisión"
-
-#: apps/core/domain/models.py:11
-msgid "expiry date"
-msgstr "fecha de expiración"
-
 #: apps/core/infra/forms.py:19
 msgid "signature file"
 msgstr "archivo de firma electrónica"
@@ -74,69 +50,101 @@ msgstr "archivo de firma electrónica"
 msgid "signature password"
 msgstr "contraseña de firma electrónica"
 
-#: apps/core/infra/forms.py:39
+#: apps/core/infra/forms.py:49
 msgid "signature file or password are invalid"
 msgstr "archivo o contraseña de firma electrónica son inválidos"
 
-#: apps/core/infra/forms.py:47
+#: apps/core/infra/forms.py:61
 msgid "signature file has already been registered"
 msgstr "el archivo de firma ya ha sido registrado"
 
-#: apps/core/infra/forms.py:81
+#: apps/core/infra/forms.py:92
 msgid "ruc"
 msgstr "Ruc"
 
-#: apps/core/infra/forms.py:83
+#: apps/core/infra/forms.py:94
 msgid "company name"
 msgstr "razón social"
 
-#: apps/core/infra/forms.py:84
-msgid "trade name"
+#: apps/core/infra/forms.py:95
+msgid "company trade name"
 msgstr "nombre comercial"
 
-#: apps/core/infra/forms.py:85
-msgid "main address"
+#: apps/core/infra/forms.py:96
+msgid "company main address"
 msgstr "dirección matriz"
 
-#: apps/core/infra/forms.py:86
-msgid "company address"
+#: apps/core/infra/forms.py:97
+msgid "company branch address"
 msgstr "dirección de establecimiento"
 
-#: apps/core/infra/forms.py:87 apps/sale/models/invoices.py:13
-msgid "company code"
+#: apps/core/infra/forms.py:98 apps/sale/infra/models/invoices.py:19
+msgid "company branch code"
 msgstr "código de establecimiento"
 
-#: apps/core/infra/forms.py:89 apps/sale/models/invoices.py:15
-msgid "company point sale code"
+#: apps/core/infra/forms.py:100 apps/sale/infra/models/invoices.py:22
+msgid "company sale point code"
 msgstr "código de punto de emisión"
 
-#: apps/core/infra/forms.py:92
+#: apps/core/infra/forms.py:103
 msgid "special taxpayer resolution"
 msgstr "contribuyente especial (Nro de resolución)"
 
-#: apps/core/infra/forms.py:95
+#: apps/core/infra/forms.py:106
 msgid "withholding agent resolution"
 msgstr "agente de retención (Nro de resolución)"
 
-#: apps/core/infra/forms.py:98
-msgid "accounting required"
+#: apps/core/infra/forms.py:109
+msgid "company accounting required"
 msgstr "obligado a llevar contabilidad"
 
-#: apps/core/infra/forms.py:103
+#: apps/core/infra/forms.py:114
 msgid "type of environment"
 msgstr "tipo de ambiente"
 
-#: apps/core/infra/forms.py:106
+#: apps/core/infra/forms.py:117
 msgid "type of emission"
 msgstr "tipo de emisión"
 
-#: apps/core/infra/forms.py:108
+#: apps/core/infra/forms.py:119
 msgid "iva percent"
 msgstr "porcentaje de IVA"
 
-#: apps/core/infra/forms.py:110
+#: apps/core/infra/forms.py:121
 msgid "electronic signature"
 msgstr "firma electrónica"
+
+#: apps/core/infra/models.py:6
+msgid "subject"
+msgstr "sujeto"
+
+#: apps/core/infra/models.py:8
+msgid "serial number"
+msgstr "número de serie"
+
+#: apps/core/infra/models.py:10 apps/sale/infra/models/invoices.py:8
+msgid "issue date"
+msgstr "fecha de emisión"
+
+#: apps/core/infra/models.py:11
+msgid "expiry date"
+msgstr "fecha de expiración"
+
+#: apps/core/infra/repositories.py:59
+msgid "configuration"
+msgstr "configuración"
+
+#: apps/core/infra/repositories.py:68
+msgid "vouchers"
+msgstr "comprobantes"
+
+#: apps/core/infra/repositories.py:74
+msgid "signatures"
+msgstr "firmas electrónicas"
+
+#: apps/core/infra/repositories.py:80
+msgid "sri"
+msgstr ""
 
 #: apps/core/menu/inventories.py:7 apps/inventories/models/providers.py:26
 msgid "providers"
@@ -162,20 +170,8 @@ msgstr "compras"
 msgid "inventories"
 msgstr "inventarios"
 
-#: apps/core/menu/sales.py:7
-msgid "customers"
-msgstr "clientes"
-
-#: apps/core/menu/sales.py:13
-msgid "invoices"
-msgstr "facturas"
-
-#: apps/core/menu/sales.py:21
-msgid "sales"
-msgstr "ventas"
-
 #: apps/inventories/enums.py:6 apps/inventories/models/purchases.py:31
-#: apps/sale/models/invoices.py:56
+#: apps/sale/infra/models/invoices.py:63
 msgid "product"
 msgstr "producto"
 
@@ -204,14 +200,14 @@ msgid "percent revenue"
 msgstr "porcentaje de utilidad"
 
 #: apps/inventories/forms.py:146 apps/inventories/models/purchases.py:8
-#: apps/inventories/models/purchases.py:27 apps/sale/forms.py:89
-#: apps/sale/models/invoices.py:18 apps/sale/models/invoices.py:52
+#: apps/inventories/models/purchases.py:27 apps/sale/infra/forms.py:97
+#: apps/sale/infra/models/invoices.py:25 apps/sale/infra/models/invoices.py:59
 msgid "subtotal"
 msgstr "subtotal"
 
 #: apps/inventories/models/products.py:11
 #: apps/inventories/models/products.py:24
-#: apps/inventories/models/products.py:35 apps/sale/models/vouchers.py:7
+#: apps/inventories/models/products.py:35 apps/sale/infra/models/vouchers.py:7
 msgid "name"
 msgstr "nombre"
 
@@ -225,7 +221,7 @@ msgid "category"
 msgstr "categoria"
 
 #: apps/inventories/models/products.py:23
-#: apps/inventories/models/products.py:34 apps/sale/models/vouchers.py:6
+#: apps/inventories/models/products.py:34 apps/sale/infra/models/vouchers.py:6
 msgid "code"
 msgstr "código"
 
@@ -262,7 +258,7 @@ msgid "warehouse location"
 msgstr "ubicación en almacén"
 
 #: apps/inventories/models/products.py:51
-#: apps/inventories/models/products.py:89 apps/sale/models/invoices.py:68
+#: apps/inventories/models/products.py:89 apps/sale/infra/models/invoices.py:75
 msgid "type"
 msgstr "tipo"
 
@@ -276,7 +272,7 @@ msgstr "unidad de medida"
 msgid "provider"
 msgstr "proveedor"
 
-#: apps/inventories/models/products.py:91 apps/sale/models/invoices.py:70
+#: apps/inventories/models/products.py:91 apps/sale/infra/models/invoices.py:77
 msgid "amount"
 msgstr "monto"
 
@@ -284,11 +280,13 @@ msgstr "monto"
 msgid "revenue"
 msgstr "utilidad"
 
-#: apps/inventories/models/providers.py:13 apps/sale/models/customers.py:18
+#: apps/inventories/models/providers.py:13
+#: apps/sale/infra/models/customers.py:18
 msgid "identification"
 msgstr "identificación"
 
-#: apps/inventories/models/providers.py:15 apps/sale/models/customers.py:26
+#: apps/inventories/models/providers.py:15
+#: apps/sale/infra/models/customers.py:26
 msgid "bussiness name"
 msgstr "razón social"
 
@@ -296,15 +294,18 @@ msgstr "razón social"
 msgid "contact name"
 msgstr "nombre de contacto"
 
-#: apps/inventories/models/providers.py:17 apps/sale/models/customers.py:27
+#: apps/inventories/models/providers.py:17
+#: apps/sale/infra/models/customers.py:27
 msgid "address"
 msgstr "dirección"
 
-#: apps/inventories/models/providers.py:18 apps/sale/models/customers.py:29
+#: apps/inventories/models/providers.py:18
+#: apps/sale/infra/models/customers.py:29
 msgid "phone"
 msgstr "teléfono"
 
-#: apps/inventories/models/providers.py:19 apps/sale/models/customers.py:31
+#: apps/inventories/models/providers.py:19
+#: apps/sale/infra/models/customers.py:31
 msgid "email"
 msgstr "correo electrónico"
 
@@ -321,14 +322,14 @@ msgid "invoice number"
 msgstr "número de factura"
 
 #: apps/inventories/models/purchases.py:9
-#: apps/inventories/models/purchases.py:28 apps/sale/models/invoices.py:19
-#: apps/sale/models/invoices.py:53
+#: apps/inventories/models/purchases.py:28
+#: apps/sale/infra/models/invoices.py:26 apps/sale/infra/models/invoices.py:60
 msgid "tax"
 msgstr "iva"
 
 #: apps/inventories/models/purchases.py:11
-#: apps/inventories/models/purchases.py:29 apps/sale/models/invoices.py:21
-#: apps/sale/models/invoices.py:54
+#: apps/inventories/models/purchases.py:29
+#: apps/sale/infra/models/invoices.py:28 apps/sale/infra/models/invoices.py:61
 msgid "total"
 msgstr "total"
 
@@ -337,11 +338,13 @@ msgstr "total"
 msgid "purchase # {0}"
 msgstr "compra # {0}"
 
-#: apps/inventories/models/purchases.py:25 apps/sale/models/invoices.py:50
+#: apps/inventories/models/purchases.py:25
+#: apps/sale/infra/models/invoices.py:57
 msgid "quantity"
 msgstr "cantidad"
 
-#: apps/inventories/models/purchases.py:26 apps/sale/models/invoices.py:51
+#: apps/inventories/models/purchases.py:26
+#: apps/sale/infra/models/invoices.py:58
 msgid "unit price"
 msgstr "precio unitario"
 
@@ -349,132 +352,132 @@ msgstr "precio unitario"
 msgid "additional information"
 msgstr "información adicional"
 
-#: apps/sale/enums.py:6
-msgid "generated"
-msgstr "generado"
-
-#: apps/sale/enums.py:7
-msgid "signed"
-msgstr "firmado"
-
-#: apps/sale/enums.py:8
-msgid "validated"
-msgstr "validado"
-
-#: apps/sale/enums.py:9
-msgid "authorized"
-msgstr "autorizado"
-
-#: apps/sale/enums.py:13
-msgid "cash"
-msgstr "efectivo"
-
-#: apps/sale/enums.py:15
-msgid "deposit/transfer"
-msgstr "depósito/transferencia"
-
-#: apps/sale/forms.py:37
-#, python-format
-msgid "The code entered does not correspond to a %(code_type)s"
-msgstr "La identificación ingresada no corresponde a %(code_type)s"
-
-#: apps/sale/models/customers.py:21
-msgid "first name"
-msgstr "nombres"
-
-#: apps/sale/models/customers.py:24
-msgid "last name"
-msgstr "apellidos"
-
-#: apps/sale/models/customers.py:33
-msgid "code type"
-msgstr "tipo de identificación"
-
-#: apps/sale/models/invoices.py:10
-msgid "authorization date"
-msgstr "fecha de autorización"
-
-#: apps/sale/models/invoices.py:12
-msgid "access code"
-msgstr "clave de acceso"
-
-#: apps/sale/models/invoices.py:17
-msgid "sequence"
-msgstr ""
-
-#: apps/sale/models/invoices.py:27
-msgid "status"
-msgstr "estado"
-
-#: apps/sale/models/invoices.py:32
-msgid "customer"
-msgstr "cliente"
-
-#: apps/sale/models/invoices.py:37
-msgid "invoice"
-msgstr "factura"
-
-#: apps/sale/models/invoices.py:40
-#, python-brace-format
-msgid "invoice # {0}"
-msgstr "factura # {0}"
-
-#: apps/sale/models/vouchers.py:8
-msgid "current"
-msgstr "actual"
-
-#: apps/sale/models/vouchers.py:9
-msgid "ends"
-msgstr "termina"
-
-#: apps/sale/models/vouchers.py:12
-msgid "voucher"
-msgstr "comprobante"
-
-#: apps/sale/packs.py:41
-msgid "number"
-msgstr "número"
-
-#: apps/sale/validators.py:6
+#: apps/sale/application/validators.py:6
 #, python-format
 msgid "%(value)s is not a valid value"
 msgstr "%(value)s no es un valor válido"
 
-#: apps/sri/services.py:333
-msgid "no electronic signature has been configured"
-msgstr "no se ha configurado una firma electrónica"
+#: apps/sale/domain/enums.py:6
+msgid "generated"
+msgstr "generado"
 
-#: apps/sri/services.py:338
-msgid "the electronic signature has expired"
-msgstr "la firma electrónica ha expirado"
+#: apps/sale/domain/enums.py:7
+msgid "signed"
+msgstr "firmado"
 
-#: apps/sri/services.py:377
-msgid "an error has occurred while call keytool command"
-msgstr "un error ha ocurrido mientras se llamaba al comando de keytool"
+#: apps/sale/domain/enums.py:8
+msgid "validated"
+msgstr "validado"
 
-#: apps/sri/services.py:386
-msgid "signature file has not valid keys"
-msgstr "el archivo de firma no tiene claves válidas"
+#: apps/sale/domain/enums.py:9
+msgid "authorized"
+msgstr "autorizado"
 
-#: apps/sri/services.py:417
-msgid "SRI Error connecting to server"
-msgstr "SRI Error al conectarse al servidor"
+#: apps/sale/domain/enums.py:13
+msgid "cash"
+msgstr "efectivo"
 
-#: apps/sri/services.py:427
-msgid "SRI Error to send voucher"
-msgstr "SRI Erro al enviar el comprobante"
+#: apps/sale/domain/enums.py:15
+msgid "deposit/transfer"
+msgstr "depósito/transferencia"
 
-#: apps/sri/services.py:435 apps/sri/services.py:459
-msgid "SRI Voucher not received"
-msgstr "SRI Comprobante no recibido"
+#: apps/sale/infra/forms.py:40
+#, python-format
+msgid "The code entered does not correspond to a %(code_type)s"
+msgstr "La identificación ingresada no corresponde a %(code_type)s"
 
-#: apps/sri/services.py:444
-msgid "SRI Error to fetch voucher"
+#: apps/sale/infra/models/customers.py:21
+msgid "first name"
+msgstr "nombres"
+
+#: apps/sale/infra/models/customers.py:24
+msgid "last name"
+msgstr "apellidos"
+
+#: apps/sale/infra/models/customers.py:33
+msgid "code type"
+msgstr "tipo de identificación"
+
+#: apps/sale/infra/models/invoices.py:10
+msgid "authorization date"
+msgstr "fecha de autorización"
+
+#: apps/sale/infra/models/invoices.py:13
+msgid "voucher type code"
+msgstr "código de tipo de comprobante"
+
+#: apps/sale/infra/models/invoices.py:16
+msgid "access code"
+msgstr "clave de acceso"
+
+#: apps/sale/infra/models/invoices.py:24
+msgid "sequence"
+msgstr ""
+
+#: apps/sale/infra/models/invoices.py:34
+msgid "status"
+msgstr "estado"
+
+#: apps/sale/infra/models/invoices.py:39
+msgid "customer"
+msgstr "cliente"
+
+#: apps/sale/infra/models/invoices.py:44
+msgid "invoice"
+msgstr "factura"
+
+#: apps/sale/infra/models/invoices.py:47
+#, python-brace-format
+msgid "invoice # {0}"
+msgstr "factura # {0}"
+
+#: apps/sale/infra/models/vouchers.py:8
+msgid "current"
+msgstr "actual"
+
+#: apps/sale/infra/models/vouchers.py:9
+msgid "ends"
+msgstr "termina"
+
+#: apps/sale/infra/models/vouchers.py:12
+msgid "voucher"
+msgstr "comprobante"
+
+#: apps/sale/infra/repositories.py:90
+msgid "sales"
+msgstr "ventas"
+
+#: apps/sale/infra/repositories.py:99
+msgid "customers"
+msgstr "clientes"
+
+#: apps/sale/infra/repositories.py:105
+msgid "invoices"
+msgstr "facturas"
+
+#: apps/sale/packs.py:45
+msgid "number"
+msgstr "número"
+
+#: apps/sri/infra/adapters.py:27
+msgid "SRI ERROR on send voucher"
+msgstr "SRI ERROR al enviar el comprobante"
+
+#: apps/sri/infra/adapters.py:35
+msgid "SRI ERROR voucher rejected"
+msgstr "SRI ERROR Comprobante rechazado"
+
+#: apps/sri/infra/adapters.py:47
+msgid "SRI ERROR on fetch voucher"
 msgstr "SRI Error al obtener el comprobante"
 
-#: apps/sri/services.py:451
-msgid "Invalid code"
-msgstr "Clave de acceso incorrecta"
+#: apps/sri/infra/adapters.py:51
+msgid "SRI ERROR no vouchers found for code"
+msgstr "SRI ERROR no se encontraron comprobantes para el código"
+
+#: apps/sri/infra/adapters.py:61
+msgid "SRI ERROR on validation"
+msgstr "SRI ERROR en valicación"
 
 #: templates/accounts/base.html:55
 msgid "Welcome"
@@ -542,25 +545,25 @@ msgid "Purchase detail"
 msgstr "Detalle de compra"
 
 #: templates/inventories/purchase_detail.html:21
-#: templates/sales/invoice_detail.html:21
+#: templates/sale/invoice_detail.html:21
 msgid "Product"
 msgstr "Producto"
 
 #: templates/inventories/purchase_detail.html:22
-#: templates/sales/invoice_detail.html:22
+#: templates/sale/invoice_detail.html:22
 msgid "Quantity"
 msgstr "Cantidad"
 
 #: templates/inventories/purchase_detail.html:23
-#: templates/sales/invoice_detail.html:23
+#: templates/sale/invoice_detail.html:23
 msgid "Unit price"
 msgstr "Precio unitario"
 
 #: templates/inventories/purchase_detail.html:24
 #: templates/inventories/purchase_detail.html:85
 #: templates/inventories/purchase_form.html:23
-#: templates/sales/invoice_detail.html:24
-#: templates/sales/invoice_detail.html:64 templates/sales/invoice_form.html:27
+#: templates/sale/invoice_detail.html:24 templates/sale/invoice_detail.html:64
+#: templates/sale/invoice_form.html:27
 msgid "Subtotal"
 msgstr "Subtotal"
 
@@ -582,45 +585,45 @@ msgid "Last modification"
 msgstr "identificación"
 
 #: templates/inventories/purchase_detail.html:89
-#: templates/sales/invoice_detail.html:68 templates/sales/invoice_form.html:31
+#: templates/sale/invoice_detail.html:68 templates/sale/invoice_form.html:31
 msgid "Discount"
 msgstr "Descuento"
 
 #: templates/inventories/purchase_detail.html:93
 #: templates/inventories/purchase_form.html:27
-#: templates/sales/invoice_detail.html:72 templates/sales/invoice_form.html:35
+#: templates/sale/invoice_detail.html:72 templates/sale/invoice_form.html:35
 msgid "Tax"
 msgstr "Iva"
 
 #: templates/inventories/purchase_detail.html:97
 #: templates/inventories/purchase_form.html:31
-#: templates/sales/invoice_detail.html:76 templates/sales/invoice_form.html:39
+#: templates/sale/invoice_detail.html:76 templates/sale/invoice_form.html:39
 msgid "Tax amount"
 msgstr "Monto Iva"
 
 #: templates/inventories/purchase_detail.html:104
 #: templates/inventories/purchase_form.html:38
-#: templates/sales/invoice_detail.html:83 templates/sales/invoice_form.html:46
+#: templates/sale/invoice_detail.html:83 templates/sale/invoice_form.html:46
 msgid "Total to pay"
 msgstr "Total a pagar"
 
 #: templates/inventories/purchase_detail.html:113
-#: templates/sales/invoice_detail.html:113
+#: templates/sale/invoice_detail.html:113
 msgid "Print"
 msgstr "Imprimir"
 
-#: templates/sales/invoice_detail.html:17 templates/sales/invoice_form.html:9
+#: templates/sale/invoice_detail.html:17 templates/sale/invoice_form.html:9
 msgid "Invoice detail"
 msgstr "Detalle de factura"
 
-#: templates/sales/invoice_detail.html:44 templates/sales/invoice_form.html:20
+#: templates/sale/invoice_detail.html:44 templates/sale/invoice_form.html:20
 msgid "Payment methods"
 msgstr "Métodos de pago"
 
-#: templates/sales/invoice_detail.html:48
+#: templates/sale/invoice_detail.html:48
 msgid "Type"
 msgstr "Tipo"
 
-#: templates/sales/invoice_detail.html:49
+#: templates/sale/invoice_detail.html:49
 msgid "Amount"
 msgstr "Monto"

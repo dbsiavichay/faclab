@@ -97,7 +97,7 @@ class SiteForm(ModelForm):
     company_branch_address = forms.CharField(label=_("company branch address"))
     company_branch_code = forms.CharField(max_length=4, label=_("company branch code"))
     company_sale_point_code = forms.CharField(
-        max_length=4, label=_("company point sale code")
+        max_length=4, label=_("company sale point code")
     )
     special_taxpayer_resolution = forms.CharField(
         max_length=32, required=False, label=_("special taxpayer resolution")

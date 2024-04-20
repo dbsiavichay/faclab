@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
                 (
                     "company_sale_point_code",
                     models.CharField(
-                        max_length=3, verbose_name="company point sale code"
+                        max_length=3, verbose_name="company sale point code"
                     ),
                 ),
                 ("sequence", models.CharField(max_length=9, verbose_name="sequence")),

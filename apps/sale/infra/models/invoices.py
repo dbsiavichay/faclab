@@ -19,7 +19,7 @@ class Invoice(models.Model):
         max_length=3, verbose_name=_("company branch code")
     )
     company_sale_point_code = models.CharField(
-        max_length=3, verbose_name=_("company point sale code")
+        max_length=3, verbose_name=_("company sale point code")
     )
     sequence = models.CharField(max_length=9, verbose_name=_("sequence"))
     subtotal = models.FloatField(default=0, verbose_name=_("subtotal"))
