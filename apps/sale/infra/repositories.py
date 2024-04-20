@@ -18,7 +18,8 @@ from apps.sale.domain.repositories import (
     InvoiceRepository,
     VoucherTypeRepository,
 )
-from apps.sale.models import Invoice, InvoiceLine, VoucherType
+
+from .models import Invoice, InvoiceLine, VoucherType
 
 
 class VoucherTypeRepositoryImpl(VoucherTypeRepository):

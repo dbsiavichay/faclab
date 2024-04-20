@@ -11,7 +11,8 @@ from apps.core.domain.repositories import (
     SignatureRepository,
     SiteRepository,
 )
-from apps.core.models import Signature, Site
+
+from .models import Signature, Site
 
 SRI_CONFIG_CACHE_KEY = "sri_config"
 

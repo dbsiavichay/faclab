@@ -11,9 +11,10 @@ from apps.sale.application.services import InvoiceService
 from apps.sale.application.validators import customer_code_validator
 from apps.sale.domain.entities import CustomerEntity, InvoiceEntity, InvoiceLineEntity
 from apps.sale.infra.tasks import send_invoice_task
-from apps.sale.models import Customer, Invoice, InvoiceLine, InvoicePayment
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
+
+from .models import Customer, Invoice, InvoiceLine, InvoicePayment
 
 
 class CustomerForm(ModelForm):
