@@ -1,9 +1,10 @@
 from django import forms
 
-from .enums import PriceTypes
+from apps.inventory.enums import PriceTypes
+from apps.inventory.services import PurchaseService
+
 from .forms import ProductPriceForm, PurchaseLineForm
 from .models import Product, ProductPrice, Purchase, PurchaseLine
-from .services import PurchaseService
 
 
 class ProductPriceInlineFormset(forms.BaseInlineFormSet):

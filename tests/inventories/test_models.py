@@ -2,7 +2,7 @@ import pytest
 from django.conf import settings
 from django.forms.models import model_to_dict
 
-from apps.inventory.models import Measure, Product, ProductCategory, Provider
+from apps.inventory.infra.models import Measure, Product, ProductCategory, Provider
 
 
 class TestProductCategory:

@@ -4,8 +4,8 @@ from faclab.base import BasePack
 from viewpack.decorators import register
 from viewpack.enums import PackViews
 
-from .forms import ProductCategoryForm, ProductForm, ProviderForm, PurchaseForm
-from .formsets import ProductPriceFormset, PurchaseLineFormset
+from .infra.forms import ProductCategoryForm, ProductForm, ProviderForm, PurchaseForm
+from .infra.formsets import ProductPriceFormset, PurchaseLineFormset
 
 
 @register("inventory.Provider")

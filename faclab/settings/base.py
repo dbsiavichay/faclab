@@ -95,6 +95,7 @@ DATABASES = {"default": env.db()}
 MIGRATION_MODULES = {
     "account": "apps.account.infra.migrations",
     "core": "apps.core.infra.migrations",
+    "inventory": "apps.inventory.infra.migrations",
     "sale": "apps.sale.infra.migrations",
 }
 

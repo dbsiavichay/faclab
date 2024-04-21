@@ -1,8 +1,8 @@
 import pytest
 from django.forms.models import model_to_dict
 
-from apps.inventory.forms import ProductForm, ProviderForm
-from apps.inventory.models import Product, Provider
+from apps.inventory.infra.forms import ProductForm, ProviderForm
+from apps.inventory.infra.models import Product, Provider
 
 IVA_RATE = 1.12
 

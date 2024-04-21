@@ -1,10 +1,12 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
+from apps.inventory.enums import PriceTypes
+from apps.inventory.querysets import ProductQueryset
+from apps.inventory.services import PurchaseService
 from faclab.widgets import DisabledNumberInput, PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
-from .enums import PriceTypes
 from .models import (
     Product,
     ProductCategory,
@@ -13,8 +15,6 @@ from .models import (
     Purchase,
     PurchaseLine,
 )
-from .querysets import ProductQueryset
-from .services import PurchaseService
 
 
 class ProviderForm(ModelForm):
