@@ -70,6 +70,9 @@ class GenerateVoucherAccessCodeUseCase:
 
 
 class GenerateVoucherXmlUseCase:
+    def __init__(self, time_zone: str) -> None:
+        self.timezone = pytz.timezone(time_zone)
+
     def get_invoice_data(
         self,
         customer: CustomerEntity,
@@ -78,6 +81,8 @@ class GenerateVoucherXmlUseCase:
         details: List[InvoiceDetailInfo],
         payments: List[PaymentInfo],
     ) -> Dict[str, Any]:
+        invoice_info.voucher_date = invoice_info.voucher_date.astimezone(self.timezone)
+
         data = {
             "factura": {
                 "@id": "comprobante",

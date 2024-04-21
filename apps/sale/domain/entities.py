@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
-from .enums import VoucherStatusEnum
+from .enums import PaymentTypeEnum, VoucherStatusEnum
 
 
 class CustomerEntity(BaseModel):
@@ -36,6 +36,12 @@ class InvoiceLineEntity(BaseModel):
     invoice_id: int
 
 
+class InvoicePaymentEntity(BaseModel):
+    type: PaymentTypeEnum
+    amount: float
+    invoice_id: int
+
+
 class InvoiceEntity(BaseModel):
     id: Optional[int] = Field(gt=0)
     date: Optional[datetime]
@@ -55,6 +61,7 @@ class InvoiceEntity(BaseModel):
     customer_id: int = None
     customer: CustomerEntity = None
     lines: List[InvoiceLineEntity] = []
+    payments: List[InvoicePaymentEntity] = []
 
     @field_validator("total", mode="before")
     @classmethod

@@ -47,12 +47,6 @@ class InvoiceLineRepositoryImpl(InvoiceLineRepository):
         )
         return subtotal
 
-    def find_by_invoice(self, invoice_id: int) -> List[InvoiceLineEntity]:
-        lines = InvoiceLine.objects.filter(invoice_id=invoice_id)
-        invoice_lines = [InvoiceLineEntity(**line.__dict__) for line in lines]
-
-        return invoice_lines
-
     def save(
         self, invoiceline_entity: InvoiceLineEntity, update_fields: List[str] = None
     ) -> None:
@@ -79,10 +73,40 @@ class InvoiceRepositoryImpl(InvoiceRepository):
 
         return None
 
+    def find_by_id_with_related(self, id: int) -> Optional[InvoiceEntity]:
+        invoice = (
+            Invoice.objects.prefetch_related("customer__code_type", "lines", "payments")
+            .filter(id=id)
+            .first()
+        )
+
+        if not invoice:
+            return None
+
+        customer = {
+            "code_type_code": invoice.customer.code_type.code,
+            **invoice.customer.__dict__,
+        }
+
+        invoice_lines = [line.__dict__ for line in invoice.lines.all()]
+        invoice_payments = [payment.__dict__ for payment in invoice.payments.all()]
+
+        invoice_entity = InvoiceEntity(
+            customer=customer,
+            lines=invoice_lines,
+            payments=invoice_payments,
+            **invoice.__dict__,
+        )
+
+        if invoice.file:
+            invoice_entity.xml_bytes = invoice.file.read()
+
+        return invoice_entity
+
     def save(
         self, invoice_entity: InvoiceEntity, update_fields: List[str] = None
     ) -> None:
-        exclude_fields = ["customer", "lines", "xml_str", "xml_bytes"]
+        exclude_fields = ["customer", "lines", "payments", "xml_str", "xml_bytes"]
         invoice = Invoice(
             **invoice_entity.model_dump(exclude=exclude_fields),
         )

@@ -10,7 +10,7 @@ from . import settings
 class ApplicationContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
     core_package = providers.Container(CoreContainer)
-    sri_package = providers.Container(SRIContainer, config=config.SRI_SERVICES)
+    sri_package = providers.Container(SRIContainer, config=config.SRI_PACKAGE)
     sale_package = providers.Container(
         SaleContainer, sri_voucher_service=sri_package.sri_voucher_service
     )

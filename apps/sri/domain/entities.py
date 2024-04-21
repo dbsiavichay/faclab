@@ -129,7 +129,9 @@ class InvoiceDetailInfo(BaseModel):
 
 class PaymentInfo(BaseModel):
     type: str = Field(serialization_alias="formaPago")
-    value: float = Field(serialization_alias="total")
+    value: float = Field(
+        validation_alias=AliasChoices("value", "amount"), serialization_alias="total"
+    )
     deadline: int = Field(default=0, serialization_alias="plazo")
     time_unit: str = Field(default="dias", serialization_alias="unidadTiempo")
 

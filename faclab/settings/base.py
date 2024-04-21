@@ -178,7 +178,8 @@ CELERY_BROKER_URL = env("CELERY_REDIS_URL")
 KEYTOOL_COMMAND = env("KEYTOOL_COMMAND")
 SRI_GET_TAXPAYERS_WS = env("SRI_GET_TAXPAYERS_WS")
 
-SRI_SERVICES = {
+SRI_PACKAGE = {
     "VOUCHER_WS": "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl",  # NOQA : E501
     "AUTHORIZATION_WS": "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl",  # NOQA : E501
+    "TIME_ZONE": TIME_ZONE,
 }

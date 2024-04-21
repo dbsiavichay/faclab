@@ -142,7 +142,9 @@ class InvoiceService:
             for line in invoice_entity.lines
         ]
 
-        payments = [PaymentInfo(type="01", value=invoice_entity.total)]
+        payments = [
+            PaymentInfo(**payment.model_dump()) for payment in invoice_entity.payments
+        ]
 
         xml = self.sri_voucher_service.generate_voucher_xml(
             invoice_entity.customer, tax_info, invoice_info, details_invoice, payments
@@ -197,3 +199,6 @@ class InvoiceService:
             self.invoice_repository.save(
                 invoice_entity, update_fields=["authorization_date", "status"]
             )
+
+    def build_invoice_entity(self, invoice_id: int) -> InvoiceEntity:
+        return self.invoice_repository.find_by_id_with_related(invoice_id)
