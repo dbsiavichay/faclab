@@ -11,7 +11,7 @@ class Purchase(models.Model):
         default=0, max_digits=10, decimal_places=2, verbose_name=_("total")
     )
     provider = models.ForeignKey(
-        "inventories.Provider", on_delete=models.PROTECT, verbose_name=_("provider")
+        "inventory.Provider", on_delete=models.PROTECT, verbose_name=_("provider")
     )
 
     class Meta:
@@ -28,8 +28,8 @@ class PurchaseLine(models.Model):
     tax = models.FloatField(default=0, verbose_name=_("tax"))
     total = models.FloatField(verbose_name=_("total"))
     product = models.ForeignKey(
-        "inventories.Product", on_delete=models.PROTECT, verbose_name=_("product")
+        "inventory.Product", on_delete=models.PROTECT, verbose_name=_("product")
     )
     invoice = models.ForeignKey(
-        "inventories.Purchase", on_delete=models.CASCADE, related_name="lines"
+        "inventory.Purchase", on_delete=models.CASCADE, related_name="lines"
     )

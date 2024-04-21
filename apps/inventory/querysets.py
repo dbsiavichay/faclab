@@ -1,7 +1,7 @@
 from django.db.models import OuterRef, Subquery
 
-from apps.inventories.enums import PriceTypes
-from apps.inventories.models import Product, ProductPrice
+from apps.inventory.enums import PriceTypes
+from apps.inventory.models import Product, ProductPrice
 
 
 class ProductQueryset:

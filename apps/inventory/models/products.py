@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from tree_queries.models import TreeNode
 
-from apps.inventories.enums import PriceTypes, ProductTypes
+from apps.inventory.enums import PriceTypes, ProductTypes
 
 
 class ProductCategory(TreeNode):
@@ -51,21 +51,21 @@ class Product(models.Model):
         verbose_name=_("type"),
     )
     category = models.ForeignKey(
-        "inventories.ProductCategory",
+        "inventory.ProductCategory",
         blank=True,
         null=True,
         on_delete=models.PROTECT,
         verbose_name=_("category"),
     )
     measure = models.ForeignKey(
-        "inventories.Measure",
+        "inventory.Measure",
         blank=True,
         null=True,
         on_delete=models.PROTECT,
         verbose_name=_("unit of measure"),
     )
     provider = models.ForeignKey(
-        "inventories.Provider",
+        "inventory.Provider",
         blank=True,
         null=True,
         on_delete=models.PROTECT,
@@ -91,7 +91,7 @@ class ProductPrice(models.Model):
     amount = models.FloatField(verbose_name=_("amount"))
     revenue = models.FloatField(verbose_name=_("revenue"))
     product = models.ForeignKey(
-        "inventories.Product", on_delete=models.CASCADE, related_name="prices"
+        "inventory.Product", on_delete=models.CASCADE, related_name="prices"
     )
 
     @cached_property

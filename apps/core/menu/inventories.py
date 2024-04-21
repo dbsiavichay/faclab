@@ -5,36 +5,36 @@ from simple_menu import MenuItem
 submenu_items = [
     MenuItem(
         _("providers").capitalize(),
-        reverse("packs:inventories_provider_list"),
+        reverse("packs:inventory_provider_list"),
         weight=10,
         icon="bx-right-arrow-alt",
     ),
     MenuItem(
         _("categories").capitalize(),
-        reverse("packs:inventories_productcategory_list"),
+        reverse("packs:inventory_productcategory_list"),
         weight=11,
         icon="bx-right-arrow-alt",
     ),
     MenuItem(
         _("measures").capitalize(),
-        reverse("packs:inventories_measure_list"),
+        reverse("packs:inventory_measure_list"),
         weight=12,
         icon="bx-right-arrow-alt",
     ),
     MenuItem(
         _("products").capitalize(),
-        reverse("packs:inventories_product_list"),
+        reverse("packs:inventory_product_list"),
         weight=13,
         icon="bx-right-arrow-alt",
     ),
     MenuItem(
         _("purchases").capitalize(),
-        reverse("packs:inventories_purchase_list"),
+        reverse("packs:inventory_purchase_list"),
         weight=14,
         icon="bx-right-arrow-alt",
     ),
 ]
 
-inventories_item = MenuItem(
-    _("inventories").capitalize(), "#", icon="bxs-store", children=submenu_items
+inventory_item = MenuItem(
+    _("inventory").capitalize(), "#", icon="bxs-store", children=submenu_items
 )

@@ -126,25 +126,22 @@ class PurchaseForm(ModelForm):
     products = forms.ModelMultipleChoiceField(
         queryset=Product.objects.all(),
         widget=Select2(
-            model="inventories.Product",
+            model="inventory.Product",
             search_fields=[
                 "code__icontains",
                 "name__icontains",
             ],
         ),
-        label=_("product search")
+        label=_("product search"),
     )
 
     class Meta:
         model = Purchase
-        fieldsets = (
-            "provider",
-            ("date", "invoice_number")
-        )
+        fieldsets = ("provider", ("date", "invoice_number"))
         fields = ("products",)
         widgets = {
             "provider": Select2(
-                model="inventories.Provider",
+                model="inventory.Provider",
                 search_fields=[
                     "code__icontains",
                     "bussiness_name__icontains",

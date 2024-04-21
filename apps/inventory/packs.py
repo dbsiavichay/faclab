@@ -8,27 +8,27 @@ from .forms import ProductCategoryForm, ProductForm, ProviderForm, PurchaseForm
 from .formsets import ProductPriceFormset, PurchaseLineFormset
 
 
-@register("inventories.Provider")
+@register("inventory.Provider")
 class ProviderPack(BasePack):
     form_class = ProviderForm
     list_fields = ("code", "bussiness_name", "contact_name")
     detail_fields = ProviderForm.Meta.fieldsets
 
 
-@register("inventories.ProductCategory")
+@register("inventory.ProductCategory")
 class ProductCategoryPack(BasePack):
     form_class = ProductCategoryForm
     list_fields = ("name", "parent")
     detail_fields = ("name", "parent")
 
 
-@register("inventories.Measure")
+@register("inventory.Measure")
 class MeasurePack(BasePack):
     list_fields = ("code", "name")
     detail_fields = ("code", "name")
 
 
-@register("inventories.Product")
+@register("inventory.Product")
 class ProductPack(BasePack):
     form_class = ProductForm
     inlines = {"prices": ProductPriceFormset}
@@ -47,7 +47,7 @@ class ProductPack(BasePack):
     }
 
 
-@register("inventories.Purchase")
+@register("inventory.Purchase")
 class PurchasePack(BasePack):
     form_class = PurchaseForm
     allowed_views = (

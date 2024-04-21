@@ -1,6 +1,6 @@
 import pytest
 
-from apps.inventories.models import Product
+from apps.inventory.models import Product
 from apps.sale.infra.models import Customer, CustomerCodeType
 
 

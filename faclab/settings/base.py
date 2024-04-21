@@ -51,7 +51,7 @@ LIBRARY_APPS = [
 LOCAL_APPS = [
     "apps.account",
     "apps.core",
-    "apps.inventories",
+    "apps.inventory",
     "apps.sale",
 ]
 
