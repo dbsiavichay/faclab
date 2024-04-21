@@ -6,14 +6,16 @@ const renderFormset = (prefix, addText = "Nuevo", additionalFunction = () => {})
     deleteCssClass: "btn btn-icon btn-danger rounded-circle delete-row",
     deleteText: "<i class=\"bx bx-x\"></i>",
     added: function ($row) {
+      $row.removeClass("d-none")
+      $row.siblings("#inline-empty").remove()
       additionalFunction($row)
     }
   })
 }
 
-let formsetCallbackAdd = row => {
-    initSelect2(row)
-    initTouchspin(row)
+let formsetCallbackAdd = $row => {
+  initSelect2($row)
+  initTouchspin($row)
 }
 
 

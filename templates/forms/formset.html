@@ -1,4 +1,4 @@
-{% load widget_tweaks %}
+{% load widget_tweaks i18n %}
 
 <div class="table-responsive inline-group" data-label="{{ label }}" data-errors="{{ formset.errors }}" id="{{ formset.prefix }}-group" data-prefix="{{ formset.prefix }}">
   {{ formset.management_form }}
@@ -22,10 +22,14 @@
         </td>
         {% endfor %}
       </tr>
+      {% empty %}
+      <tr id="inline-empty">
+        <td colspan="{{ headers|length|add:'1' }}">{% translate "No records available" %}</td>
+      </tr>
       {% endfor %}
-      <tr id="{{ formset.prefix }}-empty" class="d-none">
+      <tr id="{{ formset.prefix }}-empty" class="inline {{ formset.prefix }} d-none">
         {% for field in formset.empty_form.visible_fields %}
-        <td>
+        <td class="px-1" style="padding: 0.4rem">
           {% include "forms/inputs/"|add:field.widget_type|add:".html" with field=field %}
         </td>
         {% endfor %}
