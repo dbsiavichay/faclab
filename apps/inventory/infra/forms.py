@@ -1,9 +1,11 @@
+from dependency_injector.wiring import Provide, inject
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from apps.inventory.enums import PriceTypes
-from apps.inventory.querysets import ProductQueryset
-from apps.inventory.services import PurchaseService
+from apps.inventory.application.services import PurchaseService
+from apps.inventory.domain.choices import PriceTypes
+from apps.inventory.domain.entities import PurchaseLineEntity
+from apps.inventory.infra.querysets import ProductQueryset
 from faclab.widgets import DisabledNumberInput, PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
@@ -124,6 +126,7 @@ class ProductPriceForm(ModelForm):
 
 class PurchaseForm(ModelForm):
     products = forms.ModelMultipleChoiceField(
+        required=False,
         queryset=Product.objects.all(),
         widget=Select2(
             model="inventory.Product",
@@ -152,6 +155,18 @@ class PurchaseForm(ModelForm):
 
 
 class PurchaseLineForm(ModelForm):
+    @inject
+    def __init__(
+        self,
+        purchase_service: PurchaseService = Provide[
+            "inventory_package.purchase_service"
+        ],
+        *args,
+        **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.purchase_service = purchase_service
+
     subtotal = forms.FloatField(
         widget=DisabledNumberInput, required=False, label=_("subtotal")
     )
@@ -170,7 +185,11 @@ class PurchaseLineForm(ModelForm):
 
     def save(self, commit=True):
         obj = super().save(commit=False)
-        PurchaseService.calculate_line_totals(obj)
+        purchaseline_entity = PurchaseLineEntity(**obj.__dict__)
+        self.purchase_service.update_purchase_line_total(purchaseline_entity)
+        obj.__dict__.update(
+            purchaseline_entity.model_dump(include=["subtotal", "tax", "total"])
+        )
 
         if commit:
             obj.save()

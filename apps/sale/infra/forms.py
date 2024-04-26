@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.domain.repositories import SiteRepository
-from apps.inventory.querysets import ProductQueryset
+from apps.inventory.infra.querysets import ProductQueryset
 from apps.sale.application.services import InvoiceService
 from apps.sale.application.validators import customer_code_validator
 from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity

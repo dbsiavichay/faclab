@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from tree_queries.models import TreeNode
 
-from apps.inventory.enums import PriceTypes, ProductTypes
+from apps.inventory.domain.choices import PriceTypes, ProductTypes
 
 
 class ProductCategory(TreeNode):

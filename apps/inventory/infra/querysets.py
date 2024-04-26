@@ -1,6 +1,6 @@
 from django.db.models import OuterRef, Subquery
 
-from apps.inventory.enums import PriceTypes
+from apps.inventory.domain.choices import PriceTypes
 from apps.inventory.infra.models import Product, ProductPrice
 
 
