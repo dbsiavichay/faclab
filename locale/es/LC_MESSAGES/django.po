@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-21 01:12+0000\n"
+"POT-Creation-Date: 2024-04-30 22:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/core/application/main_menu.py:21
+#: apps/core/application/main_menu.py:23
 msgid "modules"
 msgstr "módulos"
 
@@ -154,40 +154,42 @@ msgstr "firmas electrónicas"
 msgid "sri"
 msgstr ""
 
-#: apps/inventory/enums.py:6 apps/inventory/infra/models/purchases.py:31
+#: apps/inventory/domain/choices.py:6
+#: apps/inventory/infra/models/purchases.py:31
 #: apps/sale/infra/models/invoices.py:63
 msgid "product"
 msgstr "producto"
 
-#: apps/inventory/enums.py:7
+#: apps/inventory/domain/choices.py:7
 msgid "service"
 msgstr "servicio"
 
-#: apps/inventory/enums.py:11 apps/inventory/infra/models/purchases.py:18
+#: apps/inventory/domain/choices.py:11
+#: apps/inventory/infra/models/purchases.py:18
 msgid "purchase"
 msgstr "compra"
 
-#: apps/inventory/enums.py:12
+#: apps/inventory/domain/choices.py:12
 msgid "sale"
 msgstr "venta"
 
-#: apps/inventory/infra/forms.py:44 apps/inventory/infra/forms.py:106
+#: apps/inventory/infra/forms.py:46 apps/inventory/infra/forms.py:108
 msgid "price net"
 msgstr "precio sin IVA"
 
-#: apps/inventory/infra/forms.py:45 apps/inventory/infra/forms.py:98
+#: apps/inventory/infra/forms.py:47 apps/inventory/infra/forms.py:100
 msgid "price gross"
 msgstr "precio con IVA"
 
-#: apps/inventory/infra/forms.py:100
+#: apps/inventory/infra/forms.py:102
 msgid "percent revenue"
 msgstr "porcentaje de utilidad"
 
-#: apps/inventory/infra/forms.py:135
+#: apps/inventory/infra/forms.py:138
 msgid "product search"
 msgstr "búsqueda de productos"
 
-#: apps/inventory/infra/forms.py:156 apps/inventory/infra/models/purchases.py:8
+#: apps/inventory/infra/forms.py:171 apps/inventory/infra/models/purchases.py:8
 #: apps/inventory/infra/models/purchases.py:27 apps/sale/infra/forms.py:95
 #: apps/sale/infra/models/invoices.py:25 apps/sale/infra/models/invoices.py:59
 msgid "subtotal"
@@ -306,7 +308,7 @@ msgid "website"
 msgstr "sitio web"
 
 #: apps/inventory/infra/models/providers.py:26
-#: apps/inventory/infra/repositories.py:21
+#: apps/inventory/infra/repositories.py:50
 msgid "providers"
 msgstr "proveedores"
 
@@ -345,23 +347,23 @@ msgstr "cantidad"
 msgid "unit price"
 msgstr "precio unitario"
 
-#: apps/inventory/infra/repositories.py:15
+#: apps/inventory/infra/repositories.py:44
 msgid "inventory"
 msgstr "inventario"
 
-#: apps/inventory/infra/repositories.py:27
+#: apps/inventory/infra/repositories.py:56
 msgid "categories"
 msgstr "categorias"
 
-#: apps/inventory/infra/repositories.py:33
+#: apps/inventory/infra/repositories.py:62
 msgid "measures"
 msgstr "medidas"
 
-#: apps/inventory/infra/repositories.py:39
+#: apps/inventory/infra/repositories.py:68
 msgid "products"
 msgstr "productos"
 
-#: apps/inventory/infra/repositories.py:45
+#: apps/inventory/infra/repositories.py:74
 msgid "purchases"
 msgstr "compras"
 

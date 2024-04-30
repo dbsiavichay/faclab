@@ -10,6 +10,6 @@ class VoucherStatus(TextChoices):
 
 
 class PaymentType(TextChoices):
-    CASH = "01", _("cash")
-    CREDIT_CARD = "19", _("credit card")
-    BANK = "20", _("deposit/transfer")
+    CASH = "01", _("cash").upper()
+    CREDIT_CARD = "19", _("credit card").upper()
+    BANK = "20", _("deposit/transfer").upper()

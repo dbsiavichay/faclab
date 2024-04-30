@@ -7,12 +7,8 @@ from viewpack.decorators import register
 from viewpack.enums import PackViews
 
 from .application.services import InvoiceService
-from .infra.forms import (
-    CustomerForm,
-    InvoiceForm,
-    InvoiceLineFormset,
-    InvoicePaymentFormset,
-)
+from .infra.forms import CustomerForm, InvoiceForm
+from .infra.formsets import InvoiceLineFormset, InvoicePaymentFormset
 
 
 @register("sale.VoucherType")

@@ -11,7 +11,7 @@ from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
-from .models import Customer, Invoice, InvoiceLine, InvoicePayment
+from .models import Customer, Invoice, InvoiceLine
 
 
 class CustomerForm(ModelForm):
@@ -130,44 +130,3 @@ class InvoiceLineForm(ModelForm):
             obj.save()
 
         return obj
-
-
-class InvoiceLineInlineFormset(forms.BaseInlineFormSet):
-    @inject
-    def __init__(
-        self,
-        invoice_service: InvoiceService = Provide["sale_package.invoice_service"],
-        *args,
-        **kwargs
-    ) -> None:
-        self.invoice_service = invoice_service
-        super().__init__(*args, **kwargs)
-
-    def save(self, commit=True):
-        object_list = super().save(commit=commit)
-        invoice_entity = InvoiceEntity(**self.instance.__dict__)
-        self.invoice_service.update_invoice_access_code(invoice_entity)
-        self.invoice_service.update_invoice_total(invoice_entity)
-        update_fields = ["access_code", "subtotal", "tax", "total"]
-        self.instance.__dict__.update(invoice_entity.model_dump(include=update_fields))
-        self.instance.save(update_fields=update_fields)
-
-        return object_list
-
-
-InvoiceLineFormset = forms.inlineformset_factory(
-    Invoice,
-    InvoiceLine,
-    form=InvoiceLineForm,
-    formset=InvoiceLineInlineFormset,
-    extra=1,
-    min_num=1,
-    validate_min=True,
-)
-
-InvoicePaymentFormset = forms.inlineformset_factory(
-    Invoice,
-    InvoicePayment,
-    fields=("type", "amount"),
-    extra=1,
-)
