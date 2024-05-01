@@ -31,5 +31,5 @@ class PurchaseLine(models.Model):
         "inventory.Product", on_delete=models.PROTECT, verbose_name=_("product")
     )
     invoice = models.ForeignKey(
-        "inventory.Purchase", on_delete=models.CASCADE, related_name="lines"
+        "purchase.Purchase", on_delete=models.CASCADE, related_name="lines"
     )

@@ -1,15 +1,12 @@
 from dependency_injector.wiring import Provide, inject
 
 from apps.core.domain.repositories import SiteRepository
-from apps.inventory.application.usecases import (
+from apps.purchase.application.usecases import (
     CalculatePurchaseLineTotalUseCase,
     CalculatePurchaseTotalUseCase,
 )
-from apps.inventory.domain.entities import PurchaseLineEntity
-from apps.inventory.domain.repositories import (
-    PurchaseLineRepository,
-    PurchaseRepository,
-)
+from apps.purchase.domain.entities import PurchaseLineEntity
+from apps.purchase.domain.repositories import PurchaseLineRepository, PurchaseRepository
 
 
 class PurchaseService:

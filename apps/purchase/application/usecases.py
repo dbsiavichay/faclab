@@ -1,6 +1,6 @@
 from apps.core.domain.entities import SRIConfig
-from apps.inventory.domain.entities import PurchaseEntity, PurchaseLineEntity
-from apps.inventory.domain.repositories import PurchaseRepository
+from apps.purchase.domain.entities import PurchaseEntity, PurchaseLineEntity
+from apps.purchase.domain.repositories import PurchaseRepository
 
 
 class CalculatePurchaseLineTotalUseCase:

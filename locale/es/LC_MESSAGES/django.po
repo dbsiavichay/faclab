@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-30 22:05+0000\n"
+"POT-Creation-Date: 2024-05-01 17:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/core/application/main_menu.py:23
+#: apps/core/application/main_menu.py:27
 msgid "modules"
 msgstr "módulos"
 
@@ -154,8 +154,7 @@ msgstr "firmas electrónicas"
 msgid "sri"
 msgstr ""
 
-#: apps/inventory/domain/choices.py:6
-#: apps/inventory/infra/models/purchases.py:31
+#: apps/inventory/domain/choices.py:6 apps/purchase/infra/models.py:31
 #: apps/sale/infra/models/invoices.py:63
 msgid "product"
 msgstr "producto"
@@ -164,8 +163,7 @@ msgstr "producto"
 msgid "service"
 msgstr "servicio"
 
-#: apps/inventory/domain/choices.py:11
-#: apps/inventory/infra/models/purchases.py:18
+#: apps/inventory/domain/choices.py:11 apps/purchase/infra/models.py:18
 msgid "purchase"
 msgstr "compra"
 
@@ -173,27 +171,17 @@ msgstr "compra"
 msgid "sale"
 msgstr "venta"
 
-#: apps/inventory/infra/forms.py:46 apps/inventory/infra/forms.py:108
+#: apps/inventory/infra/forms.py:35 apps/inventory/infra/forms.py:97
 msgid "price net"
 msgstr "precio sin IVA"
 
-#: apps/inventory/infra/forms.py:47 apps/inventory/infra/forms.py:100
+#: apps/inventory/infra/forms.py:36 apps/inventory/infra/forms.py:89
 msgid "price gross"
 msgstr "precio con IVA"
 
-#: apps/inventory/infra/forms.py:102
+#: apps/inventory/infra/forms.py:91
 msgid "percent revenue"
 msgstr "porcentaje de utilidad"
-
-#: apps/inventory/infra/forms.py:138
-msgid "product search"
-msgstr "búsqueda de productos"
-
-#: apps/inventory/infra/forms.py:171 apps/inventory/infra/models/purchases.py:8
-#: apps/inventory/infra/models/purchases.py:27 apps/sale/infra/forms.py:95
-#: apps/sale/infra/models/invoices.py:25 apps/sale/infra/models/invoices.py:59
-msgid "subtotal"
-msgstr "subtotal"
 
 #: apps/inventory/infra/models/products.py:11
 #: apps/inventory/infra/models/products.py:24
@@ -260,8 +248,7 @@ msgid "unit of measure"
 msgstr "unidad de medida"
 
 #: apps/inventory/infra/models/products.py:72
-#: apps/inventory/infra/models/providers.py:25
-#: apps/inventory/infra/models/purchases.py:14
+#: apps/inventory/infra/models/providers.py:25 apps/purchase/infra/models.py:14
 msgid "provider"
 msgstr "proveedor"
 
@@ -308,68 +295,78 @@ msgid "website"
 msgstr "sitio web"
 
 #: apps/inventory/infra/models/providers.py:26
-#: apps/inventory/infra/repositories.py:50
+#: apps/inventory/infra/repositories.py:21
 msgid "providers"
 msgstr "proveedores"
 
-#: apps/inventory/infra/models/purchases.py:6
+#: apps/inventory/infra/repositories.py:15
+msgid "inventory"
+msgstr "inventario"
+
+#: apps/inventory/infra/repositories.py:27
+msgid "categories"
+msgstr "categorias"
+
+#: apps/inventory/infra/repositories.py:33
+msgid "measures"
+msgstr "medidas"
+
+#: apps/inventory/infra/repositories.py:39
+msgid "products"
+msgstr "productos"
+
+#: apps/inventory/packs.py:39
+msgid "additional information"
+msgstr "información adicional"
+
+#: apps/purchase/infra/forms.py:26
+msgid "product search"
+msgstr "búsqueda de productos"
+
+#: apps/purchase/infra/forms.py:59 apps/purchase/infra/models.py:8
+#: apps/purchase/infra/models.py:27 apps/sale/infra/forms.py:95
+#: apps/sale/infra/models/invoices.py:25 apps/sale/infra/models/invoices.py:59
+msgid "subtotal"
+msgstr "subtotal"
+
+#: apps/purchase/infra/models.py:6
 msgid "date"
 msgstr "fecha"
 
-#: apps/inventory/infra/models/purchases.py:7
+#: apps/purchase/infra/models.py:7
 msgid "invoice number"
 msgstr "número de factura"
 
-#: apps/inventory/infra/models/purchases.py:9
-#: apps/inventory/infra/models/purchases.py:28
+#: apps/purchase/infra/models.py:9 apps/purchase/infra/models.py:28
 #: apps/sale/infra/models/invoices.py:26 apps/sale/infra/models/invoices.py:60
 msgid "tax"
 msgstr "iva"
 
-#: apps/inventory/infra/models/purchases.py:11
-#: apps/inventory/infra/models/purchases.py:29
+#: apps/purchase/infra/models.py:11 apps/purchase/infra/models.py:29
 #: apps/sale/infra/models/invoices.py:28 apps/sale/infra/models/invoices.py:61
 msgid "total"
 msgstr "total"
 
-#: apps/inventory/infra/models/purchases.py:21
+#: apps/purchase/infra/models.py:21
 #, python-brace-format
 msgid "purchase # {0}"
 msgstr "compra # {0}"
 
-#: apps/inventory/infra/models/purchases.py:25
-#: apps/sale/infra/models/invoices.py:57
+#: apps/purchase/infra/models.py:25 apps/sale/infra/models/invoices.py:57
 msgid "quantity"
 msgstr "cantidad"
 
-#: apps/inventory/infra/models/purchases.py:26
-#: apps/sale/infra/models/invoices.py:58
+#: apps/purchase/infra/models.py:26 apps/sale/infra/models/invoices.py:58
 msgid "unit price"
 msgstr "precio unitario"
 
-#: apps/inventory/infra/repositories.py:44
-msgid "inventory"
-msgstr "inventario"
-
-#: apps/inventory/infra/repositories.py:56
-msgid "categories"
-msgstr "categorias"
-
-#: apps/inventory/infra/repositories.py:62
-msgid "measures"
-msgstr "medidas"
-
-#: apps/inventory/infra/repositories.py:68
-msgid "products"
-msgstr "productos"
-
-#: apps/inventory/infra/repositories.py:74
+#: apps/purchase/infra/repositories.py:41
 msgid "purchases"
 msgstr "compras"
 
-#: apps/inventory/packs.py:40
-msgid "additional information"
-msgstr "información adicional"
+#: apps/purchase/infra/repositories.py:47 apps/sale/infra/repositories.py:136
+msgid "invoices"
+msgstr "facturas"
 
 #: apps/sale/application/validators.py:6
 #, python-format
@@ -474,11 +471,7 @@ msgstr "ventas"
 msgid "customers"
 msgstr "clientes"
 
-#: apps/sale/infra/repositories.py:136
-msgid "invoices"
-msgstr "facturas"
-
-#: apps/sale/packs.py:48
+#: apps/sale/packs.py:44
 msgid "number"
 msgstr "número"
 

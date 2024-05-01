@@ -11,10 +11,14 @@ def build_main_menu(
     inventory_menu_repository: MenuRepository = Provide[
         "inventory_package.menu_repository"
     ],
+    purchase_menu_repository: MenuRepository = Provide[
+        "purchase_package.menu_repository"
+    ],
     sale_menu_repository: MenuRepository = Provide["sale_package.menu_repository"],
 ):
     submenu_items = [
         inventory_menu_repository.retrieve_menu_item(),
+        purchase_menu_repository.retrieve_menu_item(),
         sale_menu_repository.retrieve_menu_item(),
         core_menu_repository.retrieve_menu_item(),
     ]

@@ -52,6 +52,7 @@ LOCAL_APPS = [
     "apps.account",
     "apps.core",
     "apps.inventory",
+    "apps.purchase",
     "apps.sale",
 ]
 
@@ -96,6 +97,7 @@ MIGRATION_MODULES = {
     "account": "apps.account.infra.migrations",
     "core": "apps.core.infra.migrations",
     "inventory": "apps.inventory.infra.migrations",
+    "purchase": "apps.purchase.infra.migrations",
     "sale": "apps.sale.infra.migrations",
 }
 
