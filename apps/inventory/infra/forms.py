@@ -39,7 +39,7 @@ class ProductForm(ModelForm):
             "type",
             "category",
             "measure",
-            # "provider", # TODO: fix in viewpack
+            "provider",
             "warehouse_location",
         )
         widgets = {"type": forms.RadioSelect}
