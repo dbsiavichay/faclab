@@ -9,7 +9,18 @@ from apps.purchase.domain.entities import PurchaseLineEntity
 from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
-from .models import Purchase, PurchaseLine
+from .models import Provider, Purchase, PurchaseLine
+
+
+class ProviderForm(ModelForm):
+    class Meta:
+        model = Provider
+        fieldsets = (
+            "code",
+            ("bussiness_name", "contact_name"),
+            "address",
+            ("phone", "email", "website"),
+        )
 
 
 class PurchaseForm(ModelForm):
@@ -32,7 +43,7 @@ class PurchaseForm(ModelForm):
         fields = ("products",)
         widgets = {
             "provider": Select2(
-                model="inventory.Provider",
+                model="purchase.Provider",
                 search_fields=[
                     "code__icontains",
                     "bussiness_name__icontains",

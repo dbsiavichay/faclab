@@ -5,18 +5,7 @@ from apps.inventory.domain.choices import PriceTypes
 from faclab.widgets import PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
-from .models import Product, ProductCategory, ProductPrice, Provider
-
-
-class ProviderForm(ModelForm):
-    class Meta:
-        model = Provider
-        fieldsets = (
-            "code",
-            ("bussiness_name", "contact_name"),
-            "address",
-            ("phone", "email", "website"),
-        )
+from .models import Product, ProductCategory, ProductPrice
 
 
 class ProductCategoryForm(ModelForm):
@@ -25,7 +14,7 @@ class ProductCategoryForm(ModelForm):
         fields = "__all__"
         widgets = {
             "parent": Select2(
-                model="sale.ProductCategory",
+                model="inventory.ProductCategory",
                 search_fields=["name__icontains"],
             )
         }
@@ -50,7 +39,7 @@ class ProductForm(ModelForm):
             "type",
             "category",
             "measure",
-            "provider",
+            # "provider", # TODO: fix in viewpack
             "warehouse_location",
         )
         widgets = {"type": forms.RadioSelect}

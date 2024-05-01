@@ -3,15 +3,8 @@ from django.utils.translation import gettext_lazy as _
 from faclab.base import BasePack
 from viewpack.decorators import register
 
-from .infra.forms import ProductCategoryForm, ProductForm, ProviderForm
+from .infra.forms import ProductCategoryForm, ProductForm
 from .infra.formsets import ProductPriceFormset
-
-
-@register("inventory.Provider")
-class ProviderPack(BasePack):
-    form_class = ProviderForm
-    list_fields = ("code", "bussiness_name", "contact_name")
-    detail_fields = ProviderForm.Meta.fieldsets
 
 
 @register("inventory.ProductCategory")

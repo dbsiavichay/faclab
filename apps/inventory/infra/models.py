@@ -65,7 +65,7 @@ class Product(models.Model):
         verbose_name=_("unit of measure"),
     )
     provider = models.ForeignKey(
-        "inventory.Provider",
+        "purchase.Provider",
         blank=True,
         null=True,
         on_delete=models.PROTECT,

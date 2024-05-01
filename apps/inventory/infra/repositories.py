@@ -18,12 +18,6 @@ class MenuRepositoryImpl(MenuRepository):
     def retrieve_menu_items(self) -> List[MenuItem]:
         return [
             MenuItem(
-                _("providers").capitalize(),
-                reverse("packs:inventory_provider_list"),
-                weight=10,
-                icon="bx-right-arrow-alt",
-            ),
-            MenuItem(
                 _("categories").capitalize(),
                 reverse("packs:inventory_productcategory_list"),
                 weight=11,

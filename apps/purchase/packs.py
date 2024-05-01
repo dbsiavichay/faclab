@@ -2,8 +2,15 @@ from faclab.base import BasePack
 from viewpack.decorators import register
 from viewpack.enums import PackViews
 
-from .infra.forms import PurchaseForm
+from .infra.forms import ProviderForm, PurchaseForm
 from .infra.formsets import PurchaseLineFormset
+
+
+@register("purchase.Provider")
+class ProviderPack(BasePack):
+    form_class = ProviderForm
+    list_fields = ("code", "bussiness_name", "contact_name")
+    detail_fields = ProviderForm.Meta.fieldsets
 
 
 @register("purchase.Purchase")
