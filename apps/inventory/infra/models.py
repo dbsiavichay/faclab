@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from tree_queries.models import TreeNode
 
-from apps.inventory.domain.choices import PriceTypes, ProductTypes
+from apps.inventory.domain.choices import PriceType, ProductType
 
 
 class ProductCategory(TreeNode):
@@ -32,10 +32,10 @@ class Measure(models.Model):
 
 class Product(models.Model):
     code = models.CharField(max_length=16, verbose_name=_("code"))
+    sku = models.CharField(max_length=128, blank=True, null=True)
     name = models.CharField(max_length=64, verbose_name=_("name"))
     short_name = models.CharField(max_length=16, verbose_name=_("short name"))
-    description = models.TextField(verbose_name=_("description"))
-    sku = models.CharField(max_length=32, blank=True, null=True)
+    description = models.TextField(blank=True, null=True, verbose_name=_("description"))
     is_inventoried = models.BooleanField(default=True, verbose_name=_("is inventoried"))
     apply_iva = models.BooleanField(default=False, verbose_name=_("apply iva"))
     apply_ice = models.BooleanField(default=False, verbose_name=_("apply ice"))
@@ -45,9 +45,8 @@ class Product(models.Model):
     )
     type = models.CharField(
         max_length=2,
-        choices=ProductTypes.choices,
-        blank=True,
-        null=True,
+        choices=ProductType.choices,
+        default=ProductType.PRODUCT,
         verbose_name=_("type"),
     )
     category = models.ForeignKey(
@@ -77,16 +76,16 @@ class Product(models.Model):
 
     @cached_property
     def cost_price(self):
-        return self.prices.filter(type=PriceTypes.PURCHASE).first()
+        return self.prices.filter(type=PriceType.PURCHASE).first()
 
     @cached_property
     def sale_prices(self):
-        return self.prices.filter(type=PriceTypes.SALE)
+        return self.prices.filter(type=PriceType.SALE)
 
 
 class ProductPrice(models.Model):
     type = models.CharField(
-        max_length=2, choices=PriceTypes.choices, verbose_name=_("type")
+        max_length=2, choices=PriceType.choices, verbose_name=_("type")
     )
     amount = models.FloatField(verbose_name=_("amount"))
     revenue = models.FloatField(verbose_name=_("revenue"))

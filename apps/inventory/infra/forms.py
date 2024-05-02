@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from apps.inventory.domain.choices import PriceTypes
+from apps.inventory.domain.choices import PriceType
 from faclab.widgets import PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
@@ -27,7 +27,7 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fieldsets = (
-            "code",
+            ("code", "sku"),
             "name",
             "short_name",
             "description",
@@ -60,7 +60,7 @@ class ProductForm(ModelForm):
 
         if commit:
             obj.save()
-            price = obj.prices.filter(type=PriceTypes.PURCHASE).first()
+            price = obj.prices.filter(type=PriceType.PURCHASE).first()
             cost_price = self.cleaned_data.get("cost_price")
 
             if price:
@@ -68,7 +68,7 @@ class ProductForm(ModelForm):
                 price.save(update_fields=["amount"])
             else:
                 ProductPrice.objects.create(
-                    type=PriceTypes.PURCHASE, amount=cost_price, revenue=0, product=obj
+                    type=PriceType.PURCHASE, amount=cost_price, revenue=0, product=obj
                 )
 
         return obj
@@ -94,7 +94,7 @@ class ProductPriceForm(ModelForm):
 
     def save(self, commit=True):
         obj = super().save(commit=False)
-        obj.type = PriceTypes.SALE
+        obj.type = PriceType.SALE
 
         if commit:
             obj.save()

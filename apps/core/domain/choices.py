@@ -9,3 +9,7 @@ class Environment(models.IntegerChoices):
 
 class EmissionType(models.IntegerChoices):
     NORMAL = 1, _("normal").capitalize()
+
+
+class TaxType(models.TextChoices):
+    IVA = "iva", _("value added tax").capitalize()

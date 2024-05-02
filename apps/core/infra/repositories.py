@@ -85,6 +85,12 @@ class MenuRepositoryImpl(MenuRepository):
                 icon="bx-right-arrow-alt",
             ),
             MenuItem(
+                _("taxes").capitalize(),
+                reverse("packs:core_tax_list"),
+                weight=31,
+                icon="bx-right-arrow-alt",
+            ),
+            MenuItem(
                 _("sri").upper(),
                 reverse("packs:core_site_update", args=[self.site_repository.site.id]),
                 weight=32,

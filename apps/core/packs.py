@@ -13,6 +13,11 @@ class SignaturePack(BasePack):
     allowed_views = (PackViews.LIST, PackViews.CREATE, PackViews.DELETE)
 
 
+@register("core.Tax")
+class TaxPack(BasePack):
+    list_fields = ("code", "name", "fee")
+
+
 @register("core.Site")
 class SitePack(BasePack):
     form_class = SiteForm
