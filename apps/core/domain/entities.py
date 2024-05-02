@@ -19,6 +19,7 @@ class SRIConfig(BaseModel):
     company_accounting_required: Optional[bool]
     environment: EnvironmentEnum
     emission_type: EmissionTypeEnum
+    iva_fee: Optional[int]
     iva_percent: Optional[float]
     signature: Optional[int]
 

@@ -15,7 +15,7 @@ class SignaturePack(BasePack):
 
 @register("core.Tax")
 class TaxPack(BasePack):
-    list_fields = ("code", "name", "fee")
+    list_fields = ("type", "code", "name", "fee")
 
 
 @register("core.Site")

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-02 19:03+0000\n"
+"POT-Creation-Date: 2024-05-02 19:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,10 @@ msgstr "normal"
 #: apps/core/domain/choices.py:15
 msgid "value added tax"
 msgstr "impuesto al valor agregado"
+
+#: apps/core/domain/choices.py:16
+msgid "excise tax"
+msgstr "impuesto al consumo especial"
 
 #: apps/core/infra/forms.py:19
 msgid "signature file"
@@ -110,55 +114,55 @@ msgstr "tipo de ambiente"
 msgid "type of emission"
 msgstr "tipo de emisión"
 
-#: apps/core/infra/forms.py:121
-msgid "iva percent"
-msgstr "porcentaje de IVA"
+#: apps/core/infra/forms.py:122
+msgid "iva fee"
+msgstr "tarifa de IVA"
 
-#: apps/core/infra/forms.py:123
+#: apps/core/infra/forms.py:125
 msgid "electronic signature"
 msgstr "firma electrónica"
 
-#: apps/core/infra/models.py:7
+#: apps/core/infra/models.py:8
 msgid "subject"
 msgstr "sujeto"
 
-#: apps/core/infra/models.py:9
+#: apps/core/infra/models.py:10
 msgid "serial number"
 msgstr "número de serie"
 
-#: apps/core/infra/models.py:11 apps/sale/infra/models/invoices.py:8
+#: apps/core/infra/models.py:12 apps/sale/infra/models/invoices.py:8
 msgid "issue date"
 msgstr "fecha de emisión"
 
-#: apps/core/infra/models.py:12
+#: apps/core/infra/models.py:13
 msgid "expiry date"
 msgstr "fecha de expiración"
 
-#: apps/core/infra/models.py:17
+#: apps/core/infra/models.py:18
 msgid "signature"
 msgstr "firma electrónica"
 
-#: apps/core/infra/models.py:18 apps/core/infra/repositories.py:82
+#: apps/core/infra/models.py:19 apps/core/infra/repositories.py:82
 msgid "signatures"
 msgstr "firmas electrónicas"
 
-#: apps/core/infra/models.py:33 apps/inventory/infra/models.py:50
+#: apps/core/infra/models.py:34 apps/inventory/infra/models.py:50
 #: apps/inventory/infra/models.py:88 apps/sale/infra/models/invoices.py:75
 msgid "type"
 msgstr "tipo"
 
-#: apps/core/infra/models.py:35 apps/inventory/infra/models.py:23
+#: apps/core/infra/models.py:36 apps/inventory/infra/models.py:23
 #: apps/inventory/infra/models.py:34 apps/sale/infra/models/vouchers.py:6
 msgid "code"
 msgstr "código"
 
-#: apps/core/infra/models.py:36 apps/inventory/infra/models.py:11
+#: apps/core/infra/models.py:37 apps/inventory/infra/models.py:11
 #: apps/inventory/infra/models.py:24 apps/inventory/infra/models.py:36
 #: apps/sale/infra/models/vouchers.py:7
 msgid "name"
 msgstr "nombre"
 
-#: apps/core/infra/models.py:37
+#: apps/core/infra/models.py:38
 msgid "fee"
 msgstr "tarifa"
 

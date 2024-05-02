@@ -68,9 +68,9 @@ class Migration(migrations.Migration):
                 (
                     "type",
                     models.CharField(
-                        choices=[("iva", "value added tax")],
-                        default="iva",
-                        max_length=32,
+                        choices=[("2", "value added tax")],
+                        default="2",
+                        max_length=4,
                         verbose_name="type",
                     ),
                 ),

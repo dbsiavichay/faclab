@@ -28,7 +28,7 @@ class Site(models.Model):
 
 class Tax(models.Model):
     type = models.CharField(
-        max_length=32,
+        max_length=4,
         choices=TaxType.choices,
         default=TaxType.IVA,
         verbose_name=_("type"),

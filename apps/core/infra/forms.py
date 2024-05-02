@@ -6,11 +6,10 @@ from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.application.services import SignatureService
-from apps.core.domain.choices import EmissionType, Environment
+from apps.core.domain.choices import EmissionType, Environment, TaxType
 from apps.core.domain.repositories import SiteRepository
-from apps.core.infra.models import Signature, Site
+from apps.core.infra.models import Signature, Site, Tax
 from apps.sale.application.validators import customer_code_validator
-from faclab.widgets import PercentInput
 from viewpack.forms import ModelForm
 
 
@@ -118,7 +117,9 @@ class SiteForm(ModelForm):
         initial=EmissionType.NORMAL,
         label=_("type of emission"),
     )
-    iva_percent = forms.FloatField(widget=PercentInput, label=_("iva percent"))
+    iva_fee = forms.ModelChoiceField(
+        Tax.objects.filter(type=TaxType.IVA), required=False, label=_("iva fee")
+    )
     signature = forms.ModelChoiceField(
         Signature.objects.all(), required=False, label=_("electronic signature")
     )
@@ -135,7 +136,7 @@ class SiteForm(ModelForm):
             "withholding_agent_resolution",
             "company_accounting_required",
             ("environment", "emission_type"),
-            "iva_percent",
+            "iva_fee",
             "signature",
         )
 
@@ -143,9 +144,14 @@ class SiteForm(ModelForm):
         obj = super().save(commit=False)
         data = {**self.cleaned_data}
         signature = data.get("signature")
+        tax = data.get("iva_fee")
 
         if signature:
             data["signature"] = signature.id
+
+        if tax:
+            data["iva_fee"] = tax.id
+            data["iva_percent"] = tax.fee
 
         obj.sri_config = data
 
