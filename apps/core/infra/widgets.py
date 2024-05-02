@@ -1,6 +1,6 @@
 from django import forms
 from django_select2.cache import cache
-from django_select2.forms import ModelSelect2Widget
+from django_select2.forms import ModelSelect2MultipleWidget, ModelSelect2Widget
 
 
 class PriceInput(forms.NumberInput):
@@ -56,3 +56,8 @@ class Select2(ModelSelect2Widget):
                 "extra_data": tuple(self.extra_data),
             },
         )
+
+
+class Select2Multiple(ModelSelect2MultipleWidget):
+    def get_extra_data(self, obj):
+        return {}

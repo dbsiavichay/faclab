@@ -24,7 +24,7 @@ from viewpack import packs
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("select2/", include("faclab.select2_views")),
+    path("select2/", include("apps.core.infra.select2_views")),
     path("", include("apps.account.infra.urls")),
     path("", login_required(TemplateView.as_view(template_name="base/base.html"))),
     path("", packs.urls),

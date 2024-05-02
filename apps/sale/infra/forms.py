@@ -4,11 +4,11 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.domain.repositories import SiteRepository
+from apps.core.infra.widgets import DisabledNumberInput, PriceInput, Select2
 from apps.inventory.infra.querysets import ProductQueryset
 from apps.sale.application.services import InvoiceService
 from apps.sale.application.validators import customer_code_validator
 from apps.sale.domain.entities import InvoiceEntity, InvoiceLineEntity
-from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
 from .models import Customer, Invoice, InvoiceLine

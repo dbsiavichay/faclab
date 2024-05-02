@@ -7,24 +7,25 @@ from tree_queries.models import TreeNode
 from apps.inventory.domain.choices import PriceType, ProductType
 
 
-class ProductCategory(TreeNode):
-    name = models.CharField(max_length=64, verbose_name=_("name"))
-    parent = TreeNode._meta.get_field("parent")
-    parent.verbose_name = _("parent category")
-
-    class Meta:
-        verbose_name = _("category")
-
-    def __str__(self):
-        return self.name
-
-
 class Measure(models.Model):
     code = models.CharField(max_length=16, verbose_name=_("code"))
     name = models.CharField(max_length=64, verbose_name=_("name"))
 
     class Meta:
         verbose_name = _("measure")
+
+    def __str__(self):
+        return self.name
+
+
+class ProductCategory(TreeNode):
+    name = models.CharField(max_length=64, verbose_name=_("name"))
+    parent = TreeNode._meta.get_field("parent")
+    parent.verbose_name = _("parent category")
+    taxes = models.ManyToManyField("core.Tax", blank=True, verbose_name=_("taxes"))
+
+    class Meta:
+        verbose_name = _("category")
 
     def __str__(self):
         return self.name
@@ -70,6 +71,7 @@ class Product(models.Model):
         on_delete=models.PROTECT,
         verbose_name=_("provider"),
     )
+    taxes = models.ManyToManyField("core.Tax", blank=True, verbose_name=_("taxes"))
 
     def __str__(self):
         return self.name

@@ -2,11 +2,11 @@ from dependency_injector.wiring import Provide, inject
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.infra.widgets import DisabledNumberInput, PriceInput, Select2
 from apps.inventory.infra.models import Product
 from apps.inventory.infra.querysets import ProductQueryset
 from apps.purchase.application.services import PurchaseService
 from apps.purchase.domain.entities import PurchaseLineEntity
-from faclab.widgets import DisabledNumberInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
 from .models import Provider, Purchase, PurchaseLine

@@ -1,8 +1,8 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.infra.widgets import PercentInput, PriceInput, Select2, Select2Multiple
 from apps.inventory.domain.choices import PriceType
-from faclab.widgets import PercentInput, PriceInput, Select2
 from viewpack.forms import ModelForm
 
 from .models import Product, ProductCategory, ProductPrice
@@ -31,6 +31,7 @@ class ProductForm(ModelForm):
             "name",
             "short_name",
             "description",
+            "taxes",
             ("is_inventoried", "apply_iva", "apply_ice"),
         )
         fields = (
@@ -42,7 +43,14 @@ class ProductForm(ModelForm):
             "provider",
             "warehouse_location",
         )
-        widgets = {"type": forms.RadioSelect}
+        widgets = {
+            "type": forms.RadioSelect,
+            "taxes": Select2Multiple(
+                model="core.Tax",
+                search_fields=["name__icontains"],
+                attrs={"data-minimum-input-length": 0},
+            ),
+        }
 
     def get_initial_for_field(self, field, field_name):
         if field_name == "cost_price":
