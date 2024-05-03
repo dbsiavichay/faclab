@@ -12,5 +12,5 @@ class EmissionType(models.IntegerChoices):
 
 
 class TaxType(models.TextChoices):
-    IVA = "2", _("value added tax").capitalize()
-    ICE = "3", _("excise tax").capitalize()
+    IVA = "2", "IVA"
+    ICE = "3", "ICE"

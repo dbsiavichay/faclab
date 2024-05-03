@@ -1,7 +1,12 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.infra.widgets import PercentInput, PriceInput, Select2, Select2Multiple
+from apps.core.infra.widgets import (
+    PercentInput,
+    PriceInput,
+    Select2,
+    TaxSelect2MultipleInput,
+)
 from apps.inventory.domain.choices import PriceType
 from viewpack.forms import ModelForm
 
@@ -16,7 +21,8 @@ class ProductCategoryForm(ModelForm):
             "parent": Select2(
                 model="inventory.ProductCategory",
                 search_fields=["name__icontains"],
-            )
+            ),
+            "taxes": TaxSelect2MultipleInput,
         }
 
 
@@ -45,11 +51,7 @@ class ProductForm(ModelForm):
         )
         widgets = {
             "type": forms.RadioSelect,
-            "taxes": Select2Multiple(
-                model="core.Tax",
-                search_fields=["name__icontains"],
-                attrs={"data-minimum-input-length": 0},
-            ),
+            "taxes": TaxSelect2MultipleInput,
         }
 
     def get_initial_for_field(self, field, field_name):
@@ -68,6 +70,7 @@ class ProductForm(ModelForm):
 
         if commit:
             obj.save()
+            self.save_m2m()
             price = obj.prices.filter(type=PriceType.PURCHASE).first()
             cost_price = self.cleaned_data.get("cost_price")
 

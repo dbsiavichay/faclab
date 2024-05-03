@@ -58,6 +58,18 @@ class Select2(ModelSelect2Widget):
         )
 
 
-class Select2Multiple(ModelSelect2MultipleWidget):
+class TaxSelect2MultipleInput(ModelSelect2MultipleWidget):
+    model = "core.Tax"
+    search_fields = ["name__icontains"]
+
     def get_extra_data(self, obj):
-        return {}
+        return {"type": obj.get_type_display().lower(), "fee": obj.fee}
+
+    def label_from_instance(self, obj):
+        return "{type} - {name}".format(type=obj.get_type_display(), name=obj.name)
+
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        attrs = super().build_attrs(base_attrs, extra_attrs=extra_attrs)
+        attrs["data-minimum-input-length"] = 0
+
+        return attrs

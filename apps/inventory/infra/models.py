@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from tree_queries.models import TreeNode
 
+from apps.core.domain.choices import TaxType
 from apps.inventory.domain.choices import PriceType, ProductType
 
 
@@ -73,6 +74,9 @@ class Product(models.Model):
     )
     taxes = models.ManyToManyField("core.Tax", blank=True, verbose_name=_("taxes"))
 
+    class Meta:
+        verbose_name = _("product")
+
     def __str__(self):
         return self.name
 
@@ -98,7 +102,10 @@ class ProductPrice(models.Model):
     @cached_property
     def gross_amount(self):
         if self.amount:
-            return round(self.amount * 1.12, 5)
+            tax = self.product.taxes.filter(type=TaxType.IVA).first()
+            factor = tax.decimal_factor if tax else 1
+
+            return round(self.amount * factor, 5)
 
     @cached_property
     def percent_revenue(self):

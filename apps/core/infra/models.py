@@ -43,3 +43,11 @@ class Tax(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @property
+    def decimal_fee(self):
+        return self.fee / 100
+
+    @property
+    def decimal_factor(self):
+        return 1 + self.decimal_fee

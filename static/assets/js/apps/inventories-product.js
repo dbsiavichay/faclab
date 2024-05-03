@@ -1,8 +1,16 @@
+let selectedTaxes = []
+
 const addIvaEvents = (netInput, grossInput, revenuePercentInput=null, revenueInput=null) => {
-    const ivaRate = 0.12;
     const costNetInput = document.getElementById("id_cost_price");
 
+    const getIvaRate = () => {
+        const ivaTaxes = selectedTaxes.filter(tax => tax.type == 'iva')
+        const ivaRate = ivaTaxes.length>0?ivaTaxes[0].fee/100:0
+        return ivaRate
+    }
+
     const setPrices = event => {
+        const ivaRate = getIvaRate();
         let costNet = parseFloat(costNetInput.value) || 0;
         let target = event.currentTarget;
         let netPrice = parseFloat(netInput.value);
@@ -62,6 +70,17 @@ formsetCallbackAdd = row => {
     addIvaEvents(net, gross, percent, revenue)
 }
 
+const initTaxes = () => {
+    $(document.getElementById('id_taxes')).on("select2:select", event => {
+        const {id, type, fee} = event.params.data;
+        selectedTaxes.push({id, type, fee})
+    });
+
+    $(document.getElementById('id_taxes')).on("select2:unselect", event => {
+        const {id} = event.params.data;
+        selectedTaxes = selectedTaxes.filter(tax => tax.id != id);
+    });
+}
 
 const productForm = () => {
     const costNet = document.getElementById("id_cost_price");
@@ -82,6 +101,7 @@ const productForm = () => {
     });
 
     addIvaEvents(costNet, costGross);
+    initTaxes();
 }  
 
 document.addEventListener("DOMContentLoaded", () => {
