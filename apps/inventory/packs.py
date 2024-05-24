@@ -37,3 +37,8 @@ class ProductPack(BasePack):
             "warehouse_location",
         ),
     }
+
+
+@register("inventory.StockMove")
+class StockMovePack(BasePack):
+    list_fields = ("date", "type", "product", "entry", "outflow", "stock")

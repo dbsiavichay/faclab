@@ -35,4 +35,18 @@ class MenuRepositoryImpl(MenuRepository):
                 weight=13,
                 icon="bx-right-arrow-alt",
             ),
+            MenuItem(
+                _("stock").capitalize(),
+                "#",
+                weight=14,
+                icon="bx-right-arrow-alt",
+                children=[
+                    MenuItem(
+                        _("initial inventory").capitalize(),
+                        reverse("packs:inventory_stockmove_list"),
+                        weight=1,
+                        icon="bx-right-arrow-alt",
+                    ),
+                ],
+            ),
         ]

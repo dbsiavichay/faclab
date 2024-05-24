@@ -10,3 +10,9 @@ class ProductType(TextChoices):
 class PriceType(TextChoices):
     PURCHASE = "p", _("purchase")
     SALE = "s", _("sale")
+
+
+class StockMoveType(TextChoices):
+    INITIAL = "i", _("initial inventory")
+    PURCHASE = "p", _("purchase")
+    SALE = "s", _("sale")

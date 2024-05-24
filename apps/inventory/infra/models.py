@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from tree_queries.models import TreeNode
 
 from apps.core.domain.choices import TaxType
-from apps.inventory.domain.choices import PriceType, ProductType
+from apps.inventory.domain.choices import PriceType, ProductType, StockMoveType
 
 
 class Measure(models.Model):
@@ -112,3 +112,20 @@ class ProductPrice(models.Model):
         if self.amount and self.revenue:
             cost = self.amount - self.revenue
             return round((self.revenue * 100) / cost, 5)
+
+
+class StockMove(models.Model):
+    type = models.CharField(
+        max_length=4, choices=StockMoveType.choices, verbose_name=_("type")
+    )
+    date = models.DateTimeField(auto_now_add=True, verbose_name=_("date"))
+    entry = models.FloatField(default=0, verbose_name=_("entry"))
+    outflow = models.FloatField(default=0, verbose_name=_("outflow"))
+    stock = models.FloatField(default=0, verbose_name=_("stock"))
+    product = models.ForeignKey(
+        "inventory.Product", on_delete=models.PROTECT, verbose_name=_("product")
+    )
+
+    class Meta:
+        verbose_name = _("stock move")
+        verbose_name_plural = _("stock moves")
