@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from faclab.base import BasePack
 from viewpack.decorators import register
 
-from .infra.forms import ProductCategoryForm, ProductForm
+from .infra.forms import ProductCategoryForm, ProductForm, StockMoveForm
 from .infra.formsets import ProductPriceFormset
 
 
@@ -26,7 +26,7 @@ class ProductPack(BasePack):
     inlines = {"prices": ProductPriceFormset}
     form_template_name = None
     detail_template_name = None
-    list_fields = ("code", "name", "short_name")
+    list_fields = ("code", "name", "short_name", "stock")
     detail_fields = {
         "": ProductForm.Meta.fieldsets,
         _("additional information"): (
@@ -41,4 +41,5 @@ class ProductPack(BasePack):
 
 @register("inventory.StockMove")
 class StockMovePack(BasePack):
+    form_class = StockMoveForm
     list_fields = ("date", "type", "product", "entry", "outflow", "stock")

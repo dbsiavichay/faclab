@@ -10,7 +10,7 @@ from apps.core.infra.widgets import (
 from apps.inventory.domain.choices import PriceType
 from viewpack.forms import ModelForm
 
-from .models import Product, ProductCategory, ProductPrice
+from .models import Product, ProductCategory, ProductPrice, StockMove
 
 
 class ProductCategoryForm(ModelForm):
@@ -109,5 +109,27 @@ class ProductPriceForm(ModelForm):
 
         if commit:
             obj.save()
+
+        return obj
+
+
+class StockMoveForm(ModelForm):
+    class Meta:
+        model = StockMove
+        fieldsets = (
+            "type",
+            "product",
+            ("entry", "outflow"),
+        )
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+
+        if commit:
+            current_stock = obj.entry - obj.outflow
+            obj.stock = current_stock
+            obj.save()
+            obj.product.stock = current_stock
+            obj.product.save()
 
         return obj
