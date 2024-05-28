@@ -3,7 +3,6 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.infra.widgets import DisabledNumberInput, PriceInput, Select2
-from apps.inventory.infra.models import Product
 from apps.inventory.infra.querysets import ProductQueryset
 from apps.purchase.application.services import PurchaseService
 from apps.purchase.domain.entities import PurchaseLineEntity
@@ -24,23 +23,9 @@ class ProviderForm(ModelForm):
 
 
 class PurchaseForm(ModelForm):
-    products = forms.ModelMultipleChoiceField(
-        required=False,
-        queryset=Product.objects.all(),
-        widget=Select2(
-            model="inventory.Product",
-            search_fields=[
-                "code__icontains",
-                "name__icontains",
-            ],
-        ),
-        label=_("product search"),
-    )
-
     class Meta:
         model = Purchase
         fieldsets = ("provider", ("date", "invoice_number"))
-        fields = ("products",)
         widgets = {
             "provider": Select2(
                 model="purchase.Provider",

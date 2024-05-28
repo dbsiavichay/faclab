@@ -5,6 +5,10 @@ from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
 
 from apps.core.domain.repositories import MenuRepository
+from apps.inventory.domain.entities import StockMove
+from apps.inventory.domain.repositories import StockMoveRepository
+
+from .models import StockMove as DjangoStockMove
 
 
 class MenuRepositoryImpl(MenuRepository):
@@ -36,13 +40,13 @@ class MenuRepositoryImpl(MenuRepository):
                 icon="bx-right-arrow-alt",
             ),
             MenuItem(
-                _("stock").capitalize(),
+                _("operations").capitalize(),
                 "#",
                 weight=14,
                 icon="bx-right-arrow-alt",
                 children=[
                     MenuItem(
-                        _("initial inventory").capitalize(),
+                        _("inventory adjustment").capitalize(),
                         reverse("packs:inventory_stockmove_list"),
                         weight=1,
                         icon="bx-right-arrow-alt",
@@ -50,3 +54,11 @@ class MenuRepositoryImpl(MenuRepository):
                 ],
             ),
         ]
+
+
+class StockMoveRepositoryImpl(StockMoveRepository):
+    def bulk_create(self, stock_moves: List[StockMove]):
+        django_stock_moves = [
+            DjangoStockMove(**stock_move.model_dump()) for stock_move in stock_moves
+        ]
+        DjangoStockMove.objects.bulk_create(django_stock_moves)

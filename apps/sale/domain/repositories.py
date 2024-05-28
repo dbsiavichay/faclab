@@ -15,7 +15,7 @@ class VoucherTypeRepository(ABC):
 
     @abstractmethod
     def save(
-        self, voucher_type: VoucherTypeEntity, update_fields: List[str] = None
+        self, voucher_type_entity: VoucherTypeEntity, update_fields: List[str] = None
     ) -> None:
         pass
 

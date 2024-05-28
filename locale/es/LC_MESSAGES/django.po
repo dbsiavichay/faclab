@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-24 19:50+0000\n"
+"POT-Creation-Date: 2024-05-27 23:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -209,7 +209,7 @@ msgstr "compra"
 msgid "sale"
 msgstr "venta"
 
-#: apps/inventory/domain/choices.py:16 apps/inventory/infra/repositories.py:45
+#: apps/inventory/domain/choices.py:16
 msgid "initial inventory"
 msgstr "inventario inicial"
 
@@ -258,7 +258,6 @@ msgid "apply ice"
 msgstr "aplica ICE"
 
 #: apps/inventory/infra/models.py:44 apps/inventory/infra/models.py:124
-#: apps/inventory/infra/repositories.py:39
 msgid "stock"
 msgstr "stock"
 
@@ -318,6 +317,14 @@ msgstr "medidas"
 #: apps/inventory/infra/repositories.py:33
 msgid "products"
 msgstr "productos"
+
+#: apps/inventory/infra/repositories.py:39
+msgid "operations"
+msgstr "operaciones"
+
+#: apps/inventory/infra/repositories.py:45
+msgid "inventory adjustment"
+msgstr "ajuste de inventario"
 
 #: apps/inventory/packs.py:32
 msgid "additional information"
