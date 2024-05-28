@@ -5,9 +5,10 @@ from django.utils.translation import gettext_lazy as _
 from simple_menu import MenuItem
 
 from apps.core.domain.repositories import MenuRepository
-from apps.inventory.domain.entities import StockMove
-from apps.inventory.domain.repositories import StockMoveRepository
+from apps.inventory.domain.entities import Product, StockMove
+from apps.inventory.domain.repositories import ProductRepository, StockMoveRepository
 
+from .models import Product as DjangoProduct
 from .models import StockMove as DjangoStockMove
 
 
@@ -62,3 +63,11 @@ class StockMoveRepositoryImpl(StockMoveRepository):
             DjangoStockMove(**stock_move.model_dump()) for stock_move in stock_moves
         ]
         DjangoStockMove.objects.bulk_create(django_stock_moves)
+
+
+class ProductRepositoryImpl(ProductRepository):
+    def bulk_update(self, products: List[Product], update_fiels: List[str] = None):
+        django_products = [
+            DjangoProduct(**product.model_dump()) for product in products
+        ]
+        DjangoProduct.objects.bulk_update(django_products, update_fiels)
