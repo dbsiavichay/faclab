@@ -186,3 +186,6 @@ SRI_PACKAGE = {
     "AUTHORIZATION_WS": "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl",  # NOQA : E501
     "TIME_ZONE": TIME_ZONE,
 }
+
+# SEALIFY
+SEALIFY_BASE_URL = env("SEALIFY_BASE_URL", default="http://localhost:3000")

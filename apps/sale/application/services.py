@@ -2,6 +2,7 @@ from tempfile import NamedTemporaryFile
 
 from dependency_injector.wiring import Provide, inject
 
+from apps.core.application.services import SealifyService
 from apps.core.domain.repositories import SiteRepository
 from apps.sale.application.usecases import (
     CalculateInvoiceTotalUseCase,
@@ -29,6 +30,7 @@ class InvoiceService:
         generate_voucher_sequence_usecase: GenerateVoucherSequenceUseCase,
         calculate_invoice_total_usecase: CalculateInvoiceTotalUseCase,
         sri_voucher_service: SRIVoucherService,
+        sealify_service: SealifyService = Provide["core_package.sealify_service"],
         site_repository: SiteRepository = Provide["core_package.site_repository"],
     ) -> None:
         self.invoice_voucher_type_code = "01"
@@ -37,6 +39,7 @@ class InvoiceService:
         self.generate_voucher_sequence_usecase = generate_voucher_sequence_usecase
         self.calculate_invoice_total_usecase = calculate_invoice_total_usecase
         self.sri_voucher_service = sri_voucher_service
+        self.sealify_service = sealify_service
         self.site_repository = site_repository
 
     def update_invoice_sequence(
@@ -168,6 +171,32 @@ class InvoiceService:
         self, invoice_entity: InvoiceEntity, update_on_db: bool = False
     ):
         xml = self.sri_voucher_service.sign_voucher_xml(invoice_entity.xml_bytes)
+        xml_file = NamedTemporaryFile(suffix=".xml")
+
+        with open(xml_file.name, "w") as file:
+            file.write(xml)
+
+        file.close()
+
+        invoice_entity.xml_str = xml
+        invoice_entity.xml_bytes = xml_file.read()
+        invoice_entity.status = VoucherStatusEnum.SIGNED
+
+        if update_on_db:
+            self.invoice_repository.upload_xml(invoice_entity)
+            self.invoice_repository.save(invoice_entity, update_fields=["status"])
+
+        return invoice_entity
+
+    def seal_invoice_xml(
+        self, invoice_entity: InvoiceEntity, update_on_db: bool = False
+    ):
+        config = self.site_repository.get_sri_config()
+        certificate_id = config.signature
+        sealed_invoice = self.sealify_service.seal_invoice(
+            invoice_entity.xml_str, certificate_id
+        )
+        xml = sealed_invoice.sealed_data
         xml_file = NamedTemporaryFile(suffix=".xml")
 
         with open(xml_file.name, "w") as file:

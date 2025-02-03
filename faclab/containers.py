@@ -11,7 +11,7 @@ from . import settings
 
 class ApplicationContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
-    core_package = providers.Container(CoreContainer)
+    core_package = providers.Container(CoreContainer, config=config)
     inventory_package = providers.Container(InventoryContainer)
     purchase_package = providers.Container(PurchaseContainer)
     sri_package = providers.Container(SRIContainer, config=config.SRI_PACKAGE)
@@ -29,6 +29,7 @@ def build_container():
             "apps.core.application.main_menu",
             "apps.core.infra.forms",
             "apps.core.infra.repositories",
+            "apps.core.infra.views",
             "apps.purchase.application.services",
             "apps.purchase.infra.forms",
             "apps.purchase.infra.formsets",

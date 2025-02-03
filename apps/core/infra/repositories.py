@@ -80,20 +80,20 @@ class MenuRepositoryImpl(MenuRepository):
             ),
             MenuItem(
                 _("signatures").capitalize(),
-                reverse("packs:core_signature_list"),
+                reverse("certificate_list"),
                 weight=31,
                 icon="bx-right-arrow-alt",
             ),
             MenuItem(
                 _("taxes").capitalize(),
                 reverse("packs:core_tax_list"),
-                weight=31,
+                weight=32,
                 icon="bx-right-arrow-alt",
             ),
             MenuItem(
                 _("sri").upper(),
                 reverse("packs:core_site_update", args=[self.site_repository.site.id]),
-                weight=32,
+                weight=33,
                 icon="bx-right-arrow-alt",
             ),
         ]
