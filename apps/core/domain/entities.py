@@ -21,7 +21,7 @@ class SRIConfig(BaseModel):
     emission_type: EmissionTypeEnum
     iva_fee: Optional[int]
     iva_percent: Optional[float]
-    signature: Optional[int]
+    signature: Optional[str]
 
     @computed_field
     def iva_rate(self) -> float:
@@ -44,3 +44,21 @@ class SignatureEntity(BaseModel):
     expiry_date: datetime
     cert: str
     key: str
+
+
+class CertificateEntity(BaseModel):
+    id: str
+    subject_name: str = Field(alias="subjectName")
+    serial_number: int = Field(alias="serialNumber")
+    issue_date: datetime = Field(alias="issueDate")
+    expiry_date: datetime = Field(alias="expiryDate")
+
+
+class SealedInvoice(BaseModel):
+    sealed_data: str = Field(alias="sealedData")
+
+
+class UploadFile(BaseModel):
+    file: bytes
+    filename: str
+    content_type: str

@@ -25,6 +25,7 @@ from viewpack import packs
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("select2/", include("apps.core.infra.select2_views")),
+    path("sealify/", include("apps.core.infra.urls")),
     path("", include("apps.account.infra.urls")),
     path("", login_required(TemplateView.as_view(template_name="base/base.html"))),
     path("", packs.urls),

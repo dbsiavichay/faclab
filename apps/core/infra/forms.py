@@ -5,8 +5,9 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.application.services import SignatureService
+from apps.core.application.services import SealifyService, SignatureService
 from apps.core.domain.choices import EmissionType, Environment, TaxType
+from apps.core.domain.entities import UploadFile
 from apps.core.domain.repositories import SiteRepository
 from apps.core.infra.models import Signature, Site, Tax
 from apps.sale.application.validators import customer_code_validator
@@ -26,7 +27,7 @@ class SignatureForm(ModelForm):
         self,
         signature_service: SignatureService = Provide["core_package.signature_service"],
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.signature_service = signature_service
@@ -73,16 +74,48 @@ class SignatureForm(ModelForm):
         return obj
 
 
+class CertificateForm(forms.Form):
+    signature_file = forms.FileField(
+        validators=[FileExtensionValidator(["p12"])], label=_("signature file")
+    )
+    signature_password = forms.CharField(
+        max_length=256, widget=forms.PasswordInput, label=_("signature password")
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        file = cleaned_data.get("signature_file")
+        password = cleaned_data.get("signature_password")
+
+        if file and password:
+            try:
+                p12_data = file.read()
+                pkcs12.load_pkcs12(p12_data, password.encode())
+                self.upload_file = UploadFile(
+                    file=p12_data, filename=file.name, content_type=file.content_type
+                )
+            except ValueError:
+                raise ValidationError(_("signature file or password are invalid"))
+
+        return cleaned_data
+
+
 class SiteForm(ModelForm):
     @inject
     def __init__(
         self,
         site_repository: SiteRepository = Provide["core_package.site_repository"],
+        sealify_service: SealifyService = Provide["core_package.sealify_service"],
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.site_repository = site_repository
+        self.sealify_service = sealify_service
+        self.fields["signature"].choices = [(None, "---------")] + [
+            (cert.id, f"{cert.subject_name} - {cert.serial_number}")
+            for cert in self.sealify_service.list_certificates()
+        ]
 
     company_code = forms.CharField(
         max_length=13,
@@ -120,8 +153,8 @@ class SiteForm(ModelForm):
     iva_fee = forms.ModelChoiceField(
         Tax.objects.filter(type=TaxType.IVA), required=False, label=_("iva fee")
     )
-    signature = forms.ModelChoiceField(
-        Signature.objects.all(), required=False, label=_("electronic signature")
+    signature = forms.ChoiceField(
+        choices=[], required=False, label=_("electronic signature")
     )
 
     class Meta:
@@ -147,7 +180,7 @@ class SiteForm(ModelForm):
         tax = data.get("iva_fee")
 
         if signature:
-            data["signature"] = signature.id
+            data["signature"] = signature
 
         if tax:
             data["iva_fee"] = tax.id
