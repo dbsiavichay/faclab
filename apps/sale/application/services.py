@@ -167,27 +167,6 @@ class InvoiceService:
 
         return invoice_entity
 
-    def sign_invoice_xml(
-        self, invoice_entity: InvoiceEntity, update_on_db: bool = False
-    ):
-        xml = self.sri_voucher_service.sign_voucher_xml(invoice_entity.xml_bytes)
-        xml_file = NamedTemporaryFile(suffix=".xml")
-
-        with open(xml_file.name, "w") as file:
-            file.write(xml)
-
-        file.close()
-
-        invoice_entity.xml_str = xml
-        invoice_entity.xml_bytes = xml_file.read()
-        invoice_entity.status = VoucherStatusEnum.SIGNED
-
-        if update_on_db:
-            self.invoice_repository.upload_xml(invoice_entity)
-            self.invoice_repository.save(invoice_entity, update_fields=["status"])
-
-        return invoice_entity
-
     def seal_invoice_xml(
         self, invoice_entity: InvoiceEntity, update_on_db: bool = False
     ):

@@ -1,39 +1,9 @@
 import pytest
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.forms.models import model_to_dict
 
 from apps.sites.domain.enums import Emissions, Environments
-from apps.sites.infra.forms import ConfigForm, SignatureForm
-from apps.sites.models import Config, Signature
-
-
-class TestSignatureForm:
-    @pytest.mark.django_db
-    def test_signature_create(self, signature_file_p12):
-        p12_bytes, password, metadata = signature_file_p12
-        p12 = SimpleUploadedFile(
-            "test.p12", p12_bytes, content_type="application/x-pkcs12"
-        )
-        data = {"signature_password": password}
-        files = {"signature_file": p12}
-        form = SignatureForm(data, files)
-
-        assert form.is_valid() is True
-        assert not form.errors
-
-        signature = form.save()
-
-        assert isinstance(signature, Signature)
-        assert metadata == model_to_dict(signature, fields=metadata.keys())
-
-    def test_signature_create_invalid(self):
-        p12 = SimpleUploadedFile("test.mp4", b"contect", content_type="video/mp4")
-        data = {"signature_password": "test"}
-        files = {"signature_file": p12}
-        form = SignatureForm(data, files)
-
-        assert form.is_valid() is False
-        assert form.errors
+from apps.sites.infra.forms import ConfigForm
+from apps.sites.models import Config
 
 
 class TestConfigForm:

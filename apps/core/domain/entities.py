@@ -37,15 +37,6 @@ class SiteEntity(BaseModel):
     sri_config: SRIConfig
 
 
-class SignatureEntity(BaseModel):
-    subject_name: str
-    serial_number: int
-    issue_date: datetime
-    expiry_date: datetime
-    cert: str
-    key: str
-
-
 class CertificateEntity(BaseModel):
     id: str
     subject_name: str = Field(alias="subjectName")

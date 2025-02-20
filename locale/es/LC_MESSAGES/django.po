@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-27 23:17+0000\n"
+"POT-Creation-Date: 2025-02-20 21:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,14 +22,6 @@ msgstr ""
 msgid "modules"
 msgstr "módulos"
 
-#: apps/core/application/usecases.py:39
-msgid "error while call keytool command"
-msgstr "error durante la llamada al comando de keytool"
-
-#: apps/core/application/usecases.py:47
-msgid "signature file has not valid keys"
-msgstr "el archivo de firma no tiene claves válidas"
-
 #: apps/core/domain/choices.py:6
 msgid "testing"
 msgstr "pruebas"
@@ -42,151 +34,127 @@ msgstr "producción"
 msgid "normal"
 msgstr "normal"
 
-#: apps/core/infra/forms.py:18
+#: apps/core/infra/forms.py:19
 msgid "signature file"
 msgstr "archivo de firma electrónica"
 
-#: apps/core/infra/forms.py:21
+#: apps/core/infra/forms.py:22
 msgid "signature password"
 msgstr "contraseña de firma electrónica"
 
-#: apps/core/infra/forms.py:48
+#: apps/core/infra/forms.py:38
 msgid "signature file or password are invalid"
 msgstr "archivo o contraseña de firma electrónica son inválidos"
 
-#: apps/core/infra/forms.py:60
-msgid "signature file has already been registered"
-msgstr "el archivo de firma ya ha sido registrado"
-
-#: apps/core/infra/forms.py:91
+#: apps/core/infra/forms.py:64
 msgid "ruc"
 msgstr "Ruc"
 
-#: apps/core/infra/forms.py:93
+#: apps/core/infra/forms.py:66
 msgid "company name"
 msgstr "razón social"
 
-#: apps/core/infra/forms.py:94
+#: apps/core/infra/forms.py:67
 msgid "company trade name"
 msgstr "nombre comercial"
 
-#: apps/core/infra/forms.py:95
+#: apps/core/infra/forms.py:68
 msgid "company main address"
 msgstr "dirección matriz"
 
-#: apps/core/infra/forms.py:96
+#: apps/core/infra/forms.py:69
 msgid "company branch address"
 msgstr "dirección de establecimiento"
 
-#: apps/core/infra/forms.py:97 apps/sale/infra/models/invoices.py:19
+#: apps/core/infra/forms.py:70 apps/sale/infra/models/invoices.py:19
 msgid "company branch code"
 msgstr "código de establecimiento"
 
-#: apps/core/infra/forms.py:99 apps/sale/infra/models/invoices.py:22
+#: apps/core/infra/forms.py:72 apps/sale/infra/models/invoices.py:22
 msgid "company sale point code"
 msgstr "código de punto de emisión"
 
-#: apps/core/infra/forms.py:102
+#: apps/core/infra/forms.py:75
 msgid "special taxpayer resolution"
 msgstr "contribuyente especial (Nro de resolución)"
 
-#: apps/core/infra/forms.py:105
+#: apps/core/infra/forms.py:78
 msgid "withholding agent resolution"
 msgstr "agente de retención (Nro de resolución)"
 
-#: apps/core/infra/forms.py:108
+#: apps/core/infra/forms.py:81
 msgid "company accounting required"
 msgstr "obligado a llevar contabilidad"
 
-#: apps/core/infra/forms.py:113
+#: apps/core/infra/forms.py:86
 msgid "type of environment"
 msgstr "tipo de ambiente"
 
-#: apps/core/infra/forms.py:118
+#: apps/core/infra/forms.py:91
 msgid "type of emission"
 msgstr "tipo de emisión"
 
-#: apps/core/infra/forms.py:121
+#: apps/core/infra/forms.py:94
 msgid "iva fee"
 msgstr "tarifa de IVA"
 
-#: apps/core/infra/forms.py:124
+#: apps/core/infra/forms.py:97
 msgid "electronic signature"
 msgstr "firma electrónica"
 
-#: apps/core/infra/models.py:8
-msgid "subject"
-msgstr "sujeto"
-
-#: apps/core/infra/models.py:10
-msgid "serial number"
-msgstr "número de serie"
-
-#: apps/core/infra/models.py:12 apps/sale/infra/models/invoices.py:8
-msgid "issue date"
-msgstr "fecha de emisión"
-
-#: apps/core/infra/models.py:13
-msgid "expiry date"
-msgstr "fecha de expiración"
-
-#: apps/core/infra/models.py:18
-msgid "signature"
-msgstr "firma electrónica"
-
-#: apps/core/infra/models.py:19 apps/core/infra/repositories.py:82
-msgid "signatures"
-msgstr "firmas electrónicas"
-
-#: apps/core/infra/models.py:34 apps/inventory/infra/models.py:52
+#: apps/core/infra/models.py:16 apps/inventory/infra/models.py:52
 #: apps/inventory/infra/models.py:94 apps/inventory/infra/models.py:119
 #: apps/sale/infra/models/invoices.py:75
 msgid "type"
 msgstr "tipo"
 
-#: apps/core/infra/models.py:36 apps/inventory/infra/models.py:12
+#: apps/core/infra/models.py:18 apps/inventory/infra/models.py:12
 #: apps/inventory/infra/models.py:36 apps/sale/infra/models/vouchers.py:6
 msgid "code"
 msgstr "código"
 
-#: apps/core/infra/models.py:37 apps/inventory/infra/models.py:13
+#: apps/core/infra/models.py:19 apps/inventory/infra/models.py:13
 #: apps/inventory/infra/models.py:23 apps/inventory/infra/models.py:38
 #: apps/sale/infra/models/vouchers.py:7
 msgid "name"
 msgstr "nombre"
 
-#: apps/core/infra/models.py:38
+#: apps/core/infra/models.py:20
 msgid "fee"
 msgstr "tarifa"
 
-#: apps/core/infra/models.py:41 apps/purchase/infra/models.py:36
+#: apps/core/infra/models.py:23 apps/purchase/infra/models.py:36
 #: apps/purchase/infra/models.py:55 apps/sale/infra/models/invoices.py:26
 #: apps/sale/infra/models/invoices.py:60
 msgid "tax"
 msgstr "impuesto"
 
-#: apps/core/infra/models.py:42 apps/core/infra/repositories.py:88
+#: apps/core/infra/models.py:24 apps/core/infra/repositories.py:70
 #: apps/inventory/infra/models.py:26 apps/inventory/infra/models.py:75
 msgid "taxes"
 msgstr "impuestos"
 
-#: apps/core/infra/repositories.py:27
+#: apps/core/infra/repositories.py:23
 msgid "site config does not exist"
 msgstr "configuración del sitio no existe"
 
-#: apps/core/infra/repositories.py:34
+#: apps/core/infra/repositories.py:30
 msgid "sri config does not exist or is incorrect"
 msgstr "configuración sri no existe o es incorrecta"
 
-#: apps/core/infra/repositories.py:67
+#: apps/core/infra/repositories.py:49
 msgid "configuration"
 msgstr "configuración"
 
-#: apps/core/infra/repositories.py:76
+#: apps/core/infra/repositories.py:58
 msgid "vouchers"
 msgstr "comprobantes"
 
-#: apps/core/infra/repositories.py:94
+#: apps/core/infra/repositories.py:64
+msgid "signatures"
+msgstr "firmas electrónicas"
+
+#: apps/core/infra/repositories.py:76
 msgid "sri"
 msgstr ""
 
@@ -302,27 +270,27 @@ msgstr "movimiento de stock"
 msgid "stock moves"
 msgstr "movimientos de stock"
 
-#: apps/inventory/infra/repositories.py:15
+#: apps/inventory/infra/repositories.py:20
 msgid "inventory"
 msgstr "inventario"
 
-#: apps/inventory/infra/repositories.py:21
+#: apps/inventory/infra/repositories.py:26
 msgid "categories"
 msgstr "categorias"
 
-#: apps/inventory/infra/repositories.py:27
+#: apps/inventory/infra/repositories.py:32
 msgid "measures"
 msgstr "medidas"
 
-#: apps/inventory/infra/repositories.py:33
+#: apps/inventory/infra/repositories.py:38
 msgid "products"
 msgstr "productos"
 
-#: apps/inventory/infra/repositories.py:39
+#: apps/inventory/infra/repositories.py:44
 msgid "operations"
 msgstr "operaciones"
 
-#: apps/inventory/infra/repositories.py:45
+#: apps/inventory/infra/repositories.py:50
 msgid "inventory adjustment"
 msgstr "ajuste de inventario"
 
@@ -330,11 +298,7 @@ msgstr "ajuste de inventario"
 msgid "additional information"
 msgstr "información adicional"
 
-#: apps/purchase/infra/forms.py:37
-msgid "product search"
-msgstr "búsqueda de productos"
-
-#: apps/purchase/infra/forms.py:70 apps/purchase/infra/models.py:35
+#: apps/purchase/infra/forms.py:55 apps/purchase/infra/models.py:35
 #: apps/purchase/infra/models.py:54 apps/sale/infra/forms.py:95
 #: apps/sale/infra/models/invoices.py:25 apps/sale/infra/models/invoices.py:59
 msgid "subtotal"
@@ -451,6 +415,10 @@ msgstr "apellidos"
 #: apps/sale/infra/models/customers.py:33
 msgid "code type"
 msgstr "tipo de identificación"
+
+#: apps/sale/infra/models/invoices.py:8
+msgid "issue date"
+msgstr "fecha de emisión"
 
 #: apps/sale/infra/models/invoices.py:10
 msgid "authorization date"
@@ -593,7 +561,7 @@ msgid "No records available"
 msgstr "Sin registros disponibles"
 
 #: templates/purchase/purchase_detail.html:17
-#: templates/purchase/purchase_form.html:11
+#: templates/purchase/purchase_form.html:9
 msgid "Purchase detail"
 msgstr "Detalle de compra"
 
@@ -614,7 +582,7 @@ msgstr "Precio unitario"
 
 #: templates/purchase/purchase_detail.html:24
 #: templates/purchase/purchase_detail.html:85
-#: templates/purchase/purchase_form.html:25
+#: templates/purchase/purchase_form.html:23
 #: templates/sale/invoice_detail.html:24 templates/sale/invoice_detail.html:64
 #: templates/sale/invoice_form.html:27
 msgid "Subtotal"
@@ -639,19 +607,19 @@ msgid "Discount"
 msgstr "Descuento"
 
 #: templates/purchase/purchase_detail.html:93
-#: templates/purchase/purchase_form.html:29
+#: templates/purchase/purchase_form.html:27
 #: templates/sale/invoice_detail.html:72 templates/sale/invoice_form.html:35
 msgid "Tax"
 msgstr "Iva"
 
 #: templates/purchase/purchase_detail.html:97
-#: templates/purchase/purchase_form.html:33
+#: templates/purchase/purchase_form.html:31
 #: templates/sale/invoice_detail.html:76 templates/sale/invoice_form.html:39
 msgid "Tax amount"
 msgstr "Monto Iva"
 
 #: templates/purchase/purchase_detail.html:104
-#: templates/purchase/purchase_form.html:40
+#: templates/purchase/purchase_form.html:38
 #: templates/sale/invoice_detail.html:83 templates/sale/invoice_form.html:46
 msgid "Total to pay"
 msgstr "Total a pagar"

@@ -7,14 +7,10 @@ from pydantic import ValidationError
 from simple_menu import MenuItem
 
 from apps.core.application.exceptions import ImproperlyConfigException
-from apps.core.domain.entities import SignatureEntity, SRIConfig
-from apps.core.domain.repositories import (
-    MenuRepository,
-    SignatureRepository,
-    SiteRepository,
-)
+from apps.core.domain.entities import SRIConfig
+from apps.core.domain.repositories import MenuRepository, SiteRepository
 
-from .models import Signature, Site
+from .models import Site
 
 SRI_CONFIG_CACHE_KEY = "sri_config"
 
@@ -36,20 +32,6 @@ class SiteRepositoryImpl(SiteRepository):
 
     def refresh_site(self) -> None:
         self.site.refresh_from_db()
-
-
-class SignatureRepositoryImpl(SignatureRepository):
-    def find_by_id(self, id: int) -> SignatureEntity:
-        signature = Signature.objects.filter(id=id).first()
-
-        if signature:
-            signature_entity = SignatureEntity(**signature.__dict__)
-            return signature_entity
-
-        return None
-
-    def exists_serial_number(self, serial_number: str) -> bool:
-        return Signature.objects.filter(serial_number=serial_number).exists()
 
 
 class MenuRepositoryImpl(MenuRepository):

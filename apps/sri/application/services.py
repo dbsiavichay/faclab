@@ -3,14 +3,13 @@ from typing import List
 
 from dependency_injector.wiring import Provide, inject
 
-from apps.core.domain.repositories import SignatureRepository, SiteRepository
+from apps.core.domain.repositories import SiteRepository
 from apps.sale.domain.entities import CustomerEntity
 from apps.sri.application.usecases import (
     GenerateVoucherAccessCodeUseCase,
     GenerateVoucherXmlUseCase,
     RetrieveVoucherXmlUseCase,
     SendVoucherXmlUseCase,
-    SignVoucherXmlUseCase,
 )
 from apps.sri.domain.entities import (
     AuthorizationResult,
@@ -27,18 +26,12 @@ class SRIVoucherService:
         self,
         generate_access_code_usecase: GenerateVoucherAccessCodeUseCase,
         generate_voucher_xml_usecase: GenerateVoucherXmlUseCase,
-        sign_voucher_xml_usecase: SignVoucherXmlUseCase,
         send_voucher_xml_usecase: SendVoucherXmlUseCase,
         retrieve_voucher_xml_usecase: RetrieveVoucherXmlUseCase,
         site_repository: SiteRepository = Provide["core_package.site_repository"],
-        signature_repository: SignatureRepository = Provide[
-            "core_package.signature_repository"
-        ],
     ) -> None:
-        self.signature_repository = signature_repository
         self.generate_access_code_usecase = generate_access_code_usecase
         self.generate_voucher_xml_usecase = generate_voucher_xml_usecase
-        self.sign_voucher_xml_usecase = sign_voucher_xml_usecase
         self.send_voucher_xml_usecase = send_voucher_xml_usecase
         self.retrieve_voucher_xml_usecase = retrieve_voucher_xml_usecase
         self.site_repository = site_repository
@@ -65,15 +58,6 @@ class SRIVoucherService:
     ) -> str:
         return self.generate_voucher_xml_usecase.execute(
             customer, tax_info, invoice_info, details, payments
-        )
-
-    def sign_voucher_xml(self, voucher: bytes):
-        config = self.site_repository.get_sri_config()
-        signature_id = config.signature
-        signature = self.signature_repository.find_by_id(signature_id)
-
-        return self.sign_voucher_xml_usecase.execute(
-            voucher, signature.cert, signature.key
         )
 
     def send_voucher_xml(self, voucher: bytes) -> bool:

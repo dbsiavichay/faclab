@@ -5,73 +5,13 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.application.services import SealifyService, SignatureService
+from apps.core.application.services import SealifyService
 from apps.core.domain.choices import EmissionType, Environment, TaxType
 from apps.core.domain.entities import UploadFile
 from apps.core.domain.repositories import SiteRepository
-from apps.core.infra.models import Signature, Site, Tax
+from apps.core.infra.models import Site, Tax
 from apps.sale.application.validators import customer_code_validator
 from viewpack.forms import ModelForm
-
-
-class SignatureForm(ModelForm):
-    signature_file = forms.FileField(
-        validators=[FileExtensionValidator(["p12"])], label=_("signature file")
-    )
-    signature_password = forms.CharField(
-        max_length=256, widget=forms.PasswordInput, label=_("signature password")
-    )
-
-    @inject
-    def __init__(
-        self,
-        signature_service: SignatureService = Provide["core_package.signature_service"],
-        *args,
-        **kwargs,
-    ):
-        super().__init__(*args, **kwargs)
-        self.signature_service = signature_service
-
-    class Meta:
-        model = Signature
-        fieldsets = ("signature_file", "signature_password")
-
-    def clean(self):
-        cleaned_data = super().clean()
-        file = cleaned_data.get("signature_file")
-        password = cleaned_data.get("signature_password")
-
-        if file and password:
-            try:
-                p12_data = file.read()
-                pkcs12.load_pkcs12(p12_data, password.encode())
-            except ValueError:
-                raise ValidationError(_("signature file or password are invalid"))
-
-            signature_entity = self.signature_service.retrieve_signature(
-                p12_data, password
-            )
-            signature_exists = (
-                self.signature_service.signature_repository.exists_serial_number(
-                    signature_entity.serial_number
-                )
-            )
-
-            if signature_exists:
-                raise ValidationError(_("signature file has already been registered"))
-
-            self.signature_entity = signature_entity
-
-        return cleaned_data
-
-    def save(self, commit=True):
-        obj = super().save(commit=False)
-        obj.__dict__.update({**self.signature_entity.model_dump()})
-
-        if commit:
-            obj.save()
-
-        return obj
 
 
 class CertificateForm(forms.Form):

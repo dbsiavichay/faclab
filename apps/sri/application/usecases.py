@@ -16,8 +16,6 @@ from apps.sri.domain.entities import (
 )
 from apps.sri.domain.ports import SRIVoucherPort
 
-from .signers import XmlSigner
-
 
 class GenerateVoucherAccessCodeUseCase:
     def __init__(self) -> None:
@@ -137,12 +135,6 @@ class GenerateVoucherXmlUseCase:
         xml = xmltodict.unparse(data, pretty=True)
 
         return xml
-
-
-class SignVoucherXmlUseCase:
-    def execute(self, voucher: bytes, cert, key) -> str:
-        signer = XmlSigner(cert, key)
-        return signer.sign(voucher)
 
 
 class SendVoucherXmlUseCase:
