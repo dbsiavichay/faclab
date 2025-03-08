@@ -20,12 +20,14 @@ from django.contrib.auth.decorators import login_required
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+from apps.sale.infra.urls import router as sale_router
 from viewpack import packs
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("select2/", include("apps.core.infra.select2_views")),
     path("sealify/", include("apps.core.infra.urls")),
+    path("api/", include(sale_router.urls)),
     path("", include("apps.account.infra.urls")),
     path("", login_required(TemplateView.as_view(template_name="base/base.html"))),
     path("", packs.urls),
