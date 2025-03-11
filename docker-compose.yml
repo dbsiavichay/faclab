@@ -16,7 +16,7 @@ services:
       db:
         condition: service_healthy
     networks:
-      - faclab_net
+      - faclab_network
   db:
     image: postgres:14
     container_name: db
@@ -33,7 +33,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - faclab_net
+      - faclab_network
   redis:
     restart: unless-stopped
     image: redis
@@ -41,7 +41,7 @@ services:
     expose:
       - "6379"
     networks:
-      - faclab_net
+      - faclab_network
   minio:
     image: minio/minio
     container_name: minio
@@ -50,7 +50,9 @@ services:
       - "9001:9001"
     command: server /data --console-address ":9001"
     networks:
-      - faclab_net
+      - faclab_network
 
 networks:
-  faclab_net:
+  faclab_network:
+    name: faclab_network
+    driver: bridge

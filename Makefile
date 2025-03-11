@@ -9,7 +9,7 @@ migrate:
 	docker-compose run --rm web python3 manage.py migrate
 
 lint:
-	docker-compose run --rm web make check
+	source .venv/bin/activate && black . && isort . --profile black && flake8 .
 
 check:  ## Fix code to pep8 standards
 	black .
@@ -27,6 +27,9 @@ i18n-compile:  ## Compile translations
 
 run:
 	docker-compose run --rm -p 8000:8000 web
+
+start-dev: 
+	docker compose up -d && docker rm -f web && docker compose run --rm -p 8000:8000 web
 
 runtests:
 	docker-compose run --rm web pytest --reuse-db --create-db --no-migrations

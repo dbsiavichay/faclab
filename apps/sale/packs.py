@@ -1,6 +1,7 @@
 from dependency_injector.wiring import Provide, inject
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.infra.adapters import KafkaMessageAdapter
 from apps.sale.infra.tasks import send_invoice_task
 from faclab.base import BasePack
 from viewpack.decorators import register
@@ -48,10 +49,16 @@ class InvoicePack(BasePack):
         self,
         instance,
         invoice_service: InvoiceService = Provide["sale_package.invoice_service"],
+        kafka_adapter: KafkaMessageAdapter = Provide["core_package.kafka_adapter"],
     ):
         invoice_entity = invoice_service.build_invoice_entity(instance.id)
         invoice_service.update_invoice_xml(invoice_entity)
+        kafka_adapter.send_message(
+            "orders",
+            invoice_entity.model_dump(include=["id", "sequence", "access_code"]),
+        )
         try:
+
             invoice_service.seal_invoice_xml(invoice_entity, update_on_db=True)
             send_invoice_task.apply_async(args=[instance.id])
         except Exception:

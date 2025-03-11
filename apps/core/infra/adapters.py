@@ -1,6 +1,8 @@
+import json
 from typing import List
 
 import requests
+from kafka import KafkaProducer
 
 from apps.core.domain.entities import UploadFile
 from apps.core.domain.ports import SealifyPort
@@ -61,3 +63,15 @@ class SealifyAdapter(SealifyPort, BaseHttpClient):
         url = f"{self.base_url}/api/certificates/{certificate_id}/seal-invoice"
         response = self.post(url, json={"invoiceXML": invoice_xml})
         return response.json()
+
+
+class KafkaMessageAdapter:
+    def __init__(self, broker_url: str):
+        self.producer = KafkaProducer(
+            bootstrap_servers=[broker_url],
+            value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+        )
+
+    def send_message(self, topic: str, message: dict):
+        self.producer.send(topic, message)
+        self.producer.flush()
