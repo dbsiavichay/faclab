@@ -190,3 +190,9 @@ SRI_PACKAGE = {
 
 # SEALIFY
 SEALIFY_BASE_URL = env("SEALIFY_BASE_URL", default="http://localhost:3000")
+
+# KAFKA
+KAFKA_BROKER_URL = env(
+    "KAFKA_BROKER_URL", default="kafka:9092"
+)  # Nombre del contenedor
+KAFKA_TOPIC = "invoices"

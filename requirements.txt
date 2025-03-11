@@ -10,6 +10,7 @@ django-select2==8.1.1
 django-simple-menu==2.1.1
 django-tree-queries==0.14.0
 django-widget-tweaks==1.4.12
+kafka-python==2.0.6
 psycopg2==2.9.5
 pydantic==2.7.0
 requests==2.30.0
