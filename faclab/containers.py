@@ -36,6 +36,7 @@ def build_container():
             "apps.sale.application.services",
             "apps.sale.infra.forms",
             "apps.sale.infra.formsets",
+            "apps.sale.infra.serializers",
             "apps.sale.packs",
             "apps.sri.application.services",
         ]
