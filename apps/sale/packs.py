@@ -52,13 +52,12 @@ class InvoicePack(BasePack):
         kafka_adapter: KafkaMessageAdapter = Provide["core_package.kafka_adapter"],
     ):
         invoice_entity = invoice_service.build_invoice_entity(instance.id)
-        invoice_service.update_invoice_xml(invoice_entity)
+        invoice_service.update_invoice_xml(invoice_entity, update_on_db=True)
         kafka_adapter.send_message(
             "orders",
             invoice_entity.model_dump(include=["id", "sequence", "access_code"]),
         )
         try:
-
             invoice_service.seal_invoice_xml(invoice_entity, update_on_db=True)
             send_invoice_task.apply_async(args=[instance.id])
         except Exception:

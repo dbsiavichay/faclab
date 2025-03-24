@@ -4,7 +4,20 @@ from rest_framework import serializers
 from apps.core.domain.repositories import SiteRepository
 from apps.inventory.infra.serializers import ProductSerializer
 
-from .models import Invoice, InvoiceLine, InvoicePayment
+from .models import Customer, Invoice, InvoiceLine, InvoicePayment
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    code_type = serializers.SerializerMethodField(
+        source="get_code_type", read_only=True
+    )
+
+    class Meta:
+        model = Customer
+        fields = "__all__"
+
+    def get_code_type(self, obj):
+        return obj.code_type.code
 
 
 class SRIConfigSerializer(serializers.Serializer):
@@ -41,6 +54,7 @@ class InvoiceLineSerializer(serializers.ModelSerializer):
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
+    customer = CustomerSerializer(many=False, read_only=True)
     lines = InvoiceLineSerializer(many=True, read_only=True)
     payments = InvoicePaymentSerializer(many=True, read_only=True)
     sri_config = serializers.SerializerMethodField(
